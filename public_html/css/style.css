@@ -1,0 +1,391 @@
+@charset "utf-8";
+body {
+	color: #333;
+	font-size: 15px;
+	line-height: 20px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow-x:hidden;
+	font-weight:normal;
+	font-family: 'Poppins-Medium';
+}
+ @font-face {
+ font-family: 'Poppins-Medium';
+ src: url('../fonts/Poppins-Medium.eot');
+ src: url('../fonts/Poppins-Medium.woff2') format('woff2'), url('../fonts/Poppins-Medium.woff') format('woff'), url('../fonts/Poppins-Medium.ttf') format('truetype'), url('../fonts/Poppins-Medium.svg#Poppins-Medium') format('svg'), url('../fonts/Poppins-Medium.eot?#iefix') format('embedded-opentype');
+ font-weight: normal;
+ font-style: normal;
+ }
+ 
+ @font-face {
+ font-family: 'Poppins-SemiBold';
+ src: url('../fonts/Poppins-SemiBold.eot');
+ src: url('../fonts/Poppins-SemiBold.woff2') format('woff2'), url('../fonts/Poppins-SemiBold.woff') format('woff'), url('../fonts/Poppins-SemiBold.ttf') format('truetype'), url('../fonts/Poppins-SemiBold.svg#Poppins-SemiBold') format('svg'), url('../fonts/Poppins-SemiBold.eot?#iefix') format('embedded-opentype');
+ font-weight: normal;
+ font-style: normal;
+}
+@font-face {
+ font-family: 'Poppins-Light';
+ src: url('../fonts/Poppins-Light.eot');
+ src: url('../fonts/Poppins-Light.woff2') format('woff2'), url('../fonts/Poppins-Light.woff') format('woff'), url('../fonts/Poppins-Light.ttf') format('truetype'), url('../fonts/Poppins-Light.svg#Poppins-Light') format('svg'), url('../fonts/Poppins-Light.eot?#iefix') format('embedded-opentype');
+ font-weight: normal;
+ font-style: normal;
+}
+label {
+	font-family: "Poppins-Light";
+	font-weight: normal;
+	text-align: left;
+	 white-space: normal;
+}
+label {
+	display: inline-block;
+	margin-bottom: 5px;
+	max-width: 100%;
+}
+
+.error {
+    color: red !important;
+}
+
+.mar-top-10 {
+	margin-top: 20px !important;
+}
+
+
+.main_menu {
+	background: #0094bb none repeat scroll 0 0;
+	position: fixed;
+	width: 100%;
+	z-index: 999;
+}
+.cls_top_login {
+	float:right;
+	margin:23px 0 24px;
+}
+.cls_top_login li a {
+	background: transparent none repeat scroll 0 0;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	color: #ffffff;
+	font-family: 'Poppins-SemiBold';
+	font-size: 16px;
+	line-height: 22px;
+	padding: 5px 19px;
+	text-align: center;
+	text-transform: uppercase;
+}
+.cls_top_login li a:hover {
+	background:#ffffff;
+	border-radius:5px;
+	color:#464646;
+	border: 1px solid #fff;
+}
+.cls_top_login li a.active {
+	background:#ffffff;
+	border-radius:5px;
+	color:#464646;
+	border: 1px solid #fff;
+}
+.cls_logo {
+	padding:10px 0;
+}
+.cls_blu_bg {
+	background:#1e2932;
+	border:solid 2px #1a6a83;
+	padding:20px 35px;
+	border-radius:10px;
+	margin:30px 0;
+}
+.cls_blu_bg h4 {
+	margin:0;
+	font-size:24px;
+	font-family: 'Poppins-Medium';
+	color:#fff;
+}
+.cls_blu_bg h4 span {
+	float:right;
+	font-size:24px;
+	font-family: 'Poppins-Medium';
+	color:#fff;
+}
+.cls_blu_bg h4 span img {
+	padding-right:13px;
+}
+.cls_hea_sec {
+	padding-top: 69px;
+}
+.cls_banner_con {
+	background:url(../images/graph_bg.jpg) no-repeat scroll 0 0/cover;
+	height:480px;
+}
+.cls_comm_bg {
+	background:#fafafa url(../images/comm_bg.jpg) repeat;
+}
+.cls_start_bg {
+	background:url(../images/bg_bott.jpg) no-repeat scroll 0 0/cover;
+	height:153px;
+}
+.cls_mar_topd {
+	margin-top:65px;
+}
+.cls_tra_us {
+	font-size:24px;
+	color:#fff;
+	text-transform:uppercase;
+	text-align:right;
+	margin-top:66px;
+}
+.cls_map_bg {
+	height: 710px;
+	margin-bottom: -313px;
+	position: relative;
+	top: -350px;
+}
+.cls_grap_pad {
+	padding:40px;
+        height:100%;
+}
+#container_chart{ height:100%; width:100%;}
+
+/*login*/
+.cls_login_fn .modal-dialog {
+	margin: 30px auto;
+	width: 360px;
+}
+.cls_login_fn h4 {
+	color:#646464;
+}
+.cls_login_fn .modal-header {
+	border-bottom: 1px solid #e5e5e5;
+	margin: 8px 19px 0;
+	padding: 12px 0;
+	color:#646464;
+}
+.login_form {
+}
+.login_head h4 {
+	font-size: 16px;
+	text-align: center;
+	text-transform: uppercase;
+	color: #646464;
+}
+.form_type .form-control {
+	border-radius: 3px;
+	box-shadow: none;
+	height: 40px;
+	margin-bottom: 18px;
+	background: rgba(0, 0, 0, 0) url("../images/f_1.png") no-repeat scroll 7px 11px;
+	padding: 8px 36px;
+	font-weight: 300;
+}
+.form_type .form-control.lock {
+	background: rgba(0, 0, 0, 0) url("../images/f_2.png") no-repeat scroll 7px 11px;
+}
+.cont_list .checkbox label {
+	color: #646464;
+	padding-left: 0;
+	font-weight: 300;
+}
+.cont_list .checkbox {
+	padding: 0;
+}
+.cont_list a {
+	border-bottom: 1px solid;
+	color: #0094bb;
+	text-decoration: underline;
+	text-transform: capitalize;
+	font-size:14px;
+}
+.close {
+	color: #000;
+	float: right;
+	font-size: 21px;
+	font-weight: 700;
+	line-height: 1;
+	opacity: 1;
+	text-shadow: 0 1px 0 #fff;
+}
+input[type=checkbox].css-checkbox {
+	position:absolute;
+	z-index:-1000;
+	left:-1000px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	height:1px;
+	width:1px;
+	margin:-1px;
+	padding:0;
+	border:0;
+}
+input.css-checkbox[type="checkbox"] + label.css-label, input.css-checkbox[type="checkbox"] + label.css-label.clr {
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	color: #646464;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 14px;
+	font-weight: normal;
+	height: 16px;
+	line-height: 18px;
+	margin-bottom: 15px;
+	padding-left: 30px;
+	vertical-align: middle;
+	width: 100%;
+	 font-family: 'Poppins-Regular';
+
+}
+input[type=checkbox].css-checkbox:checked + label.css-label, input[type=checkbox].css-checkbox + label.css-label.chk {
+	background-position: 0 -16px;
+}
+label.css-label {
+	background-image:url(../images/check_box.png);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.my_check label i {
+	color: #ef8801;
+	font-size: 16px;
+	margin-right: 1px;
+	padding: 0;
+}
+.cls_dow_btn {
+	background: #0094bb none repeat scroll 0 0;
+	border: medium none;
+	border-radius: 5px;
+	color: #fff;
+	font-family: "Poppins-SemiBold";
+	font-size: 16px;
+	height: 38px;
+	padding: 0 15px;
+	text-transform: uppercase;
+	width: auto;
+}
+.cls_dow_btn:hover {
+	background:#009d96;
+}
+.cls_deposit h4 {
+	color:#646464;
+}
+.cls_deposit .modal-header {
+	border-bottom: 1px solid #e5e5e5;
+	margin: 8px 19px 0;
+	padding: 12px 0;
+	color:#646464;
+}
+.cls_deposit .close {
+	color: #000;
+	float: right;
+	font-size: 21px;
+	font-weight: 700;
+	line-height: 1;
+	opacity: 1;
+	text-shadow: 0 1px 0 #fff;
+}
+.close {
+	color: #000;
+	float: right;
+	font-size: 21px;
+	font-weight: 700;
+	line-height: 1;
+	opacity: 1;
+	text-shadow: 0 1px 0 #fff;
+}
+
+/* footer */
+.cls_footer_sec {
+	background:#323232;
+	padding:30px 0;
+}
+.cls_footer_text p {
+	font-size:14px;
+	font-family: 'Poppins-Light';
+	color:#969696;
+	line-height:26px;
+}
+.cls_footer_logo img {
+	margin-bottom:20px;
+}
+.cls_footer_con h3 {
+	font-size:16px;
+	color:#fff;
+	margin:10px 0;
+	text-transform:uppercase;
+}
+.cls_footer_con p {
+	font-size:14px;
+	font-family: 'Poppins-Light';
+	color:#969696;
+	line-height:30px;
+}
+.cls_socil_links {
+	margin:0;
+	padding:0;
+}
+.cls_socil_links li a {
+	font-size:14px;
+	color:#969696;
+	font-family: 'Poppins-Light';
+	line-height:25px;
+}
+.cls_socil_links li a:hover {
+	color:#fff;
+}
+.cls_socil_links li a i {
+	margin-right:10px;
+}
+.cls_ffoter_bot {
+	background:#1e1e1e;
+	text-align:center;
+	color:#c8c8c8;
+	font-size:12px;
+	padding:10px;
+}
+
+/* trade table */
+.cls_top_table h4 {
+	font-size:16px;
+	color:#fff;
+	padding:10px;
+	background:#65808e;
+	margin:0;
+	border-top-right-radius:5px;
+	border-top-left-radius:5px;
+	text-transform:uppercase;
+}
+.cls_top_table {
+	background:#fff;
+	padding:0px;
+	border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+	margin-top:40px;
+}
+.cls_trade_table {
+	border:solid 1px #c8c8c8;
+}
+.cls_trade_table table {
+	margin:0px;
+}
+.cls_trade_table table th {
+	background:#f0f5fa;
+	color:#646464;
+	font-size:16px;
+	font-family: 'Poppins-SemiBold';
+	font-weight:500;
+	text-align:left;
+}
+.cls_trade_table table td {
+	text-align:left;
+	color:#323232;
+	font-size:14px;
+	padding:15px 10px !important;
+}
+.cls_trade_table table tr:hover {
+	background:#0094bb;
+}
+.cls_trade_table table tr:hover td {
+	color:#fff;
+}
