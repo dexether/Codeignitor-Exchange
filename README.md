@@ -17,6 +17,7 @@ Clone the repository and create a nginx config.
 * Commit changes every day using git
 * Test code
 * add all changes to the database in database.sql
+* please communicate is you have any questions or ideas.
 
 ### Database ###
 
