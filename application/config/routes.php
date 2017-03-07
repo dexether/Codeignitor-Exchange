@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  $route=array
     (
     'default_controller'=>'site',
-    //'hyipadmin'=>'auth/index',
+    'terms'=>'page/terms',
     //'faq'=>'front/home/faq',
     '404_override'=>'',
     'translate_uri_dashes'=>''

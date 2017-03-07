@@ -88,7 +88,7 @@
        <div class="cont_list mar-top-10">
              <p class="cls_ar-40 ">
              <input type="checkbox" name="terms" id="checkboxG1" class="terms" /> 
-<label for="checkboxG1" class="radGroup1">I accept the <a href="<?php echo base_url();?>gulden/terms"> terms and conditions. </a></label></p>
+<label for="checkboxG1" class="radGroup1">I accept the <a href="<?php echo base_url();?>/terms"> terms and conditions. </a></label></p>
 <label for="terms" style="display:none;" class="error">This field is required.</label>
             </div>
             

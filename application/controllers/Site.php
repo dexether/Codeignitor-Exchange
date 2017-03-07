@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Site extends MY_Controller {
+    var $data = array();
     
     public function __construct() 
     {
@@ -12,11 +13,12 @@ class Site extends MY_Controller {
         $this->l_asset->add('js/login.js', 'js');
         $data = array();
         //$this->load->view('site/v_front', $data, true);
+        $data['login'] = $this->load->view('login/v_login', $data, true);
+        $data['register'] = $this->load->view('login/v_register', $data, true);
+        $data['chart'] = $this->load->view('charts/v_chart_nlg', $data, true);
+        $data['trade_history'] = $this->load->view('blocks/v_trade_history', $data, true);
         $this->data['content'] = $this->load->view('site/v_front', $data, true);
-        $this->data['login'] = $this->load->view('login/v_login', $data, true);
-        $this->data['register'] = $this->load->view('login/v_register', $data, true);
-        $this->data['chart'] = $this->load->view('charts/v_chart_nlg', $data, true);
-        $this->data['trade_history'] = $this->load->view('blocks/v_trade_history', $data, true);
+        
         view($this->data);
     }
     function captcha()
