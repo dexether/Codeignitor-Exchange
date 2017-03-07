@@ -21,6 +21,7 @@ $("#login_form").validate({
     },
     submitHandler: function (form) {
             var data = $('#login_form').serialize();
+            alert(data);
               $.ajax({
                 type:'POST',
                 data:data,

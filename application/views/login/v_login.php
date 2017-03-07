@@ -11,7 +11,7 @@
        
           <form class="form-horizontal" name="login_form" id="login_form" method="post">
         <div class="form_type">
-            <input type="text" id="clientid" name="clientid" placeholder="Email address" for="clientid" class="form-control">
+            <input type="text" id="clientid" name="email" placeholder="Email address" for="email" class="form-control">
             </div>   
             <div class="form_type">
        <input type="password" class="form-control" placeholder="Password" name="password" id="password" for="password">
