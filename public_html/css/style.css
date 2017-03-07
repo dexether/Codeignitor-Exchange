@@ -112,7 +112,7 @@ label {
 	padding-right:13px;
 }
 .cls_hea_sec {
-	padding-top: 69px;
+	/*padding-top: 69px;*/
 }
 .cls_banner_con {
 	background:url(../images/graph_bg.jpg) no-repeat scroll 0 0/cover;
@@ -144,6 +144,9 @@ label {
 .cls_grap_pad {
 	padding:40px;
         height:100%;
+}
+.cls_content{
+    padding-top: 69px;
 }
 #container_chart{ height:100%; width:100%;}
 

@@ -105,7 +105,7 @@ $("#registering").validate({
                           $('#registering')[0].reset();
                           $("#successMessage").html("Please Check Your Email and Activate Your Account");
                           $('#registering')[0].reset();
-                          setTimeout(hide, 2000);
+                          //setTimeout(hide, 2000);
                           $('#registering').modal('hide');
                         }
                         else if(output=="recaptcha")

@@ -176,22 +176,23 @@ class Mdl_user extends CI_Model
 
     }
     
-    function activated_verifiedlink($verifier)
+    function verification($verifier)
     {
-	$cur_date	= date('Y-m-d');
-	$wheredata = array('verifier'=>$verifier,'verfication_status'=>"unverified");
-	$this->db->where($wheredata);	  	
-	$query = $this->db->get('user_verification');	
+	
+	$where = array('verifier'=> xss_clean($verifier),'verification_status'=>"unverified");
+	$this->db->where($where);	  	
+	$query = $this->db->get('user_verification');
 	if($query->num_rows() == 1)
 	{       
+                $cur_date	= date('Y-m-d');
                 $row = $query->row();
                 //update user
 		$data = array('status'=>"active",'verfiyStatus'=>"verified",'activated_date'=>$cur_date);	
 		$this->db->where('id',$row->user_id);            	
-		$this->db->update('userdetails',$data);
+		$this->db->update('users',$data);
                 
                 //update 
-                $this->db->update('user_verification',array('verfication_status'=>'verified'));
+                $this->db->update('user_verification',array('verification_status'=>'verified'));
 		return "ok";			 
 	}   
 	else

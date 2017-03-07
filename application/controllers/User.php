@@ -40,7 +40,7 @@ class User extends MY_Controller {
     function login()  
     { 
         $this->load->model('mdl_user');
-        $ret   =   $this->mdl_user->check_login();
+        $ret = $this->mdl_user->check_login();
 
         if(is_array($ret) && $ret!="invalid")
         {
@@ -62,25 +62,14 @@ class User extends MY_Controller {
     }
     public function user_verification($verifier=null)
     {
+        $data = array();
         if(!is_null($verifier))
         {
             $this->load->model('mdl_user');
-            $result =$this->gulden_model->activated_verifiedlink($user); 
-            if($result=='ok')
-            {   
-                $data['value'] = "Success: Thanks for your registration, your account is now activated.";
-                //$this->session->set_userdata('activesuccess',"successoutput");  
-                //redirect('gulden/index','refresh');
-            }
-            else
-            {   
-                $data['value'] = "Warning: Application has already been activated or cancelled earlier";
-                //$this->session->set_userdata('activesuccess',"successerror");
-               // redirect('gulden/index','refresh'); 
-
-            }
-            $this->load->view('front/status',$data);
+            $data['status'] = $this->mdl_user->verification($verifier); 
+            $this->data['content'] = $this->load->view('site/v_verified', $data, true);
+        
+            view($this->data);
         }
     }
-
 }

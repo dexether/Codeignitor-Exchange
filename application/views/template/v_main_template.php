@@ -42,12 +42,12 @@
   
   </div>
   
+  <div class="cls_content">
 
 <?php
-
-
 if(isset($content)) echo $content;
 ?>
+  </div>
 
 <footer>
   <div class="cls_footer_sec">
@@ -56,8 +56,8 @@ if(isset($content)) echo $content;
   <div class="col-md-3 col-sm-3">
   <div class="cls_footer_text">
   <div class="cls_footer_logo"><a href="#"><img src="<?php echo base_url(); ?>images/logo.png" alt="" height="30px"> </a></div>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <p>
-    </p> </p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </p>
   </div>
   </div>
    <div class="col-md-3 col-sm-3">
