@@ -6,18 +6,18 @@ Exchange website EUR-NLG
 ### How do I get set up? ###
 
 Setup a nginx server with php7 (+ php-fpm) and a mysql server (latest version)
-
 Import the database located in /application/config/database.sql
-
 Clone the repository and create a nginx config.
 
 
 ### Contribution guidelines ###
 
 * Commit changes every day using git
+* Use a Pull every day to get commits into your branch
 * Test code
+* put comments in both code and git commit.
 * add all changes to the database in database.sql
-* please communicate is you have any questions or ideas.
+* please communicate if you have any questions or ideas.
 
 ### Database ###
 
