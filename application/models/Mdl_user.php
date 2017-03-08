@@ -28,7 +28,6 @@ class Mdl_user extends CI_Model
     function check_login()
     {
 	$res_loguser = $this->db->query("SELECT randcode, status, password FROM `users` where email=?", array($this->input->post('email',true)));
-        var_dump($_POST);
 	if($res_loguser->num_rows()==1) 
 	{ 
             $row = $res_loguser->row();
@@ -37,15 +36,13 @@ class Mdl_user extends CI_Model
             {
                 return 'deactive';
             }
-            
-            var_dump(password_verify($this->input->post('password'), $row->password));
-            if(password_verify($this->input->post('password'), $row->password))
+            if(password_verify($this->input->post('password'), $row->password) === true)
             {
-                if($row->randcode !=="")
+                if($row->randcode !=="disable")
                 {
                     return 'enable';
                 }
-                else return 'succes';
+                else return 'success';
             }
             else
             {

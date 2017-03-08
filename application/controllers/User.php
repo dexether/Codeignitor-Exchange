@@ -40,25 +40,8 @@ class User extends MY_Controller {
     function login()  
     { 
         $this->load->model('mdl_user');
-        $ret = $this->mdl_user->check_login();
+        echo $this->mdl_user->check_login();
 
-        if(is_array($ret) && $ret!="invalid")
-        {
-            //$res_login  =   $this->mdl_user->check_logindetails();  
-            //check fot tfa
-            if($ret['randcode']=="active")
-            {
-                echo "enable";
-            }
-            else
-            {
-                echo $ret['status']; 
-            }
-        }
-        else
-        {
-            echo 'invalid';
-        }
     }
     public function user_verification($verifier=null)
     {
