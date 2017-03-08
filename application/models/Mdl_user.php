@@ -45,9 +45,10 @@ class Mdl_user extends CI_Model
                 else
                 {
                     $sessiondata = array(
-                                  'user_id'  => $db_email,
-                                  'firstname' => $db_user_id,
-                                  'tfa' =>$row->randcode
+                                  'user_id'  => $row->id,
+                                  'firstname' => $row->firstname,
+                                  'tfa' =>$row->randcode,
+                                  'status'=>$row->status
                                  );
                  
                     $this->session->set_userdata($sessiondata); 

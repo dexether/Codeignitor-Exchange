@@ -46,7 +46,7 @@ $("#login_form").validate({
                     }
                     else if(output=="success")
                     {
-                        location.href='https://exchange.guldentrader.com/markets/EUR-NLG'
+                        location.href='/markets/EUR-NLG'
                     }
                     else
                     {
