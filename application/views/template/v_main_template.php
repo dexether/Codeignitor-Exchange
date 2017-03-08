@@ -27,6 +27,10 @@
       <div class="col-md-3 col-sm-3 col-xs-3">
       <div class="cls_logo"><a href="<?php echo base_url();?>"><img src="<?php echo base_url(); ?>images/logo.png"  class="img-responsive" alt=""> </a></div>
       </div>
+          
+      <?php if(!$this->session->user_id > 0)
+      {
+       ?> 
        <div class="col-md-8 col-sm-7  col-xs-8 col-lg-9">
        <ul class="list-inline list-unstyled cls_top_login">
        <li><a href="#" data-toggle="modal" data-target="#login"> Login </a> </li>
@@ -34,7 +38,17 @@
        </ul>
       </div>
       </div>
-        
+      <?php
+      }
+      else
+      {
+          echo '<div class="col-md-8 col-sm-7  col-xs-8 col-lg-9">
+                <ul class="list-inline list-unstyled cls_top_login">';
+          echo 'TODO: insert account data view<br/>';
+          echo '</div>
+                </div>';
+      }
+          ?>
       </div>
     </div>
     
