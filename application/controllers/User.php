@@ -26,6 +26,7 @@ class User extends MY_Controller {
         {
             $captcha_code   =   isset($_SESSION['6_letters_code'])?$_SESSION['6_letters_code']:'';
             $recaptcha      =   $this->input->post('recaptcha', true);
+            echo $recaptcha.'-';
             if($captcha_code!=$recaptcha)
             {
                 echo "recaptcha";       
@@ -37,12 +38,14 @@ class User extends MY_Controller {
             }
         }
     }
+    
     function login()  
     { 
         $this->load->model('mdl_user');
         echo $this->mdl_user->check_login();
 
     }
+
     public function user_verification($verifier=null)
     {
         $data = array();
