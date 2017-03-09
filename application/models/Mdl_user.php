@@ -12,7 +12,7 @@ class Mdl_user extends CI_Model
     {   
         if(!is_null($email))
         {
-            $this->db->where('emailid',$email);      
+            $this->db->where('email',$email);      
             $query = $this->db->get('users');	 	     
             if($query->num_rows()>=1)  
             {           
@@ -91,7 +91,7 @@ class Mdl_user extends CI_Model
 		'firstname'		=>	$this->input->post('firstname', true),
 		'lastname'		=>	$this->input->post('lastname', true),
 		//'client_id'		=>	$clientid,
-		'emailid'		=>	$this->input->post('email', true),   
+		'email'		=>	$this->input->post('email', true),   
 		'password'		=>	password_hash($this->input->post('password1', true),PASSWORD_DEFAULT),
                 'salt'                  =>      md5(random_string()),
 		//'country'		=>	$this->input->post('country'), 
