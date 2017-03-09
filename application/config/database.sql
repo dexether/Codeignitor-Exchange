@@ -52,21 +52,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) COLLATE='utf8_general_ci' ENGINE=InnoDB AUTO_INCREMENT=2;
 
--- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               10.1.19-MariaDB - mariadb.org binary distribution
--- Server OS:                    Win32
--- HeidiSQL Version:             9.4.0.5125
--- --------------------------------------------------------
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
--- Dumping data for table exchange.users: ~0 rows (approximately)
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `salt`, `client_id`, `firstname`, `lastname`, `username`, `email`, `password`, `profilepicture`, `account_no`, `identity_no`, `cellno`, `alt_cellno`, `street1`, `street2`, `city`, `country`, `country1`, `state`, `state1`, `zipcode`, `recaptcha`, `postal_line1`, `postal_line2`, `postal_city`, `postal_state`, `postal_country`, `postal_code`, `apiKey`, `apiAccessKey`, `keyname`, `dateofreg`, `modified_date`, `timeofreg`, `status`, `loginstatus`, `activated_date`, `userip`, `userbrowser`, `randcode`, `secret`, `onecode`, `url`, `verfiyStatus`, `user_wallet`, `destination_tag`, `role`) VALUES
   (1, '9ec685c3b57064e248f9a867be41dfcb', 0, 'PHP', 'ARTS', '', 'php.power.arts@gmail.com', '$2y$10$yDhga3/pPEaOXDOZVRmUoOEGPwoBB5FaS5phA8ZTL8ECjVPBvedPi', '', '', 0, 0, 0, '', '', '', 0, '', NULL, '', 0, '9v5s9n', '', '', '', '', '', 0, '', '', '', '2017-03-09', '2017-03-09 13:17:02', '00:00:00', 'deactive', '', '0000-00-00', '127.0.0.1', 'Chrome', 'disable', '', '', '', 'unverified', '', '', 'member'),
   (2, '99b4f40cd1eff753c8bec9092d0a5f60', 0, 'Rog', 'Burger', '', 'rog.burgerman@gmail.com', '$2y$10$tfrZI4l.EW/33GxEqjMkI.YKHpzTxP4kx.Zf3sSRSSS8CezXhb3Sy', '', '', 0, 0, 0, '', '', '', 0, '', NULL, '', 0, '496ytg', '', '', '', '', '', 0, '', '', '', '2017-03-09', '2017-03-09 13:32:26', '00:00:00', 'active', '', '0000-00-00', '127.0.0.1', 'Chrome', 'disable', '', '', '', 'verified', '', '', 'superadmin'),

@@ -26,7 +26,6 @@ class User extends MY_Controller {
         {
             $captcha_code   =   isset($_SESSION['6_letters_code'])?$_SESSION['6_letters_code']:'';
             $recaptcha      =   $this->input->post('recaptcha', true);
-            echo $recaptcha.'-';
             if($captcha_code!=$recaptcha)
             {
                 echo "recaptcha";       
