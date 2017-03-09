@@ -71,7 +71,7 @@ class Migration_Base extends CI_Migration {
 	}
 
 	public function down() {
-		
+		$this->dbforge->drop_table('users');
 	}
 
 }
