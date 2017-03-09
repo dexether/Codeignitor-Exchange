@@ -69,17 +69,6 @@ class Migration_Base extends CI_Migration {
 		(3, '0cb73ddba0c026828d7e8350f54de107', 0, 'Admin', 'Rog', '', 'admin@admin.com', '$2y$10$JFICDF4pWd6TPYldB9uZxOaFChd/SH/BSuCfdaI7T7KxI2oso.9Wy', '', '', 0, 0, 0, '', '', '', 0, '', NULL, '', 0, '496ytg', '', '', '', '', '', 0, '', '', '', '2017-03-09', '2017-03-09 13:32:32', '00:00:00', 'active', '', '0000-00-00', '127.0.0.1', 'Chrome', 'disable', '', '', '', 'verified', '', '', 'admin')";
 		$this->db->query($sql);
 
-        // email_templated
-		$fields = [];
-		$fields['id'] = ['type' => 'INT','constraint'=>'50','auto_increment'=>true];
-		$fields['form_id'] = ['type' => 'VARCHAR','constraint'=>'111'];
-		$fields['title'] = ['type' => 'VARCHAR','constraint'=>'255'];
-		$fields['subject'] = ['type' => 'VARCHAR','constraint'=>'255'];
-		$fields['message'] = ['type' => 'LONGTEXT','constraint'=>'111'];
-		$this->dbforge->add_field($fields);
-		$this->dbforge->add_key('id', true);
-		$this->dbforge->create_table('email_templates', true);
-
 	    // user_verification
 		$fields = [];
 		$fields['id'] = ['type' => 'INT','constraint'=>'11','auto_increment'=>true];
@@ -96,7 +85,7 @@ class Migration_Base extends CI_Migration {
 
 	public function down() {
 		$this->dbforge->drop_table('users');
-		$this->dbforge->drop_table('email_templates');
+		$this->dbforge->drop_table('user_verification');
 	}
 
 }
