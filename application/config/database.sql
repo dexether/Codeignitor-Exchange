@@ -2,54 +2,76 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `id` int(20) NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) NOT NULL,
-  `firstname` varchar(255) NOT NULL,
-  `lastname` varchar(255) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `emailid` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `profilepicture` varchar(255) NOT NULL,
-  `account_no` varchar(200) NOT NULL,
-  `identity_no` bigint(25) NOT NULL,
-  `cellno` bigint(100) NOT NULL,
-  `alt_cellno` bigint(100) NOT NULL,
-  `street1` varchar(200) NOT NULL,
-  `street2` varchar(200) NOT NULL,
-  `city` varchar(200) NOT NULL,
-  `country` int(11) NOT NULL,
-  `country1` varchar(200) NOT NULL,
-  `state` int(11) DEFAULT NULL,
-  `state1` varchar(100) NOT NULL,
-  `zipcode` int(11) NOT NULL,
-  `recaptcha` varchar(250) NOT NULL,
-  `postal_line1` varchar(500) NOT NULL,
-  `postal_line2` varchar(500) NOT NULL,
-  `postal_city` varchar(200) NOT NULL,
-  `postal_state` varchar(500) NOT NULL,
-  `postal_country` varchar(500) NOT NULL,
-  `postal_code` int(11) NOT NULL,
-  `apiKey` varchar(255) NOT NULL,
-  `apiAccessKey` varchar(111) NOT NULL,
-  `keyname` varchar(111) NOT NULL,
-  `dateofreg` date NOT NULL,
-  `modified_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `timeofreg` time NOT NULL,
-  `status` varchar(20) NOT NULL,
-  `loginstatus` varchar(111) NOT NULL,
-  `activated_date` date NOT NULL,
-  `userip` varchar(50) NOT NULL,
-  `userbrowser` varchar(200) NOT NULL,
-  `randcode` varchar(200) NOT NULL,
-  `secret` varchar(200) NOT NULL,
-  `onecode` varchar(200) NOT NULL,
-  `url` varchar(200) NOT NULL,
-  `verfiyStatus` varchar(90) NOT NULL,
-  `user_wallet` varchar(255) NOT NULL,
-  `destination_tag` varchar(150) NOT NULL,
-  `role` varchar(50) NOT NULL,
+  `id` INT(20) NOT NULL AUTO_INCREMENT,
+  `salt` VARCHAR(50) NOT NULL DEFAULT '0',
+  `client_id` INT(11) NOT NULL,
+  `firstname` VARCHAR(255) NOT NULL,
+  `lastname` VARCHAR(255) NOT NULL,
+  `username` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `profilepicture` VARCHAR(255) NOT NULL,
+  `account_no` VARCHAR(200) NOT NULL,
+  `identity_no` BIGINT(25) NOT NULL,
+  `cellno` BIGINT(100) NOT NULL,
+  `alt_cellno` BIGINT(100) NOT NULL,
+  `street1` VARCHAR(200) NOT NULL,
+  `street2` VARCHAR(200) NOT NULL,
+  `city` VARCHAR(200) NOT NULL,
+  `country` INT(11) NOT NULL,
+  `country1` VARCHAR(200) NOT NULL,
+  `state` INT(11) NULL DEFAULT NULL,
+  `state1` VARCHAR(100) NOT NULL,
+  `zipcode` INT(11) NOT NULL,
+  `recaptcha` VARCHAR(250) NOT NULL,
+  `postal_line1` VARCHAR(500) NOT NULL,
+  `postal_line2` VARCHAR(500) NOT NULL,
+  `postal_city` VARCHAR(200) NOT NULL,
+  `postal_state` VARCHAR(500) NOT NULL,
+  `postal_country` VARCHAR(500) NOT NULL,
+  `postal_code` INT(11) NOT NULL,
+  `apiKey` VARCHAR(255) NOT NULL,
+  `apiAccessKey` VARCHAR(111) NOT NULL,
+  `keyname` VARCHAR(111) NOT NULL,
+  `dateofreg` DATE NOT NULL,
+  `modified_date` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `timeofreg` TIME NOT NULL,
+  `status` VARCHAR(20) NOT NULL,
+  `loginstatus` VARCHAR(111) NOT NULL,
+  `activated_date` DATE NOT NULL,
+  `userip` VARCHAR(50) NOT NULL,
+  `userbrowser` VARCHAR(200) NOT NULL,
+  `randcode` VARCHAR(200) NOT NULL,
+  `secret` VARCHAR(200) NOT NULL,
+  `onecode` VARCHAR(200) NOT NULL,
+  `url` VARCHAR(200) NOT NULL,
+  `verfiyStatus` VARCHAR(90) NOT NULL,
+  `user_wallet` VARCHAR(255) NOT NULL,
+  `destination_tag` VARCHAR(150) NOT NULL,
+  `role` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) COLLATE='utf8_general_ci' ENGINE=InnoDB AUTO_INCREMENT=2;
+
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               10.1.19-MariaDB - mariadb.org binary distribution
+-- Server OS:                    Win32
+-- HeidiSQL Version:             9.4.0.5125
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+-- Dumping data for table exchange.users: ~0 rows (approximately)
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` (`id`, `salt`, `client_id`, `firstname`, `lastname`, `username`, `email`, `password`, `profilepicture`, `account_no`, `identity_no`, `cellno`, `alt_cellno`, `street1`, `street2`, `city`, `country`, `country1`, `state`, `state1`, `zipcode`, `recaptcha`, `postal_line1`, `postal_line2`, `postal_city`, `postal_state`, `postal_country`, `postal_code`, `apiKey`, `apiAccessKey`, `keyname`, `dateofreg`, `modified_date`, `timeofreg`, `status`, `loginstatus`, `activated_date`, `userip`, `userbrowser`, `randcode`, `secret`, `onecode`, `url`, `verfiyStatus`, `user_wallet`, `destination_tag`, `role`) VALUES
+  (1, '9ec685c3b57064e248f9a867be41dfcb', 0, 'PHP', 'ARTS', '', 'php.power.arts@gmail.com', '$2y$10$yDhga3/pPEaOXDOZVRmUoOEGPwoBB5FaS5phA8ZTL8ECjVPBvedPi', '', '', 0, 0, 0, '', '', '', 0, '', NULL, '', 0, '9v5s9n', '', '', '', '', '', 0, '', '', '', '2017-03-09', '2017-03-09 13:17:02', '00:00:00', 'deactive', '', '0000-00-00', '127.0.0.1', 'Chrome', 'disable', '', '', '', 'unverified', '', '', 'member'),
+  (2, '99b4f40cd1eff753c8bec9092d0a5f60', 0, 'Rog', 'Burger', '', 'rog.burgerman@gmail.com', '$2y$10$tfrZI4l.EW/33GxEqjMkI.YKHpzTxP4kx.Zf3sSRSSS8CezXhb3Sy', '', '', 0, 0, 0, '', '', '', 0, '', NULL, '', 0, '496ytg', '', '', '', '', '', 0, '', '', '', '2017-03-09', '2017-03-09 13:32:26', '00:00:00', 'active', '', '0000-00-00', '127.0.0.1', 'Chrome', 'disable', '', '', '', 'verified', '', '', 'superadmin'),
+  (3, '0cb73ddba0c026828d7e8350f54de107', 0, 'Admin', 'Rog', '', 'admin@admin.com', '$2y$10$JFICDF4pWd6TPYldB9uZxOaFChd/SH/BSuCfdaI7T7KxI2oso.9Wy', '', '', 0, 0, 0, '', '', '', 0, '', NULL, '', 0, '496ytg', '', '', '', '', '', 0, '', '', '', '2017-03-09', '2017-03-09 13:32:32', '00:00:00', 'active', '', '0000-00-00', '127.0.0.1', 'Chrome', 'disable', '', '', '', 'verified', '', '', 'admin');
+
 
 DROP TABLE IF EXISTS `user_verification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
