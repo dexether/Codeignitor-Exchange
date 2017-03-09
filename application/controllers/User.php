@@ -37,12 +37,14 @@ class User extends MY_Controller {
             }
         }
     }
+    
     function login()  
     { 
         $this->load->model('mdl_user');
         echo $this->mdl_user->check_login();
 
     }
+
     public function user_verification($verifier=null)
     {
         $data = array();
