@@ -10,16 +10,16 @@ class Site extends MY_Controller {
     
     function index()  
     {  
-        $this->l_asset->add('js/login.js', 'js');
+        //$this->l_asset->add('js/login.js', 'js');
         $data = array();
         //$this->load->view('site/v_front', $data, true);
-        $data['login'] = $this->load->view('login/v_login', $data, true);
-        $data['register'] = $this->load->view('login/v_register', $data, true);
+        //$data['login'] = $this->load->view('login/v_login', $data, true);
+        //$data['register'] = $this->load->view('login/v_register', $data, true);
         $data['chart'] = $this->load->view('charts/v_chart_nlg', $data, true);
         $data['trade_history'] = $this->load->view('blocks/v_trade_history', $data, true);
         $this->data['content'] = $this->load->view('site/v_front', $data, true);
         
-        view($this->data);
+        view($this->data, 'site');
     }
     function captcha()
     {

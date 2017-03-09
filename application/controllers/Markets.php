@@ -10,6 +10,7 @@ class Markets extends MY_Controller{
         {
             redirect('/');
         }
+        $this->data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
     }
     
     public function index() {
@@ -17,8 +18,6 @@ class Markets extends MY_Controller{
     }
     
     public function trade_page($market='EUR-NLG') {
-        var_dump($this->session->userdata());
-        echo 'market '. $market;
         
         view($this->data);
     }

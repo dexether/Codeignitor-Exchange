@@ -16,7 +16,13 @@ body {
  font-weight: normal;
  font-style: normal;
  }
- 
+ @font-face {
+ font-family: 'Poppins-Regular';
+ src: url('../fonts/Poppins-Regular.eot');
+ src: url('../fonts/Poppins-Regular.woff2') format('woff2'), url('../fonts/Poppins-Regular.woff') format('woff'), url('../fonts/Poppins-Regular.ttf') format('truetype'), url('../fonts/Poppins-Regular.svg#Poppins-Regular') format('svg'), url('../fonts/Poppins-Regular.eot?#iefix') format('embedded-opentype');
+ font-weight: normal;
+ font-style: normal;
+}
  @font-face {
  font-family: 'Poppins-SemiBold';
  src: url('../fonts/Poppins-SemiBold.eot');
@@ -30,6 +36,21 @@ body {
  src: url('../fonts/Poppins-Light.woff2') format('woff2'), url('../fonts/Poppins-Light.woff') format('woff'), url('../fonts/Poppins-Light.ttf') format('truetype'), url('../fonts/Poppins-Light.svg#Poppins-Light') format('svg'), url('../fonts/Poppins-Light.eot?#iefix') format('embedded-opentype');
  font-weight: normal;
  font-style: normal;
+}
+
+a {
+	color: #8f8f8f;
+	text-decoration: none !important;
+	-webkit-transition: all 0.4s ease-in-out;
+	-moz-transition: all 0.4s ease-in-out;
+	-ms-transition: all 0.4s ease-in-out;
+	-o-transition: all 0.4s ease-in-out;
+        outline: 0;
+}
+
+a:hover, a:active, a:focus {
+	outline: 0 !important;
+	color:#F0DEC2;
 }
 label {
 	font-family: "Poppins-Light";
@@ -147,6 +168,11 @@ label {
 }
 .cls_content{
     padding-top: 69px;
+}
+.cls_after_he .dropdown-toggle {
+	color: #fff;
+	font-family: poppins-regular;
+	font-size: 14px;
 }
 #container_chart{ height:100%; width:100%;}
 
