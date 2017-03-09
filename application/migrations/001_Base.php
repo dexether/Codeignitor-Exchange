@@ -61,6 +61,13 @@ class Migration_Base extends CI_Migration {
         $this->dbforge->add_field($fields);
         $this->dbforge->add_key('id', true);
         $this->dbforge->create_table('users', true);
+
+        // insert users data
+        $sql = "INSERT INTO `users` (`id`, `salt`, `client_id`, `firstname`, `lastname`, `username`, `email`, `password`, `profilepicture`, `account_no`, `identity_no`, `cellno`, `alt_cellno`, `street1`, `street2`, `city`, `country`, `country1`, `state`, `state1`, `zipcode`, `recaptcha`, `postal_line1`, `postal_line2`, `postal_city`, `postal_state`, `postal_country`, `postal_code`, `apiKey`, `apiAccessKey`, `keyname`, `dateofreg`, `modified_date`, `timeofreg`, `status`, `loginstatus`, `activated_date`, `userip`, `userbrowser`, `randcode`, `secret`, `onecode`, `url`, `verfiyStatus`, `user_wallet`, `destination_tag`, `role`) VALUES
+				(1, '9ec685c3b57064e248f9a867be41dfcb', 0, 'PHP', 'ARTS', '', 'php.power.arts@gmail.com', '$2y$10$yDhga3/pPEaOXDOZVRmUoOEGPwoBB5FaS5phA8ZTL8ECjVPBvedPi', '', '', 0, 0, 0, '', '', '', 0, '', NULL, '', 0, '9v5s9n', '', '', '', '', '', 0, '', '', '', '2017-03-09', '2017-03-09 14:03:16', '00:00:00', 'active', '', '0000-00-00', '127.0.0.1', 'Chrome', 'disable', '', '', '', 'unverified', '', '', 'member'),
+				(2, '99b4f40cd1eff753c8bec9092d0a5f60', 0, 'Rog', 'Burger', '', 'rog.burgerman@gmail.com', '$2y$10$tfrZI4l.EW/33GxEqjMkI.YKHpzTxP4kx.Zf3sSRSSS8CezXhb3Sy', '', '', 0, 0, 0, '', '', '', 0, '', NULL, '', 0, '496ytg', '', '', '', '', '', 0, '', '', '', '2017-03-09', '2017-03-09 13:32:26', '00:00:00', 'active', '', '0000-00-00', '127.0.0.1', 'Chrome', 'disable', '', '', '', 'verified', '', '', 'superadmin'),
+				(3, '0cb73ddba0c026828d7e8350f54de107', 0, 'Admin', 'Rog', '', 'admin@admin.com', '$2y$10$JFICDF4pWd6TPYldB9uZxOaFChd/SH/BSuCfdaI7T7KxI2oso.9Wy', '', '', 0, 0, 0, '', '', '', 0, '', NULL, '', 0, '496ytg', '', '', '', '', '', 0, '', '', '', '2017-03-09', '2017-03-09 13:32:32', '00:00:00', 'active', '', '0000-00-00', '127.0.0.1', 'Chrome', 'disable', '', '', '', 'verified', '', '', 'admin')";
+        $this->db->query($sql);
 	}
 
 	public function down() {
