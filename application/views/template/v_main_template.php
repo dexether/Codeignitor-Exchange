@@ -21,7 +21,7 @@
 <body>
 <div class="wrapper">
   <header>
-    <div class="main_menu">
+    <div class="main_menu_market">
       <div class="container">
       <div class="row">
       <div class="col-md-3 col-sm-3 col-xs-3">
@@ -42,13 +42,10 @@
     </div>
     
   </header>
-  
+  <?php if(isset($menu)) echo $menu;  ?>
   </div>
-  
   <div class="cls_content">
-
 <?php
-if(isset($menu)) echo $menu;
 if(isset($content)) echo $content;
 ?>
   </div>

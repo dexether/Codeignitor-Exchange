@@ -9,13 +9,13 @@
               <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav"> 
-                    <li class="dropdown  <?php if($uri=="tradeorder") { echo 'active'; } ?> " ><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Trade   </a>
+                    <li class="dropdown  <?php if($uri=="markets") { echo 'active'; } ?> " ><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Markets   </a>
                     <ul class="dropdown-menu">
 
                         <li role="separator" class="divider"></li>
-                        <li><a href="javascript:;" onclick="testing('EUR_NLG');">EUR_NLG</a></li>
+                        <li><a href="/markets/EUR-NLG">EUR-NLG</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="javascript:;" onclick="testing('GTS_NLG');">GTS_NLG</a></li> 
+                        <li><a href="/markets/GTS-NLG" >GTS-NLG</a></li> 
 
                     </ul>
               </li>
@@ -34,7 +34,6 @@
 		          </li>-->
                 <li <?php if($uri=="withdraw") { ?> class="active" <?php } ?>><a href="<?php echo base_url();?>funds/withdraw"> Withdraw Funds/Coins    </a></li>
                 <li <?php if($uri=="deposit") { ?> class="active" <?php } ?> ><a href="<?php echo base_url();?>funds/deposit"> Deposit Funds/Coins   </a></li>
-                <li <?php if($uri=="two_factor" || $uri=="email_info" || $uri=="change_password" || $uri=="api_info" || $uri=="profile" || $uri=="bank_info") { ?> class="active" <?php } ?>><a href="<?php echo base_url(); ?>user/profile"> Profile   </a></li>
 
               </ul>
              

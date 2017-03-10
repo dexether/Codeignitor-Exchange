@@ -20,11 +20,13 @@ class Funds extends MY_Controller{
     
     public function deposit($fund='NLG') {
         
+        $this->data['content'] = $fund;
         view($this->data);
     }
     
-    public function withdraw($market='NLG') {
+    public function withdraw($fund='NLG') {
         
+        $this->data['content'] = $fund;
         view($this->data);
     }
     
