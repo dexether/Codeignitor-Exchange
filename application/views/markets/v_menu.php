@@ -20,10 +20,10 @@
                     </ul>
               </li>
 
-                <li <?php if($uri=="transactions") { ?> class="active" <?php } ?> ><a href="<?php echo base_url();?>gulden/transactions"> My Trade History   </a></li>
+               <li <?php if($uri=="transactions") { ?> class="active" <?php } ?> ><a href="<?php echo base_url();?>market/history"> My Trade History   </a></li>
                
 
-                <li class="dropdown  <?php if($uri=="deposit" || $uri=="withdrawal" || $uri=="loginhistory") { echo 'active'; } ?> " ><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Transaction   </a>
+<!--                 <li class="dropdown  <?php if($uri=="deposit" || $uri=="withdrawal" || $uri=="loginhistory") { echo 'active'; } ?> " ><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Transaction   </a>
                  <ul class="dropdown-menu">
 		            <li><a href="<?php echo base_url(); ?>funds/deposit">Deposits</a></li>
 		            <li role="separator" class="divider"></li>
@@ -31,9 +31,9 @@
 		            <li role="separator" class="divider"></li>
 		            <li><a href="<?php echo base_url(); ?>user/loginhistory">Login History</a></li>
 		          </ul>
-		          </li>
-                <li <?php if($uri=="withdraw_coin") { ?> class="active" <?php } ?>><a href="<?php echo base_url();?>funds/withdraw_coin"> Withdraw Funds/Coins    </a></li>
-                <li <?php if($uri=="deposit_coin") { ?> class="active" <?php } ?> ><a href="<?php echo base_url();?>funds/deposit_coin"> Deposit Funds/Coins   </a></li>
+		          </li>-->
+                <li <?php if($uri=="withdraw") { ?> class="active" <?php } ?>><a href="<?php echo base_url();?>funds/withdraw"> Withdraw Funds/Coins    </a></li>
+                <li <?php if($uri=="deposit") { ?> class="active" <?php } ?> ><a href="<?php echo base_url();?>funds/deposit"> Deposit Funds/Coins   </a></li>
                 <li <?php if($uri=="two_factor" || $uri=="email_info" || $uri=="change_password" || $uri=="api_info" || $uri=="profile" || $uri=="bank_info") { ?> class="active" <?php } ?>><a href="<?php echo base_url(); ?>user/profile"> Profile   </a></li>
 
               </ul>

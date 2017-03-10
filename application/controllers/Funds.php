@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Markets extends MY_Controller{
+class Funds extends MY_Controller{
     var $data = array();
     
     public function __construct() 
@@ -15,10 +15,15 @@ class Markets extends MY_Controller{
     }
     
     public function index() {
-        redirect('markets/EUR-NLG');
+        redirect('funds/deposit');
     }
     
-    public function trade_page($market='EUR-NLG') {
+    public function deposit($fund='NLG') {
+        
+        view($this->data);
+    }
+    
+    public function withdraw($market='NLG') {
         
         view($this->data);
     }
