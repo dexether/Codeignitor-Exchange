@@ -31,6 +31,9 @@ class Markets extends MY_Controller{
             
             $this->data['content'] = $market;
             $this->data['content'] .= $this->load->view('charts/v_chart_nlg', $data, true);
+            
+            //test data!
+            $this->l_asset->add('//cdn.anychart.com/csv-data/csco-daily.js', 'js');
 
             $this->data['content'] .= $this->load->view('blocks/v_bid_ask', $data, true);
 
