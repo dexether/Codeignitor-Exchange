@@ -41,10 +41,8 @@ if($this->session->flashdata('success')){
               <div class="col-sm-6">
                 <div class="limit_order">
                  <select class="form-control" name="accounttype" id="accounttype">
-
                    <option value="USD">EUR</option>
                    <!-- <option value="NGN">NGN</option> -->
-
                  </select>
 
                </div>
@@ -52,11 +50,24 @@ if($this->session->flashdata('success')){
            </div>
 
            <div class="form-group">
-            <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Bank account number *</label>
-            <div class="col-sm-6">
-             <input type="text" class="form-control numvalid" name="iban" id="iban" placeholder="Bank account number "  value="<?php echo $bank->inter_banking_code; ?>"> 
+              <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Bank account number *</label>
+              <div class="col-sm-6">
+               <input type="text" class="form-control numvalid" name="iban" id="iban" placeholder="Bank account number "  value="<?php echo $bank->inter_banking_code; ?>"> 
+             </div>
            </div>
-         </div> 
+
+           <div class="form-group">
+              <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">bank routing number or BIC *</label>
+              <div class="col-sm-6">
+               <input type="text" class="form-control numvalid" name="routing_number" id="routing_number" placeholder="Routing Number "  value="<?php echo $bank->routing_number; ?>"> 
+             </div>
+           </div>
+           <div class="form-group">
+              <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">bank verification code *</label>
+              <div class="col-sm-6">
+               <input type="text" class="form-control numvalid" name="verification_code" id="verification_code" placeholder="Verification Code"  value="<?php echo $bank->verification_code; ?>"> 
+             </div>
+           </div> 
 
          <div class="form-group">
           <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">&nbsp;</label>
@@ -64,8 +75,6 @@ if($this->session->flashdata('success')){
            <button type="submit" class="cls_dow_btn"  id="personal_update" name="personal_update"> UPDATE BANK DETAILS </button> 
          </div>
        </div>
-
-
      </form>
      </div>
  </div>

@@ -7345,7 +7345,13 @@ function bankdetails_update()
     $this->load->model('gulden_model');
     $customer_email_id= $this->session->userdata('customer_email_id'); 
     $id=$this->session->user_id;
-    $data=array('bank_name'=>$this->input->post('bankname'),'bank_account'=>$this->input->post('accounttype'),'inter_banking_code'=>$this->input->post('iban'));
+    $data= [
+            'bank_name' => $this->input->post('bankname') , 
+            'bank_account'=>$this->input->post('accounttype'),
+            'inter_banking_code'=>$this->input->post('iban'),
+            'verification_code'=>$this->input->post('verification_code'),
+            'routing_number'=>$this->input->post('routing_number')
+            ];
     $this->gulden_model->bankdetailsupdate($data,$id);
 
 }
