@@ -276,6 +276,12 @@ label {
 	font-family: poppins-regular;
 	font-size: 14px;
 }
+
+.chart_EUR, .chart_NLG, .chart_GTS {
+    top: 0;
+    position: static;
+    margin-bottom: 0;
+}
 #container_chart{ height:100%; width:100%;}
 
 /*login*/
