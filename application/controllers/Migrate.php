@@ -4,13 +4,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Migrate extends CI_Controller
 {
-    public function index($version = 0)
+    public function index()
     {
     	$this->load->library('migration');
-    	if (!$this->migration->version($version)) {
+    	if (!$this->migration->current()) {
     		show_error($this->migration->error_string());
     	} else {
-			$this->output->set_content_type('application/json')->set_output(json_encode(['success' => true, 'message' => 'Model migrated']));
+			echo 'Model migrated';
     	}
     }
 }
