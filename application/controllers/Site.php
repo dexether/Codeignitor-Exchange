@@ -10,7 +10,7 @@ class Site extends MY_Controller {
     
     function index()  
     {  
-        //$this->l_asset->add('js/login.js', 'js');
+        // $this->l_asset->add('js/login.js', 'js');
         $data = array();
         //$this->load->view('site/v_front', $data, true);
         //$data['login'] = $this->load->view('login/v_login', $data, true);

@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends MY_Controller {
-    var $data;
+    public $data;
     public function __construct() 
     {
         parent::__construct();
@@ -54,7 +54,7 @@ class User extends MY_Controller {
             $this->load->model('mdl_user');
             $data['status'] = $this->mdl_user->verification($verifier); 
             $this->data['content'] = $this->load->view('site/v_verified', $data, true);
-        
+
             view($this->data,'site');
         }
     }
@@ -65,9 +65,13 @@ class User extends MY_Controller {
         {
             redirect('/');
         }
+
+        $this->l_asset->add('js/user/profile.js', 'js');
         
-        $data = array();
-        
+        $this->load->model('gulden_model', 'gulden_model');
+        $data['country_detail'] =   $this->gulden_model->fetchcountry();    
+        $this->data['content'] = $this->load->view('user/v_profile',$data,true);
+
         view($this->data);
     }
     
