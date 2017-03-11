@@ -21,31 +21,50 @@
 <body>
 <div class="wrapper">
   <header>
-    <div class="main_menu_market">
+    <div class="main_menu">
       <div class="container">
       <div class="row">
       <div class="col-md-3 col-sm-3 col-xs-3">
       <div class="cls_logo"><a href="<?php echo base_url();?>"><img src="<?php echo base_url(); ?>images/logo.png"  class="img-responsive" alt=""> </a></div>
       </div>
           
-      <div class="col-md-8 col-sm-7  col-xs-8 col-lg-9">
-            <ul class="list-inline list-unstyled pull-right cls_after_he">
-                <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <img src="<?php echo base_url(); ?>images/user_icon.png" alt=""> <?php echo $this->session->firstname; ?> <span class=""><i class="fa fa-angle-down"></i></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="<?php echo base_url(); ?>user/profile">My account</a></li>
-                      <li><a href="<?php echo base_url(); ?>user/logout">Logout</a></li>
-                  </ul>
-                </li>
-            </ul>
+      <?php if(!$this->session->user_id > 0)
+      {
+       ?> 
+       <div class="col-md-8 col-sm-7  col-xs-8 col-lg-9">
+       <ul class="list-inline list-unstyled cls_top_login">
+       <li><a href="#" data-toggle="modal" data-target="#login"> Login </a> </li>
+       <li><a href="#" class="active" data-toggle="modal" data-target="#register"> Register </a> </li>
+       </ul>
+      </div>
+      
+      <?php
+      }
+      else
+      {
+          ?>
+        <div class="col-md-8 col-sm-7  col-xs-8 col-lg-9">
+            <ul class="list-inline list-unstyled cls_top_login">
+                <li><a href="/markets/EUR-NLG"> Markets </a> </li>
+              </ul>
         </div>
+                  <?php
+      }
+          ?>
+          </div>
       </div>
     </div>
     
   </header>
-  <?php if(isset($menu)) echo $menu;  ?>
+  
   </div>
-  <div class="cls_content_markets">
+  
+  <div class="cls_content">
+
 <?php
+$this->load->view('login/v_login');
+$this->load->view('login/v_register');
+
 if(isset($content)) echo $content;
 ?>
   </div>
@@ -106,6 +125,7 @@ if(isset($content)) echo $content;
 <script src="<?php echo base_url(); ?>js/chart_nlg.js"></script>
 <script src="<?php echo base_url(); ?>js/jquery.nicescroll.min.js"></script>
 <script src="<?php echo base_url(); ?>js/jquery.validate.min.js"></script>
+<script src="<?php echo base_url(); ?>js/login.js"></script>
  <?php if(isset($head_js)) echo $head_js; ?>
 </body>
 </html>

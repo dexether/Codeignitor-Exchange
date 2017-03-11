@@ -2,15 +2,18 @@
 echo '<div class="container">';
 echo '<div class="row">';
 echo '<div class="col-md-12 col-sm-12">';
+echo '<h1>User verification</h1>';
 if($status == 'ok')
 {
-    echo 'Thank you for your registering, your account is now activated and you can login.';
+    echo '<p>Thank you for your registering, your account is now activated and you can login.</p>';
 }
 else if($status == 'nok')
 {
-    echo 'Whoops! Something went wrong trying to verify you, please try again.';
+    echo '<p>Whoops! Something went wrong trying to verify you, please try again.</p>';
 }
-else echo 'There seems to be a problem with the verification process, please try again';
+else echo '<p>There seems to be a problem with the verification process, please try again</p>';
+echo '<p>&nbsp;</p>';
+
 echo '</div>';
 echo '</div>';
 echo '</div>';

@@ -1,10 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends MY_Controller {
-    
+    var $data;
     public function __construct() 
     {
         parent::__construct();
+        $this->data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
     }
     
     function index()  
@@ -37,12 +38,14 @@ class User extends MY_Controller {
             }
         }
     }
+    
     function login()  
     { 
         $this->load->model('mdl_user');
         echo $this->mdl_user->check_login();
 
     }
+
     public function user_verification($verifier=null)
     {
         $data = array();
@@ -52,7 +55,26 @@ class User extends MY_Controller {
             $data['status'] = $this->mdl_user->verification($verifier); 
             $this->data['content'] = $this->load->view('site/v_verified', $data, true);
         
-            view($this->data);
+            view($this->data,'site');
         }
+    }
+    
+    public function profile()
+    {
+        if(!$this->session->user_id > 0)
+        {
+            redirect('/');
+        }
+        
+        $data = array();
+        
+        view($this->data);
+    }
+    
+    
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        redirect('/');
     }
 }
