@@ -44,7 +44,7 @@
   </header>
   <?php if(isset($menu)) echo $menu;  ?>
   </div>
-  <div class="cls_content">
+  <div class="cls_content_markets">
 <?php
 if(isset($content)) echo $content;
 ?>
