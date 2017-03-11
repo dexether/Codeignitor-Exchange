@@ -7,7 +7,7 @@
 			<!-- <li <?php if($uri=="email_info") { ?> class="active" <?php } ?> > <a href="<?php echo base_url();?>gulden/email_info"> Update Email address </a></li>  -->
 			<li <?php if($uri=="change_password") { ?> class="active" <?php } ?>> <a href="<?php echo base_url();?>gulden/change_password"> change password</a></li> 
 			<!-- <li <?php if($uri=="api_info") { ?> class="active" <?php } ?>> <a href="<?php echo base_url();?>gulden/api_info"> api information </a></li>  -->
-			<li <?php if($uri=="profile") { ?> class="active" <?php } ?>> <a href="<?php echo base_url();?>gulden/profile"> my profile </a></li> 
+			<li <?php if($uri=="profile") { ?> class="active" <?php } ?>> <a href="<?php echo base_url();?>user/profile"> my profile </a></li> 
 			<li <?php if($uri=="bank_info") { ?> class="active" <?php } ?>> <a href="<?php echo base_url();?>gulden/bank_info" class=""> bank details </a></li> 
 		</ul>
 	</div>

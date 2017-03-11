@@ -466,16 +466,16 @@ function getTable(){
 }
 
 function gettransactionTable(){
- $currencyPair      =   $this->input->post('currencyPair1');
- $currency = explode("_", $currencyPair);
- $firstcurrency=$currency[0];
- $secondcurrency=$currency[1];
- $result =$this->gulden_model->fetchtransactionhistory1($firstcurrency,$secondcurrency);    
- $data['transaction_result'] =   $result;
- $data['firstcurrency']=$firstcurrency;
- $data['secondcurrency']=$secondcurrency;
+   $currencyPair      =   $this->input->post('currencyPair1');
+   $currency = explode("_", $currencyPair);
+   $firstcurrency=$currency[0];
+   $secondcurrency=$currency[1];
+   $result =$this->gulden_model->fetchtransactionhistory1($firstcurrency,$secondcurrency);    
+   $data['transaction_result'] =   $result;
+   $data['firstcurrency']=$firstcurrency;
+   $data['secondcurrency']=$secondcurrency;
 
- $this->load->view('front/gettransactiontable',$data); 
+   $this->load->view('front/gettransactiontable',$data); 
 
 
 
@@ -2244,11 +2244,11 @@ function international_withdraw()
         if (!$this->input->post('submit'))
         {
 
-         $available_usd = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'EUR');
+           $available_usd = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'EUR');
 
-         $result = $this->gulden_model->get_iwuserdata();
-         if($result)
-         {
+           $result = $this->gulden_model->get_iwuserdata();
+           if($result)
+           {
             $data['acc_name']       = $result->acc_name;
             $data['acc_address']    = $result->acc_address;
             $data['city']           = $result->city;
@@ -2343,10 +2343,10 @@ function coinwithdrawrequest()
     $customer_user_id        =        $this->session->user_id; 
     if(($customer_email_id=="") && ($customer_user_id=="") || $amount==0 || $amount=="")
     {   
-       echo "login";
-   }
-   else
-   {
+     echo "login";
+ }
+ else
+ {
     $balance = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'BTC');
     if($amount <= $balance)
     {
@@ -2367,10 +2367,10 @@ function ltccoinwithdrawrequest()
     $customer_user_id        =        $this->session->user_id; 
     if(($customer_email_id=="") && ($customer_user_id=="") || $amount==0 || $amount=="")
     {   
-       echo "login";
-   }
-   else
-   {
+     echo "login";
+ }
+ else
+ {
     $balance = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'LTC');
     if($amount <= $balance)
     {
@@ -2392,10 +2392,10 @@ function wcncoinwithdrawrequest()
     $customer_user_id        =        $this->session->user_id; 
     if(($customer_email_id=="") && ($customer_user_id=="") || $amount==0 || $amount=="")
     {   
-       echo "login";
-   }
-   else
-   {
+     echo "login";
+ }
+ else
+ {
     $balance = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'WCN');
     if($amount <= $balance)
     {
@@ -2416,10 +2416,10 @@ function hitcoinwithdrawrequest()
     $customer_user_id        =        $this->session->user_id; 
     if(($customer_email_id=="") && ($customer_user_id=="") || $amount==0 || $amount=="")
     {   
-       echo "login";
-   }
-   else
-   {
+     echo "login";
+ }
+ else
+ {
     $balance = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'HIT');
     if($amount <= $balance)
     {
@@ -2441,10 +2441,10 @@ function ecoinwithdrawrequest()
     $customer_user_id        =        $this->session->user_id; 
     if(($customer_email_id=="") && ($customer_user_id=="") || $amount==0 || $amount=="")
     {   
-       echo "login";
-   }
-   else
-   {
+     echo "login";
+ }
+ else
+ {
     $balance = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'NLG');
     if($amount <= $balance)
     {
@@ -2651,15 +2651,15 @@ function withdraw_confirm($token)
         }
         else
         {
-         $confirmResult     =   $this->gulden_model->updateconfirmation($token);
-         $taken          =   $this->gulden_model->withdraw_confirmmodel($token);
-         $ant            =   $taken->amount;
-         $amount         =   (float)$ant;
-         $purse          =   $taken->purse;
-         $currency       =   $taken->currency;
+           $confirmResult     =   $this->gulden_model->updateconfirmation($token);
+           $taken          =   $this->gulden_model->withdraw_confirmmodel($token);
+           $ant            =   $taken->amount;
+           $amount         =   (float)$ant;
+           $purse          =   $taken->purse;
+           $currency       =   $taken->currency;
 
-         if($currency=="BTC")
-         {
+           if($currency=="BTC")
+           {
 
             $btc_amount         = $amount;
             $user_wallet        = $this->gulden_model->get_adminpurse();
@@ -2711,30 +2711,30 @@ function withdraw_confirm($token)
             }
             else
             {
-             $from_address = $this->gulden_model->get_eth_address();
-             echo $address = '"'.trim($from_address).'"';
-             echo $to = '"'.trim($purse).'"';
-             $amounts = $amount * 1000000000000000000; 
+               $from_address = $this->gulden_model->get_eth_address();
+               echo $address = '"'.trim($from_address).'"';
+               echo $to = '"'.trim($purse).'"';
+               $amounts = $amount * 1000000000000000000; 
 
-             $amount1 =  rtrim(sprintf("%u", $amounts), ".");
+               $amount1 =  rtrim(sprintf("%u", $amounts), ".");
 
                 //  $amounts = str.replace()
-             $lastnumber = exec('curl -X POST --data \'{"jsonrpc":"2.0","method":"personal_unlockAccount","params":['.$address.',"password",null],"id":1}\' "http://localhost:8545"');
+               $lastnumber = exec('curl -X POST --data \'{"jsonrpc":"2.0","method":"personal_unlockAccount","params":['.$address.',"password",null],"id":1}\' "http://localhost:8545"');
 
-             /* echo 'curl -X POST --data \'{"jsonrpc":"2.0","method":"eth_sendTransaction","params":[{"from":'.$address.',"to":'.$to.',"value":'.$amounts.'}],"id":22}\' "http://localhost:8565"';*/
+               /* echo 'curl -X POST --data \'{"jsonrpc":"2.0","method":"eth_sendTransaction","params":[{"from":'.$address.',"to":'.$to.',"value":'.$amounts.'}],"id":22}\' "http://localhost:8565"';*/
 
-             $output = exec('curl -X POST --data \'{"jsonrpc":"2.0","method":"eth_sendTransaction","params":[{"from":'.$address.',"to":'.$to.',"value":'.$amount1.'}],"id":22}\' "http://localhost:8545"');
+               $output = exec('curl -X POST --data \'{"jsonrpc":"2.0","method":"eth_sendTransaction","params":[{"from":'.$address.',"to":'.$to.',"value":'.$amount1.'}],"id":22}\' "http://localhost:8545"');
 
-             print_r($output);
+               print_r($output);
 
-             $abc = json_decode($output);
+               $abc = json_decode($output);
 
-             $isvalid = $abc->result;  
+               $isvalid = $abc->result;  
 
 
-         }
-         if(!isset($isvalid))
-         {
+           }
+           if(!isset($isvalid))
+           {
             $isvalid = "";
         }
         $result     = $this->gulden_model->updateTransaction($isvalid,$token);
@@ -2893,10 +2893,10 @@ function createBuyorder()
     $customer_user_id        =        $this->session->user_id; 
     if(($customer_email_id=="") && ($customer_user_id=="") || $amount==0 || $price==0 || $amount=="" || $price=="")
     {   
-       echo "login";
-   }
-   else
-   {
+     echo "login";
+ }
+ else
+ {
     $balance = $this->gulden_model->fetchuserbalancebyId($customer_user_id,$secondCurrency);
     if($total <= $balance)
     {
@@ -2919,10 +2919,10 @@ function createSellorder()
     $customer_user_id        =        $this->session->user_id; 
     if(($customer_email_id=="") && ($customer_user_id=="") || $amount==0 || $price==0 || $amount=="" || $price=="")
     {   
-       echo "login";
-   }
-   else
-   {
+     echo "login";
+ }
+ else
+ {
     $balance = $this->gulden_model->fetchuserbalancebyId($customer_user_id,$firstCurrency);
     if($amount<=$balance)
     {
@@ -2998,21 +2998,21 @@ function refreshChat()
     function notification()
     {
 
-       $customer_email_id        =        $this->session->userdata('customer_email_id'); 
-       $customer_user_id        =        $this->session->user_id; 
-       if(($customer_email_id=="") && ($customer_user_id=="") )
-       {   
-           $this->session->set_userdata('login_error','Please login here.');      
-           redirect('','refresh');   
-       }
-       else
-       {
+     $customer_email_id        =        $this->session->userdata('customer_email_id'); 
+     $customer_user_id        =        $this->session->user_id; 
+     if(($customer_email_id=="") && ($customer_user_id=="") )
+     {   
+         $this->session->set_userdata('login_error','Please login here.');      
+         redirect('','refresh');   
+     }
+     else
+     {
 
-           $this->load->view('front/notification');        
-       }
-   }
-   function remove_notif($notif_id)
-   {
+         $this->load->view('front/notification');        
+     }
+ }
+ function remove_notif($notif_id)
+ {
 
     $remove = $this->gulden_model->remove_notif_model($notif_id);
     redirect('notification','refresh');    
@@ -3202,12 +3202,12 @@ function search()
                     }
                     else
                     {
-                       $test[]=array('1'=>'error');
-                       echo "No Orders";
-                   }
-               }
-               else
-               {
+                     $test[]=array('1'=>'error');
+                     echo "No Orders";
+                 }
+             }
+             else
+             {
                 $test[]=array('1'=>'error');
                 echo "Access Denied.";
             }
@@ -3243,18 +3243,18 @@ function search()
                 }
                 else
                 {
-                   $test[]=array('1'=>'error');
-                   echo "No Orders";
-               }
-           }
-           else
-           {
-               $test[]=array('1'=>'error');
-               echo "Access Denied.";
-           }
-       }
-       else if($method=="CancelOrder")
-       {
+                 $test[]=array('1'=>'error');
+                 echo "No Orders";
+             }
+         }
+         else
+         {
+             $test[]=array('1'=>'error');
+             echo "Access Denied.";
+         }
+     }
+     else if($method=="CancelOrder")
+     {
         $checkedMethod = $this->gulden_model->checktradeMethod($api_key);
         if($checkedMethod)
         {
@@ -3283,18 +3283,18 @@ function search()
             }
             else
             {
-               $test[]=array('1'=>'error');
-               echo "No Orders";
-           }
-       }
-       else
-       {
-           $test[]=array('1'=>'error');
-           echo "Access Denied.";
-       }
-   }
-   else if($method=="OpenOrder")
-   {
+             $test[]=array('1'=>'error');
+             echo "No Orders";
+         }
+     }
+     else
+     {
+         $test[]=array('1'=>'error');
+         echo "Access Denied.";
+     }
+ }
+ else if($method=="OpenOrder")
+ {
     $checkedMethod = $this->gulden_model->checktradeMethod($api_key);
     if($checkedMethod)
     {
@@ -3323,15 +3323,15 @@ function search()
         }
         else
         {
-           $test[]=array('1'=>'error');
-           echo "No Orders";
-       }
-   }
-   else
-   {
-       $test[]=array('1'=>'error');
-       echo "Access Denied.";
-   }
+         $test[]=array('1'=>'error');
+         echo "No Orders";
+     }
+ }
+ else
+ {
+     $test[]=array('1'=>'error');
+     echo "Access Denied.";
+ }
 }
 else if($method=="Order_book")
 {
@@ -3363,15 +3363,15 @@ else if($method=="Order_book")
         }
         else
         {
-           $test[]=array('1'=>'error');
-           echo "No Orders";
-       }
-   }
-   else
-   {
-       $test[]=array('1'=>'error');
-       echo "Access Denied.";
-   }
+         $test[]=array('1'=>'error');
+         echo "No Orders";
+     }
+ }
+ else
+ {
+     $test[]=array('1'=>'error');
+     echo "Access Denied.";
+ }
 }
 else if($method=="withdrawal_requests")
 {
@@ -3399,15 +3399,15 @@ else if($method=="withdrawal_requests")
         }
         else
         {
-           $test[]=array('1'=>'error');
-           echo "No Orders";
-       }
-   }
-   else
-   {
-       $test[]=array('1'=>'error');
-       echo "Access Denied.";
-   }
+         $test[]=array('1'=>'error');
+         echo "No Orders";
+     }
+ }
+ else
+ {
+     $test[]=array('1'=>'error');
+     echo "Access Denied.";
+ }
 }
 else if($method=="coin_deposit_address")
 {
@@ -3423,15 +3423,15 @@ else if($method=="coin_deposit_address")
         }
         else
         {
-           $test[]=array('1'=>'error');
-           echo "No Orders";
-       }
-   }
-   else
-   {
-       $test[]=array('1'=>'error');
-       echo "Access Denied.";
-   }
+         $test[]=array('1'=>'error');
+         echo "No Orders";
+     }
+ }
+ else
+ {
+     $test[]=array('1'=>'error');
+     echo "Access Denied.";
+ }
 }
 else if($method=="buy")
 {
@@ -3466,16 +3466,16 @@ else if($method=="buy")
             }
             else
             {
-               $test[]=array('1'=>'error');
-               echo "No Orders";
-           }
-       }
-   }
-   else
-   {
-     $test[]=array('1'=>'error');
-     echo "Access Denied.";
+             $test[]=array('1'=>'error');
+             echo "No Orders";
+         }
+     }
  }
+ else
+ {
+   $test[]=array('1'=>'error');
+   echo "Access Denied.";
+}
 }
 else if($method=="sell")
 {
@@ -3510,16 +3510,16 @@ else if($method=="sell")
             }
             else
             {
-               $test[]=array('1'=>'error');
-               echo "No Orders";
-           }
-       }
-   }
-   else
-   {
-     $test[]=array('1'=>'error');
-     echo "Access Denied.";
+             $test[]=array('1'=>'error');
+             echo "No Orders";
+         }
+     }
  }
+ else
+ {
+   $test[]=array('1'=>'error');
+   echo "Access Denied.";
+}
 }
 
 
@@ -3994,9 +3994,9 @@ function two_factor_authendication()
         }
         else
         {
-         $result                =   $this->gulden_model->get_tfacode();
-         if($result)
-         {
+           $result                =   $this->gulden_model->get_tfacode();
+           if($result)
+           {
             $data['secret_code']    =   $result['secret'];
             $data['onecode']        =   $result['oneCode'];
             $data['url']            =   $result['qrCodeUrl'];
@@ -5012,11 +5012,16 @@ function bank_info()
     $customer_user_id       =   $this->session->user_id; 
     if(($customer_email_id=="") && ($customer_user_id=="") )
     {   
-        redirect('gulden/login','refresh');      
+        redirect('user/login','refresh');      
     }
     else
-    { 
-        $this->load->view('front/bank_info');
+    {
+        $this->l_asset->add('js/user/'.__FUNCTION__.'.js','js');
+        $this->load->database();
+        $this->load->model('gulden_model');
+        $vars['bank'] = $this->gulden_model->acccount_details();  
+        $this->data['content'] = $this->load->view('user/v_bank_info',$vars,true);
+        view($this->data);
     }
 }
 /*function email_info()
@@ -5044,10 +5049,10 @@ function two_factor()
     }
     else
     { 
-     $user_result = $this->gulden_model->user_check_tfa();
-     $user_secret = $this->gulden_model->get_secret($customer_user_id);
-     if($user_result=="enable" || $user_secret!="")
-     {
+       $user_result = $this->gulden_model->user_check_tfa();
+       $user_secret = $this->gulden_model->get_secret($customer_user_id);
+       if($user_result=="enable" || $user_secret!="")
+       {
         $secret_code = $this->gulden_model->get_secret($customer_user_id); 
         $data['secret_code'] = $secret_code;
         require_once 'GoogleAuthenticator.php';
@@ -5056,10 +5061,10 @@ function two_factor()
     }
     else
     {
-     $result                =   $this->gulden_model->get_tfacode(); 
+       $result                =   $this->gulden_model->get_tfacode(); 
              //print_r($result);
-     if($result)
-     {
+       if($result)
+       {
         $data['secret_code']    =   $result['secret'];
         $data['onecode']        =   $result['oneCode'];
         $data['url']            =   $result['qrCodeUrl'];
@@ -5086,10 +5091,10 @@ function change_password_complete()
     }
     else
     { 
-     $result = $this->gulden_model->changepwd_statusdetails();
+       $result = $this->gulden_model->changepwd_statusdetails();
 
-     if($result)
-     {
+       if($result)
+       {
         echo "success";
     }
     else
@@ -5183,9 +5188,9 @@ function closeallopenorders()
     }
     else
     { 
-     $activeResult =  $this->gulden_model->get_active_order("BTC","USD"); 
+       $activeResult =  $this->gulden_model->get_active_order("BTC","USD"); 
 
-     if($activeResult) {
+       if($activeResult) {
         foreach($activeResult as $active)
         {
             $activeTradeid    = $active->trade_id;
@@ -5291,16 +5296,16 @@ function thanks($txnid)
 {
 
   // Get info form paypal API
-   $paypal_info = $_POST;
+ $paypal_info = $_POST;
 
    //$mc_gross=$paypal_info['mc_gross']; 
    //$payment_status=$paypal_info['payment_status']; 
 
-   $bill_id=$this->session->userdata('bill_id');
+ $bill_id=$this->session->userdata('bill_id');
 
-   $result= $this->gulden_model->paypal_update($txnid);
-   $this->session->set_flashdata('txn_id', 'Process Successfully completed');
-   redirect('deposit_paypal','refresh'); 
+ $result= $this->gulden_model->paypal_update($txnid);
+ $this->session->set_flashdata('txn_id', 'Process Successfully completed');
+ redirect('deposit_paypal','refresh'); 
 
 }
 function paypal_update()
@@ -5592,141 +5597,141 @@ function typeopenorders()
             if($activeResult) {
               foreach($activeResult as $active)
               {
-                 $activeTradeid    = $active->trade_id;
-                 $activePrice   = $active->Price;
-                 $activeAmount  = $active->Amount;
-                 $activeType    = $active->Type;
-                 $activeTotal   = $active->Total;
-                 $activeDate    = $active->orderDate;
-                 $activeTime    = $active->orderTime;
-                 $status     = $active->status;
-                 $activets      = $activeDate." ".$activeTime;
-                 $activefilledAmount = $this->gulden_model->checkOrdertempdetails($activeTradeid,$activeType);
-                 if($activefilledAmount)
-                 {
-                    $activefilledAmount = $activeAmount-$activefilledAmount;
-                }
-                else
-                {
-                    $activefilledAmount = $activeAmount;
-                }
-                $activeCalcTotal = $activefilledAmount*$activePrice;
-                $activefilledAmount=number_format((float)$activefilledAmount, 8, '.', '');
-                $activePrice=number_format((float)$activePrice, 2, '.', '');
-                $activeCalcTotal=number_format((float)$activeCalcTotal, 2, '.', '');
-                ?>
-                <tr class="">
-                    <td><?php echo $activeType; ?></td>
-                    <td><?php echo $activets; ?></td>
-                    <td><?php echo $activefilledAmount; ?></td>
-                    <td><?php echo number_format($activeCalcTotal,2); ?></td>
-                    <td><?php echo $activePrice; ?></td>
-                    <td>
-                        <a onclick="return confirm('Are you sure you want to delete this?');" href="<?php echo base_url(); ?>gulden/close_active_order/<?php echo $activeTradeid; ?>"><i class="fa fa-times-circle pad-rht"></i></a>
-                    </td>
-                </tr>
-                <?php } }else {?>
-                <tr><td colspan="6"><center><h5>No <?php echo $keyword; ?> orders at the moment</h5></center></td></tr>
-                <?php } ?>
-
-
-            </tbody>
-        </table>
-        <?php
-    }
-    function typeopenordersltc()
-    {
-
-        $keyword    =   $this->input->post('keyword');
-        ?>
-        <table class="responsive">
-          <tbody>
-            <tr align="center" class="clsRes_th">
-              <th width="13%" style=""><?php echo $this->lang->line('Type'); ?></th>
-              <th width="22%"><?php echo $this->lang->line('Date and time'); ?></th>
-              <th width="17%"><?php echo $this->lang->line('LTC Amount'); ?></th>
-              <th width="17%" style=""><?php echo $this->lang->line('USD Amount'); ?></th>
-              <th width="17%"><?php echo $this->lang->line('LTC Price'); ?></th>
-              <th width="14%"><?php echo $this->lang->line('Action'); ?></th>
-          </tr>
-          <?php  $activeResult =  $this->gulden_model->get_type_order("LTC","USD"); 
-          if($activeResult) {
-            foreach($activeResult as $active)
+               $activeTradeid    = $active->trade_id;
+               $activePrice   = $active->Price;
+               $activeAmount  = $active->Amount;
+               $activeType    = $active->Type;
+               $activeTotal   = $active->Total;
+               $activeDate    = $active->orderDate;
+               $activeTime    = $active->orderTime;
+               $status     = $active->status;
+               $activets      = $activeDate." ".$activeTime;
+               $activefilledAmount = $this->gulden_model->checkOrdertempdetails($activeTradeid,$activeType);
+               if($activefilledAmount)
+               {
+                $activefilledAmount = $activeAmount-$activefilledAmount;
+            }
+            else
             {
-                $activeTradeid  = $active->trade_id;
-                $activePrice    = $active->Price;
-                $activeAmount   = $active->Amount;
-                $activeType     = $active->Type;
-                $activeTotal    = $active->Total;
-                $activeDate     = $active->orderDate;
-                $activeTime     = $active->orderTime;
-                $status         = $active->status;
-                $activets       = $activeDate." ".$activeTime;
-                $activefilledAmount = $this->gulden_model->checkOrdertempdetails($activeTradeid,$activeType);
-                if($activefilledAmount)
-                {
-                    $activefilledAmount = $activeAmount-$activefilledAmount;
-                }
-                else
-                {
-                    $activefilledAmount = $activeAmount;
-                }
-                $activeCalcTotal = $activefilledAmount*$activePrice;
-                $activefilledAmount=number_format((float)$activefilledAmount, 8, '.', '');
-                $activePrice=number_format((float)$activePrice, 2, '.', '');
-                $activeCalcTotal=number_format((float)$activeCalcTotal, 2, '.', '');
-                ?>
-                <tr class="">
-                    <td><?php echo $activeType; ?></td>
-                    <td><?php echo $activets; ?></td>
-                    <td><?php echo $activefilledAmount?></td>
-                    <td><?php echo number_format($activeCalcTotal,2) ?></td>
-                    <td><?php echo $activePrice ?></td>
-                    <td><?php echo anchor('close_active_order/'.$activeTradeid,'Cancel',array('onclick'=>"return confirm('Are you sure you want to delete this?');",'style'=>"color: red;")); ?><?php if($status=='active') { echo anchor('change_order/'.$activeTradeid,'Edit',array('style'=>"color: red; margin-left:20px;")); } ?></td>
-                </tr>
-                <?php } }else {?>
-                <tr><td colspan="6"><center><h5>No active <?php if($keyword!='all') { echo $keyword; } ?> orders at the moment</h5></center></td></tr>
-                <?php } ?>
-            </tbody>
-        </table>
-        <?php
-    }
-    function ajaxstatusfortrans()
-    {   
-
-
-        $keyword    =   $this->input->post('keyword');
-        $this->session->set_userdata('status',$keyword);
-    //$result   =   $this->gulden_model->ajaxstatusforordermodel();
-        $transaction_result = $this->gulden_model->ajaxstatusfortransmodel(); 
-        if($transaction_result)
-            { ?>
-        <table class="responsive">
-          <tbody>
-           <tr align="center" class="clsRes_th">
-              <th width="14%" style=""><?php echo $this->lang->line('Type');?></th>
-              <th width="22%"><?php echo $this->lang->line('Date and Time');?></th>
-              <th width="19%" style=""><?php echo $this->lang->line('BTC or LTC Amount');?></th>
-              <th width="19%" style=""><?php echo $this->lang->line('USD Amount');?></th>
-              <th width="19%" style=""><?php echo $this->lang->line('BTC or LTC Price');?></th>
-              <th width="17%"><?php echo $this->lang->line('Fee');?></th>
-          </tr>
-          <?php
-          foreach($transaction_result as $row)
-          {
+                $activefilledAmount = $activeAmount;
+            }
+            $activeCalcTotal = $activefilledAmount*$activePrice;
+            $activefilledAmount=number_format((float)$activefilledAmount, 8, '.', '');
+            $activePrice=number_format((float)$activePrice, 2, '.', '');
+            $activeCalcTotal=number_format((float)$activeCalcTotal, 2, '.', '');
             ?>
-            <tr align="center">
-              <td style=""><?php echo $row->type; ?></td>
-              <td><?php echo $row->date." ".$row->time ; ?></td>
-              <td style=""><?php if($row->type=='Buy' || $row->type=='Sell' ) { echo $row->amount.' '.$row->currency; } ?></td>
-              <td style=""><?php if($row->type=='Buy' || $row->type=='Sell') {  echo $row->total; } else {  echo $row->amount; } ?></td>
-              <td style=""><?php if(isset($row->price)) { echo $row->price; } ?></td>
-              <td><?php //if($row->status=='Cancel') { echo "Canceled"; } else { echo $row->status; } ?> <?php if(isset($row->fee)) { echo $row->fee; } ?></td>
-          </tr>
-          <?php } ?>
-      </tbody>
-  </table> 
-  <?php
+            <tr class="">
+                <td><?php echo $activeType; ?></td>
+                <td><?php echo $activets; ?></td>
+                <td><?php echo $activefilledAmount; ?></td>
+                <td><?php echo number_format($activeCalcTotal,2); ?></td>
+                <td><?php echo $activePrice; ?></td>
+                <td>
+                    <a onclick="return confirm('Are you sure you want to delete this?');" href="<?php echo base_url(); ?>gulden/close_active_order/<?php echo $activeTradeid; ?>"><i class="fa fa-times-circle pad-rht"></i></a>
+                </td>
+            </tr>
+            <?php } }else {?>
+            <tr><td colspan="6"><center><h5>No <?php echo $keyword; ?> orders at the moment</h5></center></td></tr>
+            <?php } ?>
+
+
+        </tbody>
+    </table>
+    <?php
+}
+function typeopenordersltc()
+{
+
+    $keyword    =   $this->input->post('keyword');
+    ?>
+    <table class="responsive">
+      <tbody>
+        <tr align="center" class="clsRes_th">
+          <th width="13%" style=""><?php echo $this->lang->line('Type'); ?></th>
+          <th width="22%"><?php echo $this->lang->line('Date and time'); ?></th>
+          <th width="17%"><?php echo $this->lang->line('LTC Amount'); ?></th>
+          <th width="17%" style=""><?php echo $this->lang->line('USD Amount'); ?></th>
+          <th width="17%"><?php echo $this->lang->line('LTC Price'); ?></th>
+          <th width="14%"><?php echo $this->lang->line('Action'); ?></th>
+      </tr>
+      <?php  $activeResult =  $this->gulden_model->get_type_order("LTC","USD"); 
+      if($activeResult) {
+        foreach($activeResult as $active)
+        {
+            $activeTradeid  = $active->trade_id;
+            $activePrice    = $active->Price;
+            $activeAmount   = $active->Amount;
+            $activeType     = $active->Type;
+            $activeTotal    = $active->Total;
+            $activeDate     = $active->orderDate;
+            $activeTime     = $active->orderTime;
+            $status         = $active->status;
+            $activets       = $activeDate." ".$activeTime;
+            $activefilledAmount = $this->gulden_model->checkOrdertempdetails($activeTradeid,$activeType);
+            if($activefilledAmount)
+            {
+                $activefilledAmount = $activeAmount-$activefilledAmount;
+            }
+            else
+            {
+                $activefilledAmount = $activeAmount;
+            }
+            $activeCalcTotal = $activefilledAmount*$activePrice;
+            $activefilledAmount=number_format((float)$activefilledAmount, 8, '.', '');
+            $activePrice=number_format((float)$activePrice, 2, '.', '');
+            $activeCalcTotal=number_format((float)$activeCalcTotal, 2, '.', '');
+            ?>
+            <tr class="">
+                <td><?php echo $activeType; ?></td>
+                <td><?php echo $activets; ?></td>
+                <td><?php echo $activefilledAmount?></td>
+                <td><?php echo number_format($activeCalcTotal,2) ?></td>
+                <td><?php echo $activePrice ?></td>
+                <td><?php echo anchor('close_active_order/'.$activeTradeid,'Cancel',array('onclick'=>"return confirm('Are you sure you want to delete this?');",'style'=>"color: red;")); ?><?php if($status=='active') { echo anchor('change_order/'.$activeTradeid,'Edit',array('style'=>"color: red; margin-left:20px;")); } ?></td>
+            </tr>
+            <?php } }else {?>
+            <tr><td colspan="6"><center><h5>No active <?php if($keyword!='all') { echo $keyword; } ?> orders at the moment</h5></center></td></tr>
+            <?php } ?>
+        </tbody>
+    </table>
+    <?php
+}
+function ajaxstatusfortrans()
+{   
+
+
+    $keyword    =   $this->input->post('keyword');
+    $this->session->set_userdata('status',$keyword);
+    //$result   =   $this->gulden_model->ajaxstatusforordermodel();
+    $transaction_result = $this->gulden_model->ajaxstatusfortransmodel(); 
+    if($transaction_result)
+        { ?>
+    <table class="responsive">
+      <tbody>
+         <tr align="center" class="clsRes_th">
+          <th width="14%" style=""><?php echo $this->lang->line('Type');?></th>
+          <th width="22%"><?php echo $this->lang->line('Date and Time');?></th>
+          <th width="19%" style=""><?php echo $this->lang->line('BTC or LTC Amount');?></th>
+          <th width="19%" style=""><?php echo $this->lang->line('USD Amount');?></th>
+          <th width="19%" style=""><?php echo $this->lang->line('BTC or LTC Price');?></th>
+          <th width="17%"><?php echo $this->lang->line('Fee');?></th>
+      </tr>
+      <?php
+      foreach($transaction_result as $row)
+      {
+        ?>
+        <tr align="center">
+          <td style=""><?php echo $row->type; ?></td>
+          <td><?php echo $row->date." ".$row->time ; ?></td>
+          <td style=""><?php if($row->type=='Buy' || $row->type=='Sell' ) { echo $row->amount.' '.$row->currency; } ?></td>
+          <td style=""><?php if($row->type=='Buy' || $row->type=='Sell') {  echo $row->total; } else {  echo $row->amount; } ?></td>
+          <td style=""><?php if(isset($row->price)) { echo $row->price; } ?></td>
+          <td><?php //if($row->status=='Cancel') { echo "Canceled"; } else { echo $row->status; } ?> <?php if(isset($row->fee)) { echo $row->fee; } ?></td>
+      </tr>
+      <?php } ?>
+  </tbody>
+</table> 
+<?php
 }
 else
 {
@@ -5786,7 +5791,7 @@ function ajaxanytimepast24hour()
         { ?>
     <table class="responsive">
       <tbody>
-       <tr align="center" class="clsRes_th">
+         <tr align="center" class="clsRes_th">
           <th width="14%" style=""><?php echo $this->lang->line('Type');?></th>
           <th width="22%"><?php echo $this->lang->line('Date and Time');?></th>
           <th width="19%" style=""><?php echo $this->lang->line('BTC or LTC Amount');?></th>
@@ -6326,11 +6331,11 @@ function verifysetting()
     {
         if (!$this->input->post('submit'))
         {
-         $available_usd = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'USD');
+           $available_usd = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'USD');
 
-         $result = $this->gulden_model->get_iwuserdata();
-         if($result)
-         {
+           $result = $this->gulden_model->get_iwuserdata();
+           if($result)
+           {
             $data['acc_name']       = $result->acc_name;
             $data['acc_address']    = $result->acc_address;
             $data['city']           = $result->city;
@@ -6760,28 +6765,28 @@ function chart_data_gts()
     $chart="";
     foreach($test as $taken) {
          // echo $taken.":";
-       /* date_default_timezone_set('UTC');*/
-       $exp         = explode(' ',$taken);
+     /* date_default_timezone_set('UTC');*/
+     $exp         = explode(' ',$taken);
                         //$curdate     = $exp[0];
                         //$time         = $exp[1];
                         // $tdtime     = date("H:i",strtotime($taken));
-       $datetime     = strtotime($taken)*1000;
+     $datetime     = strtotime($taken)*1000;
 
-       $chartResult     = $this->gulden_model->forLowHighchart_gts($taken,$interval,$type); 
+     $chartResult     = $this->gulden_model->forLowHighchart_gts($taken,$interval,$type); 
 
-       $low     = $chartResult->low; 
-       $high     = $chartResult->high;
-       $open     = $chartResult->open;
-       $close     = $chartResult->close; 
-       if($low=='') { $low = 0; } 
-       if($high=='') { $high = 0; } 
-       if($open=='') { $open = 0; } 
-       if($close=='') { $close = 0; } 
+     $low     = $chartResult->low; 
+     $high     = $chartResult->high;
+     $open     = $chartResult->open;
+     $close     = $chartResult->close; 
+     if($low=='') { $low = 0; } 
+     if($high=='') { $high = 0; } 
+     if($open=='') { $open = 0; } 
+     if($close=='') { $close = 0; } 
 
-       $chart.='['.$datetime.','.$open.','.$high.','.$low.','.$close.'],';
-   }
+     $chart.='['.$datetime.','.$open.','.$high.','.$low.','.$close.'],';
+ }
 
-   echo "[".trim($chart,",")."]";
+ echo "[".trim($chart,",")."]";
 
 }
 
@@ -6803,28 +6808,28 @@ function chart_data_ltc()
     $chart="";
     foreach($test as $taken) {
          // echo $taken.":";
-     /*   date_default_timezone_set('UTC');*/
-     $exp         = explode(' ',$taken);
+       /*   date_default_timezone_set('UTC');*/
+       $exp         = explode(' ',$taken);
                         //$curdate     = $exp[0];
                         //$time         = $exp[1];
                         // $tdtime     = date("H:i",strtotime($taken));
-     $datetime     = strtotime($taken)*1000;
+       $datetime     = strtotime($taken)*1000;
 
-     $chartResult     = $this->gulden_model->forLowHighchart_ltc($taken,$interval,$type); 
+       $chartResult     = $this->gulden_model->forLowHighchart_ltc($taken,$interval,$type); 
 
-     $low     = $chartResult->low; 
-     $high     = $chartResult->high;
-     $open     = $chartResult->open;
-     $close     = $chartResult->close; 
-     if($low=='') { $low = 0; } 
-     if($high=='') { $high = 0; } 
-     if($open=='') { $open = 0; } 
-     if($close=='') { $close = 0; } 
+       $low     = $chartResult->low; 
+       $high     = $chartResult->high;
+       $open     = $chartResult->open;
+       $close     = $chartResult->close; 
+       if($low=='') { $low = 0; } 
+       if($high=='') { $high = 0; } 
+       if($open=='') { $open = 0; } 
+       if($close=='') { $close = 0; } 
 
-     $chart.='['.$datetime.','.$open.','.$high.','.$low.','.$close.'],';
- }
+       $chart.='['.$datetime.','.$open.','.$high.','.$low.','.$close.'],';
+   }
 
- echo "[".trim($chart,",")."]";
+   echo "[".trim($chart,",")."]";
 
 }
 
@@ -6846,28 +6851,28 @@ function chart_data_eth()
     $chart="";
     foreach($test as $taken) {
          // echo $taken.":";
-       /* date_default_timezone_set('UTC');*/
-       $exp         = explode(' ',$taken);
+     /* date_default_timezone_set('UTC');*/
+     $exp         = explode(' ',$taken);
                         //$curdate     = $exp[0];
                         //$time         = $exp[1];
                         // $tdtime     = date("H:i",strtotime($taken));
-       $datetime     = strtotime($taken)*1000;
+     $datetime     = strtotime($taken)*1000;
 
-       $chartResult     = $this->gulden_model->forLowHighchart_eth($taken,$interval,$type); 
+     $chartResult     = $this->gulden_model->forLowHighchart_eth($taken,$interval,$type); 
 
-       $low     = $chartResult->low; 
-       $high     = $chartResult->high;
-       $open     = $chartResult->open;
-       $close     = $chartResult->close; 
-       if($low=='') { $low = 0; } 
-       if($high=='') { $high = 0; } 
-       if($open=='') { $open = 0; } 
-       if($close=='') { $close = 0; } 
+     $low     = $chartResult->low; 
+     $high     = $chartResult->high;
+     $open     = $chartResult->open;
+     $close     = $chartResult->close; 
+     if($low=='') { $low = 0; } 
+     if($high=='') { $high = 0; } 
+     if($open=='') { $open = 0; } 
+     if($close=='') { $close = 0; } 
 
-       $chart.='['.$datetime.','.$open.','.$high.','.$low.','.$close.'],';
-   }
+     $chart.='['.$datetime.','.$open.','.$high.','.$low.','.$close.'],';
+ }
 
-   echo "[".trim($chart,",")."]";
+ echo "[".trim($chart,",")."]";
 
 }
 
@@ -6916,28 +6921,28 @@ function sohr_csv()
               $test.=$type."\t".$datetime."\t".$amount."\t".$total."\t".$price."\t".$fee."\n";
           }} else
           {
-             $test.= "No record found";
-         }
+           $test.= "No record found";
+       }
 
-         header("Content-type: application/csv");
+       header("Content-type: application/csv");
         //header("Content-type: application/vnd.ms-word");
         //header("Content-type: text/plain");
-         header("Content-Disposition: attachment; filename=".$filename);
-         header("Pragma: no-cache");
-         header("Expires: 2");
-         $this->load->helper('file');
-         write_file('./uploader/'.$filename, $test);
-         $data = file_get_contents("./uploader/".$filename);
+       header("Content-Disposition: attachment; filename=".$filename);
+       header("Pragma: no-cache");
+       header("Expires: 2");
+       $this->load->helper('file');
+       write_file('./uploader/'.$filename, $test);
+       $data = file_get_contents("./uploader/".$filename);
         //echo $data;
         //die;
-         $urfile="Your_transactions.csv";
-         $this->load->helper('download');
-         force_download($urfile, $data); 
-     }
+       $urfile="Your_transactions.csv";
+       $this->load->helper('download');
+       force_download($urfile, $data); 
+   }
 
- }
- function download()
- {
+}
+function download()
+{
 
     $customer_email_id      =   $this->session->userdata('customer_email_id'); 
     $customer_user_id       =   $this->session->user_id; 
@@ -6971,23 +6976,23 @@ function sohr_csv()
               $test.=$ipAddress."\t".$Browser."\t".$Action."\t".$datetime."\n";
           }} else
           {
-             $test.= "No record found";
-         }
+           $test.= "No record found";
+       }
 
-         header("Content-type: application/csv");
+       header("Content-type: application/csv");
         //header("Content-type: application/vnd.ms-word");
         //header("Content-type: text/plain");
-         header("Content-Disposition: attachment; filename=".$filename);
-         header("Pragma: no-cache");
-         header("Expires: 2");
-         $this->load->helper('file');
-         write_file('./uploader/'.$filename, $test);
-         $data = file_get_contents("./uploader/".$filename);
+       header("Content-Disposition: attachment; filename=".$filename);
+       header("Pragma: no-cache");
+       header("Expires: 2");
+       $this->load->helper('file');
+       write_file('./uploader/'.$filename, $test);
+       $data = file_get_contents("./uploader/".$filename);
         //echo $data;
         //die;
-         $urfile="history.csv";
-         $this->load->helper('download');
-         force_download($urfile, $data); 
+       $urfile="history.csv";
+       $this->load->helper('download');
+       force_download($urfile, $data); 
 
         /*$this->load->dbutil();
         $this->load->helper('file');
@@ -7037,35 +7042,35 @@ function tradeview_data()
     $chart_close="";
     $chart_volume="";
     foreach($test as $taken) {
-       /* date_default_timezone_set('UTC');*/
-       $exp        = explode(' ',$taken);
-       $curdate    = $exp[0];
-       $time       = $exp[1];
-       $tdtime     = date("H:i",strtotime($taken));
-       $datetime   = strtotime($taken);
+     /* date_default_timezone_set('UTC');*/
+     $exp        = explode(' ',$taken);
+     $curdate    = $exp[0];
+     $time       = $exp[1];
+     $tdtime     = date("H:i",strtotime($taken));
+     $datetime   = strtotime($taken);
 
-       $chartResult    = $this->gulden_model->forLowHigh($taken,$interval);
-       $volume = $chartResult->volume;
-       $low    = $chartResult->low; 
-       $high   = $chartResult->high;
-       $open   = $chartResult->open;
-       $close  = $chartResult->close;
-       if($volume=='') { $volume = 0; } 
-       if($low=='') { $low = 0; } 
-       if($high=='') { $high = 0; } 
-       if($open=='') { $open = 0; } 
-       if($close=='') { $close = 0; } 
+     $chartResult    = $this->gulden_model->forLowHigh($taken,$interval);
+     $volume = $chartResult->volume;
+     $low    = $chartResult->low; 
+     $high   = $chartResult->high;
+     $open   = $chartResult->open;
+     $close  = $chartResult->close;
+     if($volume=='') { $volume = 0; } 
+     if($low=='') { $low = 0; } 
+     if($high=='') { $high = 0; } 
+     if($open=='') { $open = 0; } 
+     if($close=='') { $close = 0; } 
 
     // $chart.='['.$datetime.','.$open.','.$high.','.$low.','.$close.','.$volume.'],';
-       $chart_datetime.=$datetime.','; 
-       $chart_open.=$open.','; 
-       $chart_high.=$high.','; 
-       $chart_low.=$low.','; 
-       $chart_close.=$close.','; 
-       $chart_volume.=$volume.','; 
-   }
-   $chart.='{'.'"t"'.':['.trim($chart_datetime,',').'],'.'"c"'.':['.trim($chart_close,',').'],'.'"o"'.':['.trim($chart_open,',').'],'.'"h"'.':['.trim($chart_high,',').'],'.'"l"'.':['.trim($chart_low,',').'],'.'"v"'.':['.trim($chart_volume,',').'],'.'"s"'.':'.'"ok"'.'}';
-   echo $chart;
+     $chart_datetime.=$datetime.','; 
+     $chart_open.=$open.','; 
+     $chart_high.=$high.','; 
+     $chart_low.=$low.','; 
+     $chart_close.=$close.','; 
+     $chart_volume.=$volume.','; 
+ }
+ $chart.='{'.'"t"'.':['.trim($chart_datetime,',').'],'.'"c"'.':['.trim($chart_close,',').'],'.'"o"'.':['.trim($chart_open,',').'],'.'"h"'.':['.trim($chart_high,',').'],'.'"l"'.':['.trim($chart_low,',').'],'.'"v"'.':['.trim($chart_volume,',').'],'.'"s"'.':'.'"ok"'.'}';
+ echo $chart;
 
     // echo "[".trim($chart,",")."]";
       // echo '</br></br>'.'{"t":[1441670400,1441756800,1441843200,1441929600,1442188800,1442275200,1442361600,1442448000],"c":[9.72,9.57,9.63,9.65,9.38,9.63,9.86,9.95],"o":[9.87,9.92,9.56,9.6,9.58,9.39,9.7,9.81],"h":[9.87,9.94,9.72,9.75,9.61,9.71,9.88,10.16],"l":[9.6,9.53,9.51,9.54,9.32,9.37,9.7,9.75],"v":[17975500,29318000,29476300,19493400,31110300,17928800,19872400,24427200],"s":"ok"}';
@@ -7146,35 +7151,35 @@ function order_book_data()
 
     $buyResult = $this->gulden_model->fetchCoinorder('Buy','BTC','USD');   
     if($buyResult)  { 
-       $k=0;
-       $chart =array();
-       foreach($buyResult as $buys)
-       {
-          $k++;
-          $buyorderid   = $buys->trade_id;
-          $buyType  = $buys->Type;
-          $buyPrice   = $buys->Price;
-          $buyAmount  = $buys->amount;
-          $buyTotal   = $buys->Total;
-          $buyfilledAmount = $this->gulden_model->checkOrdertempdetails($buyorderid,$buyType);
-          if($buyfilledAmount)
-          {
-            $buyfilledAmount = $buyAmount-$buyfilledAmount;
-        }
-        else
-        {
-            $buyfilledAmount = $buyAmount;
-        }
-        $buyCalcTotal = $buyfilledAmount*$buyPrice;
-        $buyCalcTotal=number_format((float)$buyCalcTotal, 2, '.', '');
-        $buyfilledAmount=number_format((float)$buyfilledAmount, 8, '.', '');
-        $buyPrice=number_format((float)$buyPrice, 2, '.', '');
-
-        $chart[]=$buyPrice;
-        $chart[]=$buyfilledAmount;
-        $chart[]=$buyCalcTotal;
-        //$chart.='{"price":'.$buyPrice.',"amount":'.$buyfilledAmount.','.'"total":'.$buyCalcTotal.'},';
+     $k=0;
+     $chart =array();
+     foreach($buyResult as $buys)
+     {
+      $k++;
+      $buyorderid   = $buys->trade_id;
+      $buyType  = $buys->Type;
+      $buyPrice   = $buys->Price;
+      $buyAmount  = $buys->amount;
+      $buyTotal   = $buys->Total;
+      $buyfilledAmount = $this->gulden_model->checkOrdertempdetails($buyorderid,$buyType);
+      if($buyfilledAmount)
+      {
+        $buyfilledAmount = $buyAmount-$buyfilledAmount;
     }
+    else
+    {
+        $buyfilledAmount = $buyAmount;
+    }
+    $buyCalcTotal = $buyfilledAmount*$buyPrice;
+    $buyCalcTotal=number_format((float)$buyCalcTotal, 2, '.', '');
+    $buyfilledAmount=number_format((float)$buyfilledAmount, 8, '.', '');
+    $buyPrice=number_format((float)$buyPrice, 2, '.', '');
+
+    $chart[]=$buyPrice;
+    $chart[]=$buyfilledAmount;
+    $chart[]=$buyCalcTotal;
+        //$chart.='{"price":'.$buyPrice.',"amount":'.$buyfilledAmount.','.'"total":'.$buyCalcTotal.'},';
+}
 
 
 }
@@ -7306,7 +7311,7 @@ function profile_update()
         {
     //$this->load->view('front/header_all');
     //$this->load->view('front/safe_secure');
-           echo "hello";
+         echo "hello";
        //$res=$this->gulden_model->profile_details();
        //echo $res->username;
        //echo $res->row->user_id;
@@ -7314,10 +7319,10 @@ function profile_update()
        //$result=$this->gulden_model->get_loginhistory()
        //print_r($result);
 
-       }
+     }
 
-       function mailsettings()
-       {   
+     function mailsettings()
+     {   
         $this->load->library('email');
     $config['wrapchars'] = 76; // Character count to wrap at.
     $config['mailtype'] = 'html'; // text or html Type of mail. If you send HTML email you must send it as a complete web page. Make sure you don't have any relative links or relative image paths otherwise they will not work.
@@ -7337,9 +7342,8 @@ function generateaccountno($length = 12) {
 
 function bankdetails_update()
 {
-
-    $customer_email_id      =   $this->session->userdata('customer_email_id'); 
-    $id     =   $this->session->user_id;
+    $this->load->model('gulden_model');
+    $customer_email_id= $this->session->userdata('customer_email_id'); 
     $id=$this->session->user_id;
     $data=array('bank_name'=>$this->input->post('bankname'),'bank_account'=>$this->input->post('accounttype'),'inter_banking_code'=>$this->input->post('iban'));
     $this->gulden_model->bankdetailsupdate($data,$id);
@@ -7351,8 +7355,8 @@ function usercount_ajax()
 
 //      header('Content-Type: text/event-stream');
 // header('Cache-Control: no-cache');
- $result=$this->gulden_model->onlineuserchat();
- echo $result;
+   $result=$this->gulden_model->onlineuserchat();
+   echo $result;
 // flush();
 }
 
