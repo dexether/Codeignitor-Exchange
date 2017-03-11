@@ -48,7 +48,7 @@ class Migration_Base extends CI_Migration {
 		$fields['status'] = ['type' => 'VARCHAR','constraint' => 20];
 		$fields['loginstatus'] = ['type' => 'VARCHAR','constraint' => 111];
 		$fields['activated_date'] = ['type' => 'DATE'];
-		$fields['timeofreg'] = ['type' => 'TIMESTAMP'];
+		$fields['timeofreg'] = ['type' => 'timestamp','DEFAULT' => 0];
 		$fields['userip'] = ['type' => 'VARCHAR','constraint' => 50];
 		$fields['userbrowser'] = ['type' => 'VARCHAR','constraint' => 200];
 		$fields['randcode'] = ['type' => 'VARCHAR','constraint' => 200];
