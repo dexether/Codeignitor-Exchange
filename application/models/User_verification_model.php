@@ -40,7 +40,7 @@ class User_verification_model extends CI_Model {
 	public function upload($file='')
 	{
 		$conf['upload_path']   = 'uploads';
-		$conf['allowed_types'] = 'gif|jpg|png';
+		$conf['allowed_types'] = 'gif|jpg|png|pdf';
 		$conf['file_name']     = '';
 		$conf['overwrite']     = FALSE;
 		$conf['max_size']      = 5000;

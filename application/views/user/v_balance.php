@@ -1,9 +1,9 @@
 <?php
 $customer_user_id = $this->session->user_id;
-$eur_bal = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'EUR');
-$nlg_bal = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'NLG');
-$gts_bal = $this->gulden_model->fetchuserbalancebyId($customer_user_id,'GTS'); 
-$value = $this->gulden_model->currencybalance();
+$eur_bal = $this->balance->fetch_user_balance_by_id($customer_user_id,'EUR');
+$nlg_bal = $this->balance->fetch_user_balance_by_id($customer_user_id,'NLG');
+$gts_bal = $this->balance->fetch_user_balance_by_id($customer_user_id,'GTS'); 
+$value = $this->balance->currency_balance();
 $valEUR = @$value->EUR;
 $valNLG = @$value->NLG;
 $valGTS = @$value->GTS; 
