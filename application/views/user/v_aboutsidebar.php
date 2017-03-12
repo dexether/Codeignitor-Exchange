@@ -9,6 +9,7 @@
 			<!-- <li <?php if($uri=="api_info") { ?> class="active" <?php } ?>> <a href="<?php echo base_url();?>gulden/api_info"> api information </a></li>  -->
 			<li <?php if($uri=="profile") { ?> class="active" <?php } ?>> <a href="<?php echo base_url();?>user/profile"> my profile </a></li> 
 			<li <?php if($uri=="bank_info") { ?> class="active" <?php } ?>> <a href="<?php echo base_url();?>gulden/bank_info" class=""> bank details </a></li> 
+			<li <?php if($uri=="trade_verification") { ?> class="active" <?php } ?>> <a href="<?php echo base_url();?>gulden/trade_verification" class=""> Trade verification </a></li> 
 		</ul>
 	</div>
 </div>
