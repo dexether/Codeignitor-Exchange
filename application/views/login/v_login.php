@@ -24,7 +24,7 @@
 
             <div class="pull-left cont_list mar-top-10">
              <p class="cls_ar-40 "><input type="checkbox" name="checkboxG1" id="checkboxG1" class="css-checkbox" />
-<label for="checkboxG1" class="css-label radGroup1">Remember Me </label></p>
+                <label for="checkboxG1" class="css-label radGroup1">Remember Me </label></p>
 
             </div>
             

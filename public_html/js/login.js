@@ -100,13 +100,13 @@ $("#registering").validate({
                         }
                         else if(output=="success")
                         { 
-                          $("#register_error").hide();
-                          $("#register_success").show();
-                          $('#registering')[0].reset();
-                          $("#successMessage").html("Please Check Your Email and Activate Your Account");
-                          $('#registering')[0].reset();
-                          //setTimeout(hide, 2000);
-                          $('#registering').modal('hide');
+                            $("#register_error").hide();
+                            $("#successMessage").html("Please Check Your Email and Activate Your Account");
+                            $("#register_success").show();
+                            //$('#register').modal('hide');
+                            $('#register').hide();
+                            $('#registering')[0].reset();
+                            //setTimeout(hide, 2000);
                         }
                         else if(output=="recaptcha")
                         { 
@@ -114,7 +114,7 @@ $("#registering").validate({
                           $("#register_success").hide();
                           $("#errorMessage").html("The captcha code does not match!");
                           //$('#registering')[0].reset();
-                          refreshCaptcha();
+                          //refreshCaptcha();
 
                         }
                         $('html, body').animate({ scrollTop: 400 }, 'slow');
@@ -126,5 +126,6 @@ $("#registering").validate({
                       });
                       return false;
                   }
+
     });
-})
+});
