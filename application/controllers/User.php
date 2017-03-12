@@ -48,7 +48,6 @@ class User extends MY_Controller {
 
     public function user_verification($verifier=null)
     {
-        $this->load->model('balance_model', 'balance');
         $data = array();
         if(!is_null($verifier))
         {
@@ -69,17 +68,35 @@ class User extends MY_Controller {
 
         $this->l_asset->add('js/user/profile.js', 'js');
         
+        
         $this->load->model('gulden_model', 'gulden_model');
-        $this->load->model('balance_model', 'balance');
-        $data['country_detail'] =   $this->gulden_model->fetchcountry();    
+        
+        $this->data['content'] = $this->get_balance();
+        $data['country_detail'] =  $this->gulden_model->fetchcountry();    
         $this->data['content'] = $this->load->view('user/v_profile',$data,true);
 
         view($this->data);
     }
     
+    private function get_balance()
+    {
+        $data = array();
+        $this->load->model('mdl_balance');
+        $data['EUR'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'EUR');
+        $data['NLG'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'NLG');
+        $data['GTS'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'GTS');
+        
+        return $this->load->view('user/v_balance',$data,true);
+    }
+    
+    
     function bank_info()
     {
-        $this->load->model('balance_model', 'balance');
+        if(!$this->session->user_id > 0)
+        {
+            redirect('/');
+        }
+        $this->load->model('mdl_balance');
 
         $customer_email_id      =   $this->session->userdata('customer_email_id'); 
         $customer_user_id       =   $this->session->user_id; 
