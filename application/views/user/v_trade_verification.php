@@ -30,6 +30,19 @@ if($this->session->flashdata('errors')){
 								<span id="bandetails_success" class="alert alert-info" style="display:none;"></span>
 							</div>
 							<div class="form-group">
+								<label for="Status" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Status</label>
+								<div class="col-sm-6">
+									<?php if ($bank->verification_status == 'unverified' OR $bank->verification_status == 'in_progress'): ?>
+											<?php echo $bank->verification_status ?>
+									<?php else: ?>
+										<b class="text-success">
+											<?php echo $bank->verification_status ?>
+										</b>
+									<?php endif; ?>
+
+								</div>
+							</div>
+							<div class="form-group">
 								<label for="passport" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Passport</label>
 								<div class="col-sm-6">
 									<img src="<?php echo $bank->passport ?>" class='img-responsive'>
@@ -53,7 +66,7 @@ if($this->session->flashdata('errors')){
 							<div class="form-group">
 								<label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">&nbsp;</label>
 								<div class="col-sm-6">
-								<button type="submit" class="cls_dow_btn"  name="submit"> UPDATE INFORMATION </button> 
+									<button type="submit" class="cls_dow_btn"  name="submit"> UPDATE INFORMATION </button> 
 								</div>
 							</div>
 						</form>

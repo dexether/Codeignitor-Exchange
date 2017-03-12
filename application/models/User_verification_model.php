@@ -53,7 +53,7 @@ class User_verification_model extends CI_Model {
 			$this->session->set_flashdata('errors', $this->upload->display_errors('<p>', '</p>'));
 		}else{
 			$upload_data = $this->upload->data();
-			$data = ['user_id' => $this->session->user_id,$file => $upload_data['file_name']];
+			$data = ['verification_status'=>'unverified','user_id' => $this->session->user_id,$file => $upload_data['file_name']];
 			$this->update($data,$this->session->user_id);
 			$this->session->set_flashdata('success','Data Updated');
 		}
