@@ -71,19 +71,13 @@ class User extends MY_Controller {
 
         $this->l_asset->add('js/user/profile.js', 'js');
         
-        $this->load->model('gulden_model', 'gulden_model');
-        
         $this->data['content'] = $this->get_balance();
-        $data['country_detail'] =  $this->gulden_model->fetchcountry();    
-        $this->data['content'] = $this->load->view('user/v_profile',$data,true);
 
         $this->load->model('mdl_user');
-        $this->load->model('mdl_balance');
         $this->load->model('mdl_country');
         $vars['country_detail'] =   $this->mdl_country->get_all(); 
         $vars['profile'] = $this->mdl_user->profile_details();   
         $this->data['content'] = $this->load->view('user/v_profile',$vars,true);
-
 
         view($this->data);
     }

@@ -12,7 +12,7 @@ class Mdl_balance extends CI_Model {
 
 	function fetch_user_balance_by_id($id,$currency)
 	{ 
-		$this->db->where('userId',$id);  
+		$this->db->where('user_id',$id);  
 		$query=$this->db->get('balance'); 
 		if($query->num_rows() >= 1)
 		{     	
