@@ -100,7 +100,7 @@ class User extends MY_Controller {
         {
             redirect('/');
         }
-        $this->load->model('mdl_balance');
+        $this->data['content'] = $this->get_balance();
 
         $customer_email_id      =   $this->session->userdata('customer_email_id'); 
         $customer_user_id       =   $this->session->user_id; 
@@ -113,7 +113,7 @@ class User extends MY_Controller {
             $this->l_asset->add('js/user/'.__FUNCTION__.'.js','js');
             $this->load->model('mdl_user_bank_details');
             $vars['bank'] = $this->mdl_user_bank_details->acccount_details();  
-            $this->data['content'] = $this->load->view('user/v_bank_info',$vars,true);
+            $this->data['content'] .= $this->load->view('user/v_bank_info',$vars,true);
             view($this->data);
         }
     }
@@ -121,7 +121,6 @@ class User extends MY_Controller {
     function bank_details_update()
     {
         $this->load->model('mdl_user_bank_details');
-        $this->load->model('mdl_balance', 'balance');
         $customer_email_id= $this->session->userdata('customer_email_id'); 
         $id=$this->session->user_id;
         $data= [
@@ -136,7 +135,8 @@ class User extends MY_Controller {
 
     function change_password()
     {
-        $this->load->database();
+        $this->data['content'] = $this->get_balance();
+        
         $this->load->model('mdl_balance', 'balance');
         $this->l_asset->add('js/user/change_password.js','js');
         $customer_email_id      =   $this->session->userdata('customer_email_id'); 
@@ -147,7 +147,7 @@ class User extends MY_Controller {
         }
         else
         { 
-            $this->data['content'] = $this->load->view('user/v_change_password',[],true);
+            $this->data['content'] .= $this->load->view('user/v_change_password',[],true);
             view($this->data);
         }
     }

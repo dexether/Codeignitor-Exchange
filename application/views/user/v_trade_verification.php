@@ -17,7 +17,6 @@ if($this->session->flashdata('errors')){
 <div class="cls_main_top">
 	<div class="cls_mid_con cls_comm_bg">
 		<div class="container">
-			<?php $this->load->view('user/v_balance'); ?> 
 
 			<div class="row">
 
