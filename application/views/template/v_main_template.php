@@ -99,7 +99,7 @@ if(isset($content)) echo $content;
 
  <?php if(isset($login)) echo $login; ?>
  <?php if(isset($register)) echo $register; ?>
-
+<script type="text/javascript">var base_url = '<?php echo base_url(); ?>'; </script>
 <script src="<?php echo base_url(); ?>js/jquery.min.js"></script> 
 <script src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>
 <script src="<?php echo base_url(); ?>js/anystock.min.js"></script>
