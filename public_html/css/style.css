@@ -276,6 +276,78 @@ label {
 	font-family: poppins-regular;
 	font-size: 14px;
 }
+.cls_buy_coin {
+	background:#fff;
+}
+.cls_buy_coin h4 {
+	font-size:16px;
+	color:#fff;
+	padding:10px;
+	background:#65808e;
+	margin:0;
+	border-top-right-radius:5px;
+	border-top-left-radius:5px;
+}
+.cls_buy_coin_inn {
+	border:solid 1px #c8c8c8;
+	padding:15px 20px 20px;
+	border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+	box-shadow:0px 1px 0px #ccc;
+}
+.limit_order {
+	position:relative;
+}
+.limit_order:after {
+	background: #ffffff none repeat scroll 0 0;
+	color: #323232;
+	content: "\f107 ";
+	font-family: "FontAwesome";
+	font-size: 20px;
+	height: 29px;
+	left: auto;
+	line-height: 25px;
+	padding: 0 6px;
+	pointer-events: none;
+	position: absolute;
+	right: 6px;
+	top: 6px;
+	width: 23px;
+	z-index: 1;
+}
+.limit_order select {
+	-moz-appearance: none;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #c8c8c8;
+	border-radius: 5px;
+	box-shadow: none;
+	color: #323232;
+	font-size: 14px;
+	height: 36px;
+	padding-left: 8px;
+	position: relative;
+	width: 100%;
+}
+.limit_order select:focus {
+	outline: none;
+}
+.limit_order select option {
+	padding:7px;
+	color: #323232;
+}
+.cls_as.form-control::-moz-placeholder {
+        color:#c8c8c8;
+}
+.cls_input_bal {
+	background:#fafafa;
+	border:solid 1px #c8c8c8;
+}
+.chart_EUR, .chart_NLG, .chart_GTS {
+    top: 0;
+    position: static;
+    margin-bottom: 0;
+}
 #container_chart{ height:100%; width:100%;}
 
 .cls_balce_box {

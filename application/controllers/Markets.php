@@ -29,11 +29,10 @@ class Markets extends MY_Controller{
             $data['currency_bid'] = $a[0];
             $data['currency_sell'] = $a[1];
             
-            $this->data['content'] = $market;
-            //$this->data['content'] .= $this->load->view('charts/v_chart_nlg', $data, true);
+            $this->data['content'] = $this->load->view('charts/v_chart_nlg', $data, true);
             
             //test data!
-            //$this->l_asset->add('//cdn.anychart.com/csv-data/csco-daily.js', 'js');
+            $this->l_asset->add('//cdn.anychart.com/csv-data/csco-daily.js', 'js');
 
             $this->data['content'] .= $this->load->view('blocks/v_bid_ask', $data, true);
 

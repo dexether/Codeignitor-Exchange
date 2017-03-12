@@ -153,14 +153,18 @@ public function add_user()
 //			$companyname	=	$row->company_name;	
 //			$siteurl		=	$row->siteurl;				
 //		}
-   /*	GET EMAIL TEMPLATE	START	*/
-   $this->db->where('id',17);  	
-   $dis_get_email_info = $this->db->get('email_templates')->row();
+
+		/*	GET EMAIL TEMPLATE	START	*/
+                 
+		//$this->db->where('id',17);
+		//$dis_get_email_info = $this->db->get('email_templates')->row();
+                $dis_get_email_info = 
 		//$email_from1	=	$dis_get_email_info->from_id;
-   $email_subject1	=	$dis_get_email_info->subject;
-   $email_content1	=	$dis_get_email_info->message; 
-   $link =base_url().'user/user_verification/'.$verifydata['verifier']; 
-   $a	=	array('##USERNAME##'=>$this->input->post('firstname', true),'##USERID##'=>base64_encode($last_userinsid),'##CLIENTID##'=>$email,'##PASSWORD##'=>$this->input->post('password1'),'##FROM_EMAIL##'=>'exchange@guldentrader.com','##COMPANYNAME##'=>'exchange.guldentrader.com','##EMAIL##'=>$email,'##SITEURL##'=>base_url(),'##ADMIN_EMAIL##'=>'exchange@guldentrader.com','##LINK##'=>$link);
+		$email_subject1	=	'Please confirm your registration';
+		$email_content1	=	$this->load->view('template/emails/v_registration_success',null,true); 
+		$link =base_url().'user/user_verification/'.$verifydata['verifier']; 
+		$a	=	array('##USERNAME##'=>$this->input->post('firstname', true),'##USERID##'=>base64_encode($last_userinsid),'##CLIENTID##'=>$email,'##PASSWORD##'=>$this->input->post('password1'),'##FROM_EMAIL##'=>'exchange@guldentrader.com','##COMPANYNAME##'=>'exchange.guldentrader.com','##EMAIL##'=>$email,'##SITEURL##'=>base_url(),'##ADMIN_EMAIL##'=>'exchange@guldentrader.com','##LINK##'=>$link);
+
 		//$email_from	=	strtr($email_from1,$a);	
    $email_content	=	strtr($email_content1,$a);
    /*	GET EMAIL TEMPLATE	END	*/ 
