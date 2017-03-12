@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class User_verification_model extends CI_Model {
+class Mdl_User_verification extends CI_Model {
 
 	public $table = 'user_verification';
 

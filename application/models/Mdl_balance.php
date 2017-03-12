@@ -7,22 +7,23 @@ class Mdl_balance extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		
 	}
 
-	public function fetch_user_balance_by_id($id, $currency)
+	function fetch_user_balance_by_id($id,$currency)
 	{ 
-            echo 'id:', $id;
-		$this->db->where('user_id',$id);  
+		$this->db->where('userId',$id);  
 		$query=$this->db->get('balance'); 
-                
 		if($query->num_rows() >= 1)
 		{     	
 			$row = $query->row();
-			
-                        return isset($row->$$currency)?$row->$$currency : false;
-                }
-                else return false;
-        }
+			return isset($row->$$currency)?$row->$$currency:false;
+	}   
+	else
+	{      
+		return false;		
+	}
+}
 
 function currency_balance()
 {

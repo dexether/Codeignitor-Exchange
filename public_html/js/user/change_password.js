@@ -12,7 +12,7 @@ $(document).ready(function() {
 		$.ajax({
 			type:'POST',
 			data:data,
-			url: base_url+'gulden/change_pass',
+			url: base_url+'user/change_pass',
 			success:function(output) {
 				var output = output.trim(); 
 				$("#password_success").show();

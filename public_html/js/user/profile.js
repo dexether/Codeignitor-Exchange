@@ -20,13 +20,12 @@ $(document).ready(function() {
     $.ajax({
       type:'POST',
       data:data,
-      url: base_url+'gulden/profile_update',
+      url: base_url+'user/profile_update',
       success:function(output) {
         $("#personal_success").show();
         $("#personal_success").html(output);
-                            //$("#email").val("");
-                          }
-                        });
+      }
+    });
   }
 
 });
