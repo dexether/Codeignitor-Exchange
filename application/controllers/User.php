@@ -48,7 +48,7 @@ class User extends MY_Controller {
 
     public function user_verification($verifier=null)
     {
-        $this->load->model('balance_model', 'balance');
+        $this->load->model('mdl_balance', 'balance');
         $data = array();
         if(!is_null($verifier))
         {
@@ -69,17 +69,19 @@ class User extends MY_Controller {
 
         $this->l_asset->add('js/user/profile.js', 'js');
         
-        $this->load->model('gulden_model', 'gulden_model');
-        $this->load->model('balance_model', 'balance');
-        $data['country_detail'] =   $this->gulden_model->fetchcountry();    
-        $this->data['content'] = $this->load->view('user/v_profile',$data,true);
+        $this->load->model('mdl_user');
+        $this->load->model('mdl_balance', 'balance');
+        $this->load->model('mdl_country');
+        $vars['country_detail'] =   $this->mdl_country->get_all(); 
+        $vars['profile'] = $this->mdl_user->profile_details();   
+        $this->data['content'] = $this->load->view('user/v_profile',$vars,true);
 
         view($this->data);
     }
     
     function bank_info()
     {
-        $this->load->model('balance_model', 'balance');
+        $this->load->model('mdl_balance', 'balance');
 
         $customer_email_id      =   $this->session->userdata('customer_email_id'); 
         $customer_user_id       =   $this->session->user_id; 
@@ -90,17 +92,17 @@ class User extends MY_Controller {
         else
         {
             $this->l_asset->add('js/user/'.__FUNCTION__.'.js','js');
-            $this->load->model('gulden_model');
-            $vars['bank'] = $this->gulden_model->acccount_details();  
+            $this->load->model('mdl_user_bank_details');
+            $vars['bank'] = $this->mdl_user_bank_details->acccount_details();  
             $this->data['content'] = $this->load->view('user/v_bank_info',$vars,true);
             view($this->data);
         }
     }
 
-    function bankdetails_update()
+    function bank_details_update()
     {
-        $this->load->model('gulden_model');
-        $this->load->model('balance_model', 'balance');
+        $this->load->model('mdl_user_bank_details');
+        $this->load->model('mdl_balance', 'balance');
         $customer_email_id= $this->session->userdata('customer_email_id'); 
         $id=$this->session->user_id;
         $data= [
@@ -110,14 +112,13 @@ class User extends MY_Controller {
         'verification_code' => $this->input->post('verification_code'),
         'routing_number' => $this->input->post('routing_number')
         ];
-        $this->gulden_model->bankdetailsupdate($data,$id);
+        $this->mdl_user_bank_details->bank_details_update($data,$id);
     }
 
     function change_password()
     {
         $this->load->database();
-        $this->load->model('gulden_model');
-        $this->load->model('balance_model', 'balance');
+        $this->load->model('mdl_balance', 'balance');
         $this->l_asset->add('js/user/change_password.js','js');
         $customer_email_id      =   $this->session->userdata('customer_email_id'); 
         $customer_user_id       =   $this->session->user_id; 
@@ -143,9 +144,8 @@ class User extends MY_Controller {
         }
         else
         {
-            $this->load->model('gulden_model');
-            $this->load->model('User_verification_model','user_verification');
-            $this->load->model('balance_model', 'balance');
+            $this->load->model('mdl_user_verification','user_verification');
+            $this->load->model('mdl_balance', 'balance');
 
             if(isset($_POST['submit'])){
 
@@ -161,7 +161,7 @@ class User extends MY_Controller {
                  $this->user_verification->upload('backcard');
              }
 
-             redirect('gulden/trade_verification','refresh');
+             redirect('user/trade_verification','refresh');
          }
 
          $vars['bank'] = $this->user_verification->get($customer_user_id);
@@ -177,4 +177,12 @@ class User extends MY_Controller {
     $this->session->sess_destroy();
     redirect('/');
 }
+
+    function profile_update()
+    {
+        $this->load->model('mdl_user');
+        $id=$this->session->user_id;
+        $data=array('username'=>$this->input->post('username'),'firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'),'identity_no'=>$this->input->post('id_no'),'cellno'=>$this->input->post('cellno'),'alt_cellno'=>$this->input->post('alt_cellno'),'street1'=>$this->input->post('street1'),'street2'=>$this->input->post('street2'),'city'=>$this->input->post('city'),'state1'=>$this->input->post('state'),'country1'=>$this->input->post('country'),'zipcode'=>$this->input->post('code'),'postal_line1'=>$this->input->post('line1'),'postal_line2'=>$this->input->post('line2'),'postal_city'=>$this->input->post('postal_city'),'postal_state'=>$this->input->post('postal_state'),'postal_country'=>$this->input->post('postal_country'),'postal_code'=>$this->input->post('postal_code'));
+        $this->mdl_user->profile_update($data,$id); 
+    }
 }

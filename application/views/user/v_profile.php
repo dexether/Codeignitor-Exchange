@@ -9,12 +9,8 @@
     <div class="container">
       <?php $this->load->view('user/v_balance'); ?> 
       <div class="row">
-
         <?php $this->load->view('user/v_aboutsidebar'); ?>
-        <?php $profile = $this->gulden_model->profile_details(); ?>
-
         <div class="col-md-9 col-sm-8">
-
           <div class="cls_comm_head"> My Profile</div>
           <div class="cls_pro_sec">
             <h3>Personal Information</h3>

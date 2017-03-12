@@ -14,7 +14,7 @@ $(document).ready(function() {
     $.ajax({
       type:'POST',
       data:data,
-      url: base_url + 'gulden/bankdetails_update',
+      url: base_url + 'user/bank_details_update',
       success:function(output) {
         $("#bandetails_success").show();
         $("#bandetails_success").html(output);
