@@ -100,6 +100,7 @@ class User extends MY_Controller {
         {
             redirect('/');
         }
+        
         $this->data['content'] = $this->get_balance();
 
         $customer_email_id      =   $this->session->userdata('customer_email_id'); 
@@ -168,40 +169,135 @@ class User extends MY_Controller {
 
             if(isset($_POST['submit'])){
 
-             if($_FILES['passport']['name']){
-                 $this->user_verification->upload('passport');
-             }
+               if($_FILES['passport']['name']){
+                   $this->user_verification->upload('passport');
+               }
 
-             if($_FILES['selfie']['name']){
-                 $this->user_verification->upload('selfie');
-             }
+               if($_FILES['selfie']['name']){
+                   $this->user_verification->upload('selfie');
+               }
 
-             if($_FILES['backcard']['name']){
-                 $this->user_verification->upload('backcard');
-             }
+               if($_FILES['backcard']['name']){
+                   $this->user_verification->upload('backcard');
+               }
 
-             redirect('user/trade_verification','refresh');
-         }
+               redirect('user/trade_verification','refresh');
+           }
 
-         $vars['bank'] = $this->user_verification->get($customer_user_id);
+           $vars['bank'] = $this->user_verification->get($customer_user_id);
 
-         $this->data['content'] = $this->load->view('user/v_'.__FUNCTION__.'.php',$vars,true);
-         view($this->data);
-     }
- }
+           $this->data['content'] = $this->load->view('user/v_'.__FUNCTION__.'.php',$vars,true);
+           view($this->data);
+       }
+   }
 
 
- public function logout()
- {
+   public function logout()
+   {
     $this->session->sess_destroy();
     redirect('/');
 }
 
-    function profile_update()
-    {
-        $this->load->model('mdl_user');
-        $id=$this->session->user_id;
-        $data=array('username'=>$this->input->post('username'),'firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'),'identity_no'=>$this->input->post('id_no'),'cellno'=>$this->input->post('cellno'),'alt_cellno'=>$this->input->post('alt_cellno'),'street1'=>$this->input->post('street1'),'street2'=>$this->input->post('street2'),'city'=>$this->input->post('city'),'state1'=>$this->input->post('state'),'country1'=>$this->input->post('country'),'zipcode'=>$this->input->post('code'),'postal_line1'=>$this->input->post('line1'),'postal_line2'=>$this->input->post('line2'),'postal_city'=>$this->input->post('postal_city'),'postal_state'=>$this->input->post('postal_state'),'postal_country'=>$this->input->post('postal_country'),'postal_code'=>$this->input->post('postal_code'));
-        $this->mdl_user->profile_update($data,$id); 
+function profile_update()
+{
+    $this->load->model('mdl_user');
+    $id=$this->session->user_id;
+    $data=array('username'=>$this->input->post('username'),'firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'),'identity_no'=>$this->input->post('id_no'),'cellno'=>$this->input->post('cellno'),'alt_cellno'=>$this->input->post('alt_cellno'),'street1'=>$this->input->post('street1'),'street2'=>$this->input->post('street2'),'city'=>$this->input->post('city'),'state1'=>$this->input->post('state'),'country1'=>$this->input->post('country'),'zipcode'=>$this->input->post('code'),'postal_line1'=>$this->input->post('line1'),'postal_line2'=>$this->input->post('line2'),'postal_city'=>$this->input->post('postal_city'),'postal_state'=>$this->input->post('postal_state'),'postal_country'=>$this->input->post('postal_country'),'postal_code'=>$this->input->post('postal_code'));
+    $this->mdl_user->profile_update($data,$id); 
+}
+
+function two_factor()
+{
+    $this->load->model('gulden_model');
+    $this->load->model('mdl_user','user');
+    $this->load->model('mdl_balance','balance');
+    $this->l_asset->add('js/user/two_factor.js','js');
+    $customer_email_id = $this->session->userdata('customer_email_id'); 
+    $customer_user_id = $this->session->userdata('user_id'); 
+    if(($customer_email_id=="") && ($customer_user_id=="") )
+    {   
+        redirect('/','refresh');      
     }
+    else
+    { 
+       $user_result = $this->gulden_model->user_check_tfa();
+       $user_secret = $this->gulden_model->get_secret($customer_user_id);
+       if($user_result=="enable" || $user_secret!="")
+       {
+        $secret_code = $this->gulden_model->get_secret($customer_user_id); 
+        $data['secret_code'] = $secret_code;
+        require_once APPPATH.'libraries/google/GoogleAuthenticator.php';
+        $ga = new PHPGangsta_GoogleAuthenticator();
+        $data['url'] = $ga->getQRCodeGoogleUrl('gulden', $secret_code);
+    }else{
+       
+       $result =   $this->gulden_model->get_tfacode(); 
+       if($result)
+       {
+        $data['secret_code']    =   $result['secret'];
+        $data['onecode']        =   $result['oneCode'];
+        $data['url']            =   $result['qrCodeUrl'];
+    }else{
+        $data['secret_code']    =   "";
+        $data['onecode']        =   "";
+        $data['url']            =   "";
+    }
+}
+
+$this->data['content']  = $this->get_balance();
+$this->data['content'] .= $this->load->view('user/v_two_factor', $data, TRUE);
+view($this->data);
+}
+}
+
+function two_factor_authendication()
+{
+    require_once 'GoogleAuthenticator.php';
+    $ga = new PHPGangsta_GoogleAuthenticator();
+    $customer_email_id      =   $this->session->userdata('customer_email_id'); 
+    $customer_user_id       =   $this->session->userdata('customer_user_id'); 
+    $customer_client_id     =   $this->session->userdata('customer_client_id'); 
+    if(($customer_email_id=="") && ($customer_user_id=="") )
+    { 
+        redirect('','refresh');      
+    }
+    else
+    {
+        $user_result = $this->gulden_model->user_check_tfa();
+        $user_secret = $this->gulden_model->get_secret($customer_client_id);
+        if($user_result=="enable" || $user_secret!="")
+        {
+            $secret_code = $this->gulden_model->get_secret($customer_client_id); 
+            $data['secret_code'] = $secret_code;
+            $data['url'] = $ga->getQRCodeGoogleUrl('gulden', $secret_code);
+        }
+        else
+        {
+         $result                =   $this->gulden_model->get_tfacode();
+         if($result)
+         {
+            $data['secret_code']    =   $result['secret'];
+            $data['onecode']        =   $result['oneCode'];
+            $data['url']            =   $result['qrCodeUrl'];
+        }
+        else
+        {
+            $data['secret_code']    =   "";
+            $data['onecode']        =   "";
+            $data['url']            =   "";
+        }
+    }
+    $this->load->view('front/tfa',$data);
+}
+}
+
+function enable_tfa()
+{
+    echo $result = $this->gulden_model->enable_tfa();
+}
+function disable_tfa()
+{
+    echo $result = $this->gulden_model->disable_tfa();
+}
+
 }
