@@ -7864,34 +7864,7 @@ function check_logindetails1()
 			return "invalid";
 	}
 }
-function get_userstatus($user_id)
-{
-	$this->db->where('id',$user_id);  
-	$query=$this->db->get('users'); 
-	if($query->num_rows() == 1)
-	{                
-		$row = $query->row();			 
-		return $row->randcode;
-	}   
-	else
-	{      
-		return false;		
-	}
-}
-function get_username($user_id)
-{
-	$this->db->where('user_id',$user_id);
-	$query = $this->db->get('userdetails');
-	if($query->num_rows())
-	{
-		$row = $query->row();
-		return $row->username;
-	}
-	else
-	{
-		return false;
-	}
-}
+
 function get_tfacode()
 {
 	require_once APPPATH.'libraries/google/GoogleAuthenticator.php';
