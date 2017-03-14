@@ -8,7 +8,7 @@ $customer_user_id = $this->session->user_id;
 $profile = $this->user->profile_details(); ?>
 <?php
 if($this->session->flashdata('success')){
-  echo '<div class="alert alert-info">'.$this->session->flashdata('success').'</div>';
+   echo '<div class="alert alert-info">'.$this->session->flashdata('success').'</div>';
 }
 ?>
 <div class="cls_main_top">
@@ -18,7 +18,7 @@ if($this->session->flashdata('success')){
         <?php $this->load->view('user/v_aboutsidebar'); ?>
         <div class="col-md-9 col-sm-8">
           <div class="cls_comm_head"> 2 Factor Authentification </div>
-          <?php $user_details = $this->gulden_model->get_userstatus($this->session->user_id); 
+          <?php  
           if($user_details=="disable" || $user_details==""){ ?>
           <div class="cls_facr_box">
             <h4>Enter your secret code into the Google Authenticator App on your phone or tablet.</h4>
@@ -47,20 +47,18 @@ if($this->session->flashdata('success')){
          </form>
        </div>
        <?php } ?>
-       <?php $user_details = $this->gulden_model->get_userstatus($customer_user_id);
-       if($user_details=="enable"){
-         ?>
-         <div class="cls_facr_box">
-           <p><strong>Your TFA code Activated</strong> if you deactivate please Click the below button...</p>
-           <div align="center"> <a href="#"><p><img src="<?php echo $url; ?>" alt=""></p></a></div>
-           <button type="button" class="cls_dow_btn"  onclick="tfa()" id="active_tfa" name="active_tfa" onclick="show_tfa()"> DEACTIVATE TFA </button>
-         </div>
-         <?php } ?>
-         <span id="tfa_error" class="alert alert-info" style="display:none;float: left; margin: -51px 0 0;"></span>
+       <?php if($user_details=="enable"){ ?>
+       <div class="cls_facr_box">
+         <p><strong>Your TFA code Activated</strong> if you deactivate please Click the below button...</p>
+         <div align="center"> <a href="#"><p><img src="<?php echo $url; ?>" alt=""></p></a></div>
+         <button type="button" class="cls_dow_btn"  onclick="tfa()" id="active_tfa" name="active_tfa" onclick="show_tfa()"> DEACTIVATE TFA </button>
        </div>
-     </div> 
+       <?php } ?>
+       <span id="tfa_error" class="alert alert-info" style="display:none;float: left; margin: -51px 0 0;"></span>
+     </div>
    </div> 
-   <br>
-   <br>
- </div>
+ </div> 
+ <br>
+ <br>
+</div>
 </div>
