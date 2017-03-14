@@ -208,7 +208,6 @@ function profile_update()
 
 function two_factor()
 {
-    //$this->load->model('gulden_model');
     $this->load->model('mdl_user','user');
     $this->load->model('mdl_balance','balance');
     $this->l_asset->add('js/user/two_factor.js','js');
