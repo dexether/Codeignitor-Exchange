@@ -208,30 +208,29 @@ function profile_update()
 
 function two_factor()
 {
-    $this->load->model('gulden_model');
     $this->load->model('mdl_user','user');
     $this->load->model('mdl_balance','balance');
     $this->l_asset->add('js/user/two_factor.js','js');
     $customer_email_id = $this->session->userdata('customer_email_id'); 
-    $customer_user_id = $this->session->userdata('user_id'); 
+    $customer_user_id = $this->session->user_id; 
     if(($customer_email_id=="") && ($customer_user_id=="") )
     {   
         redirect('/','refresh');      
     }
     else
     { 
-       $user_result = $this->gulden_model->user_check_tfa();
-       $user_secret = $this->gulden_model->get_secret($customer_user_id);
+       $user_result = $this->user->user_check_tfa();
+       $user_secret = $this->user->get_secret($customer_user_id);
        if($user_result=="enable" || $user_secret!="")
        {
-        $secret_code = $this->gulden_model->get_secret($customer_user_id); 
+        $secret_code = $this->user->get_secret($customer_user_id); 
         $data['secret_code'] = $secret_code;
         require_once APPPATH.'libraries/google/GoogleAuthenticator.php';
         $ga = new PHPGangsta_GoogleAuthenticator();
         $data['url'] = $ga->getQRCodeGoogleUrl('gulden', $secret_code);
     }else{
-       
-       $result =   $this->gulden_model->get_tfacode(); 
+
+       $result =   $this->user->get_tfacode(); 
        if($result)
        {
         $data['secret_code']    =   $result['secret'];
@@ -244,60 +243,23 @@ function two_factor()
     }
 }
 
-$this->data['content']  = $this->get_balance();
-$this->data['content'] .= $this->load->view('user/v_two_factor', $data, TRUE);
+$data['user_details'] = $this->user->get_userstatus($this->session->user_id);
+$this->data['content']  = $this->get_balance(); // load view
+$this->data['content'] .= $this->load->view('user/v_two_factor', $data, TRUE); // append view
 view($this->data);
-}
-}
-
-function two_factor_authendication()
-{
-    require_once 'GoogleAuthenticator.php';
-    $ga = new PHPGangsta_GoogleAuthenticator();
-    $customer_email_id      =   $this->session->userdata('customer_email_id'); 
-    $customer_user_id       =   $this->session->userdata('customer_user_id'); 
-    $customer_client_id     =   $this->session->userdata('customer_client_id'); 
-    if(($customer_email_id=="") && ($customer_user_id=="") )
-    { 
-        redirect('','refresh');      
-    }
-    else
-    {
-        $user_result = $this->gulden_model->user_check_tfa();
-        $user_secret = $this->gulden_model->get_secret($customer_client_id);
-        if($user_result=="enable" || $user_secret!="")
-        {
-            $secret_code = $this->gulden_model->get_secret($customer_client_id); 
-            $data['secret_code'] = $secret_code;
-            $data['url'] = $ga->getQRCodeGoogleUrl('gulden', $secret_code);
-        }
-        else
-        {
-         $result                =   $this->gulden_model->get_tfacode();
-         if($result)
-         {
-            $data['secret_code']    =   $result['secret'];
-            $data['onecode']        =   $result['oneCode'];
-            $data['url']            =   $result['qrCodeUrl'];
-        }
-        else
-        {
-            $data['secret_code']    =   "";
-            $data['onecode']        =   "";
-            $data['url']            =   "";
-        }
-    }
-    $this->load->view('front/tfa',$data);
 }
 }
 
 function enable_tfa()
 {
-    echo $result = $this->gulden_model->enable_tfa();
+    $this->load->model('mdl_user');
+    echo $result = $this->mdl_user->enable_tfa();
 }
+
 function disable_tfa()
 {
-    echo $result = $this->gulden_model->disable_tfa();
+    $this->load->model('mdl_user');
+    echo $result = $this->mdl_user->disable_tfa();
 }
 
 }
