@@ -48,7 +48,8 @@ class Mdl_user extends CI_Model
                   'user_id'  => $row->id,
                   'firstname' => $row->firstname,
                   'tfa' =>$row->randcode,
-                  'status'=>$row->status
+                  'status'=>$row->status,
+                  'role' => $row->role
                   );
 
                 $this->session->set_userdata($sessiondata); 
