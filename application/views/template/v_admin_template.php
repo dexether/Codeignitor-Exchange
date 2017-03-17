@@ -61,7 +61,7 @@
 						<!-- User Account: style can be found in dropdown.less -->
 						<li class="dropdown user user-menu">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="fa fa-user-circle fa-2x"></i>
+								<img src="<?php echo site_url('images/user_icon.png') ?>" class="user-image" alt="User Image">
 								<span class="hidden-xs">Admin</span>
 							</a>
 							<ul class="dropdown-menu">
