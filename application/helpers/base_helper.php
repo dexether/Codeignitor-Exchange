@@ -8,7 +8,7 @@ function base_vars()
     $data['meta_keywords'] = null;
     $data['head_js'] = null;
     $data['head_css'] = null;
-    $data['menu'] = null;;
+    $data['menu'] = null;
     $data['content'] = null;
     $data['user_id'] = $CI->session->userdata('id');
     $data['title'] = 'Roulette';
@@ -19,39 +19,36 @@ function base_vars()
 function view($data=array(), $template='main', $return = false)
 {
     $CI = get_instance();
-   
+
     if (defined('ENVIRONMENT'))
     {
         switch (ENVIRONMENT)
         {
             case 'development':
-                $data['head_css'] .= $CI->l_asset->get_css('css');
-                $data['head_js'] .= $CI->l_asset->get_js('js');
-//                $data['head_css'] .= $CI->l_asset->get_min('css');
-//                $data['head_js'] .= $CI->l_asset->get_min('js');
-                
-                break;
+            $data['head_css'] .= $CI->l_asset->get_css('css');
+            $data['head_js'] .= $CI->l_asset->get_js('js');
+            break;
 
             case 'testing':
-                $data['head_css'] .= $CI->l_asset->get_css('css');
-                $data['head_js'] .= $CI->l_asset->get_js('js');
-                break;
+            $data['head_css'] .= $CI->l_asset->get_css('css');
+            $data['head_js'] .= $CI->l_asset->get_js('js');
+            break;
 
             case 'production':
-                $data['head_css'] .= $CI->l_asset->get_min('css');
-                $data['head_js'] .= $CI->l_asset->get_min('js');
+            $data['head_css'] .= $CI->l_asset->get_min('css');
+            $data['head_js'] .= $CI->l_asset->get_min('js');
                 //$data['head_js'] .= $CI->l_asset->get_js('js');
-                break;
+            break;
 
             default:
-                echo 'no nothing';
+            echo 'no nothing';
         }
     }
     else { 
         $data['head_css'] .= $CI->l_asset->get_css('css');
         $data['head_js'] .= $CI->l_asset->get_js('js');
     }
- 
+
     if($return === true) return $CI->load->view('template/v_'.$template.'_template',$data, $return);
     else $CI->load->view('template/v_'.$template.'_template',$data);
 }
@@ -87,17 +84,17 @@ function random_string($length = 8,  $specials=true, $numbers=true, $lower_case=
     while (++$i < $length)
     {
             // pick a random character from the possible ones
-            $random = mt_rand(0, $amount);
-            if(!$double)
-            {
+        $random = mt_rand(0, $amount);
+        if(!$double)
+        {
                     //make sure a character does not exist twice
-                    while(array_key_exists($random,$temp_array))
-                    {
-                            $random = mt_rand(0, $amount);
-                    }
+            while(array_key_exists($random,$temp_array))
+            {
+                $random = mt_rand(0, $amount);
             }
+        }
 
-            $temp_array[$random] = $possible[$random];
+        $temp_array[$random] = $possible[$random];
     }
 
     $password = implode('',$temp_array);
@@ -109,8 +106,26 @@ function random_string($length = 8,  $specials=true, $numbers=true, $lower_case=
 
 function hexrgb ($hexstr)
 {
-        $int = hexdec($hexstr);
-        return array("red" => 0xFF & ($int >> 0x10),
-                "green" => 0xFF & ($int >> 0x8),
-                "blue" => 0xFF & $int);
+    $int = hexdec($hexstr);
+    return array("red" => 0xFF & ($int >> 0x10),
+        "green" => 0xFF & ($int >> 0x8),
+        "blue" => 0xFF & $int);
+}
+
+function auth(Array $roles = []){
+    $CI =& get_instance();
+
+    if(!$CI->session->user_id > 0)
+    {
+        redirect('/');
+    }
+
+    if(is_array($roles) && count($roles) > 0){
+        if(! in_array($CI->session->userdata('role'), $roles)){
+            redirect('/');
+        }
+    }
+
+    return '1';
+    
 }

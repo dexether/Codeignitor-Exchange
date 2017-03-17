@@ -6,13 +6,11 @@ class Admin extends MY_Controller
     {
         parent::__construct();
 
-        //require_once APPPATH.'/third_party/rpc/jsonRPCClient.php';
-        // $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");
-        // $this->output->set_header("Pragma: no-cache");
-        //$this->load->helper('ckeditor');
+        $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");
+        $this->output->set_header("Pragma: no-cache");
         $this->load->model('admin_model');
-        //get generall data from model
-        $data = $this->admin_model->generall();
+        $this->load->model('mdl_user');
+
     }
 
     function check_default($post_string)
@@ -22,6 +20,7 @@ class Admin extends MY_Controller
 
     function index()
     {
+    	auth(['admin','superadmin']);
 
         $data['admin_logged'] = $this->session->userdata('loggeduser');
         $sessionvar = $this->session->userdata('loggeduser');

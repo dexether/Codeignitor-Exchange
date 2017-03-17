@@ -27,7 +27,7 @@ class Mdl_user extends CI_Model
     
     function check_login()
     {
-     $res_loguser = $this->db->query("SELECT id, firstname, randcode, status, password FROM `users` where email=?", array($this->input->post('email',true)));
+     $res_loguser = $this->db->query("SELECT id, firstname,role, randcode, status, password FROM `users` where email=?", array($this->input->post('email',true)));
      if($res_loguser->num_rows()==1) 
      { 
         $row = $res_loguser->row();
