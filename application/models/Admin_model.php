@@ -360,7 +360,7 @@ function updatesend_settings($id)
 function getuser_details()
 {
 	$this->db->order_by('dateofreg','desc');		
-	$query = $this->db->get('userdetails');		
+	$query = $this->db->get('users');		
 	if($query->num_rows() >= 1)
 	{           
 	    return $query->result();			
@@ -1731,7 +1731,7 @@ function getuserdetailsbyemail($emailid)
 function userscount()
 {
 	$this->db->where('status','active');        
-	$query = $this->db->get('userdetails');
+	$query = $this->db->get('users');
 	if($query->num_rows() >= 1)
 	{
 		$cnt = $query->num_rows();			
@@ -1748,7 +1748,7 @@ function newuserscount()
 	$curdate = date("Y-m-d");
 	$this->db->where('activated_date',$curdate);        
 	$this->db->where('status','active');        
-	$query = $this->db->get('userdetails');
+	$query = $this->db->get('users');
 	if($query->num_rows() >= 1)
 	{
 		$cnt = $query->num_rows();			
