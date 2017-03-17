@@ -129,3 +129,13 @@ function auth(Array $roles = []){
     return '1';
     
 }
+
+function is_admin(){
+    $CI =& get_instance();
+    $admin_roles = ['admin','superadmin'];
+    if(in_array($CI->session->userdata('role'), $admin_roles)){
+        return true;
+    }else{
+        return false;
+    }
+}
