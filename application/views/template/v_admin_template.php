@@ -96,7 +96,8 @@
 					<!-- Sidebar user panel -->
 					<div class="user-panel">
 						<div class="pull-left image">
-							<i class="fa fa-user img-circle fa-2x" style="color: white"></i>
+							<img src="<?php echo base_url('adminLTE') ?>/dist/img/user2-160x160.jpg" class="img-circle"
+							alt="User Image">
 						</div>
 						<div class="pull-left info">
 							<p>Admin</p>
@@ -149,7 +150,7 @@
 				<div class="pull-right hidden-xs">
 					<b>Version</b> 2.3.8
 				</div>
-				<strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+				<strong>Copyright &copy; <?php echo date('Y'); ?> <a href="<?php echo base_url() ?>">Gulden Trader</a>.</strong> All rights
 				reserved.
 			</footer>
 
