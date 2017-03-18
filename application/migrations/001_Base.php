@@ -55,7 +55,7 @@ class Migration_Base extends CI_Migration {
 		$fields['secret'] = ['type' => 'VARCHAR','constraint' => 200];
 		$fields['onecode'] = ['type' => 'VARCHAR','constraint' => 200];
 		$fields['url'] = ['type' => 'VARCHAR','constraint' => 200];
-		$fields['verfiyStatus'] = ['type' => 'VARCHAR','constraint' => 90];
+		$fields['verfiyStatus'] = ['type' => 'ENUM("verified","unverified")','NULL' => false,'default' => 'unverified'];
 		$fields['user_wallet'] = ['type' => 'VARCHAR','constraint' => 255];
 		$fields['salt'] = ['type' => 'VARCHAR','constraint' => 255];
 		$fields['destination_tag'] = ['type' => 'VARCHAR','constraint' => 150];
