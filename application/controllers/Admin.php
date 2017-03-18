@@ -35,6 +35,8 @@ class Admin extends MY_Controller
 		$crud->set_table('users');
 		$crud->set_subject('Manage Users');
 		$crud->columns('id','email','username');
+		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg');
+		$crud->change_field_type('password', 'password');
 		$output = $crud->render();
 	    $this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');	
