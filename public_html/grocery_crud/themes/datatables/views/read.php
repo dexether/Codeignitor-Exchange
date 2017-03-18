@@ -37,8 +37,6 @@
 		<!-- End of hidden inputs -->
 		<?php }?>
 		<?php if ($is_ajax) { ?><input type="hidden" name="is_ajax" value="true" /><?php }?>
-		<div id='report-error' class='report-div error alert alert-danger' role="alert"></div>
-		<div id='report-success' class='report-div success alert alert-success'></div>
 	</div>
 
 	<div class="box-footer">
@@ -46,7 +44,6 @@
 			<div class="col-sm-8 col-sm-offset-2">
 				<p>
 					<button type="button" id="cancel-button" class="btn btn-default btn-flat back-to-list"><?php echo $this->l('form_back_to_list'); ?></button>
-					<span class='small-loading' id='FormLoading'><?php echo $this->l('form_update_loading'); ?></span>
 				</p>
 			</div>
 		</div>
