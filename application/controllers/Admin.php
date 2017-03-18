@@ -35,8 +35,11 @@ class Admin extends MY_Controller
 		$crud->set_table('users');
 		$crud->set_subject('Manage Users');
 		$crud->columns('id','email','username','verfiyStatus','trade_verification','role');
-		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg');
+		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg','password');
 		
+		$crud->set_field_upload('profilepicture','uploads');
+		
+
 		// types
 		$crud->change_field_type('password', 'password');
 
