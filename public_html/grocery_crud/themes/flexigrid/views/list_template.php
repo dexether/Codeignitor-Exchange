@@ -95,7 +95,6 @@ if($success_message !== null){?>
 		<div class='clear'></div>
 	</div>
 	<?php }?>
-
 	<div id='ajax_list' class="ajax_list">
 		<?php echo $list_view?>
 	</div>
