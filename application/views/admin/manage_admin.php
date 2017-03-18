@@ -75,25 +75,25 @@
 									$i=0;
 									foreach($result as $row)
 									{
-										$id 						= $row->user_id;
+										$id = $row->id;
 										$status = $row->status;
-										$verifiedstatus 			= $this->admin_model->getuserverificationrow($id);
+										//$verifiedstatus	= $this->admin_model->getuserverificationrow($id);
 
-										$country	 				= $row->country;
-										$countryname = $this->admin_model->fetchparticularcountry($country);
-										$user_verificationstatus 	= $verifiedstatus->user_verificationstatus;
-										if($user_verificationstatus==1) { $user_verificationstatus = "Approved"; }
-										else if($user_verificationstatus==2) { $user_verificationstatus = "Awaiting"; }
-										else if($user_verificationstatus==3) { $user_verificationstatus = "Rejected"; }
-										else { $user_verificationstatus = "Not Uploading"; }
+										$country = $row->country;
+										//$countryname = $this->admin_model->fetchparticularcountry($country);
+										//$user_verificationstatus = $verifiedstatus->user_verificationstatus;
+										// if($user_verificationstatus == 1) { $user_verificationstatus = "Approved"; }
+										// else if($user_verificationstatus==2) { $user_verificationstatus = "Awaiting"; }
+										// else if($user_verificationstatus==3) { $user_verificationstatus = "Rejected"; }
+										// else { $user_verificationstatus = "Not Uploading"; }
 										echo "<tr>";
 										$l=" ";
 										$i=$i+1;
 										echo "<td>".($i+1)."</td>";
 										echo "<td>".$row->dateofreg."</td>";
 										echo "<td>".$row->username."</td>";
-										echo "<td>".$row->emailid."</td>";	
-										echo "<td>".$countryname."</td>";
+										echo "<td>".$row->email."</td>";	
+										echo "<td>".$country."</td>";
 
 										if($status=="active") { ?>
 										<td><span class="label label-success"><?php echo "Active"; ?></span></td>
@@ -101,9 +101,9 @@
 										<td><span class="label label-info"><?php echo "Deactive"; ?></span></td>
 										<?php } 
 										if($row->status=="active"){ $title="Deactivate"; }else { $title="Activate";}  
-										echo "<td style='text-align:center'>". anchor('admin/changestatus_userdetails/'.$row->user_id,$l,$attr=array('title'=>$title,'class'=>"icon-refresh")).					
-										anchor('admin/edit_userdetails/'.$row->user_id,$l,$attr=array('title'=>"Edit",'class'=>"icon-edit")).
-										anchor('admin/delete_userdetails/'.$row->user_id,$l,$delete=array('title'=>"Delete",'class'=>"icon-remove",'onclick'=>"return confirm('Do you want to delete this admin user ?');")).anchor('admin/view_userdetails/'.$row->user_id,$l,$attr=array('title'=>'View Details','class'=>'icon-eye-open') )."</td>";
+										echo "<td style='text-align:center'>". anchor('admin/changestatus_userdetails/'.$row->id,$l,$attr=array('title'=>$title,'class'=>"icon-refresh")).					
+										anchor('admin/edit_userdetails/'.$row->id,$l,$attr=array('title'=>"Edit",'class'=>"icon-edit")).
+										anchor('admin/delete_userdetails/'.$row->id,$l,$delete=array('title'=>"Delete",'class'=>"icon-remove",'onclick'=>"return confirm('Do you want to delete this admin user ?');")).anchor('admin/view_userdetails/'.$row->id,$l,$attr=array('title'=>'View Details','class'=>'icon-eye-open') )."</td>";
 										echo "</tr>";			
 									}
 
