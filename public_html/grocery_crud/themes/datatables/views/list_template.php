@@ -1,12 +1,5 @@
 <?php
-
-	$this->set_css($this->default_theme_path.'/datatables/css/demo_table_jui.css');
-	$this->set_css($this->default_css_path.'/ui/simple/'.grocery_CRUD::JQUERY_UI_CSS);
-	$this->set_css($this->default_theme_path.'/datatables/css/datatables.css');
-	$this->set_css($this->default_theme_path.'/datatables/css/jquery.dataTables.css');
-	$this->set_css($this->default_theme_path.'/datatables/extras/TableTools/media/css/TableTools.css');
-	$this->set_js_lib($this->default_javascript_path.'/'.grocery_CRUD::JQUERY);
-
+	// Jquery
 	$this->set_js_lib($this->default_javascript_path.'/jquery_plugins/jquery.noty.js');
 	$this->set_js_lib($this->default_javascript_path.'/jquery_plugins/config/jquery.noty.config.js');
 	$this->set_js_lib($this->default_javascript_path.'/common/lazyload-min.js');
@@ -15,113 +8,163 @@
 		$this->set_js_lib($this->default_javascript_path.'/common/list.js');
 	}
 
-	$this->set_js_lib($this->default_javascript_path.'/jquery_plugins/ui/'.grocery_CRUD::JQUERY_UI_JS);
-	$this->set_js_lib($this->default_theme_path.'/datatables/js/jquery.dataTables.min.js');
-	$this->set_js($this->default_theme_path.'/datatables/js/datatables-extras.js');
-	$this->set_js($this->default_theme_path.'/datatables/js/datatables.js');
-	$this->set_js($this->default_theme_path.'/datatables/extras/TableTools/media/js/ZeroClipboard.js');
-	$this->set_js($this->default_theme_path.'/datatables/extras/TableTools/media/js/TableTools.min.js');
+	$this->set_js($this->default_theme_path.'/flexigrid/js/cookies.js');
+	$this->set_js($this->default_theme_path.'/flexigrid/js/flexigrid.js');
+
+    $this->set_js($this->default_javascript_path.'/jquery_plugins/jquery.form.min.js');
+	$this->set_js($this->default_javascript_path.'/jquery_plugins/jquery.numeric.min.js');
+	$this->set_js($this->default_theme_path.'/flexigrid/js/jquery.printElement.min.js');
 
 	/** Fancybox */
-	$this->set_css($this->default_css_path.'/jquery_plugins/fancybox/jquery.fancybox.css');
-	$this->set_js($this->default_javascript_path.'/jquery_plugins/jquery.fancybox-1.3.4.js');
 	$this->set_js($this->default_javascript_path.'/jquery_plugins/jquery.easing-1.3.pack.js');
+
+	/** Jquery UI */
+	$this->load_js_jqueryui();
 ?>
-<script type='text/javascript'>
-	var base_url = '<?php echo base_url();?>';
-	var subject = '<?php echo addslashes($subject); ?>';
+<!--ga faham-->
+<div id='list-report-error' class='report-div error ' ></div>
 
-	var unique_hash = '<?php echo $unique_hash; ?>';
+<!--alert-->
+<div id='list-report-success' class='report-div success report-list' ></div>
 
-	var displaying_paging_string = "<?php echo str_replace( array('{start}','{end}','{results}'),
-		array('_START_', '_END_', '_TOTAL_'),
-		$this->l('list_displaying')
-	   ); ?>";
-	var filtered_from_string 	= "<?php echo str_replace('{total_results}','_MAX_',$this->l('list_filtered_from') ); ?>";
-	var show_entries_string 	= "<?php echo str_replace('{paging}','_MENU_',$this->l('list_show_entries') ); ?>";
-	var search_string 			= "<?php echo $this->l('list_search'); ?>";
-	var list_no_items 			= "<?php echo $this->l('list_no_items'); ?>";
-	var list_zero_entries 			= "<?php echo $this->l('list_zero_entries'); ?>";
+<!--panel-->
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title"><i class="fa fa-table"></i> <?php echo " ".$subject ?></h3>
+		<div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			<button class="btn btn-box-tool" id="mini-refresh"><i class='fa fa-refresh'></i></button>
+		</div>
+	</div>
+    <div class="box-body">
+		<div class="flexigrid" data-unique-hash="<?php echo $unique_hash; ?>">
+			<div id="hidden-operations" class="hidden-operations"></div>
 
-	var list_loading 			= "<?php echo $this->l('list_loading'); ?>";
+			<?php if(!$unset_add || !$unset_export || !$unset_print){?>
+			<div class="tDiv row">
+				<div class="tDiv2 col-xs-6">
+					<?php if (!$unset_add): ?>
+			        	<a href='<?php echo $add_url?>' title='<?php echo $this->l('list_add')." "; ?> <?php echo $subject?>' class='add-anchor add_button btn btn-primary btn-flat'>
+			                <i class="fa fa-plus-circle"></i>
+							<span class="add"><?php echo $this->l('list_add')." "; ?> <?php echo $subject?></span>
+			            </a>
+		            <?php endif ?>
+				</div>
 
-	var paging_first 	= "<?php echo $this->l('list_paging_first'); ?>";
-	var paging_previous = "<?php echo $this->l('list_paging_previous'); ?>";
-	var paging_next 	= "<?php echo $this->l('list_paging_next'); ?>";
-	var paging_last 	= "<?php echo $this->l('list_paging_last'); ?>";
-
-	var message_alert_delete = "<?php echo $this->l('alert_delete'); ?>";
-
-	var default_per_page = <?php echo $default_per_page;?>;
-
-	var unset_export = <?php echo ($unset_export ? 'true' : 'false'); ?>;
-	var unset_print = <?php echo ($unset_print ? 'true' : 'false'); ?>;
-
-	var export_text = '<?php echo $this->l('list_export');?>';
-	var print_text = '<?php echo $this->l('list_print');?>';
-
-	<?php
-	//A work around for method order_by that doesn't work correctly on datatables theme
-	//@todo remove PHP logic from the view to the basic library
-	$ordering = 0;
-	$sorting = 'asc';
-	if(!empty($order_by))
-	{
-		foreach($columns as $num => $column) {
-			if($column->field_name == $order_by[0]) {
-				$ordering = $num;
-				$sorting = isset($order_by[1]) && $order_by[1] == 'asc' || $order_by[1] == 'desc' ? $order_by[1] : $sorting ;
-			}
-		}
-	}
-	?>
-
-	var datatables_aaSorting = [[ <?php echo $ordering; ?>, "<?php echo $sorting;?>" ]];
-
-</script>
-<?php
-	if(!empty($actions)){
-?>
-	<style type="text/css">
-		<?php foreach($actions as $action_unique_id => $action){?>
-			<?php if(!empty($action->image_url)){ ?>
-				.<?php echo $action_unique_id; ?>{
-					background: url('<?php echo $action->image_url; ?>') !important;
-				}
-			<?php }?>
-		<?php }?>
-	</style>
-<?php
-	}
-?>
-<?php if($unset_export && $unset_print){?>
-<style type="text/css">
-	.datatables-add-button
-	{
-		position: static !important;
-	}
-</style>
-<?php }?>
-<div class="grocerycrud-container">
-
-	<div id='list-report-error' class='report-div error report-list'></div>
-	<div id='list-report-success' class='report-div success report-list' <?php if($success_message !== null){?>style="display:block"<?php }?>><?php
-	 if($success_message !== null){?>
-		<p><?php echo $success_message; ?></p>
-	<?php }
-	?></div>
-	<div class="dataTablesContainer">
-		<?php if(!$unset_add){?>
-			<div class="datatables-add-button">
-			<a role="button" class="add_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" href="<?php echo $add_url?>">
-				<span class="ui-button-icon-primary ui-icon ui-icon-circle-plus"></span>
-				<span class="ui-button-text"><?php echo $this->l('list_add'); ?> <?php echo $subject?></span>
-			</a>
+				<div class="tDiv3 col-xs-6 text-right">
+					<div class="btn-group">
+					<?php if(!$unset_export) { ?>
+					<!-- Button Export  -->
+			        	<a class="export-anchor btn btn-info btn-flat" data-url="<?php echo $export_url; ?>" target="_blank">
+							<i class="fa fa-file-excel-o"></i>
+							<span class="export"><?php echo $this->l('list_export');?></span>
+			            </a>
+			         <!-- Akhir Button Export  -->
+					<?php } ?>
+					<?php if(!$unset_print) { ?>
+			        	<a class="print-anchor btn btn-info btn-flat" data-url="<?php echo $print_url; ?>">
+							<i class="fa fa-print"></i>
+							<span class="print"><?php echo $this->l('list_print');?></span>
+			            </a>
+					<?php }?>
+					</div>
+				</div>
 			</div>
-		<?php }?>
+			<?php } ?>
 
-		<div style='height:10px;'></div>
+			<?php echo form_open( $ajax_list_url, 'method="post" id="filtering_form" class="filtering_form" autocomplete = "off" data-ajax-list-info-url="'.$ajax_list_info_url.'"'); ?>
+		    <!--iki tampil table'e-->
+			<div id='ajax_list' class="ajax_list table-responsive">
+				<?php echo $list_view?>
+			</div>
 
-		<?php echo $list_view?>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="sDiv quickSearchBox" id='quickSearchBox'>
+						<div class="sDiv2">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group input-group input-group-sm">
+										<input type="text" class="qsbsearch_fieldox search_text form-control" placeholder="<?php echo $this->l('list_search');?>" name="search_text" size="30" id='search_text'>
+										<span class="input-group-btn">
+								            <button type="button" value="<?php echo $this->l('list_search');?>" class="crud_search btn btn-default btn-flat" id='crud_search'><i class="fa fa-search"></i></button>
+								        	<button type="button" value="<?php echo $this->l('list_clear_filtering');?>" id='search_clear' class="search_clear btn btn-default btn-flat">Clear</button>
+										</span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group ">
+										<select class="form-control input-sm" name="search_field" id="search_field">
+											<?php foreach($columns as $column){?>
+											<option value="<?php echo $column->field_name?>"><?php echo $column->display_as?>&nbsp;&nbsp;</option>
+											<?php }?>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="pDiv">
+						<div class="pDiv2">
+							<div class="row">
+								<div class="col-md-12 col-lg-6">
+									<div class="pGroup">
+										<span class="pcontrol">
+											<?php list($show_lang_string, $entries_lang_string) = explode('{paging}', $this->l('list_show_entries')); ?>
+											<div class="form-group input-group input-group-sm">
+												<input type="text" name="per_page" id='per_page' class="per_page form-control input-sm" value="<?php echo $paging_options[0] ?>" >
+												<span class="input-group-btn">
+													<button type="submit" class="btn btn-default btn-flat">
+														<?php list($show_lang_string, $entries_lang_string) = explode('{paging}', $this->l('list_show_entries')); ?>
+														<?php echo $show_lang_string; ?>
+													</button>
+												</span>
+											</div>
+											<input type='hidden' name='order_by[0]' id='hidden-sorting' class='hidden-sorting' value='<?php if(!empty($order_by[0])){?><?php echo $order_by[0]?><?php }?>' />
+											<input type='hidden' name='order_by[1]' id='hidden-ordering' class='hidden-ordering'  value='<?php if(!empty($order_by[1])){?><?php echo $order_by[1]?><?php }?>'/>
+										</span>
+									</div>
+								</div>
+								<div class="col-md-12 col-lg-6">
+									<div class="pGroup">
+										<div class="form-group input-group">
+											<span class="input-group-btn">
+												<button type="button" class="pPrev pButton prev-button btn btn-default btn-flat btn-sm"><?php echo $this->l('list_paging_previous');?></button>
+											</span>
+												<?php $paging_starts_from = "<span id='page-starts-from' class='page-starts-from'>1</span>"; ?>
+												<?php $paging_ends_to = "<span id='page-ends-to' class='page-ends-to'>". ($total_results < $default_per_page ? $total_results : $default_per_page) ."</span>"; ?>
+												<?php $paging_total_results = "<span id='total_items' class='total_items'>$total_results</span>"?>
+											<input name='page' type="text" value="1" size="4" id='crud_page' class="crud_page form-control input-sm text-center">
+											<span class="input-group-btn">
+												<button type="button" class="pNext pButton next-button btn btn-default btn-flat btn-sm"><?php echo $this->l('list_paging_next');?></button>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="pReload pButton ajax_refresh_and_loading" id='ajax_refresh_and_loading'>
+								<span id="btn-refresh"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<?php echo str_replace( array('{start}','{end}','{results}'), array($paging_starts_from, $paging_ends_to, $paging_total_results), $this->l('list_displaying') ); ?>
+				</div>
+			</div>
+			<?php echo form_close(); ?>
+		</div>
+	</div>
+	<div class="overlay" id="overlayTable" style="display:none;">
+		<i class="fa fa-refresh fa-spin"></i>
 	</div>
 </div>
+<!-- /.panel-body -->
+<script type='text/javascript'>
+	var base_url="<?php echo base_url();?>",subject="<?php echo $subject?>",ajax_list_info_url="<?php echo $ajax_list_info_url; ?>",unique_hash="<?php echo $unique_hash; ?>",message_alert_delete="<?php echo $this->l('alert_delete'); ?>";
+	var successMesage = "<?php echo $success_message; ?>";
+</script>

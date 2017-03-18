@@ -3547,9 +3547,9 @@ class Grocery_CRUD extends grocery_CRUD_States
 	protected $default_css_path			= null; //autogenerate, please do not modify
 	protected $default_texteditor_path 	= null; //autogenerate, please do not modify
 	protected $default_theme_path		= null; //autogenerate, please do not modify
-	protected $default_language_path	= 'assets/grocery_crud/languages';
-	protected $default_config_path		= 'assets/grocery_crud/config';
-	protected $default_assets_path		= 'assets/grocery_crud';
+	protected $default_language_path	= 'grocery_crud/languages';
+	protected $default_config_path		= 'grocery_crud/config';
+	protected $default_assets_path		= 'grocery_crud';
 
 	/**
 	 *
@@ -5184,7 +5184,7 @@ class Grocery_CRUD extends grocery_CRUD_States
 		$upload_dir = !empty($upload_dir) && substr($upload_dir,-1,1) == '/'
 						? substr($upload_dir,0,-1)
 						: $upload_dir;
-		$upload_dir = !empty($upload_dir) ? $upload_dir : 'assets/uploads/files';
+		$upload_dir = !empty($upload_dir) ? $upload_dir : 'uploads/files';
 
 		/** Check if the upload Url folder exists. If not then throw an exception **/
 		if (!is_dir(FCPATH.$upload_dir)) {
