@@ -34,12 +34,32 @@ class Admin extends MY_Controller
 		
 		$crud->set_table('users');
 		$crud->set_subject('Manage Users');
-		$crud->columns('id','email','username');
+		$crud->columns('id','email','username','verfiyStatus','role');
 		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg');
+		
+		// types
 		$crud->change_field_type('password', 'password');
+
+		// display as
+		$crud->display_as('verfiyStatus','Verifi Status');
+
+		// callback
+		$crud->callback_column('verfiyStatus',array($this,'callback_verify_status'));
+
 		$output = $crud->render();
+	    
 	    $this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');	
+	}
+
+	public function callback_verify_status($value, $row)
+	{
+		if($value == 'unverified'){
+			$value = '<span class="text-danger">'.$value.'</span>';
+		}else{
+			$value = '<b class="text-success">'.$value.'</b>';
+		}
+		return $value;
 	}
 
 }
