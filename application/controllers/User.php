@@ -43,7 +43,13 @@ class User extends MY_Controller {
     { 
         $this->load->model('mdl_user');
         echo $this->mdl_user->check_login();
+    }
 
+    public function preview_email()
+    {
+        $this->load->view('template/emails/v_header');
+        $this->load->view('template/emails/v_success_login');
+        $this->load->view('template/emails/v_footer');
     }
 
     public function user_verification($verifier=null)
