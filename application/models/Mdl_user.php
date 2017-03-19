@@ -188,17 +188,17 @@ function common_mail($tomail=null,$email_subject=null,$email_content=null)
 {	 
     $this->load->library('email');
     $config['protocol'] = "smtp";
-    $config['smtp_host'] = "mail.guldentrader.com";
-    $config['smtp_port'] = "587";
-    $config['smtp_user'] = 'exchange@guldentrader.com';
-    $config['smtp_pass'] = '3PrVPkeB';
-    $config['charset'] = "utf-8";
+    $config['smtp_host'] = APP_SMTP_HOST;
+    $config['smtp_port'] = APP_SMTP_PORT;
+    $config['smtp_user'] = APP_SMTP_USER;
+    $config['smtp_pass'] = APP_SMTP_PASS;
+    $config['charset'] = APP_CHARSET;
     $config['mailtype'] = "html";
     $config['newline'] = "\r\n";
     $this->email->initialize($config);
-    $this->email->from('exchange@guldentrader.com', 'exchange.guldentrader.com');
+    $this->email->from(APP_SMTP_USER, APP_SMTP_HOST);
     $this->email->to($tomail);
-    $this->email->reply_to('exchange@guldentrader.com', 'exchange.guldentrader.com');
+    $this->email->reply_to(APP_SMTP_USER, APP_SMTP_HOST);
     $this->email->subject($email_subject);
     $this->email->message($email_content);
     $send=$this->email->send();
