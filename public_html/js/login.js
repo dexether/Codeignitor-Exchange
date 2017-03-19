@@ -1,15 +1,10 @@
-$(function(){
+$(document).ready(function(){
   /* login */
   $("#login_form").validate({
     rules:{
-     clientid:
-     {
-      required:true
-    },
-    password:
-    {
-      required:true,
-    }
+     clientid:{ required:true},
+     password:{ required:true},
+     googleRechapatcha:{required:true}
   },
   errorPlacement: function (error, element) {
     if (element.val() === "") {
@@ -27,6 +22,7 @@ $(function(){
     url:'/user/login',
     success:function(output) {
       var output = output.trim();
+      var googleRechapatcha = $('#googleRechapatcha');
       if(output=="invalid")
       {
        $("#error_message").html("Your email or password is invalid");
@@ -43,6 +39,8 @@ $(function(){
     {
       $("#myModal_tfa").modal('show');
       $("#login").modal('hide');
+    }else if (googleRechapatcha.length){
+       $("#error_message").html("Please confirm you not robot");
     }
     else if(output=="success")
     {
