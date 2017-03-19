@@ -2,6 +2,7 @@
 
 class Mdl_user extends CI_Model
 {
+    public $table = "users";
     public function __construct()
     {
         parent::__construct();
@@ -210,7 +211,6 @@ function common_mail($tomail=null,$email_subject=null,$email_content=null)
     else{	
         show_error($this->email->print_debugger());
     }
-
 }
 
 function verification($verifier)
@@ -263,5 +263,20 @@ public function profile_details()
         return $query->row();
     }
 }
+
+  /**
+   *  @return one row if user_id eist else return all
+   */
+  public function get($user_id=0)   
+  {
+     $row = $this->db->get_where($this->table, ['id' => $user_id])->row();
+     return $row;
+  }
+
+  public function delete($primary_key)
+  {
+    $this->db->delete($this->table, ['id' => $primary_key]);
+    $this->db->delete('user_verification', ['user_id' => $primary_key]);
+  }
 
 }

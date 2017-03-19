@@ -6,13 +6,10 @@ class Admin extends MY_Controller
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");
-		$this->output->set_header("Pragma: no-cache");
-		
 		$this->load->library('grocery_CRUD');
 		$this->load->model('admin_model');
 		$this->load->model('mdl_user');
+		$this->load->model('mdl_user_verification');
 
 	}
 
@@ -38,7 +35,6 @@ class Admin extends MY_Controller
 		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg','password');
 		
 		$crud->set_field_upload('profilepicture','uploads');
-		
 
 		// types
 		$crud->change_field_type('password', 'password');
@@ -48,6 +44,7 @@ class Admin extends MY_Controller
 
 		// callback
 		$crud->callback_column('verfiyStatus',array($this,'callback_verify_status'));
+		$crud->callback_delete(array($this,'callback_users_delete'));
 
 		$this->load->model('mdl_user_verification');
 		$crud->callback_column('trade_verification',array($this,'callback_trade_verification'));
@@ -56,6 +53,18 @@ class Admin extends MY_Controller
 
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');	
+	}
+
+	public function callback_users_delete($primary_key)
+	{
+		// get user
+		$user = $this->mdl_user->get($primary_key);
+		$user_verification = $this->mdl_user_verification->get($primary_key);
+		if($user->verifyStatus != 'verified' && $user_verification->verification_status != 'verified' ){
+		   $this->mdl_user->delete($primary_key);
+		}else{
+			return false;
+		}
 	}
 
 	public function user_verification($value='')
