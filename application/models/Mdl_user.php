@@ -36,7 +36,7 @@ class Mdl_user extends CI_Model
         {
             return 'deactive';
         }
-        if(password_verify($this->input->post('password'), $row->password) === true)
+        if(password_verify($this->input->post('password',true), $row->password) === true)
         {
             if($row->randcode !=="disable")
             {
@@ -102,7 +102,8 @@ public function add_user()
       'status'		=>	'deactive',
       'randcode'		=>	'disable',
       'recaptcha'             => $this->input->post('recaptcha', true),
-      'verfiyStatus'	=>	'unverified'
+      'verfiyStatus'	=>	'unverified',
+      'role' => 'member'
       );
   $this->db->insert('users',$data);    
   $last_userinsid = $this->db->insert_id();   
