@@ -4,9 +4,8 @@
 // app constants 
 defined('APP_BASE_URL')      OR define('APP_BASE_URL',base_url());
 defined('APP_LOGO')          OR define('APP_LOGO', APP_BASE_URL.'images/logo.png');
-
+defined('APP_TITLE') 	     OR define('APP_TITLE', 'Gulden Trader');
 defined('APP_ADMIN_EMAIL') 	 OR define('APP_ADMIN_EMAIL', 'exchange@guldentrader.com');
-
 defined('APP_SMTP_HOST') 	 OR define('APP_SMTP_HOST', 'mail.guldentrader.com');
 defined('APP_SMTP_USER') 	 OR define('APP_SMTP_USER', 'exchange@guldentrader.com');
 defined('APP_SMTP_PASS') 	 OR define('APP_SMTP_PASS', '3PrVPkeB');
