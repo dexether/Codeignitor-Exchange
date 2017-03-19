@@ -6,7 +6,6 @@
 					<td>
 						<h5 class="">Contact Info:</h5>
 						<p>
-							Phone: <strong>408.341.0600</strong><br/>
 							Email: <a href="emailto:<?php echo APP_ADMIN_EMAIL ?>"><?php echo APP_ADMIN_EMAIL ?></a>
 						</p>
 					</td>
