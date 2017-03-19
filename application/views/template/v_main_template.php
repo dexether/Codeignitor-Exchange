@@ -34,6 +34,9 @@
                     <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <img src="<?php echo base_url(); ?>images/user_icon.png" alt=""> <?php echo $this->session->firstname; ?> <span class=""><i class="fa fa-angle-down"></i></span></a>
                       <ul class="dropdown-menu">
                         <li><a href="<?php echo base_url(); ?>user/profile">My account</a></li>
+                        <li><a href="<?php echo base_url(); ?>user/change_password">Change Password</a></li>
+                        <li><a href="<?php echo base_url(); ?>user/bank_info">Bank Details</a></li>
+                        <li><a href="<?php echo base_url(); ?>user/trade_verification">Trade Verification</a></li>
                         <?php if (is_admin()): ?>
                           <li><a href="<?php echo base_url(); ?>admin">Manage Website</a></li>
                         <?php endif ?>
