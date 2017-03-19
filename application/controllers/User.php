@@ -45,7 +45,8 @@ class User extends MY_Controller {
         echo $this->mdl_user->check_login();
     }
 
-    public function preview_email()
+    /** just for test */
+    private function preview_email()
     {
         $this->load->view('template/emails/v_header');
         $this->load->view('template/emails/v_success_login');

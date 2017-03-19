@@ -56,7 +56,6 @@ class Mdl_user extends CI_Model
                 // send email
                 $message = $this->load->view('template/emails/v_header', [], TRUE);
                 $data  =['username'=>$row->firstname];
-                var_dump($data); exit;
                 $message .= $this->load->view('template/emails/v_success_login', $data, TRUE);
                 $message .= $this->load->view('template/emails/v_footer', [], TRUE);
                 $this->common_mail($this->input->post('email'),'Login success',$message);
