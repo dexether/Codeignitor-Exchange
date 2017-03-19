@@ -97,7 +97,7 @@ class Admin extends MY_Controller
 		$user_verification = $this->mdl_user_verification->get($row->id);
 
 		if($user_verification){
-			return anchor('admin/user_verification/edit/'.$user_verification->id,$this->callback_verify_status($user_verification->verification_status.' <i class="fa fa-link"></i>'));
+			return anchor('admin/user_verification/edit/'.$user_verification->id,$this->callback_verify_status($user_verification->verification_status).' <small class="fa fa-external-link"></small>');
 		}else{
 			return '<span class="label label-danger">unverified</span>';
 		}

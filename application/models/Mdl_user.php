@@ -53,6 +53,8 @@ class Mdl_user extends CI_Model
                   );
 
                 $this->session->set_userdata($sessiondata); 
+                // send email
+                $this->_send_email();
                 return 'success';
             }
         }
@@ -65,6 +67,23 @@ class Mdl_user extends CI_Model
     { 	
         return "invalid";
     }
+}
+
+private function _send_email(){
+    try {
+       $this->load->library('email');
+       $this->email->from('rog.burgerman@gmail.com', 'Rog Burgger');
+       $this->email->to($this->input->post('email'));
+       $this->email->subject('Login success');
+       $message = $this->load->view('template/emails/v_header', [], TRUE);
+       $message = $this->load->view('template/emails/v_success_login', [], TRUE);
+       $message = $this->load->view('template/emails/v_footer', [], TRUE);
+       $this->email->message($message);
+       $this->email->send();   
+    } catch (Exception $e) {
+       return $e->message;
+    }
+      
 }
 
 public function add_user()    
@@ -91,11 +110,9 @@ public function add_user()
   $data	=	array(                  
       'firstname'		=>	$this->input->post('firstname', true),
       'lastname'		=>	$this->input->post('lastname', true),
-		//'client_id'		=>	$clientid,
       'email'		=>	$this->input->post('email', true),   
       'password'		=>	password_hash($this->input->post('password1', true),PASSWORD_DEFAULT),
       'salt'                  =>      md5(random_string()),
-		//'country'		=>	$this->input->post('country'), 
       'dateofreg'		=>	$dateofreg,  
       'userip'		=>	$user_ip,					
       'userbrowser'	=>	$user_browser,
