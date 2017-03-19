@@ -17,8 +17,6 @@ class User extends MY_Controller {
     function registration()  
     {            
         $email = $this->input->post('email', true);
-        
-
         $exist  =  $this->mdl_user->is_user($email);
         if($exist === true){
             echo "email";
@@ -145,17 +143,16 @@ class User extends MY_Controller {
         
         $this->load->model('mdl_balance', 'balance');
         $this->l_asset->add('js/user/change_password.js','js');
-        $customer_email_id      =   $this->session->userdata('customer_email_id'); 
-        $customer_user_id       =   $this->session->user_id; 
-        if(($customer_email_id=="") && ($customer_user_id=="") )
-        {   
-            redirect('user/login','refresh');      
-        }
-        else
-        { 
+        $this->form_validation->set_rules('oldpassword', 'oldpassword', 'required|trim');
+        $this->form_validation->set_rules('newpassword', 'newpassword', 'required|trim');
+        
+        if ($this->form_validation->run() == true) {
+            $this->mdl_user->change_password();
+        } else {
             $this->data['content'] .= $this->load->view('user/v_change_password',[],true);
             view($this->data);
         }
+        
     }
 
     function trade_verification()

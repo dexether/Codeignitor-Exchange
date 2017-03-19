@@ -12,18 +12,14 @@ $(document).ready(function() {
 		$.ajax({
 			type:'POST',
 			data:data,
-			url: base_url+'user/change_pass',
+			url: base_url+'user/change_password',
 			success:function(output) {
 				var output = output.trim(); 
 				$("#password_success").show();
 				$("#password_success").html(output); 
-                          //alert(output);
-
-                            //$("#oldpassword").val("");
-                            //$("#newpassword").val("");
-                            //$("#newpassword1").val("");
-                        }
-                    });
+				//window.location = base_url+'user/logout';
+			}
+		});
 	}
-    });
+});
 });

@@ -309,37 +309,30 @@ function forgot_passmail()
 
 }
 
-function reset_password_model()
-{   
-  $id       = $this->input->post('id');
-  $email    = $this->input->post('email');
-  $password = $this->input->post('newpassword');
-  $this->db->where('id',$id);      
-  $this->db->where('email',$email);    
-  $data_update  = array('password'=>$password);
-  $result_tag = $this->db->update('users',$data_update);         
-  
-  if($result_tag){
-    $taken_data = $this->get_userdetails($id);
-    $username   = $taken_data->username;       
-    $password = $taken_data->password;       
-    $email      = $taken_data->email;
-    $vars['email'] = $email;
-    
-    $this->db->where('id',1);   
-    $admin_email  = APP_ADMIN_EMAIL ;       
-    $siteurl    = APP_BASE_URL;       
-    $companyname  = APP_TITLE;      
-    $email_from1  = $email;
-    $message = $this->load->view('template/emails/v_reset_password', $vars, TRUE);
-    $email_from     = APP_ADMIN_EMAIL;   
-    $email_content    = strtr($email_content1,$a);
-    $this->common_mail(APP_ADMIN_EMAIL,'Reset Password',$email);  
-    return "success";
-  }else{
-    echo "failure";
+   function change_password()
+  {
+    $oldpass = $this->input->post('oldpassword');
+    $newpass = $this->input->post('newpassword');
+    $new = password_hash($newpass,PASSWORD_DEFAULT);
+    $custome_user_id  = $this->session->user_id;
+    $old = password_hash($oldpass,PASSWORD_DEFAULT); 
+    $this->db->where('id',$custome_user_id);
+    $user = $this->db->get($this->table)->row();
+
+    if(password_verify($oldpass,$user->password) == true)
+    {
+       $this->db->where('id',$custome_user_id);  
+       if($this->db->update($this->table, ['password' => $new]) == true)
+       {
+          echo "Your password changed Successfully";
+       }else{
+          echo "Error in password updation";
+       }
+    }else{
+          echo "Incorrect Old Password ";
+    } 
   }
-}
+
 
 function generatepassword($length = 8) {
   $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
