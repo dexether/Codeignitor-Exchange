@@ -2,77 +2,77 @@
 
 class Mdl_user extends CI_Model
 {
-    public $table = "users";
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->database();
-    }
-    
-    public function is_user($email = null)
-    {   
-        if(!is_null($email))
-        {
-            $this->db->where('email',$email);      
-            $query = $this->db->get('users');	 	     
-            if($query->num_rows()>=1)  
-            {           
-                return true; 
-            }      
-            else
-            {
-                return false;  
-            }
-        }
-    }
-    
-    function check_login()
-    {
-     $res_loguser = $this->db->query("SELECT id, firstname,role, randcode, status, password FROM `users` where email=?", array($this->input->post('email',true)));
-     if($res_loguser->num_rows()==1) 
-     { 
-        $row = $res_loguser->row();
+  public $table = "users";
+  public function __construct()
+  {
+    parent::__construct();
+    $this->load->database();
+  }
 
-        if($row->status==='deactive')
-        {
-            return 'deactive';
-        }
-        if(password_verify($this->input->post('password',true), $row->password) === true)
-        {
-            if($row->randcode !=="disable")
-            {
-                return 'enable';
-            }
-            else
-            {
-                $sessiondata = array(
-                  'user_id'  => $row->id,
-                  'firstname' => $row->firstname,
-                  'tfa' =>$row->randcode,
-                  'status'=>$row->status,
-                  'role' => $row->role
-                  );
+  public function is_user($email = null)
+  {   
+    if(!is_null($email))
+    {
+      $this->db->where('email',$email);      
+      $query = $this->db->get('users');	 	     
+      if($query->num_rows()>=1)  
+      {           
+        return true; 
+      }      
+      else
+      {
+        return false;  
+      }
+    }
+  }
 
-                $this->session->set_userdata($sessiondata); 
+  function check_login()
+  {
+   $res_loguser = $this->db->query("SELECT id, firstname,role, randcode, status, password FROM `users` where email=?", array($this->input->post('email',true)));
+   if($res_loguser->num_rows()==1) 
+   { 
+    $row = $res_loguser->row();
+
+    if($row->status==='deactive')
+    {
+      return 'deactive';
+    }
+    if(password_verify($this->input->post('password',true), $row->password) === true)
+    {
+      if($row->randcode !=="disable")
+      {
+        return 'enable';
+      }
+      else
+      {
+        $sessiondata = array(
+          'user_id'  => $row->id,
+          'firstname' => $row->firstname,
+          'tfa' =>$row->randcode,
+          'status'=>$row->status,
+          'role' => $row->role
+          );
+
+        $this->session->set_userdata($sessiondata); 
                 // send email
-                $message = $this->load->view('template/emails/v_header', [], TRUE);
-                $data  =['username'=>$row->firstname];
-                $message .= $this->load->view('template/emails/v_success_login', $data, TRUE);
-                $message .= $this->load->view('template/emails/v_footer', [], TRUE);
-                $this->common_mail($this->input->post('email'),'Login success',$message);
-                
-                return 'success';
-            }
-        }
-        else
-        {
-            return 'invalid'; 
-        }
+        $message = $this->load->view('template/emails/v_header', [], TRUE);
+        $data  =['username'=>$row->firstname];
+        $message .= $this->load->view('template/emails/v_success_login', $data, TRUE);
+        $message .= $this->load->view('template/emails/v_footer', [], TRUE);
+        $this->common_mail($this->input->post('email'),'Login success',$message);
+
+        return 'success';
+      }
     }
     else
-    { 	
-        return "invalid";
+    {
+      return 'invalid'; 
     }
+  }
+  else
+  { 	
+    return "invalid";
+  }
 }
 
 public function add_user()    
@@ -97,20 +97,20 @@ public function add_user()
 		//$firstname = $this->input->post('firstname');
 		// $encrypted_pass = $this->simple_encrypt($password);
   $data	=	array(                  
-      'firstname'		=>	$this->input->post('firstname', true),
-      'lastname'		=>	$this->input->post('lastname', true),
-      'email'		=>	$this->input->post('email', true),   
-      'password'		=>	password_hash($this->input->post('password1', true),PASSWORD_DEFAULT),
-      'salt'                  =>      md5(random_string()),
-      'dateofreg'		=>	$dateofreg,  
-      'userip'		=>	$user_ip,					
-      'userbrowser'	=>	$user_browser,
-      'status'		=>	'deactive',
-      'randcode'		=>	'disable',
-      'recaptcha'             => $this->input->post('recaptcha', true),
-      'verfiyStatus'	=>	'unverified',
-      'role' => 'member'
-      );
+    'firstname'		=>	$this->input->post('firstname', true),
+    'lastname'		=>	$this->input->post('lastname', true),
+    'email'		=>	$this->input->post('email', true),   
+    'password'		=>	password_hash($this->input->post('password1', true),PASSWORD_DEFAULT),
+    'salt'                  =>      md5(random_string()),
+    'dateofreg'		=>	$dateofreg,  
+    'userip'		=>	$user_ip,					
+    'userbrowser'	=>	$user_browser,
+    'status'		=>	'deactive',
+    'randcode'		=>	'disable',
+    'recaptcha'             => $this->input->post('recaptcha', true),
+    'verfiyStatus'	=>	'unverified',
+    'role' => 'member'
+    );
   $this->db->insert('users',$data);    
   $last_userinsid = $this->db->insert_id();   
   if($last_userinsid!="")
@@ -162,23 +162,23 @@ public function add_user()
 //			$siteurl		=	$row->siteurl;				
 //		}
 
-		/*	GET EMAIL TEMPLATE	START	*/
-                 
+   /*	GET EMAIL TEMPLATE	START	*/
+
 		//$this->db->where('id',17);
 		//$dis_get_email_info = $this->db->get('email_templates')->row();
-                $dis_get_email_info = 
+   $dis_get_email_info = 
 		//$email_from1	=	$dis_get_email_info->from_id;
-		$email_subject1	=	'Please confirm your registration';
-		$email_content1	=	$this->load->view('template/emails/v_registration_success',null,true); 
-		$link =base_url().'user/user_verification/'.$verifydata['verifier']; 
-		$a	=	array('##USERNAME##'=>$this->input->post('firstname', true),'##USERID##'=>base64_encode($last_userinsid),'##CLIENTID##'=>$email,'##PASSWORD##'=>$this->input->post('password1'),'##FROM_EMAIL##'=>'exchange@guldentrader.com','##COMPANYNAME##'=>'exchange.guldentrader.com','##EMAIL##'=>$email,'##SITEURL##'=>base_url(),'##ADMIN_EMAIL##'=>'exchange@guldentrader.com','##LINK##'=>$link);
+   $email_subject1	=	'Please confirm your registration';
+   $email_content1	=	$this->load->view('template/emails/v_registration_success',null,true); 
+   $link =base_url().'user/user_verification/'.$verifydata['verifier']; 
+   $a	=	array('##USERNAME##'=>$this->input->post('firstname', true),'##USERID##'=>base64_encode($last_userinsid),'##CLIENTID##'=>$email,'##PASSWORD##'=>$this->input->post('password1'),'##FROM_EMAIL##'=>'exchange@guldentrader.com','##COMPANYNAME##'=>'exchange.guldentrader.com','##EMAIL##'=>$email,'##SITEURL##'=>base_url(),'##ADMIN_EMAIL##'=>'exchange@guldentrader.com','##LINK##'=>$link);
 
 		//$email_from	=	strtr($email_from1,$a);	
    $email_content	=	strtr($email_content1,$a);
    /*	GET EMAIL TEMPLATE	END	*/ 
    $this->common_mail($email,$email_subject1,$email_content);
    return true;
-}
+ }
 //	}   
 //	else  
 //	{ 
@@ -188,29 +188,29 @@ public function add_user()
 
 function common_mail($tomail=null,$email_subject=null,$email_content=null)
 {	 
-    $this->load->library('email');
-    $config['protocol'] = "smtp";
-    $config['smtp_host'] = APP_SMTP_HOST;
-    $config['smtp_port'] = APP_SMTP_PORT;
-    $config['smtp_user'] = APP_SMTP_USER;
-    $config['smtp_pass'] = APP_SMTP_PASS;
-    $config['charset'] = APP_CHARSET;
-    $config['mailtype'] = "html";
-    $config['newline'] = "\r\n";
-    $this->email->initialize($config);
-    $this->email->from(APP_SMTP_USER, APP_SMTP_HOST);
-    $this->email->to($tomail);
-    $this->email->reply_to(APP_SMTP_USER, APP_SMTP_HOST);
-    $this->email->subject($email_subject);
-    $this->email->message($email_content);
-    $send=$this->email->send();
-    if($send)
-    {
-        return true; 
-    }
-    else{	
-        show_error($this->email->print_debugger());
-    }
+  $this->load->library('email');
+  $config['protocol'] = "smtp";
+  $config['smtp_host'] = APP_SMTP_HOST;
+  $config['smtp_port'] = APP_SMTP_PORT;
+  $config['smtp_user'] = APP_SMTP_USER;
+  $config['smtp_pass'] = APP_SMTP_PASS;
+  $config['charset'] = APP_CHARSET;
+  $config['mailtype'] = "html";
+  $config['newline'] = "\r\n";
+  $this->email->initialize($config);
+  $this->email->from(APP_SMTP_USER, APP_SMTP_HOST);
+  $this->email->to($tomail);
+  $this->email->reply_to(APP_SMTP_USER, APP_SMTP_HOST);
+  $this->email->subject($email_subject);
+  $this->email->message($email_content);
+  $send=$this->email->send();
+  if($send)
+  {
+    return true; 
+  }
+  else{	
+    show_error($this->email->print_debugger());
+  }
 }
 
 function verification($verifier)
@@ -221,47 +221,47 @@ function verification($verifier)
 	$query = $this->db->get('user_verification');
 	if($query->num_rows() == 1)
 	{       
-        $cur_date	= date('Y-m-d');
-        $row = $query->row();
+    $cur_date	= date('Y-m-d');
+    $row = $query->row();
                 //update user
-        $data = array('status'=>"active",'verfiyStatus'=>"verified",'activated_date'=>$cur_date);	
-        $this->db->where('id',$row->user_id);            	
-        $this->db->update('users',$data);
+    $data = array('status'=>"active",'verfiyStatus'=>"verified",'activated_date'=>$cur_date);	
+    $this->db->where('id',$row->user_id);            	
+    $this->db->update('users',$data);
 
                 //update 
-        $this->db->update('user_verification',array('verification_status'=>'verified'));
-        return "ok";			 
-    }   
-    else
-    {
-      return "nok";
+    $this->db->update('user_verification',array('verification_status'=>'verified'));
+    return "ok";			 
+  }   
+  else
+  {
+    return "nok";
   }       
 } 
 
 function profile_update($data,$id)
 {
-    $this->db->where('id',$id);
-    $res=$this->db->update('users',$data);
-    if($res)
-    {
-        echo "Your Personal Information Successfully updated";
-    }
-    else
-    {
-        echo "Error in Updation";
-    }
+  $this->db->where('id',$id);
+  $res=$this->db->update('users',$data);
+  if($res)
+  {
+    echo "Your Personal Information Successfully updated";
+  }
+  else
+  {
+    echo "Error in Updation";
+  }
 }
 
 public function profile_details()
 {
-    $id=$this->session->user_id;
-    $this->db->where('id',$id);
+  $id=$this->session->user_id;
+  $this->db->where('id',$id);
         //$this->db->where('verfiyStatus','verified');
-    $query=$this->db->get('users');
-    if($query->num_rows()==1)
-    {
-        return $query->row();
-    }
+  $query=$this->db->get('users');
+  if($query->num_rows()==1)
+  {
+    return $query->row();
+  }
 }
 
   /**
@@ -269,14 +269,85 @@ public function profile_details()
    */
   public function get($user_id=0)   
   {
-     $row = $this->db->get_where($this->table, ['id' => $user_id])->row();
-     return $row;
-  }
+   $row = $this->db->get_where($this->table, ['id' => $user_id])->row();
+   return $row;
+ }
 
-  public function delete($primary_key)
-  {
-    $this->db->delete($this->table, ['id' => $primary_key]);
-    $this->db->delete('user_verification', ['user_id' => $primary_key]);
+ public function delete($primary_key)
+ {
+  $this->db->delete($this->table, ['id' => $primary_key]);
+  $this->db->delete('user_verification', ['user_id' => $primary_key]);
+}
+
+function forgot_passmail()
+{ 
+ $email = $this->input->post('forgetemail');     
+ $this->db->where('email',$email);      
+ $query_pass = $this->db->get($this->table);
+
+ if($query_pass->num_rows()==1)  
+ {   
+  $row_pass = $query_pass->row();  
+  $getuser_id = $row_pass->id;    
+  $firstname  = $row_pass->firstname;   
+  $lastname = $row_pass->lastname;   
+  $password = $this->generatepassword();
+  $encpassword  = password_hash($password,PASSWORD_DEFAULT);
+  $vars['password']  = $password;   
+  $vars['client_id']  = $row_pass->client_id;   
+  $vars['username'] = $firstname." ".$lastname;
+
+  $this->db->where('id',$getuser_id);
+  $this->db->update('users',array('password'=>$encpassword));
+
+  $message  = $this->load->view('template/emails/v_header', [], TRUE);
+  $message .= $this->load->view('template/emails/v_forgot_password', $vars, TRUE);
+  $message .= $this->load->view('template/emails/v_footer', [], TRUE);
+  $this->common_mail($email,'Forgot Password',$message);
+  return "success";     
+} 
+
+}
+
+function reset_password_model()
+{   
+  $id       = $this->input->post('id');
+  $email    = $this->input->post('email');
+  $password = $this->input->post('newpassword');
+  $this->db->where('id',$id);      
+  $this->db->where('email',$email);    
+  $data_update  = array('password'=>$password);
+  $result_tag = $this->db->update('users',$data_update);         
+  
+  if($result_tag){
+    $taken_data = $this->get_userdetails($id);
+    $username   = $taken_data->username;       
+    $password = $taken_data->password;       
+    $email      = $taken_data->email;
+    $vars['email'] = $email;
+    
+    $this->db->where('id',1);   
+    $admin_email  = APP_ADMIN_EMAIL ;       
+    $siteurl    = APP_BASE_URL;       
+    $companyname  = APP_TITLE;      
+    $email_from1  = $email;
+    $message = $this->load->view('template/emails/v_reset_password', $vars, TRUE);
+    $email_from     = APP_ADMIN_EMAIL;   
+    $email_content    = strtr($email_content1,$a);
+    $this->common_mail(APP_ADMIN_EMAIL,'Reset Password',$email);  
+    return "success";
+  }else{
+    echo "failure";
   }
+}
+
+function generatepassword($length = 8) {
+  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  $randomString = '';
+  for ($i = 0; $i < $length; $i++) {
+    $randomString .= $characters[rand(0, strlen($characters) - 1)];
+  }
+  return $randomString;
+}
 
 }

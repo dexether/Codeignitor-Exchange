@@ -5,6 +5,7 @@ class User extends MY_Controller {
     public function __construct() 
     {
         parent::__construct();
+        $this->load->model('mdl_user');
         $this->data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
     }
     
@@ -16,15 +17,12 @@ class User extends MY_Controller {
     function registration()  
     {            
         $email = $this->input->post('email', true);
-        $this->load->model('mdl_user');
+        
 
         $exist  =  $this->mdl_user->is_user($email);
-        if($exist === true)
-        {
+        if($exist === true){
             echo "email";
-        }
-        else
-        {
+        }else{
             $captcha_code   =   isset($_SESSION['6_letters_code'])?$_SESSION['6_letters_code']:'';
             $recaptcha      =   $this->input->post('recaptcha', true);
             if($captcha_code!=$recaptcha)
@@ -41,15 +39,15 @@ class User extends MY_Controller {
     
     function login()  
     { 
-        $this->load->model('mdl_user');
+        
         echo $this->mdl_user->check_login();
     }
 
     /** just for test */
-    private function preview_email()
+    public function preview_email()
     {
         $this->load->view('template/emails/v_header');
-        $this->load->view('template/emails/v_success_login');
+        $this->load->view('template/emails/v_forgot_password');
         $this->load->view('template/emails/v_footer');
     }
 
@@ -61,7 +59,7 @@ class User extends MY_Controller {
         $data = array();
         if(!is_null($verifier))
         {
-            $this->load->model('mdl_user');
+            
             $data['status'] = $this->mdl_user->verification($verifier); 
             $this->data['content'] = $this->load->view('site/v_verified', $data, true);
 
@@ -80,7 +78,7 @@ class User extends MY_Controller {
         
         $this->data['content'] = $this->get_balance();
 
-        $this->load->model('mdl_user');
+        
         $this->load->model('mdl_country');
         $vars['country_detail'] =   $this->mdl_country->get_all(); 
         $vars['profile'] = $this->mdl_user->profile_details();   
@@ -176,38 +174,38 @@ class User extends MY_Controller {
 
             if(isset($_POST['submit'])){
 
-               if($_FILES['passport']['name']){
-                   $this->user_verification->upload('passport');
-               }
+             if($_FILES['passport']['name']){
+                 $this->user_verification->upload('passport');
+             }
 
-               if($_FILES['selfie']['name']){
-                   $this->user_verification->upload('selfie');
-               }
+             if($_FILES['selfie']['name']){
+                 $this->user_verification->upload('selfie');
+             }
 
-               if($_FILES['backcard']['name']){
-                   $this->user_verification->upload('backcard');
-               }
+             if($_FILES['backcard']['name']){
+                 $this->user_verification->upload('backcard');
+             }
 
-               redirect('user/trade_verification','refresh');
-           }
+             redirect('user/trade_verification','refresh');
+         }
 
-           $vars['bank'] = $this->user_verification->get($customer_user_id);
+         $vars['bank'] = $this->user_verification->get($customer_user_id);
 
-           $this->data['content'] = $this->load->view('user/v_'.__FUNCTION__.'.php',$vars,true);
-           view($this->data);
-       }
-   }
+         $this->data['content'] = $this->load->view('user/v_'.__FUNCTION__.'.php',$vars,true);
+         view($this->data);
+     }
+ }
 
 
-   public function logout()
-   {
+ public function logout()
+ {
     $this->session->sess_destroy();
     redirect('/');
 }
 
 function profile_update()
 {
-    $this->load->model('mdl_user');
+    
     $id=$this->session->user_id;
     $data=array('username'=>$this->input->post('username'),'firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'),'identity_no'=>$this->input->post('id_no'),'cellno'=>$this->input->post('cellno'),'alt_cellno'=>$this->input->post('alt_cellno'),'street1'=>$this->input->post('street1'),'street2'=>$this->input->post('street2'),'city'=>$this->input->post('city'),'state1'=>$this->input->post('state'),'country1'=>$this->input->post('country'),'zipcode'=>$this->input->post('code'),'postal_line1'=>$this->input->post('line1'),'postal_line2'=>$this->input->post('line2'),'postal_city'=>$this->input->post('postal_city'),'postal_state'=>$this->input->post('postal_state'),'postal_country'=>$this->input->post('postal_country'),'postal_code'=>$this->input->post('postal_code'));
     $this->mdl_user->profile_update($data,$id); 
@@ -227,20 +225,20 @@ function two_factor()
     }
     else
     { 
-       $user_result = $this->gulden_model->user_check_tfa();
-       $user_secret = $this->gulden_model->get_secret($customer_user_id);
-       if($user_result=="enable" || $user_secret!="")
-       {
+     $user_result = $this->gulden_model->user_check_tfa();
+     $user_secret = $this->gulden_model->get_secret($customer_user_id);
+     if($user_result=="enable" || $user_secret!="")
+     {
         $secret_code = $this->gulden_model->get_secret($customer_user_id); 
         $data['secret_code'] = $secret_code;
         require_once APPPATH.'libraries/google/GoogleAuthenticator.php';
         $ga = new PHPGangsta_GoogleAuthenticator();
         $data['url'] = $ga->getQRCodeGoogleUrl('gulden', $secret_code);
     }else{
-       
-       $result =   $this->gulden_model->get_tfacode(); 
-       if($result)
-       {
+
+     $result =   $this->gulden_model->get_tfacode(); 
+     if($result)
+     {
         $data['secret_code']    =   $result['secret'];
         $data['onecode']        =   $result['oneCode'];
         $data['url']            =   $result['qrCodeUrl'];
@@ -280,9 +278,9 @@ function two_factor_authendication()
         }
         else
         {
-         $result                =   $this->gulden_model->get_tfacode();
-         if($result)
-         {
+           $result                =   $this->gulden_model->get_tfacode();
+           if($result)
+           {
             $data['secret_code']    =   $result['secret'];
             $data['onecode']        =   $result['oneCode'];
             $data['url']            =   $result['qrCodeUrl'];
@@ -302,9 +300,47 @@ function enable_tfa()
 {
     echo $result = $this->gulden_model->enable_tfa();
 }
+
 function disable_tfa()
 {
     echo $result = $this->gulden_model->disable_tfa();
+}
+
+// to view forgot password page
+function forget()     
+{   
+   $this->load->view('front/forget_password'); 
+}
+
+// ajax form for forgot password
+function ajax_forgot_form()  
+{ 
+   $res_login  =   $this->mdl_user->forgot_passmail();     
+   echo $res_login;
+}
+
+// from mail to function
+function forgot($id) //step 2
+{
+   $this->session->set_userdata('forgotid',$id);
+   redirect('reset_password','refresh');   
+}
+
+function reset_password()
+{
+   $data['id'] = $this->session->userdata('forgotid');
+   $this->load->view('front/resetpassword',$data);
+}
+
+// reset password form
+function ajaxreset_password()
+{
+    $result =   $this->gulden_model->reset_password_model();   
+    if($result){
+        echo "success";
+    }else{
+        echo "failure";
+    }
 }
 
 }

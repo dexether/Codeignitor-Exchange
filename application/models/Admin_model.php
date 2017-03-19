@@ -2225,15 +2225,12 @@ function fetchuserbalancebyId($id,$currency)
 }
 function get_userdetails($user_id)
 { 
-	$this->db->where('user_id',$user_id);  
-	$query=$this->db->get('userdetails'); 
-	if($query->num_rows() >= 1)
-	{                
-		return $query->row();			 
-	}   
-	else
-	{      
-		return false;		
+	$this->db->where('id',$user_id);  
+	$query=$this->db->get('users'); 
+	if($query->num_rows() >= 1){                
+	   return $query->row();			 
+	}else{      
+	   return false;		
 	}
 }
 function get_depemail_notification($cur,$user_id)

@@ -115,7 +115,7 @@ if(isset($content)) echo $content;
  Copyright <?php echo date('Y')?>, All Rights Reserved
  </div>
  </footer>
-
+<script type="text/javascript">var base_url = '<?php echo base_url(); ?>'; </script>
  <?php if(isset($login)) echo $login; ?>
  <?php if(isset($register)) echo $register; ?>
 
