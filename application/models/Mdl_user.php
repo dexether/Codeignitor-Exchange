@@ -54,7 +54,11 @@ class Mdl_user extends CI_Model
 
                 $this->session->set_userdata($sessiondata); 
                 // send email
-                $this->_send_email();
+                $message = $this->load->view('template/emails/v_header', [], TRUE);
+                $message .= $this->load->view('template/emails/v_success_login', [], TRUE);
+                $message .= $this->load->view('template/emails/v_footer', [], TRUE);
+                $this->common_mail($this->input->post('email'),'Login success',$message);
+                
                 return 'success';
             }
         }
@@ -67,23 +71,6 @@ class Mdl_user extends CI_Model
     { 	
         return "invalid";
     }
-}
-
-private function _send_email(){
-    try {
-       $this->load->library('email');
-       $this->email->from('rog.burgerman@gmail.com', 'Rog Burgger');
-       $this->email->to($this->input->post('email'));
-       $this->email->subject('Login success');
-       $message = $this->load->view('template/emails/v_header', [], TRUE);
-       $message = $this->load->view('template/emails/v_success_login', [], TRUE);
-       $message = $this->load->view('template/emails/v_footer', [], TRUE);
-       $this->email->message($message);
-       $this->email->send();   
-    } catch (Exception $e) {
-       return $e->message;
-    }
-      
 }
 
 public function add_user()    
