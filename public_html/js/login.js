@@ -5,8 +5,8 @@ $(document).ready(function(){
      clientid:{ required:true},
      password:{ required:true},
      googleRechapatcha:{required:true}
-  },
-  errorPlacement: function (error, element) {
+   },
+   errorPlacement: function (error, element) {
     if (element.val() === "") {
       element.attr("placeholder", error.text());
       element.addClass("place_holder_error");
@@ -16,42 +16,51 @@ $(document).ready(function(){
  },
  submitHandler: function (form) {
   var data = $('#login_form').serialize();
+
   $.ajax({
-    type:'POST',
-    data:data,
-    url:'/user/login',
-    success:function(output) {
-      var output = output.trim();
-      var googleRechapatcha = $('#googleRechapatcha');
-      if(output=="invalid")
-      {
-       $("#error_message").html("Your email or password is invalid");
-     }
-     else if(output=="blocked")
-     {
-      $("#error_message").html("You are blocked, please contact us");
-    }
-    else if(output=="deactive")
-    {
-      $("#error_message").html("Please Activate Your Account");
-    }
-    else if(output=="enable")
-    {
-      $("#myModal_tfa").modal('show');
-      $("#login").modal('hide');
-    }else if (googleRechapatcha.length){
-       $("#error_message").html("Please confirm you not robot");
-    }
-    else if(output=="success")
-    {
-      location.href='/markets/EUR-NLG'
-    }
-    else
-    {
-      $("#error_message").html("Whoops, something happened, please try again");
-    }
-  }
-});
+   type:'POST',
+   data:data,
+   url:'/user/login',
+   success: function(output) {
+
+    var response = grecaptcha.getResponse();
+        //recaptcha failed validation
+        if (response.length == 0) {
+          $('#error_message').html('please confirm that you not robot');
+          return false;
+        }else {
+          $('#error_message').html('');
+        }
+
+        var output = output.trim();
+
+        if(output=="invalid")
+        {
+          $("#error_message").html("Your email or password is invalid");
+        }
+        else if(output=="blocked")
+        {
+          $("#error_message").html("You are blocked, please contact us");
+        }
+        else if(output=="deactive")
+        {
+          $("#error_message").html("Please Activate Your Account");
+        }
+        else if(output=="enable")
+        {
+          $("#myModal_tfa").modal('show');
+          $("#login").modal('hide');
+        }
+        else if(output=="success")
+        {
+          location.href='/markets/EUR-NLG'
+        }
+        else
+        {
+          $("#error_message").html("Whoops, something happened, please try again");
+        }
+      }
+    });  
 }
 });
 
@@ -167,7 +176,6 @@ $('#forget_form').validate({
     });
     return false;
   } 
-
 });
 
 function refreshCaptcha()

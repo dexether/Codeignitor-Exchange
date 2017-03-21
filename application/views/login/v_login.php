@@ -17,8 +17,8 @@
                <input type="password" class="form-control" placeholder="Password" name="password" id="password" for="password">
             </div>
             <input type="hidden" name="google_rechapatcha" id="googleRechapatcha" value="" />
-            <div class="g-recaptcha" data-sitekey="6LdmmBkUAAAAAGmSfVsrs0ACMrtmlbP6cAUgZsxA"></div>
-            <button class="cls_dow_btn btn-block" style="width:100%;margin-top: 18px"> login</button>
+            <div class="g-recaptcha" id="gRecaptcha" data-sitekey="6LdmmBkUAAAAAGmSfVsrs0ACMrtmlbP6cAUgZsxA"></div>
+            <button class="cls_dow_btn btn-block" id="loginBtn" style="width:100%;margin-top: 18px"> login</button>
             <div class="clearfix">
             </div>
             

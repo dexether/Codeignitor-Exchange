@@ -209,7 +209,7 @@ function common_mail($tomail=null,$email_subject=null,$email_content=null)
     return true; 
   }
   else{	
-    show_error($this->email->print_debugger());
+    //show_error($this->email->print_debugger());
   }
 }
 
