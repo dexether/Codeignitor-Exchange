@@ -17,6 +17,7 @@ $(document).ready(function(){
  submitHandler: function (form) {
   var data = $('#login_form').serialize();
 
+  $('#loginBtn').text('Loading...');
   $.ajax({
    type:'POST',
    data:data,
@@ -27,6 +28,7 @@ $(document).ready(function(){
         //recaptcha failed validation
         if (response.length == 0) {
           $('#error_message').html('please confirm that you not robot');
+          $('#loginBtn').text('LOGIN');
           return false;
         }else {
           $('#error_message').html('');
@@ -59,6 +61,8 @@ $(document).ready(function(){
         {
           $("#error_message").html("Whoops, something happened, please try again");
         }
+
+        $('#loginBtn').text('LOGIN');
       }
     });  
 }
