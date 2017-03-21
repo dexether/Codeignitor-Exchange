@@ -213,6 +213,108 @@ function common_mail($tomail=null,$email_subject=null,$email_content=null)
   }
 }
 
+function check_login_details()
+{
+  $login_date = date('Y-m-d');
+  $login_time = date("h:i:s"); 
+  $datetime   =   $login_date." ".$login_time;
+  $clientid = $this->input->post('clientid');   
+  $password = $this->input->post('password');
+
+  $encpassword = password_hash($password,PASSWORD_DEFAULT);
+
+  $res_loguser = $this->db->query("SELECT * FROM `users` where (client_id='$clientid' OR email='$clientid') AND password='$encpassword' ");
+
+  $row    = $res_loguser->row();  
+
+  if($row) 
+  { 
+
+    $db_user_id = $row->user_id;
+    $db_email = $row->emailid;
+    
+    $db_client_id = $row->client_id;
+    $firstname  = $row->firstname;
+    $lastname = $row->lastname;
+    $db_name  = $firstname." ".$lastname;
+    $db_name1   =   $row->firstname;
+    $username   =   $row->username;
+    $db_status  = $row->status;
+
+    if($db_status=="active")
+    {
+      // set session       
+      $sessiondata = array(
+        'customer_email_id'  => $db_email,
+        'customer_user_id' => $db_user_id,
+        'customer_client_id' =>$db_client_id,
+        'customer_name' => $db_name, 
+        'user_name' => $db_name1
+        );
+
+      $this->session->set_userdata($sessiondata);   
+      if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+      } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+      } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+      } 
+
+      $this->load->library('user_agent');
+      $user_browser = $this->agent->browser(); 
+      $historydata = array(
+        'userId'=>$db_user_id,
+        'ipAddress'=>$ip,
+        'Browser'=>$user_browser,
+        'Action'=>"Logged in",
+        'datetime'=>$datetime
+        );
+      $this->db->insert('history',$historydata);
+      $data['loginstatus']="1";
+      $this->db->where('id',$db_user_id);
+      $this->db->update($this->table,$data);
+
+      $this->db->where('id',1);   
+      $query = $this->db->get('site_config');
+      if($query->num_rows() == 1)
+      {
+        $row      =   $query->row();
+        $admin_email  = $row->email_id;                    
+        $companyname  = $row->company_name; 
+        $siteurl    = $row->siteurl;        
+      }
+
+      $this->db->where('userId',$db_user_id);   
+      $query = $this->db->get('history');
+      if($query->num_rows() == 1)
+      {
+        $row      =   $query->row();
+        $datetime = strtotime('d-m-Y h:i:s',$row->datetime);                     
+
+      }
+
+      if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+      } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+      } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+      } 
+
+      return "active";
+    }
+    if($db_status=="deactive")
+    {
+      return "deactive";
+    }
+  }
+  else
+  { 
+    return "invalid";  
+  }
+}
+
 function verification($verifier)
 {
 	
@@ -309,29 +411,29 @@ function forgot_passmail()
 
 }
 
-   function change_password()
-  {
-    $oldpass = $this->input->post('oldpassword');
-    $newpass = $this->input->post('newpassword');
-    $new = password_hash($newpass,PASSWORD_DEFAULT);
-    $custome_user_id  = $this->session->user_id;
-    $old = password_hash($oldpass,PASSWORD_DEFAULT); 
-    $this->db->where('id',$custome_user_id);
-    $user = $this->db->get($this->table)->row();
+function change_password()
+{
+  $oldpass = $this->input->post('oldpassword');
+  $newpass = $this->input->post('newpassword');
+  $new = password_hash($newpass,PASSWORD_DEFAULT);
+  $custome_user_id  = $this->session->user_id;
+  $old = password_hash($oldpass,PASSWORD_DEFAULT); 
+  $this->db->where('id',$custome_user_id);
+  $user = $this->db->get($this->table)->row();
 
-    if(password_verify($oldpass,$user->password) == true)
-    {
-       $this->db->where('id',$custome_user_id);  
-       if($this->db->update($this->table, ['password' => $new]) == true)
-       {
-          echo "Your password changed Successfully";
-       }else{
-          echo "Error in password updation";
-       }
-    }else{
-          echo "Incorrect Old Password ";
-    } 
+  if(password_verify($oldpass,$user->password) == true)
+  {
+   $this->db->where('id',$custome_user_id);  
+   if($this->db->update($this->table, ['password' => $new]) == true)
+   {
+    echo "Your password changed Successfully";
+  }else{
+    echo "Error in password updation";
   }
+}else{
+  echo "Incorrect Old Password ";
+} 
+}
 
 
 function generatepassword($length = 8) {

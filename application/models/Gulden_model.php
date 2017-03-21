@@ -484,6 +484,7 @@ function check_logindetails()
 		return "invalid";  
 	}
 }
+
 function encryptIt( $q ) 
 {
     $cryptKey  = 'qJB0rGtIn5UB1xG03efyCp';
