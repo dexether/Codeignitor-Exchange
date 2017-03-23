@@ -12,25 +12,25 @@ class Mdl_user_bank_details extends CI_Model {
 	function bank_details_update($data,$id)
 	{
 		$data1 = array('status'=>"0");	
-		$this->db->where('usersfk',$id);            	
+		$this->db->where('user_id',$id);            	
 		$this->db->update('user_bank_details',$data1);
 
-		$data['usersfk']=$id;
+		$data['user_id']=$id;
 		$res=$this->db->insert('user_bank_details',$data);
 		if($res)
 		{
-			echo "Your Bank Details Successfully updated";
+			echo "Your Bank Details Are Successfully updated";
 		}
 		else
 		{
-			echo "Error in Updation";
+			echo "Error while updating";
 		}
 	}
 
 	function acccount_details()
 	{
 		$id=$this->session->user_id;
-		$this->db->where('usersfk',$id);
+		$this->db->where('user_id',$id);
 		$this->db->where('status',1);
 		$res=$this->db->get('user_bank_details'); 
 		if($res->num_rows()>0)
