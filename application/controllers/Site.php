@@ -21,6 +21,7 @@ class Site extends MY_Controller {
         
         view($this->data, 'site');
     }
+    
     function captcha()
     {
         //Settings: You can customize the captcha here

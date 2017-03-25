@@ -1,22 +1,49 @@
- <p style="margin: 0pt 20px; padding: 0px; text-align: left; color: rgb(84, 84, 84); font-family: Helvetica,Arial,sans-serif; font-size: 14px;">Best Regards,</p>
-
- <p style="margin: 0pt 20px; padding: 15px 0px; text-align: left; color: rgb(84, 84, 84); font-family: Helvetica,Arial,sans-serif; font-size: 14px;">##COMPANYNAME##</p>
+<table class="social" width="100%">
+	<tr>
+		<td>
+			<table align="left" class="column">
+				<tr>
+					<td>
+						<h5 class="">Contact Info:</h5>
+						<p>
+							Email: <a href="emailto:<?php echo APP_ADMIN_EMAIL ?>"><?php echo APP_ADMIN_EMAIL ?></a>
+						</p>
+					</td>
+				</tr>
+			</table> 
+			<span class="clear"></span>
+		</td>
+	</tr>
+</table> 
 </td>
 </tr>
-<tr>
-	<td style="padding: 20px 30px 5px;"> </td>
+</table>
+</div> 
+</td>
+<td></td>
 </tr>
-</tbody>
 </table>
-</div>
+<table class="footer-wrap">
+	<tr>
+		<td></td>
+		<td class="container">
 
-<table cellpadding="0" cellspacing="0" width="720px">
-	<tbody>
-		<tr>
-			<td align="center"> </td>
-		</tr>
-	</tbody>
-</table>
-
-<p> </p>
-</div>
+			<div class="content">
+				<table>
+					<tr>
+						<td align="center">
+							<p>
+								<a href="#">Terms</a> |
+								<a href="#">Privacy</a> |
+								<a href="#"><unsubscribe>Unsubscribe</unsubscribe></a>
+							</p>
+						</td>
+					</tr>
+				</table>
+			</div> 
+		</td>
+		<td></td>
+	</tr>
+</table> 
+</body>
+</html>

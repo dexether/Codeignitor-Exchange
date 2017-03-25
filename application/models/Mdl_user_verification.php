@@ -17,22 +17,26 @@ class Mdl_User_verification extends CI_Model {
 	{
 		$row = $this->db->get_where($this->table, ['user_id' => $user_id])->row();
 
-		if(!isset($row->passport)){
-			$row->passport = 'http://placehold.it/406x150';
-		}else{
-			$row->passport = base_url('uploads/'.$row->passport);
-		}
+		if(is_object($row)){
+			if(!isset($row->passport)){
+				$row->passport = 'http://placehold.it/406x150';
+			}else{
+				$row->passport = base_url('uploads/'.$row->passport);
+			}
 
-		if(!isset($row->selfie)){
-			$row->selfie = 'http://placehold.it/406x150';
-		}else{
-			$row->selfie = base_url('uploads/'.$row->selfie);
-		}
+			if(!isset($row->selfie)){
+				$row->selfie = 'http://placehold.it/406x150';
+			}else{
+				$row->selfie = base_url('uploads/'.$row->selfie);
+			}
 
-		if(!isset($row->backcard)){
-			$row->backcard = 'http://placehold.it/406x150';
+			if(!isset($row->backcard)){
+				$row->backcard = 'http://placehold.it/406x150';
+			}else{
+				$row->backcard = base_url('uploads/'.$row->backcard);
+			}
 		}else{
-			$row->backcard = base_url('uploads/'.$row->backcard);
+			return false;
 		}
 		return $row;
 	}

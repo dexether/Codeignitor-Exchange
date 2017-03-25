@@ -1,8 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
-
-
-
-?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div class="cls_hea_sec"></div>
 
 <div class="cls_banner_con">
@@ -41,7 +37,6 @@
     <div class="col-md-7 col-sm-7 col-lg-7">
       <div class="cls_tra_us">  Start Trading with Us </div>
     </div>
-    
     <div class="col-md-4 col-lg-3 col-sm-5">
       <ul class="list-inline list-unstyled cls_top_login cls_mar_topd">
         <li><a href="#" data-toggle="modal" data-target="#login"> Login </a> </li>
@@ -49,6 +44,4 @@
       </ul>
     </div>
   </div>
-  
-  
 </div>

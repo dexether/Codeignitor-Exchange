@@ -14,9 +14,11 @@
             <input type="text" id="clientid" name="email" placeholder="Email address" for="email" class="form-control">
             </div>   
             <div class="form_type">
-       <input type="password" class="form-control" placeholder="Password" name="password" id="password" for="password">
+               <input type="password" class="form-control" placeholder="Password" name="password" id="password" for="password">
             </div>
-            <button class="cls_dow_btn btn-block" style="width:100%;"> login</button>
+            <input type="hidden" name="google_rechapatcha" id="googleRechapatcha" value="" />
+            <div class="g-recaptcha" id="gRecaptcha" data-sitekey="6LcYRhoUAAAAAJb2AtcnWgf81NLxhDb7j7_TtKwv"></div>
+            <button class="cls_dow_btn btn-block" id="loginBtn" style="width:100%;margin-top: 18px"> login</button>
             <div class="clearfix">
             </div>
             
