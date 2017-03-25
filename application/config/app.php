@@ -2,8 +2,8 @@
 
 // hard - cannot changed from code
 // app constants 
-defined('APP_BASE_URL')      OR define('APP_BASE_URL',base_url());
-defined('APP_LOGO')          OR define('APP_LOGO', APP_BASE_URL.'images/logo.png');
+defined('APP_BASE_URL')      OR define('APP_BASE_URL','/');
+defined('APP_LOGO')          OR define('APP_LOGO', '/images/logo.png');
 defined('APP_TITLE') 	     OR define('APP_TITLE', 'Gulden Trader');
 defined('APP_ADMIN_EMAIL') 	 OR define('APP_ADMIN_EMAIL', 'exchange@guldentrader.com');
 defined('APP_SMTP_HOST') 	 OR define('APP_SMTP_HOST', 'mail.guldentrader.com');
