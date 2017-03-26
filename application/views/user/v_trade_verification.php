@@ -22,7 +22,7 @@ if($this->session->flashdata('errors')){
 
 				<?php $this->load->view('user/v_aboutsidebar'); ?>
 				<div class="col-md-9 col-sm-8">
-					<div class="cls_comm_head"> Manage Bank Information </div>
+					<div class="cls_comm_head"> Trade verification </div>
 					<div class="cls_change_pass">
 						<form class="form-horizontal" name="bandetails_form" id="bandetails_form" enctype="multipart/form-data" method="post">
 							<div class="form-group">
@@ -31,11 +31,11 @@ if($this->session->flashdata('errors')){
 							<div class="form-group">
 								<label for="Status" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Status</label>
 								<div class="col-sm-6">
-									<?php if ($bank->verification_status == 'unverified' OR $bank->verification_status == 'in_progress'): ?>
-											<?php echo $bank->verification_status ?>
+									<?php if ($bank->verification_trade == 'unverified' OR $bank->verification_trade == 'in_progress'): ?>
+											<?php echo $bank->verification_trade ?>
 									<?php else: ?>
 										<b class="text-success">
-											<?php echo $bank->verification_status ?>
+											<?php echo $bank->verification_trade ?>
 										</b>
 									<?php endif; ?>
 

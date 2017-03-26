@@ -6,7 +6,7 @@ class Migration_Bank extends CI_Migration {
     public function __construct()
     {
         $this->load->dbforge();
-        $this->load->database();
+        //$this->load->database();
     }
 
     public function up() {
@@ -37,7 +37,7 @@ class Migration_Bank extends CI_Migration {
         $this->dbforge->add_field($fields);
         $this->dbforge->add_key('id', true);
         $this->dbforge->add_key('user_id', true);
-        $this->dbforge->create_table('adresses', true);
+        $this->dbforge->create_table('addresses', true);
         
         //Commission
         $fields = [];
@@ -129,7 +129,7 @@ class Migration_Bank extends CI_Migration {
         $this->dbforge->add_field($fields);
         $this->dbforge->add_key('id', true);
         $this->dbforge->add_key('user_id', true);
-        $this->dbforge->create_table('deposits', true);
+        $this->dbforge->create_table('withdrawal', true);
         
         // bank_deposit
         $fields = [];
@@ -219,10 +219,10 @@ class Migration_Bank extends CI_Migration {
 
     public function down() {
         $this->dbforge->drop_table('user_bank_details');
-        $this->dbforge->drop_table('deposit');
+        $this->dbforge->drop_table('deposits');
         $this->dbforge->drop_table('withdrawal');
         $this->dbforge->drop_table('bank_deposit');
-        $this->dbforge->drop_table('adresses');
+        $this->dbforge->drop_table('addresses');
         $this->dbforge->drop_table('commission');
         $this->dbforge->drop_table('trades_EUR');
         $this->dbforge->drop_table('trades_GTS');

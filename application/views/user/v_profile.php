@@ -19,22 +19,6 @@
 
               </div>
 
-              <div class="form-group">
-                <label for="inputEmail3" class=" col-sm-4  col-sm-offset-1  col-md-3  control-label">Username *</label>
-                <div class="col-sm-6">
-                  <input type="text" class="form-control" id="username" name="username" placeholder="" value="<?php echo $profile->username; ?>">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="inputEmail3" class=" col-sm-4  col-sm-offset-1  col-md-3  control-label">Account number </label>
-                <div class="col-sm-6">
-                 <input type="text" class="form-control" id="account_no" name="account_no" placeholder="" value="<?php echo $profile->account_no; ?>" disabled>
-                 <label class="error" for="account_no">This is your gulden account number .</label>
-               </div>
-             </div>
-
-
              <div class="form-group">
               <label for="inputEmail3" class=" col-sm-4  col-sm-offset-1  col-md-3  control-label">Name *</label>
               <div class="col-sm-6">
@@ -110,8 +94,9 @@
               <?php
               foreach($country_detail as $country)
               {
+                  
                 $id = $country->id;
-                $country_name = $country->country_name;
+                $country_name = $country->country;
                 ?>
                 <option value="<?php echo $id; ?>" <?php if($profile->country1==$id) { ?> selected="selected" <?php } ?>><?php echo $country_name; ?></option>
 
@@ -174,7 +159,7 @@
         foreach($country_detail as $country)
         {
           $id = $country->id;
-          $country_name = $country->country_name;
+          $country_name = $country->country;
           ?>
           <option value="<?php echo $id; ?>" <?php if($profile->postal_country==$id) { ?> selected="selected" <?php } ?>><?php echo $country_name; ?></option>
 

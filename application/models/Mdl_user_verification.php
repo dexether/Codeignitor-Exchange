@@ -43,38 +43,38 @@ class Mdl_User_verification extends CI_Model {
 
 	public function upload($file='')
 	{
-		$conf['upload_path']   = 'uploads';
-		$conf['allowed_types'] = 'gif|jpg|png|pdf';
-		$conf['file_name']     = '';
-		$conf['overwrite']     = FALSE;
-		$conf['max_size']      = 5000;
-		$conf['max_width']     = 0;
-		$conf['max_height']    = 0;
-		$conf['encrypt_name']  = FALSE;
-		$this->load->library('upload', $conf);
+            $conf['upload_path']   = 'uploads';
+            $conf['allowed_types'] = 'gif|jpg|png|pdf';
+            $conf['file_name']     = '';
+            $conf['overwrite']     = FALSE;
+            $conf['max_size']      = 5000;
+            $conf['max_width']     = 0;
+            $conf['max_height']    = 0;
+            $conf['encrypt_name']  = FALSE;
+            $this->load->library('upload', $conf);
 
-		if(!$this->upload->do_upload($file)){
-			$this->session->set_flashdata('errors', $this->upload->display_errors('<p>', '</p>'));
-		}else{
-			$upload_data = $this->upload->data();
-			$data = ['verification_status'=>'unverified','user_id' => $this->session->user_id,$file => $upload_data['file_name']];
-			$this->update($data,$this->session->user_id);
+            if(!$this->upload->do_upload($file)){
+                    $this->session->set_flashdata('errors', $this->upload->display_errors('<p>', '</p>'));
+            }else{
+                    $upload_data = $this->upload->data();
+                    $data = ['verification_trade'=>'unverified','user_id' => $this->session->user_id,$file => $upload_data['file_name']];
+                    $this->update($data,$this->session->user_id);
 			$this->session->set_flashdata('success','Data Updated');
 		}
 	}
 
 	public function update($data=[],$user_id=0)
 	{
-		if(!$user_id){
-			$user_id = $this->session->user_id;
-		}
+            if(!$user_id){
+                    $user_id = $this->session->user_id;
+            }
 
-		$result = $this->db->get_where($this->table, ['user_id' => $user_id]);
-		if($result->num_rows() > 0){
-			$this->db->update($this->table, $data, ['user_id' => $user_id]);
-		}else{
-			$this->db->insert($this->table,$data);
-		}
+            $result = $this->db->get_where($this->table, ['user_id' => $user_id]);
+            if($result->num_rows() > 0){
+                    $this->db->update($this->table, $data, ['user_id' => $user_id]);
+            }else{
+                    $this->db->insert($this->table,$data);
+            }
 	}
 
 }

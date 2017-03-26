@@ -88,10 +88,8 @@ class Mdl_user extends CI_Model
 
         $this->session->set_userdata($sessiondata); 
                 // send email
-        $message = $this->load->view('template/emails/v_header', [], TRUE);
         $data  =['username'=>$row->firstname];
-        $message .= $this->load->view('template/emails/v_success_login', $data, TRUE);
-        $message .= $this->load->view('template/emails/v_footer', [], TRUE);
+        $message = $this->load->view('template/emails/v_success_login', $data, TRUE);
         $this->common_mail($this->input->post('email'),'Login success',$message);
 
         return 'success';
@@ -133,7 +131,7 @@ public function add_user()
   $last_userinsid = $this->db->insert_id();   
   if($last_userinsid!="")
   { 
-   $verifydata = array('user_id'=>$last_userinsid,'verification_status'=>'unverified','verifier'=> random_string(25, false));
+   $verifydata = array('user_id'=>$last_userinsid,'verification_trade'=>'unverified','verification_status'=>'unverified','verifier'=> random_string(25, false));
    $this->db->insert('user_verification',$verifydata);
    $email		=	$this->input->post('email', true);   
 
@@ -150,29 +148,33 @@ public function add_user()
 
 function common_mail($tomail=null,$email_subject=null,$email_content=null)
 {	 
-  $this->load->library('email');
-  $config['protocol'] = "smtp";
-  $config['smtp_host'] = APP_SMTP_HOST;
-  $config['smtp_port'] = APP_SMTP_PORT;
-  $config['smtp_user'] = APP_SMTP_USER;
-  $config['smtp_pass'] = APP_SMTP_PASS;
-  $config['charset'] = APP_CHARSET;
-  $config['mailtype'] = "html";
-  $config['newline'] = "\r\n";
-  $this->email->initialize($config);
-  $this->email->from(APP_SMTP_USER, APP_SMTP_HOST);
-  $this->email->to($tomail);
-  $this->email->reply_to(APP_SMTP_USER, APP_SMTP_HOST);
-  $this->email->subject($email_subject);
-  $this->email->message($email_content);
-  $send=$this->email->send();
-  if($send)
-  {
-    return true; 
-  }
-  else{	
-    //show_error($this->email->print_debugger());
-  }
+    $content = $this->load->view('template/emails/v_header', [], TRUE);
+    $content .= $email_content;
+    $content .= $this->load->view('template/emails/v_footer', [], TRUE);
+    $this->load->library('email');
+    $config['protocol'] = "smtp";
+    $config['smtp_host'] = APP_SMTP_HOST;
+    $config['smtp_port'] = APP_SMTP_PORT;
+    $config['smtp_user'] = APP_SMTP_USER;
+    $config['smtp_pass'] = APP_SMTP_PASS;
+    $config['charset'] = APP_CHARSET;
+    $config['mailtype'] = "html";
+    $config['useragent'] = "guldentrader.com";
+    $config['newline'] = "\r\n";
+    $this->email->initialize($config);
+    $this->email->from(APP_SMTP_USER, APP_SMTP_HOST);
+    $this->email->to($tomail);
+    $this->email->reply_to(APP_SMTP_USER, APP_SMTP_HOST);
+    $this->email->subject($email_subject);
+    $this->email->message($content);
+    $send=$this->email->send();
+    if($send)
+    {
+      return true; 
+    }
+    else{	
+      //show_error($this->email->print_debugger());
+    }
 }
 
 function check_login_details()
@@ -533,9 +535,7 @@ function forgot_passmail()
   $this->db->where('id',$getuser_id);
   $this->db->update('users',array('password'=>$encpassword));
 
-  $message  = $this->load->view('template/emails/v_header', [], TRUE);
-  $message .= $this->load->view('template/emails/v_forgot_password', $vars, TRUE);
-  $message .= $this->load->view('template/emails/v_footer', [], TRUE);
+  $message = $this->load->view('template/emails/v_forgot_password', $vars, TRUE);
   $this->common_mail($email,'Forgot Password',$message);
   return "success";     
 } 

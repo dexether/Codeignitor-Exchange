@@ -20,6 +20,7 @@ class Funds extends MY_Controller{
     
     public function deposit($fund='NLG') {
         
+        
         $this->data['content'] = $fund;
         view($this->data);
     }

@@ -78,6 +78,7 @@ class Migration_Base extends CI_Migration {
 		$fields['user_id'] = ['type' => 'INT','constraint'=>'11'];
 		$fields['verifier'] = ['type' => 'VARCHAR','constraint'=>'200'];
 		$fields['verification_status'] = ['type' => 'ENUM("verified","unverified")','NULL' => false,'default' => 'unverified'];
+		$fields['verification_trade'] = ['type' => 'ENUM("verified","unverified")','NULL' => false,'default' => 'unverified'];
 		$fields['created_date'] = ['type' => 'DATE'];
 		$this->dbforge->add_field($fields);
 		$this->dbforge->add_key('id', true);

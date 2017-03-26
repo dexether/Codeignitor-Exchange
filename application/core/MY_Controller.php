@@ -23,6 +23,8 @@ class MY_Controller extends CI_Controller
 
         //preset the variables needed in the templates
         $this->data = base_vars();
+        
+        $this->config->load('app');
     }
 
 }

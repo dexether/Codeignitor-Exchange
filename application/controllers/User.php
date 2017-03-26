@@ -37,7 +37,6 @@ class User extends MY_Controller {
     
     function login()  
     { 
-
         echo $this->mdl_user->check_login();
     }
 
