@@ -1,4 +1,3 @@
-
 <div class="modal fade cls_login_fn" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -7,7 +6,7 @@
         <h4 class="modal-title" id="myModalLabel"> Login Details </h4>
       </div>
       <div class="modal-body">
-       <div class="">
+       <div>
          <?php echo form_open('', 'class="form-horizontal" name="login_form" id="login_form" method="post"'); ?>
           <div class="form_type">
             <input type="text" id="clientid" name="email" placeholder="Email address" for="email" class="form-control">
@@ -34,7 +33,6 @@
         <?php echo form_close(); ?>
       </div>
     </div>
-
   </div>
 </div>
 </div>
@@ -48,18 +46,16 @@
       </div>
       <div class="modal-body">
        <div class="">
-
-         <form style="margin-top:20px;" class="form-horizontal" name="tfaform" id="tfaform" method="post">
+         <?php echo form_open('', 'style="margin-top:20px;" class="form-horizontal" name="tfaform" id="tfaform" method="post"'); ?>
           <div class="form_type">
            <input type="text" class="form-control tfacode" id="tfacode" name="tfacode" placeholder="">
          </div>    
          <button class="cls_dow_btn btn-block tfa_check" style="width:100%;" > Submit</button>
          <div class="clearfix">
          </div> 
-       </form>
+         <?php echo form_close(); ?>
      </div>
    </div>
-
  </div>
 </div>
 </div>
@@ -74,8 +70,7 @@
       </div>
       <div class="modal-body">
        <div class="">
-
-         <form style="margin-top:20px;" class="form-horizontal" name="forget_form" id="forget_form" method="post">
+         <?php echo form_open('', 'style="margin-top:20px;" class="form-horizontal" name="forget_form" id="forget_form" method="post"'); ?>
           <div class="form_type">
             <input type="text" class="form-control" id="forgetemail" name="forgetemail"placeholder="">
             <span class="cls_info_text"><i>Enter your registered email address!</i></span>
@@ -83,11 +78,9 @@
           <button class="cls_dow_btn btn-block" style="width:100%;"> Reset Password</button>
           <div class="clearfix">
           </div> 
-
           <div id="login_error" style="border-radius: 5px; margin-bottom: 12px;  color: green; font-size: 20px; margin-left: 40px; width: 470px;display:none"></div>
           <div id="login_success" style="border-radius: 5px;  margin-bottom: 12px;  color: green; font-size: 20px; margin-left: 40px; width: 470px;display:none">Please check your Email!</div>
-
-        </form>
+        <?php echo form_close(); ?>
       </div>
     </div>
 
