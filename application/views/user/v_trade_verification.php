@@ -24,7 +24,7 @@ if($this->session->flashdata('errors')){
 				<div class="col-md-9 col-sm-8">
 					<div class="cls_comm_head"> Trade verification </div>
 					<div class="cls_change_pass">
-						<form class="form-horizontal" name="bandetails_form" id="bandetails_form" enctype="multipart/form-data" method="post">
+						<?php echo form_open_multipart('','class="form-horizontal" name="bandetails_form" id="bandetails_form" enctype="multipart/form-data" method="post"') ?>
 							<div class="form-group">
 								<span id="bandetails_success" class="alert alert-info" style="display:none;"></span>
 							</div>
@@ -68,7 +68,7 @@ if($this->session->flashdata('errors')){
 									<button type="submit" class="cls_dow_btn"  name="submit"> UPDATE INFORMATION </button> 
 								</div>
 							</div>
-						</form>
+						<?php echo form_close(); ?>
 					</div>
 				</div>
 			</div> 
