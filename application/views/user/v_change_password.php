@@ -3,12 +3,10 @@
     color:red !important;
   }
 </style>
-
 <div class="cls_main_top">
   <div class="cls_mid_con cls_comm_bg">
     <div class="container">
       <div class="row">
-
         <?php $this->load->view('user/v_aboutsidebar'); ?>
         <div class="col-md-9 col-sm-8">
           <div class="cls_comm_head"> Change password </div>
@@ -44,22 +42,10 @@
            </div>
          <?php echo form_close(); ?>
        </div>
-
      </div>
    </div>
-   
  </div>
- 
- 
- 
- 
- 
- 
- 
- 
- 
  <br>
  <br>
 </div>
-
 </div>
