@@ -19,9 +19,25 @@ class Funds extends MY_Controller{
     }
     
     public function deposit($fund='NLG') {
+
+        $data = array();
         
+        switch ($fund) {
+            case 'NLG':
+                //check if address exists,
+                //if not create a new Gudlen address for this user.
+                $this->data['content'] = $this->load->view('funds/v_nlg',$data, true);
+                break;
+            case 'EUR':
+
+                $this->data['content'] = $this->load->view('funds/v_eur',$data, true);
+                break;
+
+            default:
+                break;
+        }
         
-        $this->data['content'] = $fund;
+       
         view($this->data);
     }
     

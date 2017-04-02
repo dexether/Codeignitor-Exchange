@@ -13,6 +13,12 @@ defined('APP_SMTP_PORT') 	 OR define('APP_SMTP_PORT', 587);
 defined('APP_CHARSET') 		 OR define('APP_CHARSET', 'UTF-8');
 defined('APP_RECAPTCHA') 	OR define('APP_RECAPTCHA', '6LcYRhoUAAAAANIWpNkhwHEXxvhlDHlQtAUlxo7C');
 
+
+defined('GULDEN_USER') 	OR define('GULDEN_USER', 'GC_rpc');
+defined('GULDEN_PASSWORD') 	OR define('GULDEN_PASSWORD', '75KH7EAhL2R6GNMe5BcSramQTciMDeHrQcVmrjbMWGTQ');
+defined('GULDEN_HOST') 	OR define('GULDEN_HOST', '127.0.0.1');
+defined('GULDEN_PORT') 	OR define('GULDEN_PORT', '8332');
+
 // can change this values from code
 // configuration array
 $config = [];
