@@ -24,7 +24,7 @@ if($this->session->flashdata('success')){
              <div class="form-group">
               <label for="inputEmail3" class="col-sm-4 col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Bank Details</label>
               <div class="col-sm-6">
-                <input type="text" placeholder="Bank Name" id="bankname" name="bankname" class="form-control alphavalid" value="<?php echo $bank->bank_name;?>" > 
+                <input type="text" placeholder="Bank Name" id="bankname" name="bankname" class="form-control alphavalid" value="<?php echo (isset($bank->bank_name))?$bank->bank_name:'' ?>" > 
               </div>
             </div>
             <div class="form-group">
@@ -42,19 +42,19 @@ if($this->session->flashdata('success')){
            <div class="form-group">
               <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Bank account number *</label>
               <div class="col-sm-6">
-               <input type="text" class="form-control numvalid" name="iban" id="iban" placeholder="Bank account number "  value="<?php echo $bank->inter_banking_code; ?>"> 
+               <input type="text" class="form-control numvalid" name="iban" id="iban" placeholder="Bank account number "  value="<?php echo isset($bank->inter_banking_code) ? $bank->inter_banking_code : '' ?>"> 
              </div>
            </div>
            <div class="form-group">
               <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">bank routing number or BIC *</label>
               <div class="col-sm-6">
-               <input type="text" class="form-control numvalid" name="routing_number" id="routing_number" placeholder="Routing Number "  value="<?php echo $bank->routing_number; ?>"> 
+               <input type="text" class="form-control numvalid" name="routing_number" id="routing_number" placeholder="Routing Number "  value="<?php echo isset($bank->routing_number) ? $bank->routing_number :'' ?>"> 
              </div>
            </div>
            <div class="form-group">
               <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">bank verification code *</label>
               <div class="col-sm-6">
-               <input type="text" class="form-control numvalid" name="verification_code" id="verification_code" placeholder="Verification Code"  value="<?php echo $bank->verification_code; ?>"> 
+               <input type="text" class="form-control numvalid" name="verification_code" id="verification_code" placeholder="Verification Code"  value="<?php echo isset($bank->verification_code) ? $bank->verification_code :'' ?>"> 
              </div>
            </div> 
          <div class="form-group">
