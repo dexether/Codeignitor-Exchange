@@ -80,6 +80,8 @@ class Migration_Base extends CI_Migration {
 		$fields['passport'] = ['type' => 'VARCHAR','constraint'=>'200'];
 		$fields['verification_status'] = ['type' => 'ENUM("verified","unverified")','NULL' => false,'default' => 'unverified'];
 		$fields['verification_trade'] = ['type' => 'ENUM("verified","unverified")','NULL' => false,'default' => 'unverified'];
+		$fields['accepted'] = ['type' => 'ENUM("yes","no")','NULL' => false,'default' => 'no'];
+		$fields['reason'] = ['type' => 'VARCHAR','constraint'=>'255']; // why not accepted
 		$fields['created_date'] = ['type' => 'DATE'];
 		$this->dbforge->add_field($fields);
 		$this->dbforge->add_key('id', true);
