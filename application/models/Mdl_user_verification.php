@@ -21,7 +21,7 @@ class Mdl_User_verification extends CI_Model {
 			if(!isset($row->passport)){
 				$row->passport = 'http://placehold.it/406x150';
 			}else{
-				$row->passport = base_url('uploads/'.$row->passport);
+				$row->passport = APPPATH.'uploads/'.$row->passport;
 			}
 
 			if(!isset($row->selfie)){
@@ -43,7 +43,7 @@ class Mdl_User_verification extends CI_Model {
 
 	public function upload($file='')
 	{
-            $conf['upload_path']   = 'uploads';
+            $conf['upload_path']   = '../application/uploads';
             $conf['allowed_types'] = 'gif|jpg|png|pdf';
             $conf['file_name']     = '';
             $conf['overwrite']     = FALSE;
