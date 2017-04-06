@@ -1144,3 +1144,7 @@ $lang['Withdraw Funds'] ='Withdraw Funds';
 $lang['BCP Peru'] ='BCP Peru';
 
 $lang['BCP Bolivia'] ='BCP Bolivia';
+$lang['lng_u_your_address'] = 'Your address';
+$lang['lng_u_no_address'] = 'Whoops, something went wrong!<br/>Please try again later.';
+$lang['lng_u_deposit'] = 'Deposit';
+$lang['lng_u_transfer'] = 'Transfer';

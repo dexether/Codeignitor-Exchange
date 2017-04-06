@@ -18,6 +18,12 @@ defined('GULDEN_USER') 	OR define('GULDEN_USER', 'GC_rpc');
 defined('GULDEN_PASSWORD') 	OR define('GULDEN_PASSWORD', '75KH7EAhL2R6GNMe5BcSramQTciMDeHrQcVmrjbMWGTQ');
 defined('GULDEN_HOST') 	OR define('GULDEN_HOST', '127.0.0.1');
 defined('GULDEN_PORT') 	OR define('GULDEN_PORT', '8332');
+defined('GULDEN_ACCOUNT') 	OR define('GULDEN_ACCOUNT', 'exchange');
+
+
+defined('PAYAPITOKEN') or define('PAYAPITOKEN', '323b8ef7bfc81e41cf88d63a64e3e86e5d845ab5');
+defined('PAYSERVICEID') or define('PAYSERVICEID', 'SL-8418-8740');
+
 
 // can change this values from code
 // configuration array

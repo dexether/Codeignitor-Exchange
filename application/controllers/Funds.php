@@ -18,17 +18,31 @@ class Funds extends MY_Controller{
         redirect('funds/deposit');
     }
     
-    public function deposit($fund='NLG') {
+    public function deposit($fund='NLG', $type=null) {
+
 
         $data = array();
-        
+        $data['fund'] = $fund;
+        $data['header'] = $this->load->view('funds/v_header',$data, true);
+
+        $this->load->model('mdl_deposit');
         switch ($fund) {
             case 'NLG':
                 //check if address exists,
                 //if not create a new Gudlen address for this user.
-                $this->data['content'] = $this->load->view('funds/v_nlg',$data, true);
+
+                $data['address'] = $this->mdl_deposit->get_address($this->session->user_id, 'NLG');
+                $this->data['content'] = $this->load->view('funds/v_deposit',$data, true);
                 break;
             case 'EUR':
+                //create deposit code
+                //start ideal
+
+                $data['deposit_code'] = $this->mdl_deposit->get_deposit_code($this->session->user_id);
+                Paynl\Config::setApiToken(PAYAPITOKEN);
+                Paynl\Config::setServiceId(PAYSERVICEID);
+
+                $data['banklist'] = Paynl\Paymentmethods::getBanks();
 
                 $this->data['content'] = $this->load->view('funds/v_eur',$data, true);
                 break;
@@ -36,7 +50,7 @@ class Funds extends MY_Controller{
             default:
                 break;
         }
-        
+
        
         view($this->data);
     }
