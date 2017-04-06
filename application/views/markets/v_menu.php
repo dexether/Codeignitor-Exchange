@@ -20,18 +20,6 @@
                     </ul>
               </li>
 
-               <li <?php if($uri=="transactions") { ?> class="active" <?php } ?> ><a href="<?php echo base_url();?>market/history"> My Trade History   </a></li>
-               
-
-<!--                 <li class="dropdown  <?php if($uri=="deposit" || $uri=="withdrawal" || $uri=="loginhistory") { echo 'active'; } ?> " ><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Transaction   </a>
-                 <ul class="dropdown-menu">
-		            <li><a href="<?php echo base_url(); ?>funds/deposit">Deposits</a></li>
-		            <li role="separator" class="divider"></li>
-		            <li><a href="<?php echo base_url(); ?>funds/withdrawal">Withdrawals</a></li> 
-		            <li role="separator" class="divider"></li>
-		            <li><a href="<?php echo base_url(); ?>user/loginhistory">Login History</a></li>
-		          </ul>
-		          </li>-->
                 <li <?php if($uri=="withdraw") { ?> class="active" <?php } ?>><a href="<?php echo base_url();?>funds/withdraw"> Withdraw Funds/Coins    </a></li>
                 <li <?php if($uri=="deposit") { ?> class="active" <?php } ?> ><a href="<?php echo base_url();?>funds/deposit"> Deposit Funds/Coins   </a></li>
 

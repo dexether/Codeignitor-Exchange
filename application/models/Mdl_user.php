@@ -162,9 +162,9 @@ function common_mail($tomail=null,$email_subject=null,$email_content=null)
     $config['useragent'] = "guldentrader.com";
     $config['newline'] = "\r\n";
     $this->email->initialize($config);
-    $this->email->from(APP_SMTP_USER, APP_SMTP_HOST);
+    $this->email->from(APP_SMTP_USER, "guldentrader.com");
     $this->email->to($tomail);
-    $this->email->reply_to(APP_SMTP_USER, APP_SMTP_HOST);
+    $this->email->reply_to(APP_SMTP_USER, "guldentrader.com");
     $this->email->subject($email_subject);
     $this->email->message($content);
     $send=$this->email->send();

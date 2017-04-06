@@ -81,9 +81,6 @@ class User extends MY_Controller {
 
         $this->l_asset->add('js/user/profile.js', 'js');
         
-        $this->data['content'] = $this->get_balance();
-
-        
         $this->load->model('mdl_country');
         $vars['country_detail'] =   $this->mdl_country->get_all(); 
         $vars['profile'] = $this->mdl_user->profile_details();   
@@ -91,18 +88,7 @@ class User extends MY_Controller {
 
         view($this->data);
     }
-    
-    private function get_balance()
-    {
-        $data = array();
-        $this->load->model('mdl_balance');
-        $data['EUR'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'EUR');
-        $data['NLG'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'NLG');
-        $data['GTS'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'GTS');
-        
-        return $this->load->view('user/v_balance',$data,true);
-    }
-    
+ 
     
     function bank_info()
     {
@@ -111,8 +97,6 @@ class User extends MY_Controller {
             redirect('/');
         }
         
-        $this->data['content'] = $this->get_balance();
-
         $customer_email_id      =   $this->session->userdata('customer_email_id'); 
         $customer_user_id       =   $this->session->user_id; 
         if(($customer_email_id=="") && ($customer_user_id=="") )
@@ -124,7 +108,7 @@ class User extends MY_Controller {
             $this->l_asset->add('js/user/'.__FUNCTION__.'.js','js');
             $this->load->model('mdl_user_bank_details');
             $vars['bank'] = $this->mdl_user_bank_details->acccount_details();  
-            $this->data['content'] .= $this->load->view('user/v_bank_info',$vars,true);
+            $this->data['content'] = $this->load->view('user/v_bank_info',$vars,true);
             view($this->data);
         }
     }
@@ -146,7 +130,6 @@ class User extends MY_Controller {
 
     function change_password()
     {
-        $this->data['content'] = $this->get_balance();
         
         $this->load->model('mdl_balance', 'balance');
         $this->l_asset->add('js/user/change_password.js','js');
@@ -156,7 +139,7 @@ class User extends MY_Controller {
         if ($this->form_validation->run() == true) {
             $this->mdl_user->change_password();
         } else {
-            $this->data['content'] .= $this->load->view('user/v_change_password',[],true);
+            $this->data['content'] = $this->load->view('user/v_change_password',[],true);
             view($this->data);
         }
         
@@ -254,8 +237,7 @@ function two_factor()
 }
 
 $data['user_details'] = $this->user->get_userstatus($this->session->user_id);
-$this->data['content']  = $this->get_balance(); // load view
-$this->data['content'] .= $this->load->view('user/v_two_factor', $data, TRUE); // append view
+$this->data['content'] = $this->load->view('user/v_two_factor', $data, TRUE); // append view
 view($this->data);
 }
 }

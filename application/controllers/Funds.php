@@ -26,13 +26,14 @@ class Funds extends MY_Controller{
         $data['header'] = $this->load->view('funds/v_header',$data, true);
 
         $this->load->model('mdl_deposit');
+        $this->data['content'] = $this->get_balance();
         switch ($fund) {
             case 'NLG':
                 //check if address exists,
                 //if not create a new Gudlen address for this user.
 
                 $data['address'] = $this->mdl_deposit->get_address($this->session->user_id, 'NLG');
-                $this->data['content'] = $this->load->view('funds/v_deposit',$data, true);
+                $this->data['content'] .= $this->load->view('funds/v_deposit',$data, true);
                 break;
             case 'EUR':
                 //create deposit code
@@ -44,7 +45,8 @@ class Funds extends MY_Controller{
 
                 $data['banklist'] = Paynl\Paymentmethods::getBanks();
 
-                $this->data['content'] = $this->load->view('funds/v_eur',$data, true);
+                
+                $this->data['content'] .= $this->load->view('funds/v_eur',$data, true);
                 break;
 
             default:
@@ -57,8 +59,22 @@ class Funds extends MY_Controller{
     
     public function withdraw($fund='NLG') {
         
-        $this->data['content'] = $fund;
+        
+        $this->data['content'] = $this->get_balance();
+        $this->data['content'] .= $fund;
         view($this->data);
+    }
+    
+        
+    private function get_balance()
+    {
+        $data = array();
+        $this->load->model('mdl_balance');
+        $data['EUR'] = number_format($this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'EUR'), 2);
+        $data['NLG'] = number_format($this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'NLG'), 8);
+        $data['GTS'] = number_format($this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'GTS'), 8);
+        
+        return $this->load->view('user/v_balance',$data,true);
     }
     
 }

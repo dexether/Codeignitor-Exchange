@@ -4,9 +4,9 @@ if(isset($header)) echo $header;
 
 echo '<div class="container">
             <div class="row">';
+echo '<div class="col-lg-12 col-sm-12 col-lg-offset-0 col-md-12 col-sm-12 col-md-offset-0">'
+. '<div class="cls_balce_box">';
 echo '<h1>',$this->lang->line('lng_u_deposit'),' ', $fund, '</h1>';
-
-//Ideal
 echo '<div class="col-md-6 col-sm-6">';
 echo '<h2>iDeal</h2>';
 
@@ -24,7 +24,7 @@ echo '</div>';
 echo '<div class="col-md-6 col-sm-6">';
 echo '<h2>', $this->lang->line('lng_u_transfer'), '</h2>';
 echo 'All EUR transfers are subject to a €1.00 bank fee.</p>';
-echo '<p>Please transfer funds to NL58 ABNA 0216 1974 81</p>';
+echo '<p>Bankaccount IBAN number:  NL58 ABNA 0216 1974 81</p>';
 echo '<p>Guldentrader B.V.</p>';
 echo '<p>Please use the following description: <strong>',  $deposit_code . '</strong></p>';
 echo '<h3>Non IBAN users</h3>';
@@ -38,8 +38,9 @@ echo '<p>Postalcode: 6411EM</p>';
 echo '<p>City: Heerlen</p>';
 echo '<p>Country: The Netherlands</p>';
 echo '<p>Please use the following description if possible: <strong>',  $deposit_code . '</strong></p>';
-
 echo '</div>';
-
+echo '&nbsp;<br/>';
+echo '   </div>
+         </div>';
 echo '   </div>
                 </div>';

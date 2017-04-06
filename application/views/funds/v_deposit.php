@@ -3,7 +3,7 @@
 if(isset($header)) echo $header;
 
 echo '<div class="container">
-            <div class="row">';
+            <div class="row"><div class="col-lg-12 col-sm-12 col-lg-offset-0 col-md-12 col-sm-12 col-md-offset-0"><div class="cls_balce_box">';
 echo '<h1>', $fund, '</h1>';
 if($address)
 {
@@ -18,4 +18,4 @@ else
     echo $this->lang->line('lng_u_no_address');
 }
 echo '   </div>
-                </div>';
+                </div></div></div>';

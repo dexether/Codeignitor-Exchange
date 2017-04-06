@@ -19,11 +19,15 @@ $sell_rate = 0;
                 <div class="col-md-6 col-sm-6" id="">
                     <div class="cls_buy_coin">
                         <h4> Buy <?php echo $currency_sell; ?> </h4>
+                            <?php 
+                                echo form_hidden('currency_bid', $currency_bid);
+                                echo form_hidden('currency_sell', $currency_sell);
+                            ?>
                             <div class="cls_buy_coin_inn">
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6">
                                         <div class="limit_order">
-                                            <select name="buyorder" id="buyorder">
+                                            <select name="order" id="buyorder">
                                                 <option value="limit"selected="selected">Limit Order</option>
                                                 <option value="stop">Stop Order</option>
                                             </select>
@@ -52,14 +56,14 @@ $sell_rate = 0;
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Amount to Buy</label>
-                                                    <input type="text" <?php echo $pro; ?> class="form-control numvalid" id="b_btc" maxlength="20" onkeyup='usd_calc_limit("buy"); comm_replace_limit(this);'>
+                                                    <input type="text" name="amount" class="form-control numvalid" id="b_btc" maxlength="20" onkeyup='usd_calc_limit("buy"); comm_replace_limit(this);'>
                                                     <small> <?php echo $currency_sell; ?>  </small>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Buy Price :</label>
-                                                <input type="text" <?php echo $pro; ?> class="form-control numvalid"  id="b_price" maxlength="15" placeholder="" value="<?php echo $buy_rate; ?>" onkeyup='usd_calc_limit("buy"); comm_replace_limit(this);'>
+                                                <input type="text" name="price" class="form-control numvalid"  id="b_price" maxlength="15" placeholder="" value="<?php echo $buy_rate; ?>" onkeyup='usd_calc_limit("buy"); comm_replace_limit(this);'>
                                                 <small> <?php echo $currency_bid; ?> </small>
                                             </div>
                                         </div>
@@ -87,7 +91,7 @@ $sell_rate = 0;
                                     <div id="b_comm" class="click_sum" style="height: 35px;font-weight: bold; color:red"></div>
                                         <input type="hidden" name="b_fee" id="b_fee" value="" >
                                         <div class="cls_line_bot"> </div>
-                                    <div align="center" class=""><button type="button" id="buy_button" class="cls_buy_btn" onclick="return rambo_calculate_limit('buy');" > Buy <?php echo $currency_sell; ?> </button> </div>
+                                    <div align="center" class=""><button type="submit" id="buy_button" class="cls_buy_btn" onclick="return rambo_calculate_limit('buy');" > Buy <?php echo $currency_sell; ?> </button> </div>
                                     </form>
                                 </div>
                                 <div id="buystop_order" style="display:none;">
@@ -102,9 +106,9 @@ $sell_rate = 0;
                                         </div>
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">If price rises to : <?php echo $currency_sell; ?>:</label>
+                                                <label for="exampleInputEmail1">If price rises to <?php echo $currency_sell; ?></label>
                                                 <input type="text"  <?php echo $pro; ?> class="form-control numvalid"  maxlength="15" value="<?php echo $buy_rate; ?>"  id="bb_price">
-                                                <small> <?php echo $currency_sell; ?> </small>
+                                                <small> <?php echo $currency_bid; ?> </small>
                                             </div>
                                         </div>
                                     </div>
@@ -177,7 +181,7 @@ $sell_rate = 0;
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Sell price :</label>
                                             <input type="text" <?php echo $pro; ?> class="form-control numvalid" id="s_price" maxlength="15" placeholder="" value="<?php echo $sell_rate; ?>" onkeyup='usd_calc_limit("sell"); comm_replace_limit(this);'>
-                                            <small> <?php echo $currency_sell; ?> </small>
+                                            <small> <?php echo $currency_bid; ?> </small>
                                         </div>
                                     </div>
                                 </div>

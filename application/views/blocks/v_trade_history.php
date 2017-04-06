@@ -7,13 +7,11 @@
                 <table class="table table-striped">
                 <thead>
                 <tr>
-                <th width="13%"> Type</th>
-                <th width="23%">       Price</th>
+                <th width="13%"> Date  </th>
+                <th width="23%">       Buy/Sell</th>
                 <th width="17%">           EUR   </th>
-                <th width="17%">      Currency            </th>
-                <th width="15%">      Total </th>
-                <th width="15%"> Time </th>
-
+                <th width="17%">            Total Units            </th>
+                <th width="15%">      Total Cost </th>
                 </tr>
                 </thead>
 
