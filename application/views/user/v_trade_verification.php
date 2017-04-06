@@ -31,11 +31,11 @@ if($this->session->flashdata('errors')){
 							<div class="form-group">
 								<label for="Status" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Status</label>
 								<div class="col-sm-6">
-									<?php if ($bank->verification_trade == 'unverified' OR $bank->verification_trade == 'in_progress'): ?>
-											<?php echo $bank->verification_trade ?>
+									<?php if (@$bank->verification_trade == 'unverified' OR @$bank->verification_trade == 'in_progress'): ?>
+											<?php echo @$bank->verification_trade ?>
 									<?php else: ?>
 										<b class="text-success">
-											<?php echo $bank->verification_trade ?>
+											<?php echo @$bank->verification_trade ?>
 										</b>
 									<?php endif; ?>
 
@@ -44,21 +44,21 @@ if($this->session->flashdata('errors')){
 							<div class="form-group">
 								<label for="passport" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Passport</label>
 								<div class="col-sm-6">
-									<img src="<?php echo $bank->passport ?>" class='img-responsive'>
+									<img src="<?php echo @$bank->passport ?>" class='img-responsive'>
 									<input type="file" id="passport" name="passport" class="form-control" > 
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="selfie" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Selfie</label>
 								<div class="col-sm-6">
-									<img src="<?php echo $bank->selfie ?>" class='img-responsive'>
+									<img src="<?php echo @$bank->selfie ?>" class='img-responsive'>
 									<input type="file" id="selfie" name="selfie" class="form-control" > 
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="backcard" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Backcard</label>
 								<div class="col-sm-6">
-									<img src="<?php echo $bank->backcard ?>" class='img-responsive'>
+									<img src="<?php echo @$bank->backcard ?>" class='img-responsive'>
 									<input type="file" id="backcard" name="backcard" class="form-control" > 
 								</div>
 							</div>
