@@ -28,13 +28,15 @@ class Mdl_User_verification extends CI_Model {
 			if(!isset($row->selfie)){
 				$row->selfie = 'http://placehold.it/406x150';
 			}else{
-				$row->selfie = base_url('uploads/'.$row->selfie);
+				$path = base_url('tools/show_selfie_upload/'.$row->selfie);
+				$row->selfie = $path;
 			}
 
 			if(!isset($row->backcard)){
 				$row->backcard = 'http://placehold.it/406x150';
 			}else{
-				$row->backcard = base_url('uploads/'.$row->backcard);
+				$path = base_url('tools/show_backcard_upload/'.$row->backcard);
+				$row->backcard = $path;
 			}
 		}else{
 			return false;
