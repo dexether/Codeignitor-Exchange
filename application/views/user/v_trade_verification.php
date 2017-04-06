@@ -38,7 +38,6 @@ if($this->session->flashdata('errors')){
 											<?php echo @$bank->verification_trade ?>
 										</b>
 									<?php endif; ?>
-
 								</div>
 							</div>
 							<div class="form-group">

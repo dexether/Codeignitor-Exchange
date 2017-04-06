@@ -77,7 +77,15 @@ class Migration_Base extends CI_Migration {
 		$fields['id'] = ['type' => 'INT','constraint'=>'11','auto_increment'=>true];
 		$fields['user_id'] = ['type' => 'INT','constraint'=>'11'];
 		$fields['verifier'] = ['type' => 'VARCHAR','constraint'=>'200'];
-		$fields['passport'] = ['type' => 'VARCHAR','constraint'=>'200'];
+		$fields['passport'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['passport_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['selfie'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['selfie_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['backcard'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['backcard_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['passport_path'] = ['type' => 'VARCHAR','constraint'=>'100'];
+		$fields['slefie_path'] = ['type' => 'VARCHAR','constraint'=>'100'];
+		$fields['backcard_path'] = ['type' => 'VARCHAR','constraint'=>'100'];
 		$fields['verification_status'] = ['type' => 'ENUM("verified","unverified")','NULL' => false,'default' => 'unverified'];
 		$fields['verification_trade'] = ['type' => 'ENUM("verified","unverified")','NULL' => false,'default' => 'unverified'];
 		$fields['accepted'] = ['type' => 'ENUM("yes","no")','NULL' => false,'default' => 'no'];
