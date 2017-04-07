@@ -21,19 +21,22 @@ class Mdl_User_verification extends CI_Model {
 			if(!isset($row->passport)){
 				$row->passport = 'http://placehold.it/406x150';
 			}else{
-				$row->passport = base_url('uploads/'.$row->passport);
+				$path = base_url('tools/show_passport_upload/'.$row->passport);
+				$row->passport = $path;
 			}
 
 			if(!isset($row->selfie)){
 				$row->selfie = 'http://placehold.it/406x150';
 			}else{
-				$row->selfie = base_url('uploads/'.$row->selfie);
+				$path = base_url('tools/show_selfie_upload/'.$row->selfie);
+				$row->selfie = $path;
 			}
 
 			if(!isset($row->backcard)){
 				$row->backcard = 'http://placehold.it/406x150';
 			}else{
-				$row->backcard = base_url('uploads/'.$row->backcard);
+				$path = base_url('tools/show_backcard_upload/'.$row->backcard);
+				$row->backcard = $path;
 			}
 		}else{
 			return false;
@@ -45,19 +48,25 @@ class Mdl_User_verification extends CI_Model {
 	{
             $conf['upload_path']   = 'uploads';
             $conf['allowed_types'] = 'gif|jpg|png|pdf';
-            $conf['file_name']     = '';
+            $conf['file_name']     = md5();
             $conf['overwrite']     = FALSE;
             $conf['max_size']      = 5000;
             $conf['max_width']     = 0;
             $conf['max_height']    = 0;
-            $conf['encrypt_name']  = FALSE;
+            $conf['encrypt_name']  = TRUE;
             $this->load->library('upload', $conf);
 
             if(!$this->upload->do_upload($file)){
                     $this->session->set_flashdata('errors', $this->upload->display_errors('<p>', '</p>'));
             }else{
                     $upload_data = $this->upload->data();
-                    $data = ['verification_trade'=>'unverified','user_id' => $this->session->user_id,$file => $upload_data['file_name']];
+                    $data = [
+                             'verification_trade'=>'unverified',
+                             'user_id' => $this->session->user_id,
+                             $file => $upload_data['raw_name'],
+                             $file.'_path' => 'uploads/'.$upload_data['file_name'],
+                             $file.'_mimetype' => $upload_data['file_type'],
+                             ];
                     $this->update($data,$this->session->user_id);
 			$this->session->set_flashdata('success','Data Updated');
 		}

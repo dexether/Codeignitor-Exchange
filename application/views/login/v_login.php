@@ -1,4 +1,3 @@
-
 <div class="modal fade cls_login_fn" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -7,42 +6,37 @@
         <h4 class="modal-title" id="myModalLabel"> Login Details </h4>
       </div>
       <div class="modal-body">
-       <div class="">
-       
-          <form class="form-horizontal" name="login_form" id="login_form" method="post">
-        <div class="form_type">
+       <div>
+         <?php echo form_open('', 'class="form-horizontal" name="login_form" id="login_form" method="post"'); ?>
+          <div class="form_type">
             <input type="text" id="clientid" name="email" placeholder="Email address" for="email" class="form-control">
-            </div>   
-            <div class="form_type">
-               <input type="password" class="form-control" placeholder="Password" name="password" id="password" for="password">
-            </div>
-            <input type="hidden" name="google_rechapatcha" id="googleRechapatcha" value="" />
-            <div class="g-recaptcha" id="gRecaptcha" data-sitekey="6LcYRhoUAAAAAJb2AtcnWgf81NLxhDb7j7_TtKwv"></div>
-            <button class="cls_dow_btn btn-block" id="loginBtn" style="width:100%;margin-top: 18px"> login</button>
-            <div class="clearfix">
-            </div>
-            
-             <span id="error_message" style="color:red;font-size:14px;"></span> 
+          </div>   
+          <div class="form_type">
+           <input type="password" class="form-control" placeholder="Password" name="password" id="password" for="password">
+         </div>
+         <input type="hidden" name="google_rechapatcha" id="googleRechapatcha" value="" />
+         <div class="g-recaptcha" id="gRecaptcha" data-sitekey="6LcYRhoUAAAAAJb2AtcnWgf81NLxhDb7j7_TtKwv"></div>
+         <button class="cls_dow_btn btn-block" id="loginBtn" style="width:100%;margin-top: 18px"> login</button>
+         <div class="clearfix">
+         </div>
 
-            <div class="pull-left cont_list mar-top-10">
-             <p class="cls_ar-40 "><input type="checkbox" name="checkboxG1" id="checkboxG1" class="css-checkbox" />
-                <label for="checkboxG1" class="css-label radGroup1">Remember Me </label></p>
+         <span id="error_message" style="color:red;font-size:14px;"></span> 
 
-            </div>
-            
-            <div class="pull-right cont_list mar-top-10">
+         <div class="pull-left cont_list mar-top-10">
+           <p class="cls_ar-40 "><input type="checkbox" name="checkboxG1" id="checkboxG1" class="css-checkbox" />
+            <label for="checkboxG1" class="css-label radGroup1">Remember Me </label></p>
+          </div>
+          <div class="pull-right cont_list mar-top-10">
             <a href="#" onclick="forget();">  forgot password ?  </a> 
-            </div>
-              <div class="clearfix"> </div>
-              
-        </form>
-    </div>
+          </div>
+          <div class="clearfix"> </div>
+        <?php echo form_close(); ?>
       </div>
-     
     </div>
   </div>
 </div>
- 
+</div>
+
 <div class="modal fade cls_login_fn" id="myModal_tfa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -52,20 +46,18 @@
       </div>
       <div class="modal-body">
        <div class="">
-       
-         <form style="margin-top:20px;" class="form-horizontal" name="tfaform" id="tfaform" method="post">
-            <div class="form_type">
+         <?php echo form_open('', 'style="margin-top:20px;" class="form-horizontal" name="tfaform" id="tfaform" method="post"'); ?>
+          <div class="form_type">
            <input type="text" class="form-control tfacode" id="tfacode" name="tfacode" placeholder="">
-             </div>    
-            <button class="cls_dow_btn btn-block tfa_check" style="width:100%;" > Submit</button>
-            <div class="clearfix">
-            </div> 
-        </form>
-    </div>
-      </div>
-     
-    </div>
-  </div>
+         </div>    
+         <button class="cls_dow_btn btn-block tfa_check" style="width:100%;" > Submit</button>
+         <div class="clearfix">
+         </div> 
+         <?php echo form_close(); ?>
+     </div>
+   </div>
+ </div>
+</div>
 </div>
 
 
@@ -78,24 +70,21 @@
       </div>
       <div class="modal-body">
        <div class="">
-       
-         <form style="margin-top:20px;" class="form-horizontal" name="forget_form" id="forget_form" method="post">
-        <div class="form_type">
+         <?php echo form_open('', 'style="margin-top:20px;" class="form-horizontal" name="forget_form" id="forget_form" method="post"'); ?>
+          <div class="form_type">
             <input type="text" class="form-control" id="forgetemail" name="forgetemail"placeholder="">
-     <span class="cls_info_text"><i>Enter your registered email address!</i></span>
-            </div>    
-            <button class="cls_dow_btn btn-block" style="width:100%;"> Reset Password</button>
-            <div class="clearfix">
-            </div> 
-
-             <div id="login_error" style="border-radius: 5px; margin-bottom: 12px;  color: green; font-size: 20px; margin-left: 40px; width: 470px;display:none"></div>
-<div id="login_success" style="border-radius: 5px;  margin-bottom: 12px;  color: green; font-size: 20px; margin-left: 40px; width: 470px;display:none">Please check your Email!</div>
-
-        </form>
-    </div>
+            <span class="cls_info_text"><i>Enter your registered email address!</i></span>
+          </div>    
+          <button class="cls_dow_btn btn-block" style="width:100%;"> Reset Password</button>
+          <div class="clearfix">
+          </div> 
+          <div id="login_error" style="border-radius: 5px; margin-bottom: 12px;  color: green; font-size: 20px; margin-left: 40px; width: 470px;display:none"></div>
+          <div id="login_success" style="border-radius: 5px;  margin-bottom: 12px;  color: green; font-size: 20px; margin-left: 40px; width: 470px;display:none">Please check your Email!</div>
+        <?php echo form_close(); ?>
       </div>
-     
     </div>
+
   </div>
 </div>
- 
+</div>
+

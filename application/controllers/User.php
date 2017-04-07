@@ -88,7 +88,6 @@ class User extends MY_Controller {
 
         view($this->data);
     }
- 
     
     function bank_info()
     {
@@ -113,6 +112,17 @@ class User extends MY_Controller {
         }
     }
 
+    private function get_balance()
+    {
+        $data = array();
+        $this->load->model('mdl_balance');
+        $data['EUR'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'EUR');
+        $data['NLG'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'NLG');
+        $data['GTS'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'GTS');
+        
+        return $this->load->view('user/v_balance',$data,true);
+    }
+        
     function bank_details_update()
     {
         $this->load->model('mdl_user_bank_details');
@@ -141,8 +151,7 @@ class User extends MY_Controller {
         } else {
             $this->data['content'] = $this->load->view('user/v_change_password',[],true);
             view($this->data);
-        }
-        
+        }  
     }
 
     function trade_verification()
@@ -181,22 +190,21 @@ class User extends MY_Controller {
            $this->data['content'] = $this->load->view('user/v_'.__FUNCTION__.'.php',$vars,true);
            view($this->data);
        }
-   }
-
+    }
 
    public function logout()
    {
-    $this->session->sess_destroy();
-    redirect('/');
-}
+      $this->session->sess_destroy();
+      redirect('/');
+   }
 
-function profile_update()
-{
+   function profile_update()
+   {
 
-    $id=$this->session->user_id;
-    $data=array('username'=>$this->input->post('username'),'firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'),'identity_no'=>$this->input->post('id_no'),'cellno'=>$this->input->post('cellno'),'alt_cellno'=>$this->input->post('alt_cellno'),'street1'=>$this->input->post('street1'),'street2'=>$this->input->post('street2'),'city'=>$this->input->post('city'),'state1'=>$this->input->post('state'),'country1'=>$this->input->post('country'),'zipcode'=>$this->input->post('code'),'postal_line1'=>$this->input->post('line1'),'postal_line2'=>$this->input->post('line2'),'postal_city'=>$this->input->post('postal_city'),'postal_state'=>$this->input->post('postal_state'),'postal_country'=>$this->input->post('postal_country'),'postal_code'=>$this->input->post('postal_code'));
-    $this->mdl_user->profile_update($data,$id); 
-}
+      $id=$this->session->user_id;
+      $data=array('username'=>$this->input->post('username'),'firstname'=>$this->input->post('firstname'),'lastname'=>$this->input->post('lastname'),'identity_no'=>$this->input->post('id_no'),'cellno'=>$this->input->post('cellno'),'alt_cellno'=>$this->input->post('alt_cellno'),'street1'=>$this->input->post('street1'),'street2'=>$this->input->post('street2'),'city'=>$this->input->post('city'),'state1'=>$this->input->post('state'),'country1'=>$this->input->post('country'),'zipcode'=>$this->input->post('code'),'postal_line1'=>$this->input->post('line1'),'postal_line2'=>$this->input->post('line2'),'postal_city'=>$this->input->post('postal_city'),'postal_state'=>$this->input->post('postal_state'),'postal_country'=>$this->input->post('postal_country'),'postal_code'=>$this->input->post('postal_code'));
+      $this->mdl_user->profile_update($data,$id); 
+   }
 
 function two_factor()
 {
@@ -236,9 +244,11 @@ function two_factor()
     }
 }
 
-$data['user_details'] = $this->user->get_userstatus($this->session->user_id);
-$this->data['content'] = $this->load->view('user/v_two_factor', $data, TRUE); // append view
-view($this->data);
+    $data['user_details'] = $this->user->get_userstatus($this->session->user_id);
+    $this->data['content']  = $this->get_balance(); // load view
+    $this->data['content'] .= $this->load->view('user/v_two_factor', $data, TRUE); // append view
+    view($this->data);
+
 }
 }
 
