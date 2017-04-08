@@ -20,7 +20,7 @@ class Migration_Bank extends CI_Migration {
         $fields['inter_banking_code'] = ['type' => 'VARCHAR','constraint' => 45];
         $fields['verification_code'] = ['type' => 'VARCHAR','constraint' => 25];
         $fields['routing_number'] = ['type' => 'VARCHAR','constraint' => 35];
-        $fields['status'] = ['type' => 'TINY','constraint' => 1];
+        $fields['status'] = ['type' => 'TINYINT','constraint' => 1];
 
         $this->dbforge->add_field($fields);
         $this->dbforge->add_key('id', true);

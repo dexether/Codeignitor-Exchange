@@ -4,6 +4,50 @@
 		"selected_items":
 		[
 			[
+				"rout",
+				"routing_number"
+			],
+			[
+				"conten",
+				"content_type"
+			],
+			[
+				"pass",
+				"passport"
+			],
+			[
+				"load",
+				"load_jpeg〔function〕"
+			],
+			[
+				"e",
+				"echo\techo \"…\""
+			],
+			[
+				"uplo",
+				"upload_id"
+			],
+			[
+				"file_",
+				"file_get_contents〔function〕"
+			],
+			[
+				"base",
+				"base_url"
+			],
+			[
+				"T",
+				"TRUE"
+			],
+			[
+				"form_op",
+				"form_open_multipart〔function〕"
+			],
+			[
+				"form",
+				"form_open\tCI - Form Open"
+			],
+			[
 				"fa-clou",
 				"fa-cloud-upload\t<i>"
 			],
@@ -116,10 +160,6 @@
 				"fields"
 			],
 			[
-				"pass",
-				"password_hash"
-			],
-			[
 				"gRe",
 				"grecaptcha\t(login.js)"
 			],
@@ -206,10 +246,6 @@
 			[
 				"def",
 				"defined"
-			],
-			[
-				"base",
-				"base_url\t(Mdl_user.php)"
 			],
 			[
 				"APPSMTP",
@@ -478,42 +514,6 @@
 			[
 				"verification",
 				"verification_code"
-			],
-			[
-				"PASS",
-				"PASSWORD_DEFAULT\t(Mdl_user.php)"
-			],
-			[
-				"password",
-				"password_hash\t(Mdl_user.php)"
-			],
-			[
-				"ciloa",
-				"ciloaddb\tLoad Database"
-			],
-			[
-				"tim",
-				"timeofreg"
-			],
-			[
-				"D",
-				"DATE"
-			],
-			[
-				"stat",
-				"status"
-			],
-			[
-				"mo",
-				"modified_date"
-			],
-			[
-				"e",
-				"echo\techo \"…\""
-			],
-			[
-				"file",
-				"file_name"
 			]
 		]
 	},
@@ -528,9 +528,17 @@
 	"command_palette":
 	{
 		"height": 354.0,
-		"last_filter": "simple",
+		"last_filter": "git",
 		"selected_items":
 		[
+			[
+				"git",
+				"Gitignore: New gitignore"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
 			[
 				"simple",
 				"PHPSimpleRefactor: extract current lines to method"
@@ -541,10 +549,6 @@
 			],
 			[
 				"Package Control: ",
-				"Package Control: Install Package"
-			],
-			[
-				"insta",
 				"Package Control: Install Package"
 			],
 			[
@@ -598,12 +602,69 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/E/server/htdocs/exchange",
+		"/E/server/htdocs/exchange/application",
+		"/E/server/htdocs/exchange/application/controllers",
+		"/E/server/htdocs/exchange/public_html/grocery_crud/themes/datatables/js"
+	],
 	"file_history":
 	[
+		"/E/server/htdocs/exchange/application/controllers/Admin.php",
+		"/E/server/htdocs/exchange/application/controllers/Tools.php",
+		"/E/server/htdocs/exchange/application/views/user/v_trade_verification.php",
+		"/E/server/htdocs/exchange/application/views/user/v_bank_info.php",
+		"/E/server/htdocs/exchange/application/config/config.php",
+		"/E/server/htdocs/exchange/application/config/database.php",
+		"/E/server/htdocs/exchange/application/models/Mdl_user_verification.php",
+		"/E/server/htdocs/exchange/application/controllers/User.php",
+		"/E/server/htdocs/exchange/application/config/mimes.php",
+		"/E/server/htdocs/exchange/application/migrations/001_Base.php",
+		"/E/server/htdocs/exchange/application/.htaccess",
+		"/E/server/htdocs/exchange/application/config/routes.php",
+		"/E/server/htdocs/exchange/application/models/Mdl_user.php",
+		"/E/server/htdocs/exchange/application/views/template/v_main_template.php",
+		"/E/server/htdocs/exchange/application/views/template/v_site_template.php",
+		"/E/server/htdocs/exchange/application/config/migration.php",
+		"/E/server/htdocs/exchange/application/config/hooks.php",
+		"/E/server/htdocs/exchange/public_html/grocery_crud/themes/datatables/js/flexigrid-edit.js",
+		"/E/server/htdocs/myigniter/assets/grocery_crud/themes/datatables/js/flexigrid-edit.js",
+		"/E/server/htdocs/myigniter/assets/grocery_crud/themes/flexigrid/js/flexigrid-edit.js",
+		"/E/server/htdocs/exchange/public_html/grocery_crud/themes/datatables/js/flexigrid.js",
+		"/E/server/htdocs/myigniter/assets/grocery_crud/themes/flexigrid/js/flexigrid.js",
+		"/E/server/htdocs/myigniter/assets_dev/js/a-design.js",
+		"/E/server/htdocs/myigniter/assets/js/a-design.js",
+		"/E/server/htdocs/exchange/application/config/grocery_crud.php",
+		"/E/server/htdocs/myigniter/assets/grocery_crud/themes/flexigrid/config.php",
+		"/E/server/htdocs/exchange/public_html/grocery_crud/themes/datatables/views/list_template.php",
+		"/E/server/htdocs/myigniter/assets/grocery_crud/themes/flexigrid/views/list_template.php",
+		"/E/server/htdocs/exchange/public_html/grocery_crud/themes/datatables/views/edit.php",
+		"/E/server/htdocs/exchange/application/libraries/Grocery_CRUD.php",
+		"/E/server/htdocs/myigniter/application/config/grocery_crud.php",
+		"/C/Users/Asus/Downloads/grocery-crud-1.5.8.1/grocery-crud-1.5.8.1/application/config/grocery_crud.php",
+		"/E/server/htdocs/exchange/application/hooks/csrf.php",
+		"/C/Users/Asus/Downloads/grocery_crud/themes/datatables/js/flexigrid.js",
+		"/C/Users/Asus/Downloads/grocery_crud/themes/datatables/js/flexigrid-edit.js",
+		"/C/Users/Asus/Downloads/grocery_crud/themes/datatables/views/list.php",
+		"/E/server/htdocs/exchange/public_html/grocery_crud/themes/datatables/views/list.php",
+		"/C/Users/Asus/Downloads/grocery_crud/themes/datatables/views/edit.php",
+		"/C/Users/Asus/Downloads/grocery_crud/themes/datatables/views/list_template.php",
+		"/C/Users/Asus/Downloads/grocery_crud/themes/datatables/views/add.php",
+		"/E/server/htdocs/exchange/application/views/template/v_admin_template.php",
+		"/E/server/htdocs/exchange/public_html/grocery_crud/js/common/list.js",
+		"/E/server/htdocs/exchange/application/views/admin/v_grocery_crud.php",
+		"/E/server/htdocs/exchange/application/views/login/v_register.php",
+		"/E/server/htdocs/exchange/application/views/login/v_login.php",
+		"/E/server/htdocs/exchange/application/views/user/v_change_password.php",
+		"/E/server/htdocs/exchange/application/views/user/v_profile.php",
+		"/E/server/htdocs/exchange/application/migrations/003_Bank.php",
+		"/E/server/htdocs/exchange/application/controllers/Migrate.php",
+		"/E/server/htdocs/exchange/.gitignore"
 	],
 	"find":
 	{
-		"height": 32.0
+		"height": 70.0
 	},
 	"find_in_files":
 	{
@@ -618,6 +679,42 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"condition",
+			"@",
+			"selfie",
+			"passport",
+			"type",
+			"10",
+			"passport",
+			"$fields['passport'] = ['type' => 'VARCHAR','constraint'=>'50'];\n\t\t$fields['passport_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];",
+			"self",
+			"selfie",
+			"user_verfi",
+			"unverified",
+			"link",
+			"title",
+			"link",
+			"meta",
+			"verifier",
+			"$bank",
+			"ciexcgt",
+			"gtexcir",
+			"ciexcgt",
+			"assets/",
+			"gtexcir",
+			"ciexcgt",
+			"gtexcir",
+			"csrf",
+			"admin",
+			"csrf",
+			"gtexcir",
+			"ciexcgt",
+			"mi",
+			"gtexcir",
+			"ciexcgt",
+			"true",
+			"false",
+			"csrf",
 			"media",
 			"Media",
 			"cloud",
@@ -709,43 +806,7 @@
 			"lfir",
 			"ucfirst",
 			"lfirst",
-			"migration",
-			"md5",
-			"myModal_tfa",
-			"show",
-			"hide",
-			"error_message",
-			"var",
-			"required",
-			"true",
-			"required",
-			"true",
-			"required",
-			"true",
-			"opt_widget_id",
-			"gRecaptcha",
-			"googleRechapatcha",
-			"required",
-			"google_rechapatcha",
-			"bank_info",
-			"profile",
-			"Password",
-			"profile",
-			"oldpassword",
-			"content",
-			"change_password",
-			"password_verify",
-			"num_rows",
-			"query",
-			"change_pass",
-			"$this->load->model('mdl_user');",
-			"email_id",
-			"username",
-			"userdetails",
-			"taken_data",
-			"email",
-			"input",
-			"this"
+			"migration"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -817,6 +878,134 @@
 		"selected_items":
 		[
 			[
+				"vba",
+				"application\\views\\user\\v_bank_info.php"
+			],
+			[
+				"mim",
+				"application\\config\\mimes.php"
+			],
+			[
+				"001",
+				"application\\migrations\\001_Base.php"
+			],
+			[
+				"mdluserver",
+				"application\\models\\Mdl_user_verification.php"
+			],
+			[
+				"user",
+				"application\\controllers\\User.php"
+			],
+			[
+				"rout",
+				"application\\config\\routes.php"
+			],
+			[
+				"mdluser",
+				"application\\models\\Mdl_user_verification.php"
+			],
+			[
+				"mai",
+				"application\\views\\template\\v_main_template.php"
+			],
+			[
+				"site",
+				"application\\views\\template\\v_site_template.php"
+			],
+			[
+				"migration",
+				"application\\config\\migration.php"
+			],
+			[
+				"vtrad",
+				"application\\views\\user\\v_trade_verification.php"
+			],
+			[
+				"data",
+				"application\\config\\database.php"
+			],
+			[
+				"datatableflexgri",
+				"public_html\\grocery_crud\\themes\\datatables\\js\\flexigrid-edit.js"
+			],
+			[
+				"datatflexgrid",
+				"public_html\\grocery_crud\\themes\\datatables\\js\\flexigrid.js"
+			],
+			[
+				"config",
+				"application\\config\\config.php"
+			],
+			[
+				"grocerycrud",
+				"application\\config\\grocery_crud.php"
+			],
+			[
+				"list",
+				"public_html\\grocery_crud\\themes\\datatables\\views\\list_template.php"
+			],
+			[
+				"edit",
+				"public_html\\grocery_crud\\themes\\datatables\\views\\edit.php"
+			],
+			[
+				"grocer",
+				"application\\libraries\\Grocery_CRUD.php"
+			],
+			[
+				"da",
+				"application\\config\\database.php"
+			],
+			[
+				"flexgridedit",
+				"public_html\\grocery_crud\\themes\\datatables\\js\\flexigrid-edit.js"
+			],
+			[
+				"grocerylist",
+				"public_html\\grocery_crud\\themes\\datatables\\views\\list.php"
+			],
+			[
+				"groceryedit",
+				"public_html\\grocery_crud\\themes\\datatables\\views\\edit.php"
+			],
+			[
+				"adminte",
+				"application\\views\\template\\v_admin_template.php"
+			],
+			[
+				"grocery",
+				"application\\config\\grocery_crud.php"
+			],
+			[
+				"vregis",
+				"application\\views\\login\\v_register.php"
+			],
+			[
+				"trad",
+				"application\\views\\user\\v_trade_verification.php"
+			],
+			[
+				"vbank",
+				"application\\views\\user\\v_bank_info.php"
+			],
+			[
+				"v_profi",
+				"application\\views\\user\\v_profile.php"
+			],
+			[
+				"vchange",
+				"application\\views\\user\\v_change_password.php"
+			],
+			[
+				"login",
+				"application\\views\\login\\v_login.php"
+			],
+			[
+				"migra",
+				"application\\config\\migration.php"
+			],
+			[
 				"exa",
 				"sql\\examples.sql"
 			],
@@ -833,16 +1022,8 @@
 				"application\\views\\dashboard.php"
 			],
 			[
-				"data",
-				"application\\config\\database.php"
-			],
-			[
 				"home",
 				"application\\views\\page\\home.php"
-			],
-			[
-				"rout",
-				"application\\config\\routes.php"
 			],
 			[
 				"api",
@@ -859,10 +1040,6 @@
 			[
 				"myc",
 				"application\\core\\MY_Controller.php"
-			],
-			[
-				"migra",
-				"application\\views\\code_templates\\migration.php"
 			],
 			[
 				"example",
@@ -913,10 +1090,6 @@
 				"assets_dev\\js\\db_manager.js"
 			],
 			[
-				"001",
-				"application\\migrations\\001_Base.php"
-			],
-			[
 				"myigni",
 				"application\\controllers\\Myigniter.php"
 			],
@@ -933,16 +1106,8 @@
 				"application\\controllers\\Myigniter.php"
 			],
 			[
-				"user",
-				"application\\controllers\\User.php"
-			],
-			[
 				"base",
 				"application\\helpers\\base_helper.php"
-			],
-			[
-				"login",
-				"public_html\\js\\login.js"
 			],
 			[
 				"vlogin",
@@ -1009,10 +1174,6 @@
 				"public_html\\grocery_crud\\themes\\flexigrid\\views\\list_template.php"
 			],
 			[
-				"list",
-				"public_html\\grocery_crud\\themes\\datatables\\views\\list.php"
-			],
-			[
 				"read.php",
 				"public_html\\grocery_crud\\themes\\datatables\\views\\read.php"
 			],
@@ -1030,10 +1191,6 @@
 			],
 			[
 				"groc",
-				"application\\libraries\\Grocery_CRUD.php"
-			],
-			[
-				"grocer",
 				"application\\libraries\\Grocery_CRUD.php"
 			],
 			[
@@ -1097,10 +1254,6 @@
 				"application\\config\\config.php"
 			],
 			[
-				"config",
-				"application\\config\\config.php"
-			],
-			[
 				"vprof",
 				"application\\views\\user\\v_profile.php"
 			],
@@ -1126,10 +1279,6 @@
 			],
 			[
 				"bank",
-				"application\\views\\user\\v_bank_info.php"
-			],
-			[
-				"vbank",
 				"application\\views\\user\\v_bank_info.php"
 			],
 			[
@@ -1239,94 +1388,6 @@
 			[
 				"prop",
 				"application\\modules\\real_state\\controllers\\Properties.php"
-			],
-			[
-				"searchjs",
-				"assets\\modules\\real_state\\js\\search.js"
-			],
-			[
-				"lister",
-				"assets\\modules\\real_state\\plugins\\jqueryLister\\js\\jquery.lister.js"
-			],
-			[
-				"searchfor",
-				"application\\modules\\real_state\\views\\properties\\search_form.php"
-			],
-			[
-				"propegri",
-				"application\\modules\\real_state\\views\\properties\\grid.php"
-			],
-			[
-				"proplist",
-				"application\\modules\\real_state\\views\\properties\\lists.php"
-			],
-			[
-				"homeinde",
-				"application\\modules\\real_state\\views\\home\\index.php"
-			],
-			[
-				"langu",
-				"application\\modules\\languages\\Languages.php"
-			],
-			[
-				"lang",
-				"application\\modules\\real_state\\controllers\\Language_codes.php"
-			],
-			[
-				"region",
-				"application\\modules\\real_state\\controllers\\Regions.php"
-			],
-			[
-				"fini",
-				"application\\modules\\real_state\\controllers\\Finishtype.php"
-			],
-			[
-				"amen",
-				"application\\modules\\real_state\\controllers\\Amenities.php"
-			],
-			[
-				"prope",
-				"application\\modules\\real_state\\controllers\\Propertytypes.php"
-			],
-			[
-				"reg",
-				"application\\modules\\real_state\\controllers\\Regions.php"
-			],
-			[
-				"appf",
-				"application\\modules\\real_state\\libraries\\App_functions.php"
-			],
-			[
-				"lay",
-				"application\\modules\\real_state\\libraries\\Layout.php"
-			],
-			[
-				"insta",
-				"application\\modules\\install\\controllers\\Install.php"
-			],
-			[
-				"7",
-				"application\\migrations\\007_Real_state.php"
-			],
-			[
-				"bas",
-				"application\\migrations\\001_Base.php"
-			],
-			[
-				"blog",
-				"application\\modules\\blog\\controllers\\Blog.php"
-			],
-			[
-				"upload",
-				"application\\modules\\aws3\\views\\upload.php"
-			],
-			[
-				"cis",
-				"application\\libraries\\Cis3integration_lib.php"
-			],
-			[
-				"soci",
-				"application\\libraries\\traits\\Social_login.php"
 			]
 		],
 		"width": 0.0
@@ -1356,7 +1417,7 @@
 	"show_minimap": false,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 314.0,
 	"status_bar_visible": true,
 	"template_settings":
