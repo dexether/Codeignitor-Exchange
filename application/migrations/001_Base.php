@@ -78,10 +78,13 @@ class Migration_Base extends CI_Migration {
 		$fields['user_id'] = ['type' => 'INT','constraint'=>'11'];
 		$fields['verifier'] = ['type' => 'VARCHAR','constraint'=>'200'];
 		$fields['passport'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['passport_refuse_reason'] = ['type' => 'VARCHAR','constraint'=>'255']; // why not accepted
 		$fields['passport_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];
 		$fields['selfie'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['selfie_refuse_reason'] = ['type' => 'VARCHAR','constraint'=>'255']; // why not accepted
 		$fields['selfie_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];
 		$fields['backcard'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['backcard_refuse_reason'] = ['type' => 'VARCHAR','constraint'=>'255']; // why not accepted
 		$fields['backcard_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];
 		$fields['passport_path'] = ['type' => 'VARCHAR','constraint'=>'100'];
 		$fields['slefie_path'] = ['type' => 'VARCHAR','constraint'=>'100'];
