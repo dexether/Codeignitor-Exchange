@@ -85,8 +85,8 @@ class Admin extends MY_Controller
 
 		// load user data - only on edit
 		if($crud->getState() == 'edit'){
-		   $primary_key = $crud->getStateInfo()->primary_key;
-		   $this->data['user'] = $this->db->get_where('user_verification',['id' => $primary_key])->row();
+			$primary_key = $crud->getStateInfo()->primary_key;
+			$this->data['user'] = $this->db->get_where('user_verification',['id' => $primary_key])->row();
 		}else{
 			$this->data['user'] = NULL;
 		}
@@ -116,9 +116,26 @@ class Admin extends MY_Controller
 		$this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
 		$this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
 		$this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
+		$this->l_asset->add('js/admin/user_verification.js','js');
 
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');		
+	}
+
+	public function clear_passport_data()
+	{
+		if($this->input->is_ajax_request()){
+		   // update user_verification table
+		   $refuse_reason = $this->input->post('refuse_reason');
+		   $id = $this->input->post('id');
+		   $this->db->set('passport_refuse_reason',$refuse_reason);
+		   $this->db->set('passport_path','');
+		   $this->db->set('passport_mimetype','');
+		   $this->db->where('id', $id);
+		   $this->db->update('user_verification');
+		}else{
+		   show_error('this action not allowed');
+		}
 	}
 
 	public function callback_passport($value = "", $primary_key = null)
@@ -126,49 +143,40 @@ class Admin extends MY_Controller
 		$row = $this->data['user'];
 		if(isset($row->passport_path) and $row->passport_path != ''){
 			$output  = img('tools/show_passport_upload/'.$value,false,'class="img-rounded" id="passportImg"');
-			$output .= '<a href="javascript:void(0)" class="text-danger" id="deletePassportBTn">delete</a>';
-			$output .= "<script type='text/javascript'>
-			$('#deletePassportBTn').click(function(){
-				$.get(base_url+'admin/clear_passport/$primary_key',function(){
-					alertify.alert('Reason');
-					//$('#passportImg').remove();
-					//$('#deletePassportBTn').remove();
-				});
-			});
-		</script>";
-	}else{
-		$output = '<i class="fa fa-picture-o fa-5x text-success"></i>';
+			$output .= '<a href="javascript:void(0)" class="text-danger" data-csrf-gt="'.$this->security->get_csrf_hash().'" data-primary-key="'.$primary_key.'" id="deletePassportBTn">delete</a>';
+		}else{
+			$output = '<i class="fa fa-picture-o fa-5x text-success"></i>';
+		}
+		return $output;
+
 	}
-	return $output;
 
-}
-
-public function clear_passport($value='')
-{
+	public function clear_passport($value='')
+	{
 		# code...
-}
+	}
 
-public function callback_trade_verification($value,$row)
-{
+	public function callback_trade_verification($value,$row)
+	{
     	// check user trade verification
-	$user_verification = $this->mdl_user_verification->get($row->id);
+		$user_verification = $this->mdl_user_verification->get($row->id);
 
-	if($user_verification){
-		return anchor('admin/user_verification/edit/'.$user_verification->id,$this->callback_verify_status($user_verification->verification_status).' <small class="fa fa-external-link"></small>');
-	}else{
-		return '<span class="label label-danger">unverified</span>';
+		if($user_verification){
+			return anchor('admin/user_verification/edit/'.$user_verification->id,$this->callback_verify_status($user_verification->verification_status).' <small class="fa fa-external-link"></small>');
+		}else{
+			return '<span class="label label-danger">unverified</span>';
+		}
 	}
-}
 
-public function callback_verify_status($value='', $row='')
-{
-	if($value == 'unverified'){
-		$value = '<span class="label label-warning">'.$value.'</span>';
-	}else{
-		$value = '<span class="label label-success">'.$value.'</span>';
+	public function callback_verify_status($value='', $row='')
+	{
+		if($value == 'unverified'){
+			$value = '<span class="label label-warning">'.$value.'</span>';
+		}else{
+			$value = '<span class="label label-success">'.$value.'</span>';
+		}
+		return $value;
 	}
-	return $value;
-}
 
 }
 
