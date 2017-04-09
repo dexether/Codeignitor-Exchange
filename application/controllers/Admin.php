@@ -151,11 +151,6 @@ class Admin extends MY_Controller
 
 	}
 
-	public function clear_passport($value='')
-	{
-		# code...
-	}
-
 	public function callback_trade_verification($value,$row)
 	{
     	// check user trade verification
