@@ -27,6 +27,8 @@ class Admin extends MY_Controller
 
 	public function users()
 	{
+		
+
 		$crud = new grocery_CRUD();
 		
 		$crud->set_table('users');
@@ -51,9 +53,7 @@ class Admin extends MY_Controller
 
 		$output = $crud->render();
 
-		$this->l_asset->add('plugins/alertifyjs/css/alertifyjs.min.css','css');
-		$this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
-		$this->l_asset->add('plugins/alertifyjs/alertifyjs.min.js','js');
+		
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');	
 	}
@@ -113,9 +113,9 @@ class Admin extends MY_Controller
 		$output = $crud->render();
 
 		// assets
-		$this->l_asset->add('plugins/alertifyjs/css/alertifyjs.min.css','css');
+		$this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
 		$this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
-		$this->l_asset->add('plugins/alertifyjs/alertifyjs.min.js','js');
+		$this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
 
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');		
@@ -130,7 +130,7 @@ class Admin extends MY_Controller
 			$output .= "<script type='text/javascript'>
 			$('#deletePassportBTn').click(function(){
 				$.get(base_url+'admin/clear_passport/$primary_key',function(){
-					alertify.prompt('Reason');
+					alertify.alert('Reason');
 					//$('#passportImg').remove();
 					//$('#deletePassportBTn').remove();
 				});

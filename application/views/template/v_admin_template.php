@@ -35,6 +35,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <?php if(isset($head_css)) echo $head_css; ?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -172,5 +173,6 @@
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/fastclick/fastclick.js"></script>
+	<?php if(isset($head_js)) echo $head_js; ?>
 </body>
 </html>
