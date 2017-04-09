@@ -28,7 +28,8 @@ class Admin extends MY_Controller
 	public function users()
 	{
 		
-
+		auth(['admin','superadmin']);
+		
 		$crud = new grocery_CRUD();
 		
 		$crud->set_table('users');
@@ -72,7 +73,7 @@ class Admin extends MY_Controller
 
 	public function user_verification($primary_key='')
 	{
-		
+		auth(['admin','superadmin']);
 		// init
 		$crud = new grocery_CRUD();
 		$crud->set_table('user_verification');
@@ -126,15 +127,15 @@ class Admin extends MY_Controller
 	{
 		if($this->input->is_ajax_request()){
 		   // update user_verification table
-		   $refuse_reason = $this->input->post('refuse_reason');
-		   $id = $this->input->post('id');
-		   $this->db->set('passport_refuse_reason',$refuse_reason);
-		   $this->db->set('passport_path','');
-		   $this->db->set('passport_mimetype','');
-		   $this->db->where('id', $id);
-		   $this->db->update('user_verification');
+			$refuse_reason = $this->input->post('refuse_reason');
+			$id = $this->input->post('id');
+			$this->db->set('passport_refuse_reason',$refuse_reason);
+			$this->db->set('passport_path','');
+			$this->db->set('passport_mimetype','');
+			$this->db->where('id', $id);
+			$this->db->update('user_verification');
 		}else{
-		   show_error('this action not allowed');
+			show_error('this action not allowed');
 		}
 	}
 
