@@ -103,6 +103,13 @@ class Admin extends MY_Controller
 			$crud->unset_fields('passport_refuse_reason'); // just show if reason exist and can edit
 		}
 
+		if(! isset($this->data['user']->backcard_refuse_reason)){
+		   $crud->unset_fields('passport_refuse_reason'); // just show if reason exist and can edit
+		}
+
+		if(! isset($this->data['user']->selfie_refuse_reason)){
+		   $crud->unset_fields('selfie_refuse_reason'); // just show if reason exist and can edit
+		}
 		// callback
 		$crud->set_lang_string('update_success_message','Your data has been successfully stored into the database.<br/>Please wait while you are redirecting to the list page.
 			<script type="text/javascript">window.location = "'.site_url('admin/users').'";</script>
@@ -110,6 +117,8 @@ class Admin extends MY_Controller
 
 		// check 
 		$crud->callback_field('passport',array($this,'callback_passport'));
+		$crud->callback_field('backcard',array($this,'callback_backcard'));
+		$crud->callback_field('selfie',array($this,'callback_selfie'));
 
 		$output = $crud->render();
 
@@ -123,15 +132,16 @@ class Admin extends MY_Controller
 		view($this->data, 'admin');		
 	}
 
-	public function clear_passport_data()
+	public function clear_uploads_data()
 	{
 		if($this->input->is_ajax_request()){
 		   // update user_verification table
 			$refuse_reason = $this->input->post('refuse_reason');
+			$field_name = $this->input->post('field_name');
 			$id = $this->input->post('id');
-			$this->db->set('passport_refuse_reason',$refuse_reason);
-			$this->db->set('passport_path','');
-			$this->db->set('passport_mimetype','');
+			$this->db->set($field_name.'_refuse_reason',$refuse_reason);
+			$this->db->set($field_name.'_path','');
+			$this->db->set($field_name.'_mimetype','');
 			$this->db->where('id', $id);
 			$this->db->update('user_verification');
 		}else{
@@ -144,7 +154,33 @@ class Admin extends MY_Controller
 		$row = $this->data['user'];
 		if(isset($row->passport_path) and $row->passport_path != ''){
 			$output  = img('tools/show_passport_upload/'.$value,false,'class="img-rounded" id="passportImg"');
-			$output .= '<a href="javascript:void(0)" class="text-danger" data-csrf-gt="'.$this->security->get_csrf_hash().'" data-primary-key="'.$primary_key.'" id="deletePassportBTn">delete</a>';
+			$output .= '<a href="javascript:void(0)" class="text-danger deleteuploadsBTn" data-image-id="passportImg" data-fieldName="passport" data-csrf-gt="'.$this->security->get_csrf_hash().'" data-primary-key="'.$primary_key.'">delete</a>';
+		}else{
+			$output = '<i class="fa fa-picture-o fa-5x text-success"></i>';
+		}
+		return $output;
+
+	}
+
+	public function callback_backcard($value = "", $primary_key = null)
+	{
+		$row = $this->data['user'];
+		if(isset($row->backcard_path) and $row->backcard_path != ''){
+			$output  = img('tools/show_backcard_upload/'.$value,false,'class="img-rounded" id="backcardImg"');
+			$output .= '<a href="javascript:void(0)" class="text-danger deleteuploadsBTn" data-image-id="backcardImg" data-fieldName="backcard" data-csrf-gt="'.$this->security->get_csrf_hash().'" data-primary-key="'.$primary_key.'">delete</a>';
+		}else{
+			$output = '<i class="fa fa-picture-o fa-5x text-success"></i>';
+		}
+		return $output;
+
+	}
+
+	public function callback_selfie($value = "", $primary_key = null)
+	{
+		$row = $this->data['user'];
+		if(isset($row->selfie_path) and $row->selfie_path != ''){
+			$output  = img('tools/show_selfie_upload/'.$value,false,'class="img-rounded" id="selfieImg"');
+			$output .= '<a href="javascript:void(0)" class="text-danger deleteuploadsBTn" data-image-id="selfieImg" data-fieldName="selfie" data-csrf-gt="'.$this->security->get_csrf_hash().'" data-primary-key="'.$primary_key.'">delete</a>';
 		}else{
 			$output = '<i class="fa fa-picture-o fa-5x text-success"></i>';
 		}

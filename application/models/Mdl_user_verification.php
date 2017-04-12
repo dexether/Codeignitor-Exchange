@@ -48,7 +48,6 @@ class Mdl_User_verification extends CI_Model {
 	{
             $conf['upload_path']   = 'uploads';
             $conf['allowed_types'] = 'gif|jpg|png|pdf';
-            $conf['file_name']     = md5();
             $conf['overwrite']     = FALSE;
             $conf['max_size']      = 5000;
             $conf['max_width']     = 0;
