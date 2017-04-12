@@ -29,7 +29,7 @@ class Admin extends MY_Controller
 	{
 		
 		auth(['admin','superadmin']);
-		
+
 		$crud = new grocery_CRUD();
 		
 		$crud->set_table('users');

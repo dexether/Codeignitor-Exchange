@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"refu",
+				"refuse_reason"
+			],
+			[
+				"show",
+				"show_error〔function〕"
+			],
+			[
+				"fade",
+				"fadeOut\t.fadeOut()"
+			],
+			[
+				"de",
+				"delete"
+			],
+			[
+				"img-",
+				"img-rounded \tBootstrap 3 Class"
+			],
+			[
+				"text-",
+				"text-danger \tBootstrap 3 Class"
+			],
+			[
+				"user",
+				"user_verification"
+			],
+			[
+				"call",
+				"callback_passport"
+			],
+			[
+				"g-call",
+				"g-callback_field\tg-callback_field"
+			],
+			[
 				"rout",
 				"routing_number"
 			],
@@ -90,10 +126,6 @@
 			[
 				"se",
 				"set\t(Myigniter.php)"
-			],
-			[
-				"user",
-				"userdata"
 			],
 			[
 				"lang",
@@ -234,10 +266,6 @@
 			[
 				"veri",
 				"verification_status"
-			],
-			[
-				"g-call",
-				"g-callback_delete\tg-callback_delete"
 			],
 			[
 				"back",
@@ -486,34 +514,6 @@
 			[
 				"ciup",
 				"ciupdo\tDo Upload"
-			],
-			[
-				"gul",
-				"gulden_model"
-			],
-			[
-				"th",
-				"th\tPHP - $this or other object use"
-			],
-			[
-				"this",
-				"this"
-			],
-			[
-				"user_",
-				"user_id"
-			],
-			[
-				"cidbge",
-				"cidbgetw\tDatabase A.R. Get Where"
-			],
-			[
-				"ver",
-				"verification"
-			],
-			[
-				"verification",
-				"verification_code"
 			]
 		]
 	},
@@ -528,16 +528,16 @@
 	"command_palette":
 	{
 		"height": 354.0,
-		"last_filter": "git",
+		"last_filter": "insta",
 		"selected_items":
 		[
 			[
-				"git",
-				"Gitignore: New gitignore"
-			],
-			[
 				"insta",
 				"Package Control: Install Package"
+			],
+			[
+				"git",
+				"Gitignore: New gitignore"
 			],
 			[
 				"simple",
@@ -607,31 +607,45 @@
 		"/E/server/htdocs/exchange",
 		"/E/server/htdocs/exchange/application",
 		"/E/server/htdocs/exchange/application/controllers",
-		"/E/server/htdocs/exchange/public_html/grocery_crud/themes/datatables/js"
+		"/E/server/htdocs/exchange/application/migrations"
 	],
 	"file_history":
 	[
+		"/E/server/htdocs/exchange/application/config/config.php",
+		"/E/server/htdocs/exchange/public_html/js/admin/user_verification.js",
+		"/E/server/htdocs/exchange/application/views/template/v_admin_template.php",
+		"/E/server/htdocs/exchange/application/migrations/001_Base.php",
+		"/E/server/htdocs/exchange/application/models/Mdl_user_verification.php",
+		"/C/Users/Asus/Downloads/codecanyon-13199679-php-smart-robot-chat-support/application/controllers/jarvis.php",
 		"/E/server/htdocs/exchange/application/controllers/Admin.php",
+		"/C/Users/Asus/AppData/Local/Temp/fz3temp-2/index.php",
+		"/C/Users/Asus/AppData/Local/Temp/fz3temp-2/jarvis.php",
+		"/C/Users/Asus/Downloads/codecanyon-13199679-php-smart-robot-chat-support/application/config/bing.php",
+		"/E/server/htdocs/exchange/application/config/hooks.php",
+		"/E/server/htdocs/exchange/application/controllers/User.php",
+		"/E/server/htdocs/exchange/application/helpers/base_helper.php",
+		"/E/server/htdocs/exchange/application/views/template/v_main_template.php",
+		"/E/server/htdocs/exchange/application/views/template/v_site_template.php",
+		"/E/server/htdocs/exchange/application/views/site/v_front.php",
+		"/E/server/htdocs/exchange/application/libraries/L_asset.php",
+		"/E/server/htdocs/exchange/application/controllers/Site.php",
+		"/E/server/htdocs/exchange/system/helpers/html_helper.php",
+		"/E/server/htdocs/exchange/application/config/migration.php",
+		"/E/server/htdocs/exchange/application/migrations/003_Bank.php",
+		"/E/server/htdocs/exchange/system/database/DB_forge.php",
+		"/E/server/htdocs/exchange/application/controllers/Migrate.php",
+		"/E/server/htdocs/exchange/public_html/grocery_crud/themes/datatables/js/flexigrid-edit.js",
+		"/E/server/htdocs/exchange/public_html/grocery_crud/themes/datatables/js/flexigrid.js",
 		"/E/server/htdocs/exchange/application/controllers/Tools.php",
 		"/E/server/htdocs/exchange/application/views/user/v_trade_verification.php",
 		"/E/server/htdocs/exchange/application/views/user/v_bank_info.php",
-		"/E/server/htdocs/exchange/application/config/config.php",
 		"/E/server/htdocs/exchange/application/config/database.php",
-		"/E/server/htdocs/exchange/application/models/Mdl_user_verification.php",
-		"/E/server/htdocs/exchange/application/controllers/User.php",
 		"/E/server/htdocs/exchange/application/config/mimes.php",
-		"/E/server/htdocs/exchange/application/migrations/001_Base.php",
 		"/E/server/htdocs/exchange/application/.htaccess",
 		"/E/server/htdocs/exchange/application/config/routes.php",
 		"/E/server/htdocs/exchange/application/models/Mdl_user.php",
-		"/E/server/htdocs/exchange/application/views/template/v_main_template.php",
-		"/E/server/htdocs/exchange/application/views/template/v_site_template.php",
-		"/E/server/htdocs/exchange/application/config/migration.php",
-		"/E/server/htdocs/exchange/application/config/hooks.php",
-		"/E/server/htdocs/exchange/public_html/grocery_crud/themes/datatables/js/flexigrid-edit.js",
 		"/E/server/htdocs/myigniter/assets/grocery_crud/themes/datatables/js/flexigrid-edit.js",
 		"/E/server/htdocs/myigniter/assets/grocery_crud/themes/flexigrid/js/flexigrid-edit.js",
-		"/E/server/htdocs/exchange/public_html/grocery_crud/themes/datatables/js/flexigrid.js",
 		"/E/server/htdocs/myigniter/assets/grocery_crud/themes/flexigrid/js/flexigrid.js",
 		"/E/server/htdocs/myigniter/assets_dev/js/a-design.js",
 		"/E/server/htdocs/myigniter/assets/js/a-design.js",
@@ -651,15 +665,12 @@
 		"/C/Users/Asus/Downloads/grocery_crud/themes/datatables/views/edit.php",
 		"/C/Users/Asus/Downloads/grocery_crud/themes/datatables/views/list_template.php",
 		"/C/Users/Asus/Downloads/grocery_crud/themes/datatables/views/add.php",
-		"/E/server/htdocs/exchange/application/views/template/v_admin_template.php",
 		"/E/server/htdocs/exchange/public_html/grocery_crud/js/common/list.js",
 		"/E/server/htdocs/exchange/application/views/admin/v_grocery_crud.php",
 		"/E/server/htdocs/exchange/application/views/login/v_register.php",
 		"/E/server/htdocs/exchange/application/views/login/v_login.php",
 		"/E/server/htdocs/exchange/application/views/user/v_change_password.php",
 		"/E/server/htdocs/exchange/application/views/user/v_profile.php",
-		"/E/server/htdocs/exchange/application/migrations/003_Bank.php",
-		"/E/server/htdocs/exchange/application/controllers/Migrate.php",
 		"/E/server/htdocs/exchange/.gitignore"
 	],
 	"find":
@@ -679,6 +690,32 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"auth();",
+			"refuse_reason",
+			"FALSE",
+			"param1",
+			"clickPromptOkfunction",
+			"alert",
+			"_js",
+			"$this->l_asset",
+			"alertifyjs",
+			"l_asset",
+			"l_assets",
+			"\t\t\nprompt",
+			"\t\t\nadmin",
+			"admin",
+			"user_id",
+			"primary_key",
+			"unverified",
+			"verifi",
+			"verified",
+			"FALSE",
+			"refuse_reason",
+			"reason",
+			"backcard",
+			"deletePassport",
+			"this",
+			"deletePassport",
 			"condition",
 			"@",
 			"selfie",
@@ -780,33 +817,7 @@
 			"add_key",
 			"dbforge",
 			"this",
-			"primary_key",
-			"fields",
-			"name",
-			"fields",
-			"primary_key",
-			"fields",
-			"field",
-			"vars",
-			"fields_names",
-			"data",
-			"migrate_data",
-			"title",
-			"name",
-			"max_length",
-			"constraint",
-			"type",
-			"name",
-			" \\",
-			"value",
-			"fields",
-			"data",
-			"information",
-			"ucfirst",
-			"lfir",
-			"ucfirst",
-			"lfirst",
-			"migration"
+			"primary_key"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -878,16 +889,76 @@
 		"selected_items":
 		[
 			[
+				"admite",
+				"application\\views\\template\\v_admin_template.php"
+			],
+			[
+				"001",
+				"application\\migrations\\001_Base.php"
+			],
+			[
+				"config",
+				"application\\config\\config.php"
+			],
+			[
+				"hook",
+				"application\\config\\hooks.php"
+			],
+			[
+				"site",
+				"application\\views\\template\\v_site_template.php"
+			],
+			[
+				"main",
+				"application\\views\\template\\v_main_template.php"
+			],
+			[
+				"front",
+				"application\\views\\site\\v_front.php"
+			],
+			[
+				"admin_templ",
+				"application\\views\\template\\v_admin_template.php"
+			],
+			[
+				"adminte",
+				"application\\views\\template\\v_admin_template.php"
+			],
+			[
+				"001ba",
+				"application\\migrations\\001_Base.php"
+			],
+			[
+				"v",
+				"application\\views\\template\\v_site_template.php"
+			],
+			[
+				"migrate",
+				"application\\controllers\\Migrate.php"
+			],
+			[
+				"migra",
+				"application\\config\\migration.php"
+			],
+			[
+				"flexgridjs",
+				"public_html\\grocery_crud\\themes\\datatables\\js\\flexigrid-edit.js"
+			],
+			[
+				"flexgri",
+				"public_html\\grocery_crud\\themes\\datatables\\js\\flexigrid.js"
+			],
+			[
+				"admin",
+				"application\\controllers\\Admin.php"
+			],
+			[
 				"vba",
 				"application\\views\\user\\v_bank_info.php"
 			],
 			[
 				"mim",
 				"application\\config\\mimes.php"
-			],
-			[
-				"001",
-				"application\\migrations\\001_Base.php"
 			],
 			[
 				"mdluserver",
@@ -910,10 +981,6 @@
 				"application\\views\\template\\v_main_template.php"
 			],
 			[
-				"site",
-				"application\\views\\template\\v_site_template.php"
-			],
-			[
 				"migration",
 				"application\\config\\migration.php"
 			],
@@ -932,10 +999,6 @@
 			[
 				"datatflexgrid",
 				"public_html\\grocery_crud\\themes\\datatables\\js\\flexigrid.js"
-			],
-			[
-				"config",
-				"application\\config\\config.php"
 			],
 			[
 				"grocerycrud",
@@ -970,10 +1033,6 @@
 				"public_html\\grocery_crud\\themes\\datatables\\views\\edit.php"
 			],
 			[
-				"adminte",
-				"application\\views\\template\\v_admin_template.php"
-			],
-			[
 				"grocery",
 				"application\\config\\grocery_crud.php"
 			],
@@ -1002,16 +1061,8 @@
 				"application\\views\\login\\v_login.php"
 			],
 			[
-				"migra",
-				"application\\config\\migration.php"
-			],
-			[
 				"exa",
 				"sql\\examples.sql"
-			],
-			[
-				"admin",
-				"application\\views\\template\\admin_template.php"
 			],
 			[
 				"adm",
@@ -1118,10 +1169,6 @@
 				"application\\views\\template\\v_site_template.php"
 			],
 			[
-				"main",
-				"application\\views\\template\\v_main_template.php"
-			],
-			[
 				"mdl",
 				"application\\models\\Mdl_user.php"
 			],
@@ -1180,10 +1227,6 @@
 			[
 				"listtempla",
 				"public_html\\grocery_crud\\themes\\flexigrid\\views\\list_template.php"
-			],
-			[
-				"admite",
-				"application\\views\\template\\v_admin_template.php"
 			],
 			[
 				"vgroc",
@@ -1356,38 +1399,6 @@
 			[
 				"conf",
 				"application\\config\\config.php"
-			],
-			[
-				"regis",
-				"application\\views\\login\\v_register.php"
-			],
-			[
-				"myigniter",
-				"application\\controllers\\Myigniter.php"
-			],
-			[
-				"myiig",
-				"application\\config\\myigniter.php"
-			],
-			[
-				"realstateviewho",
-				"application\\modules\\real_state\\views\\home\\index.php"
-			],
-			[
-				"realshome",
-				"application\\modules\\real_state\\controllers\\Home.php"
-			],
-			[
-				"grid",
-				"application\\modules\\real_state\\views\\properties\\grid.php"
-			],
-			[
-				"detai",
-				"application\\modules\\real_state\\views\\properties\\details.php"
-			],
-			[
-				"prop",
-				"application\\modules\\real_state\\controllers\\Properties.php"
 			]
 		],
 		"width": 0.0

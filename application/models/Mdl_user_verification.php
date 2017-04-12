@@ -66,6 +66,7 @@ class Mdl_User_verification extends CI_Model {
                              $file => $upload_data['raw_name'],
                              $file.'_path' => 'uploads/'.$upload_data['file_name'],
                              $file.'_mimetype' => $upload_data['file_type'],
+                             // $file.'_mimetype' => '',
                              ];
                     $this->update($data,$this->session->user_id);
 			$this->session->set_flashdata('success','Data Updated');
