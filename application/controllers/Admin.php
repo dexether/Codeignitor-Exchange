@@ -140,6 +140,7 @@ class Admin extends MY_Controller
 			$field_name = $this->input->post('field_name');
 			$id = $this->input->post('id');
 			$this->db->set($field_name.'_refuse_reason',$refuse_reason);
+			$this->db->set($field_name,'');
 			$this->db->set($field_name.'_path','');
 			$this->db->set($field_name.'_mimetype','');
 			$this->db->where('id', $id);
