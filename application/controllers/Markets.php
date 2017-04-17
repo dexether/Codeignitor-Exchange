@@ -21,7 +21,7 @@ class Markets extends MY_Controller{
     public function trade_page($market='EUR-NLG') {
         
         //todo, add these automatically or get from DB
-        if(in_array($market, array('EUR-NLG', 'GTS-NLG')))
+        if(in_array($market, MARKETS))
         {
             $data = array();
             $data['market'] = $market;
@@ -29,10 +29,13 @@ class Markets extends MY_Controller{
             $data['currency_bid'] = $a[0];
             $data['currency_sell'] = $a[1];
             
-            $this->data['content'] = $this->load->view('charts/v_chart_nlg', $data, true);
+            $this->load->model('mdl_balance');
+            $data['balance'] = $this->mdl_balance->currency_balance();
+            
+            //$this->data['content'] = $this->load->view('charts/v_chart_nlg', $data, true);
             
             //test data!
-            $this->l_asset->add('//cdn.anychart.com/csv-data/csco-daily.js', 'js');
+            //$this->l_asset->add('//cdn.anychart.com/csv-data/csco-daily.js', 'js');
             $this->l_asset->add('/js/trade/trade.js', 'js');
 
             $this->data['content'] .= $this->load->view('blocks/v_bid_ask', $data, true);

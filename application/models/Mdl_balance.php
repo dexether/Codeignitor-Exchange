@@ -17,7 +17,7 @@ class Mdl_balance extends CI_Model {
 		if($query->num_rows() >= 1)
 		{     	
 			$row = $query->row();
-			return isset($row->$$currency)?$row->$$currency:false;
+			return isset($row->$currency)?$row->$currency:false;
 	}   
 	else
 	{      

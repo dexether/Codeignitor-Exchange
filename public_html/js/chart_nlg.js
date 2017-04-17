@@ -66,13 +66,13 @@ $(function () {
     chart.draw();
 
     // create range picker
-    rangePicker = anychart.ui.rangePicker();
+    //.rangePicker = anychart.ui.rangePicker();
     // init range picker
-    rangePicker.render(chart);
+    //rangePicker.render(chart);
 
     // create range selector
-    rangeSelector = anychart.ui.rangeSelector();
+    //rangeSelector = anychart.ui.rangeSelector();
     // init range selector
-    rangeSelector.render(chart);
+    //rangeSelector.render(chart);
 });
 });
