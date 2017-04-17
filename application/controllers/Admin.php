@@ -6,6 +6,12 @@ class Admin extends MY_Controller
 	public function __construct()
 	{
 		parent::__construct();
+                $admin_roles = ['admin','superadmin'];
+                if(!in_array($this->session->userdata('role'), $admin_roles))
+                {
+                    redirect ('/');
+                }
+                
 		$this->load->library('grocery_CRUD');
 		$this->load->model('admin_model');
 		$this->load->model('mdl_user');
@@ -16,11 +22,6 @@ class Admin extends MY_Controller
 	public function index()
 	{
 		auth(['admin','superadmin']);
-
-		if (!$this->session->user_id > 0) {
-			redirect('/');
-		}
-
 		$this->data['content'] = $this->load->view('admin/v_index',[], true);
 		view($this->data, 'admin');
 	}
