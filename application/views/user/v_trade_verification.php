@@ -47,27 +47,42 @@ if($this->session->flashdata('errors')){
 						<div class="form-group">
 							<label for="passport" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Passport</label>
 							<div class="col-sm-6">
-								<?php if (isset($bank->passport)): ?>
+								<?php if (isset($bank->passport) && $bank->passport != 0): ?>
 									<img src="<?php echo $bank->passport ?>" class='img-responsive'>
-								<?php endif ?>
+								<?php else: ?>
+									<b class="text-danger">Refused</b>
+									<br>
+									<p class="text-danger"><small>reviewer comment:</small></p>
+							    	<blockquote class="text-danger"><small><?php echo $bank->passport_refuse_reason ?></small></blockquote>
+							    <?php endif ?>
 								<input type="file" id="passport" name="passport" class="form-control" > 
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="selfie" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Selfie</label>
 							<div class="col-sm-6">
-								<?php if (isset($bank->selfie)): ?>
+								<?php if (isset($bank->selfie) && $bank->selfie != 0): ?>
 									<img src="<?php echo $bank->selfie ?>" class='img-responsive'>
-								<?php endif ?>
+								<?php else: ?>
+									<b class="text-danger">Refused</b>
+									<br>
+									<p class="text-danger"><small>reviewer comment:</small></p>
+							    	<blockquote class="text-danger"><small><?php echo $bank->selfie_refuse_reason ?></small></blockquote>
+							    <?php endif ?>
 								<input type="file" id="selfie" name="selfie" class="form-control" > 
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="backcard" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Backcard</label>
 							<div class="col-sm-6">
-								<?php if (isset($bank->backcard)): ?>
-									<img src="<?php echo $bank->backcard ?>" class='img-responsive' />
-								<?php endif ?>
+								<?php if (isset($bank->backcard) && $bank->backcard != 0): ?>
+									<img src="<?php echo $bank->backcard ?>" class='img-responsive'>
+								<?php else: ?>
+									<b class="text-danger">Refused</b>
+									<br>
+									<p class="text-danger"><small>reviewer comment:</small></p>
+							    	<blockquote class="text-danger"><small><?php echo $bank->backcard_refuse_reason ?></small></blockquote>
+							    <?php endif ?>
 								<input type="file" id="backcard" name="backcard" class="form-control" > 
 							</div>
 						</div>

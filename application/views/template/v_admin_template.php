@@ -35,17 +35,18 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <?php if(isset($head_css)) echo $head_css; ?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 
 		<header class="main-header">
 			<!-- Logo -->
-			<a href="index2.html" class="logo">
+			<a href="<?php echo site_url() ?>" class="logo">
 				<!-- mini logo for sidebar mini 50x50 pixels -->
-				<span class="logo-mini"><b>A</b>LT</span>
+				<span class="logo-mini"><b>G</b></span>
 				<!-- logo for regular state and mobile devices -->
-				<span class="logo-lg"><b>Admin</b>LTE</span>
+				<span class="logo-lg"><b>Gulden Trader</b></span>
 			</a>
 			<!-- Header Navbar: style can be found in header.less -->
 			<nav class="navbar navbar-static-top">
@@ -114,8 +115,9 @@
 				<!-- /.search form -->
 				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu">
-					<li><a href="<?php echo site_url('admin') ?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-					<li><a href="<?php echo site_url('admin/users') ?>"><i class="fa fa-users"></i>Manager Users</a></li>
+					<li><a href="<?php echo site_url() ?>"> Visite Website</a></li>
+					<li><a href="<?php echo site_url('admin') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+					<li><a href="<?php echo site_url('admin/users') ?>"><i class="fa fa-users"></i> Manager Users</a></li>
 				</ul>
 			</section>
 			<!-- /.sidebar -->
@@ -171,5 +173,6 @@
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/fastclick/fastclick.js"></script>
+	<?php if(isset($head_js)) echo $head_js; ?>
 </body>
 </html>

@@ -45,7 +45,7 @@ class Migration_Base extends CI_Migration {
 		$fields['keyname'] = ['type' => 'VARCHAR','constraint' => 111];
 		$fields['dateofreg'] = ['type' => 'DATE'];
 		$fields['modified_date'] = ['type' => 'timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'];
-		$fields['status'] = ['type' => 'VARCHAR','constraint' => 20];
+		$fields['status'] = ['type' => 'ENUM("active","deactive")','NULL' => false,'default' => 'deactive'];
 		$fields['loginstatus'] = ['type' => 'VARCHAR','constraint' => 111];
 		$fields['activated_date'] = ['type' => 'DATE'];
 		$fields['timeofreg'] = ['type' => 'timestamp','DEFAULT' => 0];
@@ -66,7 +66,7 @@ class Migration_Base extends CI_Migration {
 
         // insert users data
 		$users = array(
-			array('id' => '1','client_id' => '0','firstname' => 'PHP','lastname' => 'ARTS','username' => '','email' => 'php.power.arts@gmail.com','password' => '$2y$10/pPEaOXDOZVRmUoOEGPwoBB5FaS5phA8ZTL8ECjVPBvedPi','profilepicture' => '','account_no' => '','identity_no' => '0','cellno' => '0','alt_cellno' => '0','street1' => '','street2' => '','city' => '','country' => '0','country1' => '','state' => NULL,'state1' => '','zipcode' => '0','recaptcha' => '9v5s9n','postal_line1' => '','postal_line2' => '','postal_city' => '','postal_state' => '','postal_country' => '','postal_code' => '0','apiKey' => '0','apiAccessKey' => '','keyname' => '','dateofreg' => '2017-03-09','modified_date' => '2017-03-09 14:03:16','status' => 'active','loginstatus' => '','activated_date' => '0000-00-00','timeofreg' => '0000-00-00 00:00:00','userip' => '127.0.0.1','userbrowser' => 'Chrome','randcode' => 'disable','secret' => '','onecode' => '','url' => '','verfiyStatus' => 'unverified','user_wallet' => '','salt' => '9ec685c3b57064e248f9a867be41dfcb','destination_tag' => '','role' => 'member'),
+			array('id' => '1','client_id' => '0','firstname' => 'PHP','lastname' => 'ARTS','username' => '','email' => 'php.power.arts@gmail.com','password' => '$2y$10$jo/UVrT/AnD3r8AP1qNduOoF3pHUzHyqrDhkvJatdDX4XI75zsuA2','profilepicture' => '','account_no' => '','identity_no' => '0','cellno' => '0','alt_cellno' => '0','street1' => '','street2' => '','city' => '','country' => '0','country1' => '','state' => NULL,'state1' => '','zipcode' => '0','recaptcha' => '9v5s9n','postal_line1' => '','postal_line2' => '','postal_city' => '','postal_state' => '','postal_country' => '','postal_code' => '0','apiKey' => '0','apiAccessKey' => '','keyname' => '','dateofreg' => '2017-03-09','modified_date' => '2017-03-09 14:03:16','status' => 'active','loginstatus' => '','activated_date' => '0000-00-00','timeofreg' => '0000-00-00 00:00:00','userip' => '127.0.0.1','userbrowser' => 'Chrome','randcode' => 'disable','secret' => '','onecode' => '','url' => '','verfiyStatus' => 'unverified','user_wallet' => '','salt' => '9ec685c3b57064e248f9a867be41dfcb','destination_tag' => '','role' => 'member'),
 			array('id' => '2','client_id' => '0','firstname' => 'Rog','lastname' => 'Burger','username' => '','email' => 'rog.burgerman@gmail.com','password' => '$2y$10/pPEaOXDOZVRmUoOEGPwoBB5FaS5phA8ZTL8ECjVPBvedPi','profilepicture' => '','account_no' => '','identity_no' => '0','cellno' => '0','alt_cellno' => '0','street1' => '','street2' => '','city' => '','country' => '0','country1' => '','state' => NULL,'state1' => '','zipcode' => '0','recaptcha' => '496ytg','postal_line1' => '','postal_line2' => '','postal_city' => '','postal_state' => '','postal_country' => '','postal_code' => '0','apiKey' => '0','apiAccessKey' => '','keyname' => '','dateofreg' => '2017-03-09','modified_date' => '2017-03-09 13:32:26','status' => 'active','loginstatus' => '','activated_date' => '0000-00-00','timeofreg' => '0000-00-00 00:00:00','userip' => '127.0.0.1','userbrowser' => 'Chrome','randcode' => 'disable','secret' => '','onecode' => '','url' => '','verfiyStatus' => 'verified','user_wallet' => '','salt' => '99b4f40cd1eff753c8bec9092d0a5f60','destination_tag' => '','role' => 'superadmin'),
 			array('id' => '3','client_id' => '0','firstname' => 'Admin','lastname' => 'Rog','username' => '','email' => 'admin@admin.com','password' => '$2y$10/pPEaOXDOZVRmUoOEGPwoBB5FaS5phA8ZTL8ECjVPBvedPi','profilepicture' => '','account_no' => '','identity_no' => '0','cellno' => '0','alt_cellno' => '0','street1' => '','street2' => '','city' => '','country' => '0','country1' => '','state' => NULL,'state1' => '','zipcode' => '0','recaptcha' => '496ytg','postal_line1' => '','postal_line2' => '','postal_city' => '','postal_state' => '','postal_country' => '','postal_code' => '0','apiKey' => '0','apiAccessKey' => '','keyname' => '','dateofreg' => '2017-03-09','modified_date' => '2017-03-09 13:32:32','status' => 'active','loginstatus' => '','activated_date' => '0000-00-00','timeofreg' => '0000-00-00 00:00:00','userip' => '127.0.0.1','userbrowser' => 'Chrome','randcode' => 'disable','secret' => '','onecode' => '','url' => '','verfiyStatus' => 'verified','user_wallet' => '','salt' => '0cb73ddba0c026828d7e8350f54de107','destination_tag' => '','role' => 'admin')
 			);
@@ -78,13 +78,16 @@ class Migration_Base extends CI_Migration {
 		$fields['user_id'] = ['type' => 'INT','constraint'=>'11'];
 		$fields['verifier'] = ['type' => 'VARCHAR','constraint'=>'200'];
 		$fields['passport'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['passport_refuse_reason'] = ['type' => 'VARCHAR','constraint'=>'255']; // why not accepted
 		$fields['passport_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];
-		$fields['selfie'] = ['type' => 'VARCHAR','constraint'=>'50'];
-		$fields['selfie_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];
-		$fields['backcard'] = ['type' => 'VARCHAR','constraint'=>'50'];
-		$fields['backcard_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];
 		$fields['passport_path'] = ['type' => 'VARCHAR','constraint'=>'100'];
+		$fields['selfie'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['selfie_refuse_reason'] = ['type' => 'VARCHAR','constraint'=>'255']; // why not accepted
+		$fields['selfie_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];
 		$fields['slefie_path'] = ['type' => 'VARCHAR','constraint'=>'100'];
+		$fields['backcard'] = ['type' => 'VARCHAR','constraint'=>'50'];
+		$fields['backcard_refuse_reason'] = ['type' => 'VARCHAR','constraint'=>'255']; // why not accepted
+		$fields['backcard_mimetype'] = ['type' => 'VARCHAR','constraint'=>'50'];
 		$fields['backcard_path'] = ['type' => 'VARCHAR','constraint'=>'100'];
 		$fields['verification_status'] = ['type' => 'ENUM("verified","unverified")','NULL' => false,'default' => 'unverified'];
 		$fields['verification_trade'] = ['type' => 'ENUM("verified","unverified")','NULL' => false,'default' => 'unverified'];
