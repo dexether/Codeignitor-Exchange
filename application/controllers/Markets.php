@@ -40,7 +40,14 @@ class Markets extends MY_Controller{
 
             $this->data['content'] .= $this->load->view('blocks/v_bid_ask', $data, true);
             
-            $this->data['content'] .= $this->load->view('blocks/v_orders', $data, true);
+            
+            $this->load->model('mdl_trade');
+            $data['bid_orders'] = $this->mdl_trade->get_bid_orders($data['currency_bid'], 50);
+            $data['sell_orders'] = $this->mdl_trade->get_sell_orders($data['currency_bid'], 50);
+            
+            $this->data['content'] .= $this->load->view('blocks/v_order_book', $data, true);
+            
+            $this->data['content'] .= $this->load->view('blocks/v_my_orders', $data, true);
 
             $this->data['content'] .= $this->load->view('blocks/v_trade_history', $data, true);
 

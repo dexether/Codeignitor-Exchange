@@ -114,4 +114,20 @@ class Mdl_trade  extends CI_Model {
         
         return 'succes';
     }
+    
+    public function get_bid_orders($market='EUR', $limit=10, $user_id = null)
+    {
+        $this->db->limit($limit);
+        $this->db->where('bidsell', 'bid');
+        $this->db->where('status', 'open');
+        return $this->db->get('order_'.$market);
+    }
+    
+    public function get_sell_orders($market='EUR', $limit=10, $user_id = null)
+    {
+        $this->db->limit($limit);
+        $this->db->where('bidsell', 'sell');
+        $this->db->where('status', 'open');
+        return $this->db->get('order_'.$market);
+    }
 }
