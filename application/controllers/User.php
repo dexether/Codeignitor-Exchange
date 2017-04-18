@@ -37,7 +37,12 @@ class User extends MY_Controller {
     
     function login()  
     { 
-        echo $this->mdl_user->check_login();
+        // 
+        $this->form_validation->run()
+        $this->mdl_user->check_login();
+        $this->l_asset->add('js/user/login.js', 'js');
+        $this->data['content'] = $this->load->view('user/v_login',[],true);
+        view($this->data,'site');
     }
 
     // returns login status
