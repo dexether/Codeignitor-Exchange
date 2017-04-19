@@ -1,8 +1,7 @@
 <div class="row">
     <div class="col-lg-3 col-md-5 col-sm-5 col-xs-10 col-xs-offset-1 col-sm-offset-4 col-md-offset-4 col-lg-offset-4 text-center">
     <br class="clearfix" />
-    <br class="clearfix" />
-        <h1 class="glyphicon glyphicon-lock margin-top"></h1>
+        <h1 class="glyphicon glyphicon-lock" style="font-size: 4em"></h1>
         <h4> Login Details </h4>
         <hr>
         <?php echo form_open('', 'class="form-horizontal" name="login_form" id="login_form" method="post"'); ?>

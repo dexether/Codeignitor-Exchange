@@ -58,6 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     //'faq'=>'front/home/faq',
     '404_override'=>'',
     'translate_uri_dashes'=>'',
-    'login' => 'user/login'
+    'login' => 'user/login',
+    'register' => 'user/register',
     );
 

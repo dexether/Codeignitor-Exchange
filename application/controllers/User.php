@@ -16,22 +16,42 @@ class User extends MY_Controller
         redirect('/');
     }
 
-    function registration()
+    function register()
     {
         $email = $this->input->post('email', true);
         $exist = $this->mdl_user->is_user($email);
+
+        // $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email|users.email');
+
+
+        // if ($this->form_validation->run() == true) {
+        //     # code...
+        // } else {
+        //     # code...
+        // }
+        
+        
         if ($exist === true) {
-            echo "email";
+            //echo "email";
         } else {
             $captcha_code = isset($_SESSION['6_letters_code']) ? $_SESSION['6_letters_code'] : '';
             $recaptcha = $this->input->post('recaptcha', true);
             if ($captcha_code != $recaptcha) {
-                echo "recaptcha";
+                //echo "recaptcha";
             } else {
-                $this->mdl_user->add_user();
-                echo "success";
+                //$this->mdl_user->add_user();
+                //echo "success";
             }
         }
+
+        // assets
+        $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
+        $this->l_asset->add('js/user/login.js', 'js');
+
+        $this->data['content'] = $this->load->view('user/v_register', [], true);
+        view($this->data,'site');
     }
 
     function login()
@@ -49,8 +69,7 @@ class User extends MY_Controller
             } elseif ($login == "deactive") {
                 $error_message = "Please Activate Your Account";
             } elseif ($login == "enable") {
-                //$myModal_tfa").modal('show');
-                //$login").modal('hide');
+                redirect('users/tfa');
             } elseif ($login == "success") {
                 redirect('markets/EUR-NLG');
             } else {
