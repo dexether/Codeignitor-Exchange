@@ -1,5 +1,7 @@
 <div class="row">
-    <div class="col-lg-3 col-lg-offset-4 text-center">
+    <div class="col-lg-3 col-md-5 col-sm-5 col-xs-10 col-xs-offset-1 col-sm-offset-4 col-md-offset-4 col-lg-offset-4 text-center">
+    <br class="clearfix" />
+    <br class="clearfix" />
         <h1 class="glyphicon glyphicon-lock margin-top"></h1>
         <h4> Login Details </h4>
         <hr>
@@ -28,5 +30,7 @@
         </div>
         <div class="clearfix"></div>
         <?php echo form_close(); ?>
+        <br class="clearfix" />
+        <br class="clearfix" />
     </div>
 </div>
