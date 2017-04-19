@@ -9,6 +9,7 @@
   <link href="<?php echo base_url('css/bootstrap.min.css'); ?>" rel="stylesheet">
   <link href="<?php echo base_url('css/anychart-ui.min.css'); ?>" rel="stylesheet">
   <link href="<?php echo base_url('css/style.css'); ?>" rel="stylesheet">
+  <?php if(isset($head_css)) echo $head_css; ?>
   <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
@@ -26,8 +27,8 @@
              ?> 
              <div class="col-md-8 col-sm-7  col-xs-8 col-lg-9">
                <ul class="list-inline list-unstyled cls_top_login">
-                 <li><a href="#" data-toggle="modal" data-target="#login"> Login </a> </li>
-                 <li><a href="#" class="active" data-toggle="modal" data-target="#register"> Register </a> </li>
+                 <li><a href="login"> Login </a></li>
+                 <li><a href="register" class="active"> Register </a> </li>
                </ul>
              </div>
 
