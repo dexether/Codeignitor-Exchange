@@ -18,39 +18,38 @@ class User extends MY_Controller
 
     function register()
     {
-        $email = $this->input->post('email', true);
-        $exist = $this->mdl_user->is_user($email);
-        
 
         $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email|users.email');
-        $this->form_validation->set_message('users.email', 'Email already exist please try to '.anchor('login','login','class="text-info"').' or register with new email');
+        $this->form_validation->set_message('users.email', 'Email already exist please try to ' . anchor('login', 'login', 'class="text-info"') . ' or register with new email');
         $this->form_validation->set_rules('firstname', 'Firstname', 'trim|required|min_length[2]|max_length[12]');
         $this->form_validation->set_rules('password1', 'Password', 'trim|required|min_length[8]|max_length[30]|matches[password2]');
         $this->form_validation->set_rules('password2', 'Confirm Password', 'trim|required|min_length[8]|max_length[30]|matches[password1]');
         $this->form_validation->set_rules('recaptcha', 'Recaptcha', "trim|required|callback_recaptcha");
         $this->form_validation->set_rules('terms', 'Terms', "trim|required");
-
         if ($this->form_validation->run() == true) {
+            $vars['success'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> User Registered Successfully. <br/>Please check your email and click activate link</div>';
+            $vars['success'] .= '<meta http-equiv="refresh" content="3;url=/">';
             $this->mdl_user->add_user();
         } else {
-            $vars['alert'] = validation_errors('<p class="alert alert-danger">','</p>');
+            $vars['alert'] = validation_errors('<p class="alert alert-danger">', '</p>');
         }
 
         // assets
         $this->l_asset->add('js/user/register.js', 'js');
 
         $this->data['content'] = $this->load->view('user/v_register', $vars, true);
-        view($this->data,'site');
+        view($this->data, 'site');
     }
 
-    public function recaptcha(){
+    public function recaptcha()
+    {
         $captcha_code = isset($_SESSION['6_letters_code']) ? $_SESSION['6_letters_code'] : '';
         $recaptcha = $this->input->post('recaptcha', true);
 
         if ($captcha_code != $recaptcha) {
             $this->form_validation->set_message('recaptcha', "recaptcha not matched, please try again");
             return false;
-        }else{
+        } else {
             return true;
         }
     }
@@ -77,18 +76,18 @@ class User extends MY_Controller
                 $error_message = "Whoops, something happened, please try again";
             }
 
-            $this->session->set_flashdata('error_message',$error_message);
+            $this->session->set_flashdata('error_message', $error_message);
             redirect('login');
         } else {
             $error_message = '';
         }
 
         $vars = [];
-        $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
-        $this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
-        $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
+        $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css', 'css');
+        $this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css', 'css');
+        $this->l_asset->add('plugins/alertifyjs/alertify.min.js', 'js');
         $this->l_asset->add('js/user/login.js', 'js');
-        $this->data['content'] = $this->load->view('user/v_login',$vars , true);
+        $this->data['content'] = $this->load->view('user/v_login', $vars, true);
         view($this->data, 'site');
     }
 
@@ -310,14 +309,24 @@ class User extends MY_Controller
     // to view forgot password page
     function forget()
     {
-        $this->load->view('front/forget_password');
-    }
+        $this->form_validation->set_error_delimiters('<p class="alert alert-danger">','</p>');
+        $this->form_validation->set_rules('forgetemail', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email');
 
-    // ajax form for forgot password
-    function ajax_forgot_form()
-    {
-        $res_login = $this->mdl_user->forgot_passmail();
-        echo $res_login;
+        if ($this->form_validation->run() == true) {
+            $result = $this->mdl_user->forgot_passmail();
+            if($result == 'success'){
+                $vars['alert'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> User Registered Successfully. <br/>Please check your email and click activate link</div>';
+                $vars['alert'] .= '<meta http-equiv="refresh" content="3;url=/">';
+            }else{
+                $vars['alert'] = '<div class="alert alert-danger"><i class="glyphicon glyphicon-close"></i> Sorry this email not exist</div>';
+            }
+        }else{
+            $vars = [];
+        }
+
+        $this->l_asset->add('js/user/forget.js', 'js');
+        $this->data['content'] = $this->load->view('user/v_forget',$vars,true);
+        view($this->data,'site');
     }
 
     // from mail to function

@@ -48,14 +48,10 @@ $(document).ready(function () {
 // forgot password
 $('#forget_form').validate({
     rules: {
-
         forgetemail: {
             required: true,
             email: true
-
         },
-
-
     },
     submitHandler: function (form) {
         var data = $('#forget_form').serialize();

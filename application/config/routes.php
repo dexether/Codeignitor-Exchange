@@ -60,5 +60,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     'translate_uri_dashes'=>'',
     'login' => 'user/login',
     'register' => 'user/register',
+    'forget' => 'user/forget',
     );
 

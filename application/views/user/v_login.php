@@ -25,7 +25,7 @@
                 <label for="checkboxG1" class="css-label radGroup1">Remember Me </label></p>
         </div>
         <div class="pull-right cont_list mar-top-10">
-            <a href="#"> forgot password ? </a>
+            <a href="forget"> forgot password ? </a>
         </div>
         <div class="clearfix"></div>
         <?php echo form_close(); ?>
