@@ -43,68 +43,6 @@ $(document).ready(function () {
         }
     });
 
-
-    /* register */
-
-
-    $("#registering").validate({
-        rules: {
-            firstname: {required: true, minlength: 2},
-            lastname: {required: true, minlength: 2},
-            email: {required: true, email: true},
-            password1: {
-                required: true,
-                pwcheck: true,
-                minlength: 8,
-            },
-
-            password2: {required: true, equalTo: "#password1"},
-
-            recaptcha: {required: true,},
-
-            terms: {required: true}
-        },
-        submitHandler: function (form) {
-            var data = $('#registering').serialize();
-            $.ajax({
-                type: 'POST',
-                data: data,
-                url: 'user/registration',
-                success: function (output) {
-                    var output = output.trim();
-
-                    if (output == "email") {
-                        $("#register_error").show();
-                        $("#register_success").hide();
-                        $("#errorMessage").html("This e-mail address already exists");
-                    }
-                    else if (output == "success") {
-                        $("#register_error").hide();
-                        $("#successMessage").html("Please Check Your Email and Activate Your Account");
-                        $("#register_success").show();
-                        //$('#register').modal('hide');
-                        $('#register').hide();
-                        $('#registering')[0].reset();
-                        //setTimeout(hide, 2000);
-                    }
-                    else if (output == "recaptcha") {
-                        $("#register_error").show();
-                        $("#register_success").hide();
-                        $("#errorMessage").html("The captcha code does not match!");
-                        //$('#registering')[0].reset();
-                        //refreshCaptcha();
-
-                    }
-                    $('html, body').animate({scrollTop: 400}, 'slow');
-                },
-                beforeSend: function () {
-                    $("#login_loading").show();
-                }
-            });
-            return false;
-        }
-
-    });
 });
 
 // forgot password

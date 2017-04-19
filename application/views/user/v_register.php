@@ -6,6 +6,7 @@
             <h4>Register</h4>
         </div>
         <hr/>
+        <?php echo $alert; ?>
         <?php echo form_open('', 'name="registering" id="registering" method="post"'); ?>
         <div class="form-group">
             <input type="text" class="form-control" name="email" id="email" placeholder="Email">
@@ -52,8 +53,6 @@
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <input style="width:100%;" type="text" class="form-control" name="recaptcha"
                            placeholder="Enter the Captcha text" value=""/>
-                    <?php if (form_error('recaptcha')) { ?><font
-                            color="#CC0000"><?php echo form_error('recaptcha'); ?></font><?php } ?>
                 </div>
             </div>
         </div>

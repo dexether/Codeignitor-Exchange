@@ -20,38 +20,39 @@ class User extends MY_Controller
     {
         $email = $this->input->post('email', true);
         $exist = $this->mdl_user->is_user($email);
-
-        // $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email|users.email');
-
-
-        // if ($this->form_validation->run() == true) {
-        //     # code...
-        // } else {
-        //     # code...
-        // }
         
-        
-        if ($exist === true) {
-            //echo "email";
+
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email|users.email');
+        $this->form_validation->set_message('users.email', 'Email already exist please try to '.anchor('login','login','class="text-info"').' or register with new email');
+        $this->form_validation->set_rules('firstname', 'Firstname', 'trim|required|min_length[2]|max_length[12]');
+        $this->form_validation->set_rules('password1', 'Password', 'trim|required|min_length[8]|max_length[30]|matches[password2]');
+        $this->form_validation->set_rules('password2', 'Confirm Password', 'trim|required|min_length[8]|max_length[30]|matches[password1]');
+        $this->form_validation->set_rules('recaptcha', 'Recaptcha', "trim|required|callback_recaptcha");
+        $this->form_validation->set_rules('terms', 'Terms', "trim|required");
+
+        if ($this->form_validation->run() == true) {
+            $this->mdl_user->add_user();
         } else {
-            $captcha_code = isset($_SESSION['6_letters_code']) ? $_SESSION['6_letters_code'] : '';
-            $recaptcha = $this->input->post('recaptcha', true);
-            if ($captcha_code != $recaptcha) {
-                //echo "recaptcha";
-            } else {
-                //$this->mdl_user->add_user();
-                //echo "success";
-            }
+            $vars['alert'] = validation_errors('<p class="alert alert-danger">','</p>');
         }
 
         // assets
-        $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
-        $this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
-        $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
-        $this->l_asset->add('js/user/login.js', 'js');
+        $this->l_asset->add('js/user/register.js', 'js');
 
-        $this->data['content'] = $this->load->view('user/v_register', [], true);
+        $this->data['content'] = $this->load->view('user/v_register', $vars, true);
         view($this->data,'site');
+    }
+
+    public function recaptcha(){
+        $captcha_code = isset($_SESSION['6_letters_code']) ? $_SESSION['6_letters_code'] : '';
+        $recaptcha = $this->input->post('recaptcha', true);
+
+        if ($captcha_code != $recaptcha) {
+            $this->form_validation->set_message('recaptcha', "recaptcha not matched, please try again");
+            return false;
+        }else{
+            return true;
+        }
     }
 
     function login()
