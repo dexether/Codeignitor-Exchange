@@ -18,7 +18,6 @@ class User extends MY_Controller
 
     function register()
     {
-
         $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email|users.email');
         $this->form_validation->set_message('users.email', 'Email already exist please try to ' . anchor('login', 'login', 'class="text-info"') . ' or register with new email');
         $this->form_validation->set_rules('firstname', 'Firstname', 'trim|required|min_length[2]|max_length[12]');
@@ -97,6 +96,12 @@ class User extends MY_Controller
 
         $res_login = $this->mdl_user->check_login_details();
         echo $res_login;
+    }
+
+    function tfa(){
+        $vars = [];
+        $this->data['content'] = $this->load->view('user/v_tfa', $vars, true);
+        view($this->data, 'site');
     }
 
     /** just for test */
@@ -297,13 +302,15 @@ class User extends MY_Controller
     function enable_tfa()
     {
         $this->load->model('mdl_user');
-        echo $result = $this->mdl_user->enable_tfa();
+         $result = $this->mdl_user->enable_tfa();
+         redirect('login','refresh');
     }
 
     function disable_tfa()
     {
         $this->load->model('mdl_user');
-        echo $result = $this->mdl_user->disable_tfa();
+        $result = $this->mdl_user->disable_tfa();
+        redirect('login','refresh');
     }
 
     // to view forgot password page

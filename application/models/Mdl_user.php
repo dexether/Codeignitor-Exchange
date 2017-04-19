@@ -312,7 +312,7 @@ class Mdl_user extends CI_Model
                     //'url'     => $url,
                     'randcode' => "enable"
                 );
-                $this->db->update('userdetails', $data);
+                $this->db->update('users', $data);
 
                 $userdetails = $this->get_userdetails($customer_user_id);
                 if ($userdetails) {
