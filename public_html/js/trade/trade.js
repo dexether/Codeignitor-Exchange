@@ -24,7 +24,7 @@ $(function(){
         }
     });
     
-    //calc total
+    //calc total buy limit order
     $("#buylimit_order input[name=amount], #buylimit_order input[name=price]").on("keypress keyup blur",function () {
         if($('#buylimit_order input[name=price]').val() > 0 && $("#buylimit_order input[name=amount]").val() > 0)
         {
@@ -32,7 +32,15 @@ $(function(){
         }
     });
     
-    //submit order
+    //calc total buy limit order
+    $("#selllimit_order input[name=amount], #selllimit_order input[name=price]").on("keypress keyup blur",function () {
+        if($('#selllimit_order input[name=price]').val() > 0 && $("#selllimit_order input[name=amount]").val() > 0)
+        {
+            $('#s_all').html(round(parseFloat($('#selllimit_order input[name=amount]').val()) * parseFloat($('#se;;limit_order input[name=price]').val()),8) );
+        }
+    });
+
+    //submit buy order
     $("#buy_button").click(function(){
         if($('#buylimit_order input[name=price]').val() > 0 && $("#buylimit_order input[name=amount]").val() > 0)
         {
@@ -48,6 +56,34 @@ $(function(){
                                                     $('#buylimit_order input[name=amount]').val(0);
                                                     $('#buylimit_order input[name=price]').val(0);
                                                     $('#b_all').html(round(0,8));
+                                                    alert('Your order is submitted.');
+                                                    break;
+                                                case 'balance':
+                                                    alert('Insufficient balance!');
+                                                    break;
+                                                default:
+                                                    alert('something went wrong!' + sObj['status']);
+                                            }; 
+                                       } );
+        }
+    });
+
+    //submit buy order
+    $("#sell_button").click(function(){
+        if($('#selllimit_order input[name=price]').val() > 0 && $("#selllimit_order input[name=amount]").val() > 0)
+        {
+            $.post( "/trades/selllimit_order", { amount: $('#selllimit_order input[name=amount]').val(), 
+                                            price: $('#selllimit_order input[name=price]').val(),
+                                            trade_pair: $('input[name=market]').val(),
+                                            csrf_gt: $('input[name=csrf_gt]').val(),
+                                        }, function(data){
+                                            var sObj = JSON.parse(data);
+                                            $('input[name=csrf_gt]').val(sObj['csrf']);
+                                            switch(sObj['status']) {
+                                                case 'succes':
+                                                    $('#selllimit_order input[name=amount]').val(0);
+                                                    $('#selllimit_order input[name=price]').val(0);
+                                                    $('#s_all').html(round(0,8));
                                                     alert('Your order is submitted.');
                                                     break;
                                                 case 'balance':

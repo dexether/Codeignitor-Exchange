@@ -13,6 +13,7 @@ list($bid,$sell) = explode('-', $market);
 $available_bid = isset($balance->$bid)?$balance->$bid : 0;
 $available_sell = isset($balance->$sell)?$balance->$sell : 0;
 $sell_rate = 0;
+$error = null;
 
 echo '<script>FEE = \'', FEE , '\';</script>'
 ?>

@@ -9,14 +9,19 @@ echo '<div class="col-lg-12 col-sm-12 col-lg-offset-0 col-md-12 col-sm-12 col-md
 echo '<h1>',$this->lang->line('lng_u_deposit'),' ', $fund, '</h1>';
 echo '<div class="col-md-6 col-sm-6">';
 echo '<h2>iDeal</h2>';
-
+echo form_open();
+echo '<label>Bank</label>';
 echo '<select name="bank" required>';
         foreach($banklist as $k=>$bank) {
                 echo "<option value='".$bank['id']."'>";
                 echo $bank['visibleName'];
                 echo "</option>";
         }
-       echo '</select>';
+       echo '</select><br/>';
+echo '<label>Amount</label>';
+echo form_input('amount');
+echo '<label></label>';
+echo form_submit('submit', 'Submit');
 
 echo '</div>';
 
