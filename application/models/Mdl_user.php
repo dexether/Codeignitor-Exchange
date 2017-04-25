@@ -294,7 +294,7 @@ class Mdl_user extends CI_Model
 
     function enable_tfa()
     {
-        require_once 'GoogleAuthenticator.php';
+        require_once APPPATH . 'libraries/google/GoogleAuthenticator.php';
         $ga = new PHPGangsta_GoogleAuthenticator();
         $customer_user_id = $this->session->userdata('customer_user_id');
         $onecode = $this->input->post("one_code");

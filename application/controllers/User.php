@@ -68,7 +68,7 @@ class User extends MY_Controller
             } elseif ($login == "deactive") {
                 $error_message = "Please Activate Your Account";
             } elseif ($login == "enable") {
-                redirect('users/tfa');
+                redirect('user/tfa');
             } elseif ($login == "success") {
                 redirect('markets/EUR-NLG');
             } else {
