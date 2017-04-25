@@ -305,20 +305,20 @@ class Mdl_user extends CI_Model
         $user_details = $this->get_userstatus($customer_user_id);
         if ($user_details != "enable") {
             if ($code == 1) {
-                $this->db->where('user_id', $customer_user_id);
+                $this->db->where('id', $customer_user_id);
                 $data = array(
                     'secret' => $secret_code,
                     'onecode' => $onecode,
                     //'url'     => $url,
                     'randcode' => "enable"
                 );
-                $this->db->update('users', $data);
+                $this->db->update($this->table, $data);
 
                 $userdetails = $this->get_userdetails($customer_user_id);
                 if ($userdetails) {
                     $username = $userdetails->username;
                     $secret = $userdetails->secret;
-                    $email = $userdetails->emailid;
+                    $email = $userdetails->email;
                     $status = 'Enable';
                 } else {
                     $username = "";
@@ -359,12 +359,12 @@ class Mdl_user extends CI_Model
                     //'url'     => $url,
                     'randcode' => "disable"
                 );
-                $this->db->update('userdetails', $data);
+                $this->db->update($this->table, $data);
                 $userdetails = $this->get_userdetails($customer_user_id);
                 if ($userdetails) {
                     $username = $userdetails->username;
                     $secret = $userdetails->secret;
-                    $email = $userdetails->emailid;
+                    $email = $userdetails->email;
                     $status = 'Disable';
                 } else {
                     $username = "";
