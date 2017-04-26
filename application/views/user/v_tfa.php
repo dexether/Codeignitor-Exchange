@@ -3,7 +3,7 @@
         <br /><br/><br/><br/><br/>        
         <div class="clearfix"></div>
         <h4> TFA Confirmation </h4>
-        <?php echo form_open('user/enable_tfa', 'style="margin-top:20px;" class="form-horizontal" name="tfaform" id="tfaform" method="post"'); ?>
+        <?php echo form_open('user/check_tfa', 'style="margin-top:20px;" class="form-horizontal" name="tfaform" id="tfaform" method="post"'); ?>
         <div class="form_type">
             <input type="text" class="form-control tfacode" id="tfacode" name="tfacode" placeholder="">
         </div>

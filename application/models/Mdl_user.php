@@ -60,12 +60,22 @@ class Mdl_user extends CI_Model
             if (password_verify($this->input->post('password', true), $row->password) === true) {
 
                 if ($row->randcode !== "disable") {
+                    //save some session data, so we know he is already logged in.
+                    $sessiondata = array(
+                        'user_id' => $row->id,
+                        'firstname' => $row->firstname,
+                        'tfa' => $row->randcode,
+                        'randcode' => $row->secret,
+                        'status' => $row->status,
+                        'role' => 'empty'
+                    );
                     return 'enable';
                 } else {
                     $sessiondata = array(
                         'user_id' => $row->id,
                         'firstname' => $row->firstname,
                         'tfa' => $row->randcode,
+                        'randcode' => $row->secret,
                         'status' => $row->status,
                         'role' => $row->role
                     );
@@ -292,6 +302,16 @@ class Mdl_user extends CI_Model
         }
     }
 
+    function check_tfa()
+    {
+        //get TFA code from user;
+        //use session user id
+        require_once APPPATH . 'libraries/google/GoogleAuthenticator.php';
+        $ga = new PHPGangsta_GoogleAuthenticator();
+        //shorter is:
+        return  $ga->verifyCode($this->session->randcode, $this->input->post('tfacode'));
+    }
+
     function enable_tfa()
     {
         require_once APPPATH . 'libraries/google/GoogleAuthenticator.php';
@@ -346,7 +366,7 @@ class Mdl_user extends CI_Model
                 $email_content = strtr($email_content1, $a);
                 /*  GET EMAIL TEMPLATE  END */
                 $this->common_mail($admin_email, $companyname, $email, $email_subject1, $email_content);
-                echo "Enable";
+                return "Enable";
             } else {
                 return 0;
             }
