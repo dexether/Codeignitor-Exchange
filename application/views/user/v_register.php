@@ -6,8 +6,8 @@
             <h4>Register</h4>
         </div>
         <hr/>
-        <?php echo $alert; ?>
-        <?php echo (isset($success))?$success:''; ?>
+        <?php echo isset($alert) ? $alert: ''; ?>
+        <?php echo isset($success) ? $success : ''; ?>
         <?php echo form_open('', 'name="registering" id="registering" method="post"'); ?>
         <div class="form-group">
             <input type="text" class="form-control" name="email" id="email" placeholder="Email">

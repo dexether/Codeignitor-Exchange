@@ -18,13 +18,14 @@ class User extends MY_Controller
 
     function register()
     {
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email|users.email');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email|is_unique[users.email]');
         $this->form_validation->set_message('users.email', 'Email already exist please try to ' . anchor('login', 'login', 'class="text-info"') . ' or register with new email');
         $this->form_validation->set_rules('firstname', 'Firstname', 'trim|required|min_length[2]|max_length[12]');
         $this->form_validation->set_rules('password1', 'Password', 'trim|required|min_length[8]|max_length[30]|matches[password2]');
         $this->form_validation->set_rules('password2', 'Confirm Password', 'trim|required|min_length[8]|max_length[30]|matches[password1]');
         $this->form_validation->set_rules('recaptcha', 'Recaptcha', "trim|required|callback_recaptcha");
         $this->form_validation->set_rules('terms', 'Terms', "trim|required");
+
         if ($this->form_validation->run() == true) {
             $vars['success'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> User Registered Successfully. <br/>Please check your email and click activate link</div>';
             $vars['success'] .= '<meta http-equiv="refresh" content="3;url=/">';
@@ -180,16 +181,6 @@ class User extends MY_Controller
         }
     }
 
-    private function get_balance()
-    {
-        $data = array();
-        $this->load->model('mdl_balance');
-        $data['EUR'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'EUR');
-        $data['NLG'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'NLG');
-        $data['GTS'] = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'GTS');
-
-        return $this->load->view('user/v_balance',$data,true);
-    }
 
     function bank_details_update()
     {

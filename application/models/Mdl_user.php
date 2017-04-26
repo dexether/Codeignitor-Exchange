@@ -255,6 +255,7 @@ class Mdl_user extends CI_Model
         $where = array('verifier' => xss_clean($verifier), 'verification_status' => "unverified");
         $this->db->where($where);
         $query = $this->db->get('user_verification');
+
         if ($query->num_rows() == 1) {
             $cur_date = date('Y-m-d');
             $row = $query->row();
@@ -264,6 +265,7 @@ class Mdl_user extends CI_Model
             $this->db->update('users', $data);
 
             //update
+            $this->db->where('user_id', $row->user_id);
             $this->db->update('user_verification', array('verification_status' => 'verified'));
             return "ok";
         } else {
