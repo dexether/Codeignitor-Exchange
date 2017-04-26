@@ -50,7 +50,7 @@ class Mdl_user extends CI_Model
 
     function check_login()
     {
-        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, status, password FROM `users` where email=?", array($this->input->post('email', true)));
+        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode,secret, status, password FROM `users` where email=?", array($this->input->post('email', true)));
         if ($res_loguser->num_rows() == 1) {
             $row = $res_loguser->row();
 
@@ -65,10 +65,11 @@ class Mdl_user extends CI_Model
                         'user_id' => $row->id,
                         'firstname' => $row->firstname,
                         'tfa' => $row->randcode,
-                        'randcode' => $row->secret,
+                        'secret' => $row->secret,
                         'status' => $row->status,
                         'role' => 'empty'
                     );
+                    $this->session->set_userdata($sessiondata);
                     return 'enable';
                 } else {
                     $sessiondata = array(
@@ -308,21 +309,36 @@ class Mdl_user extends CI_Model
         //use session user id
         require_once APPPATH . 'libraries/google/GoogleAuthenticator.php';
         $ga = new PHPGangsta_GoogleAuthenticator();
-        //shorter is:
-        return  $ga->verifyCode($this->session->randcode, $this->input->post('tfacode'));
+
+        $secret = $this->session->secret;
+        return  $ga->verifyCode($secret, $this->input->post('tfacode'),2);
     }
+
+    function get_userdetails($user_id)
+	{ 
+		$this->db->where('id',$user_id);  
+		$query=$this->db->get('users'); 
+		if($query->num_rows() >= 1){                
+		   return $query->row();			 
+		}else{      
+		   return false;		
+		}
+	}
 
     function enable_tfa()
     {
         require_once APPPATH . 'libraries/google/GoogleAuthenticator.php';
         $ga = new PHPGangsta_GoogleAuthenticator();
-        $customer_user_id = $this->session->userdata('customer_user_id');
+        $customer_user_id = $this->session->user_id;
         $onecode = $this->input->post("one_code");
         $secret_code = $this->input->post("secret_code");
         //$onecode = "867345";
         //$secret_code = "XW7GPIMHICSKWL2P";$discrepancy = 1
         $code = $ga->verifyCode($secret_code, $onecode, $discrepancy = 1);
         $user_details = $this->get_userstatus($customer_user_id);
+        
+        //dump_exit($code);
+        
         if ($user_details != "enable") {
             if ($code == 1) {
                 $this->db->where('id', $customer_user_id);

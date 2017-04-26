@@ -93,7 +93,6 @@ class User extends MY_Controller
     // returns login status
 	function login_status()
 	{
-
 		$res_login = $this->mdl_user->check_login_details();
 		echo $res_login;
 	}
@@ -263,7 +262,7 @@ class User extends MY_Controller
 	{
 		$this->load->model('mdl_user', 'user');
 		$this->load->model('mdl_balance', 'balance');
-		//$this->l_asset->add('js/user/two_factor.js', 'js');
+		$this->l_asset->add('js/user/two_factor.js', 'js');
 		$customer_email_id = $this->session->userdata('customer_email_id');
 		$customer_user_id = $this->session->user_id;
 		if (($customer_email_id == "") && ($customer_user_id == "")) {
@@ -320,22 +319,22 @@ class User extends MY_Controller
     		$this->session->set_flashdata('error', validation_errors());
     	}
     	
-
-    	
-
     	redirect('user/two_factor','refresh');
     }
 
     function check_tfa()
     {
     	$this->load->model('mdl_user');
-    	$result = $this->mdl_user->check__tfa();
-    	if($result === true)
-    	{
-    		$this->session->role = 'user';
-    		redirect('market');
-    	}
-    	else redirect('tfa');
+    	$result = $this->mdl_user->check_tfa();
+    	
+    	if($result === true){
+    		$user = $this->mdl_user->get_userdetails($this->session->user_id);
+    		$this->session->role = $user->role;
+    		redirect('markets/EUR-NLG');
+    	}else{
+    		$this->session->set_flashdata('error', 'Wronge code number');
+    		redirect('user/tfa');	
+    	} 
     }
     //after login set session data en redirevt to tfa
     // check tfa against data in db. if correct, set role in sesson and redirect to market.
