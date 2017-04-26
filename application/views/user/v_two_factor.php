@@ -6,7 +6,6 @@
 <?php 
 $customer_user_id = $this->session->user_id;
 $profile = $this->user->profile_details(); ?>
-
 <div class="cls_main_top">
   <div class="cls_mid_con cls_comm_bg">
     <div class="container">
@@ -16,10 +15,10 @@ $profile = $this->user->profile_details(); ?>
 
          <div class="cls_comm_head"> 2 Factor Authentification </div>
          <?php
-          if($this->session->flashdata('success')){
+         if($this->session->flashdata('success')){
            echo '<div class="alert alert-success">'.$this->session->flashdata('success').'</div>';
          }
-        
+
          if($this->session->flashdata('error')){
            echo '<div class="alert alert-danger">'.$this->session->flashdata('error').'</div>';
          }
@@ -54,10 +53,16 @@ $profile = $this->user->profile_details(); ?>
    </div>
    <?php } ?>
    <?php if($user_details=="enable"){ ?>
-   <div class="cls_facr_box">
-     <p><strong>Your TFA code Activated</strong> if you deactivate please Click the below button...</p>
-     <div align="center"> <a href="#"><p><img src="<?php echo $url; ?>" alt=""></p></a></div>
-     <button type="button" class="cls_dow_btn"  onclick="tfa()" id="active_tfa" name="active_tfa" onclick="show_tfa()"> DEACTIVATE TFA </button>
+   <div class="cls_facr_box text-center">
+     <p><strong class="text-success">Your TFA code Activated</strong> 
+       <br/>
+       if you deactivate please Click the below button...
+     </p>
+     <div> <a href="#"><p><img src="<?php echo $url; ?>" alt=""/></p></a></div>
+     <br>
+     <a href="<?php echo site_url('user/disable_tfa') ?>" class="btn btn-danger btn-lg" id="active_tfa"> DEACTIVATE TFA </a>
+     <br>
+     <br>
    </div>
    <?php } ?>
    <span id="tfa_error" class="alert alert-info" style="display:none;float: left; margin: -51px 0 0;"></span>

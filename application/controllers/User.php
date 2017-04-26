@@ -293,7 +293,7 @@ class User extends MY_Controller
 
 			$data['user_details'] = $this->user->get_userstatus($this->session->user_id);
             $this->data['content'] = $this->get_balance(); // load view
-            $this->data['content'] .= $this->load->view('user/v_two_factor', $data, TRUE); // append view
+            $this->data['content'] = $this->load->view('user/v_two_factor', $data, TRUE); // append view
             view($this->data);
         }
     }
@@ -310,7 +310,7 @@ class User extends MY_Controller
 
     	if ($this->form_validation->run() == true) {
     		$result = $this->mdl_user->enable_tfa();
-    		if($result=="Enable"){
+    		if($result == "Enable"){
     			$this->session->set_flashdata('success', "Your TFA Activated");
     		}else{ 
     			$this->session->set_flashdata('error', "Invalid TFA Code");
@@ -345,12 +345,17 @@ class User extends MY_Controller
     {
     	$this->load->model('mdl_user');
     	$result = $this->mdl_user->disable_tfa();
-    	redirect('login','refresh');
+    	if($result){
+    	   $this->session->set_flashdata('success', 'tfa disabled');
+    	}else{
+    	   $this->session->set_flashdata('error', 'some error happen');
+    	}
+    	redirect('user/two_factor','refresh');
     }
 
     // to view forgot password page
-    function forget()
-    {
+    function forget(){
+
     	$this->form_validation->set_error_delimiters('<p class="alert alert-danger">','</p>');
     	$this->form_validation->set_rules('forgetemail', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email');
 

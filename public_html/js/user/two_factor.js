@@ -11,16 +11,3 @@ function show_tfa()
   }
 });
   
-  function tfa()
-  {
-
-    $.ajax({                                  
-      type: "POST",   
-      url: base_url + "user/disable_tfa" ,         
-      success: function(output)
-      {   
-        window.location.reload();
-      }
-    });
-    return false;
-  }

@@ -363,17 +363,11 @@ class Mdl_user extends CI_Model
                     $email = '';
                 }
                 /*    Get Admin Details Start    */
-                $this->db->where('id', 1);
-                $query = $this->db->get('site_config');
-                if ($query->num_rows() == 1) {
-                    $row = $query->row();
-                    $admin_email = $row->email_id;
-                    $companyname = $row->company_name;
-                    $siteurl = $row->siteurl;
-                }
+                $admin_email = APP_ADMIN_EMAIL;
+                $companyname = APP_COMPANY_NAME;
+                $siteurl = site_url();
                 /*  GET EMAIL TEMPLATE  START */
-                $this->db->where('id', 8);
-                $dis_get_email_info = $this->db->get('email_templates')->row();
+                $dis_get_email_info = $this->load->view('template/emails/v_tfa_secret_code_for_gulden',[],true);
                 $email_from1 = $dis_get_email_info->from_id;
                 $email_subject1 = $dis_get_email_info->subject;
                 $email_content1 = $dis_get_email_info->message;
@@ -410,18 +404,14 @@ class Mdl_user extends CI_Model
                 }
                 /*    Get Admin Details Start    */
                 $this->db->where('id', 1);
-                $query = $this->db->get('site_config');
-                if ($query->num_rows() == 1) {
-                    $row = $query->row();
-                    $admin_email = $row->email_id;
-                    $companyname = $row->company_name;
-                    $siteurl = $row->siteurl;
-                }
+                $admin_email = APP_ADMIN_EMAIL;
+                $companyname = APP_COMPANY_NAME;
+                $siteurl = site_url();
+                
                 /*  GET EMAIL TEMPLATE  START */
-                $this->db->where('id', 10);
-                $dis_get_email_info = $this->db->get('email_templates')->row();
+                $dis_get_email_info = $this->load->view('template/emails/v_tfa_secret_code_for_gulden',[],true);
                 $email_from1 = $dis_get_email_info->from_id;
-                $email_subject1 = $dis_get_email_info->subject;
+                $email_subject1 = '';
                 $email_content1 = $dis_get_email_info->message;
                 $a = array('##USERNAME##' => $username, '##STATUS##' => $status, '##SECRET##' => $secret, '##FROM_EMAIL##' => $admin_email, '##COMPANYNAME##' => $companyname, '##SITEURL##' => $siteurl, '##ADMIN_EMAIL##' => $admin_email);
                 $email_from = strtr($email_from1, $a);
