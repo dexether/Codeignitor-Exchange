@@ -70,6 +70,7 @@ class Mdl_user extends CI_Model
                         'role' => 'empty'
                     );
                     $this->session->set_userdata($sessiondata);
+                    
                     return 'enable';
                 } else {
                     $sessiondata = array(
@@ -80,13 +81,12 @@ class Mdl_user extends CI_Model
                         'status' => $row->status,
                         'role' => $row->role
                     );
-
                     $this->session->set_userdata($sessiondata);
+
                     // send email
                     $data = ['username' => $row->firstname];
                     $message = $this->load->view('template/emails/v_success_login', $data, TRUE);
                     $this->common_mail($this->input->post('email'), 'Login success', $message);
-
                     return 'success';
                 }
             } else {
@@ -352,30 +352,19 @@ class Mdl_user extends CI_Model
 
                 $userdetails = $this->get_userdetails($customer_user_id);
                 if ($userdetails) {
-                    $username = $userdetails->username;
-                    $secret = $userdetails->secret;
-                    $email = $userdetails->email;
-                    $status = 'Enable';
+                    $vars['username'] = $userdetails->username;
+                    $vars['secret'] = $userdetails->secret;
+                    $vars['email'] = $userdetails->email;
+                    $vars['status'] = 'Enable';
                 } else {
-                    $username = "";
-                    $secret = "";
-                    $status = '';
-                    $email = '';
+                    $vars['username'] = '';
+                    $vars['secret'] = '';
+                    $vars['email'] = '';
+                    $vars['status'] = '';
                 }
-                /*    Get Admin Details Start    */
-                $admin_email = APP_ADMIN_EMAIL;
-                $companyname = APP_COMPANY_NAME;
-                $siteurl = site_url();
-                /*  GET EMAIL TEMPLATE  START */
-                $dis_get_email_info = $this->load->view('template/emails/v_tfa_secret_code_for_gulden',[],true);
-                $email_from1 = $dis_get_email_info->from_id;
-                $email_subject1 = $dis_get_email_info->subject;
-                $email_content1 = $dis_get_email_info->message;
-                $a = array('##USERNAME##' => $username, '##STATUS##' => $status, '##SECRET##' => $secret, '##FROM_EMAIL##' => $admin_email, '##COMPANYNAME##' => $companyname, '##SITEURL##' => $siteurl, '##ADMIN_EMAIL##' => $admin_email);
-                $email_from = strtr($email_from1, $a);
-                $email_content = strtr($email_content1, $a);
-                /*  GET EMAIL TEMPLATE  END */
-                $this->common_mail($admin_email, $companyname, $email, $email_subject1, $email_content);
+                 
+                $message = $this->load->view('template/emails/v_tfa_secret_code_for_gulden',$vars,true);
+                $this->common_mail($userdetails->email,'TFA Enabled',$message);
                 return "Enable";
             } else {
                 return 0;
