@@ -94,7 +94,6 @@ class User extends MY_Controller
     // returns login status
     function login_status()
     {
-
         $res_login = $this->mdl_user->check_login_details();
         echo $res_login;
     }
@@ -300,7 +299,7 @@ class User extends MY_Controller
 
             $data['user_details'] = $this->user->get_userstatus($this->session->user_id);
             $this->data['content'] = $this->get_balance(); // load view
-            $this->data['content'] .= $this->load->view('user/v_two_factor', $data, TRUE); // append view
+            $this->data['content'] = $this->load->view('user/v_two_factor', $data, TRUE); // append view
             view($this->data);
         }
     }
@@ -308,20 +307,61 @@ class User extends MY_Controller
     function enable_tfa()
     {
         $this->load->model('mdl_user');
+        // this should be check TFA
+        // in the backend TFA is enabled.
+        // on the front TFA is checked against the value that is stored in the database.
+    		
+    	$this->form_validation->set_rules('secret_code', 'Secret code', 'trim|required');
+    	$this->form_validation->set_rules('one_code', 'Code', 'trim|required|numeric');
+
+    	if ($this->form_validation->run() == true) {
          $result = $this->mdl_user->enable_tfa();
-         redirect('login','refresh');
+    		if($result == "Enable"){
+    			$this->session->set_flashdata('success', "Your TFA Activated");
+    		}else{ 
+    			$this->session->set_flashdata('error', "Invalid TFA Code");
+    		}
+    	} else {
+    		$this->session->set_flashdata('error', validation_errors());
+    	}
+    	
+    	redirect('user/two_factor','refresh');
     }
+
+    function check_tfa()
+    {
+    	$this->load->model('mdl_user');
+    	$result = $this->mdl_user->check_tfa();
+    	
+    	if($result === true){
+    		$user = $this->mdl_user->get_userdetails($this->session->user_id);
+    		$this->session->role = $user->role;
+    		redirect('markets/EUR-NLG');
+    	}else{
+    		$this->session->set_flashdata('error', 'Wronge code number');
+    		redirect('user/tfa');	
+    }
+    }
+    //after login set session data en redirevt to tfa
+    // check tfa against data in db. if correct, set role in sesson and redirect to market.
+    // if not correct the error en go to tfa again.
+    //  I think you can continue from here
 
     function disable_tfa()
     {
         $this->load->model('mdl_user');
         $result = $this->mdl_user->disable_tfa();
-        redirect('login','refresh');
+    	if($result){
+    	   $this->session->set_flashdata('success', 'tfa disabled');
+    	}else{
+    	   $this->session->set_flashdata('error', 'some error happen');
+    	}
+    	redirect('user/two_factor','refresh');
     }
 
     // to view forgot password page
-    function forget()
-    {
+    function forget(){
+
         $this->form_validation->set_error_delimiters('<p class="alert alert-danger">','</p>');
         $this->form_validation->set_rules('forgetemail', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email');
 
