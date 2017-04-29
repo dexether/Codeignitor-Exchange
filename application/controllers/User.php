@@ -310,7 +310,7 @@ class User extends MY_Controller
         // this should be check TFA
         // in the backend TFA is enabled.
         // on the front TFA is checked against the value that is stored in the database.
-    		
+
     	$this->form_validation->set_rules('secret_code', 'Secret code', 'trim|required');
     	$this->form_validation->set_rules('one_code', 'Code', 'trim|required|numeric');
 
@@ -318,13 +318,13 @@ class User extends MY_Controller
          $result = $this->mdl_user->enable_tfa();
     		if($result == "Enable"){
     			$this->session->set_flashdata('success', "Your TFA Activated");
-    		}else{ 
+    		}else{
     			$this->session->set_flashdata('error', "Invalid TFA Code");
     		}
     	} else {
     		$this->session->set_flashdata('error', validation_errors());
     	}
-    	
+
     	redirect('user/two_factor','refresh');
     }
 
@@ -332,14 +332,14 @@ class User extends MY_Controller
     {
     	$this->load->model('mdl_user');
     	$result = $this->mdl_user->check_tfa();
-    	
+
     	if($result === true){
     		$user = $this->mdl_user->get_userdetails($this->session->user_id);
     		$this->session->role = $user->role;
     		redirect('markets/EUR-NLG');
     	}else{
     		$this->session->set_flashdata('error', 'Wronge code number');
-    		redirect('user/tfa');	
+    		redirect('user/tfa');
     }
     }
     //after login set session data en redirevt to tfa
