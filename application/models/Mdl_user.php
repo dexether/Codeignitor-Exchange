@@ -70,7 +70,7 @@ class Mdl_user extends CI_Model
                         'role' => 'empty'
                     );
                     $this->session->set_userdata($sessiondata);
-                    
+
                     return 'enable';
                 } else {
                     $sessiondata = array(
@@ -121,7 +121,12 @@ class Mdl_user extends CI_Model
         $this->db->insert('users', $data);
         $last_userinsid = $this->db->insert_id();
         if ($last_userinsid != "") {
-            $verifydata = array('user_id' => $last_userinsid, 'verification_trade' => 'unverified', 'verification_status' => 'unverified', 'verifier' => random_string(25, false));
+            $verifydata = array(
+                'user_id' => $last_userinsid,
+                'verification_trade' => 'unverified',
+                'verification_status' => 'unverified',
+                'verifier' => random_string(25, false)
+            );
             $this->db->insert('user_verification', $verifydata);
             $email = $this->input->post('email', true);
 
@@ -317,13 +322,13 @@ class Mdl_user extends CI_Model
     }
 
     function get_userdetails($user_id)
-	{ 
-		$this->db->where('id',$user_id);  
-		$query=$this->db->get('users'); 
-		if($query->num_rows() >= 1){                
-		   return $query->row();			 
-		}else{      
-		   return false;		
+	{
+		$this->db->where('id',$user_id);
+		$query=$this->db->get('users');
+		if($query->num_rows() >= 1){
+		   return $query->row();
+		}else{
+		   return false;
 		}
 	}
 
@@ -338,9 +343,9 @@ class Mdl_user extends CI_Model
         //$secret_code = "XW7GPIMHICSKWL2P";$discrepancy = 1
         $code = $ga->verifyCode($secret_code, $onecode, $discrepancy = 1);
         $user_details = $this->get_userstatus($customer_user_id);
-        
+
         //dump_exit($code);
-        
+
         if ($user_details != "enable") {
             if ($code == 1) {
                 $this->db->where('id', $customer_user_id);
@@ -364,7 +369,7 @@ class Mdl_user extends CI_Model
                     $vars['email'] = '';
                     $vars['status'] = '';
                 }
-                 
+
                 $message = $this->load->view('template/emails/v_tfa_secret_code_for_gulden',$vars,true);
                 $this->common_mail($userdetails->email,'TFA Enabled',$message);
                 return "Enable";
@@ -398,7 +403,7 @@ class Mdl_user extends CI_Model
                 $admin_email = APP_ADMIN_EMAIL;
                 $companyname = APP_COMPANY_NAME;
                 $siteurl = site_url();
-                
+
                 /*  GET EMAIL TEMPLATE  START */
                 $dis_get_email_info = $this->load->view('template/emails/v_tfa_secret_code_for_gulden',[],true);
                 $email_from1 = $dis_get_email_info->from_id;
