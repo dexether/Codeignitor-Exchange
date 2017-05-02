@@ -27,8 +27,7 @@ class Mdl_balance extends CI_Model {
 
 function currency_balance()
 {
-	$id= $this->session->user_id;
-	$this->db->where('user_id',$id);
+	$this->db->where('user_id',$this->session->user_id);
 	$res=$this->db->get('balance');
 	if($res->num_rows()>0)
 	{
