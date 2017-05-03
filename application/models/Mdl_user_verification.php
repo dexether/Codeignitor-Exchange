@@ -7,53 +7,40 @@ class Mdl_User_verification extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		
+	}
+
+
+	protected function set_image_path($obj, $field_name)
+	{
+		$new_field_val = '';
+		if (!isset($obj->$field_name) || !$obj->$field_name){
+			$new_field_val = 'http://placehold.it/406x150';
+		} else {
+			$new_field_val =  base_url('tools/show_' . $field_name . '_upload/' . $obj->$field_name);
+		}
+		$obj->$field_name = $new_field_val;
 	}
 
 	/**
 	 *  @return one row if user_id eist else return all
 	 */
-	public function get($user_id=0)		
+	public function get($user_id=0)
 	{
-		$row = $this->db->get_where($this->table, ['user_id' => $user_id])->row();
+		$row = $this->db->get_where($this->table, ['user_id' => $user_id]);
+		if ($row->num_rows() === 0) return false;
 
-		if(is_object($row)){
-			if(!isset($row->passport)){
-				$row->passport = 'http://placehold.it/406x150';
-			}else{
-				if($row->passport != ''){
-					$path = base_url('tools/show_passport_upload/'.$row->passport);
-				}else{
-					$path = 0;
-				}
-				$row->passport = $path;
-			}
+		$row_obj = $row->row();
 
-			if(!isset($row->selfie)){
-				$row->selfie = 'http://placehold.it/406x150';
-			}else{
-				if($row->selfie != ''){
-					$path = base_url('tools/show_passport_upload/'.$row->selfie);
-				}else{
-					$path = 0;
-				}
-				$row->selfie = $path;
-			}
+		$this->set_image_path($row_obj, 'passport');
+		$this->set_image_path($row_obj, 'selfie');
+		$this->set_image_path($row_obj, 'backcard');
 
-			if(!isset($row->backcard)){
-				$row->backcard = 'http://placehold.it/406x150';
-			}else{
-				if($row->backcard != ''){
-					$path = base_url('tools/show_backcard_upload/'.$row->backcard);
-				}else{
-					$path = 0;
-				}
-				$row->backcard = $path;
-			}
-		}else{
-			return false;
-		}
-		return $row;
+
+		// var_dump($row_obj);
+		// die;
+
+
+		return $row_obj;
 	}
 
 	public function upload($file='')
