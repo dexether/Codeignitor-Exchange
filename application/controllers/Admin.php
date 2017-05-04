@@ -30,6 +30,7 @@ class Admin extends MY_Controller
 	{
 
 		auth(['admin','superadmin']);
+        $upload_path = 'uploads';
 
 		$crud = new grocery_CRUD();
 
@@ -38,7 +39,7 @@ class Admin extends MY_Controller
 		$crud->columns('id','email','username','verfiyStatus','trade_verification','role');
 		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg','password');
 
-		$crud->set_field_upload('profilepicture','uploads');
+		$crud->set_field_upload('profilepicture', $upload_path);
 
 		// types
 		$crud->change_field_type('password', 'password');
@@ -80,11 +81,13 @@ class Admin extends MY_Controller
 	{
 		auth(['admin','superadmin']);
 		// init
+
+        $upload_path = '../application/uploads';
 		$crud = new grocery_CRUD();
 		$crud->set_table('user_verification');
 		$crud->set_subject('user_verification');
-		$crud->set_field_upload('selfie','uploads');
-		$crud->set_field_upload('backcard','uploads');
+		$crud->set_field_upload('selfie', $upload_path);
+		$crud->set_field_upload('backcard', $upload_path);
 		$crud->field_type('created_date', 'readonly');
 		$crud->set_relation('user_id','users','username');
 		$crud->display_as('user_id','Client Name');
@@ -218,4 +221,3 @@ class Admin extends MY_Controller
 
 }
 
-?>
