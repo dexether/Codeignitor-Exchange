@@ -18,7 +18,8 @@ class Mdl_User_verification extends CI_Model {
 		} else {
 			$new_field_val =  base_url('tools/show_' . $field_name . '_upload/' . $obj->$field_name);
 		}
-		$obj->$field_name = $new_field_val;
+		$url_field = $field_name . '_url';
+		$obj->$url_field = $new_field_val;
 	}
 
 	/**
@@ -34,11 +35,6 @@ class Mdl_User_verification extends CI_Model {
 		$this->set_image_path($row_obj, 'passport');
 		$this->set_image_path($row_obj, 'selfie');
 		$this->set_image_path($row_obj, 'backcard');
-
-
-		// var_dump($row_obj);
-		// die;
-
 
 		return $row_obj;
 	}

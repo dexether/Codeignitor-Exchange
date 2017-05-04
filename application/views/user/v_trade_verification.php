@@ -51,7 +51,7 @@ if($this->session->flashdata('errors')){
 								<?php
 
 								if (isset($bank->passport) && $bank->passport): ?>
-									<img src="<?php echo $bank->passport ?>" class='img-responsive'>
+									<img src="<?php echo $bank->passport_url; ?>" class='img-responsive'>
 								<?php else: ?>
 									<b class="text-danger">Refused</b>
 									<br>
@@ -65,7 +65,7 @@ if($this->session->flashdata('errors')){
 							<label for="selfie" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Selfie</label>
 							<div class="col-sm-6">
 								<?php if (isset($bank->selfie) && $bank->selfie): ?>
-									<img src="<?php echo $bank->selfie ?>" class='img-responsive'>
+									<img src="<?php echo $bank->selfie_url ?>" class='img-responsive'>
 								<?php else: ?>
 									<b class="text-danger">Refused</b>
 									<br>
@@ -79,7 +79,7 @@ if($this->session->flashdata('errors')){
 							<label for="backcard" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Backcard</label>
 							<div class="col-sm-6">
 								<?php if (isset($bank->backcard) && $bank->backcard): ?>
-									<img src="<?php echo $bank->backcard ?>" class='img-responsive'>
+									<img src="<?php echo $bank->backcard_url ?>" class='img-responsive'>
 								<?php else: ?>
 									<b class="text-danger">Refused</b>
 									<br>
