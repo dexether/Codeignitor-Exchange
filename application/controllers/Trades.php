@@ -32,4 +32,16 @@ class Trades  extends MY_Controller{
         else
             redirect('/');
     }
+    
+    public function selllimit_order()
+    {
+        if(isset($_POST['amount']) && isset($_POST['price']) && isset($_POST['trade_pair']))
+        {
+            $this->load->model('mdl_trade');
+            $status = $this->mdl_trade->selllimit_order($this->input->post('amount'),$this->input->post('price'),$this->input->post('trade_pair'));
+            echo json_encode(['status'=>$status, 'csrf'=>$this->security->get_csrf_hash()]);
+        }
+        else
+            redirect('/');
+    }
 }

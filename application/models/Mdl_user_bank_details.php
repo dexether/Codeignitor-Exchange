@@ -9,33 +9,36 @@ class Mdl_user_bank_details extends CI_Model {
 		parent::__construct();
 	}
 
-	function bank_details_update($data,$id)
+	function bank_details_update($data, $id)
 	{
-		$data1 = array('status'=>"0");	
-		$this->db->where('user_id',$id);            	
-		$this->db->update('user_bank_details',$data1);
-
-		$data['user_id']=$id;
-		$res=$this->db->insert('user_bank_details',$data);
-		if($res)
-		{
-			echo "Your Bank Details Are Successfully updated";
+		$this->db->where('user_id', $id);
+		$res = $this->db->get('user_bank_details');
+		$data['status'] = '0'; 		// reset status
+		$data['user_id'] = $id;
+		if ($res->num_rows() > 0) { // updating of existed records
+			$this->db->where('user_id', $id);
+			$res = $this->db->update('user_bank_details', $data);
+		} else { // adding a new record
+			$res = $this->db->insert('user_bank_details', $data);
 		}
-		else
-		{
-			echo "Error while updating";
-		}
+		$msg = $res ? "Your Bank Details Are Successfully updated" :
+					"Error while updating";
+		$result = [
+  	       "csrfTokenName" => $this->security->get_csrf_token_name(),
+           "csrfHash"      => $this->security->get_csrf_hash(),
+           "msg" => $msg
+		];
+		echo json_encode($result);
 	}
 
 	function acccount_details()
 	{
 		$id=$this->session->user_id;
 		$this->db->where('user_id',$id);
-		$this->db->where('status',1);
-		$res=$this->db->get('user_bank_details'); 
+		$res=$this->db->get('user_bank_details');
 		if($res->num_rows()>0)
 		{
-			return $res->row();	
+			return $res->row();
 		}
 		else
 		{

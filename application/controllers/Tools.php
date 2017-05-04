@@ -1,15 +1,13 @@
-<<<<<<< HEAD
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-
 
 class Tools extends MY_Controller{
     var $data = array();
-    
-    public function __construct() 
+
+    public function __construct()
     {
         parent::__construct();
     }
-    
+
    public function deposit_nlg($txid=null)
     {
         if($txid)
@@ -35,10 +33,10 @@ class Tools extends MY_Controller{
                         if($a->num_rows() > 0)
                         {
                             $user_id = $a->row()->user_id;
-                        
+
                             //insert into deposit
                             /*
-                             * 
+                             *
                              * DROP TABLE IF EXISTS `deposits`;
                                 CREATE TABLE `deposits` (
                                   `id` int(11) unsigned NOT NULL,
@@ -55,7 +53,7 @@ class Tools extends MY_Controller{
                                 $i['txid'] = $transaction['txid'];
                                 $i['status'] = 'recieved';
                                 $i['NLG'] = $v['amount'];
-                                
+
                                 $this->db->insert('deposits', $i);
 
                             }
@@ -78,34 +76,40 @@ class Tools extends MY_Controller{
         }
     }
 
+
+    protected function get_user_verification_info($condition)
+    {
+        $row = $this->db->get_where('user_verification', $condition);
+        if ($row->num_rows() === 0) {
+            show_404();
+            exit;
+        }
+        return $row->row();
+    }
+
+
+    protected function output_file($file_path, $file_mime_type)
+    {
+        header('Content-Type:' . $file_mime_type);
+        //header('Content-Length: ' . filesize($file_path));
+        readfile($file_path);
+        // exit;
+    }
+
+
 	public function show_passport_upload($upload_id){
-		// echo 'uploads/'.$upload_id;
-		$row = $this->db->get_where('user_verification', ['passport' => $upload_id])->row();
-		$file = $row->passport_path;
-		$content_type = $row->passport_mimetype;
-		header('Content-Type:'.$content_type);
-		//header('Content-Length: ' . filesize($file));
-		readfile($file);
+		$row = $this->get_user_verification_info(['passport' => $upload_id]);
+        $this->output_file($row->passport_path, $row->passport_mimetype);
 	}
 
 	public function show_selfie_upload($upload_id){
-		// echo 'uploads/'.$upload_id;
-		$row = $this->db->get_where('user_verification', ['selfie' => $upload_id])->row();
-		$file = $row->selfie_path;
-		$content_type = $row->selfie_mimetype;
-		header('Content-Type:'.$content_type);
-		//header('Content-Length: ' . filesize($file));
-		readfile($file);
+		$row = $this->get_user_verification_info(['selfie' => $upload_id]);
+        $this->output_file($row->selfie_path, $row->selfie_mimetype);
 	}
 
 	public function show_backcard_upload($upload_id){
-		// echo 'uploads/'.$upload_id;
-		$row = $this->db->get_where('user_verification', ['backcard' => $upload_id])->row();
-		$file = $row->backcard_path;
-		$content_type = $row->backcard_mimetype;
-		header('Content-Type:'.$content_type);
-		//header('Content-Length: ' . filesize($file));
-		readfile($file);
+		$row = $this->get_user_verification_info(['backcard' => $upload_id]);
+        $this->output_file($row->backcard_path, $row->backcard_mimetype);
 	}
 }
 

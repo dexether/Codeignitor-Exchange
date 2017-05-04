@@ -39,10 +39,22 @@ class Markets extends MY_Controller{
             $this->l_asset->add('/js/trade/trade.js', 'js');
 
             $this->data['content'] .= $this->load->view('blocks/v_bid_ask', $data, true);
-            
-            $this->data['content'] .= $this->load->view('blocks/v_orders', $data, true);
 
+            $this->load->model('mdl_trade');
+            $data['bid_orders'] = $this->mdl_trade->get_bid_orders($data['currency_bid'], 20);
+            $data['sell_orders'] = $this->mdl_trade->get_sell_orders($data['currency_bid'], 20);
+
+            $this->data['content'] .= $this->load->view('blocks/v_order_book', $data, true);
+
+            $data['trade_history'] = $this->mdl_trade->trade_history($data['currency_bid'], 20);
             $this->data['content'] .= $this->load->view('blocks/v_trade_history', $data, true);
+
+            $user_id = $this->session->user_id;
+            $data['my_open_orders'] = $this->mdl_trade->get_my_orders($data['currency_bid'], 'open', $user_id , 50);
+            $this->data['content'] .= $this->load->view('blocks/v_my_orders', $data, true);        
+                    
+            $data['order_history'] = $this->mdl_trade->get_my_orders($data['currency_bid'],'processed', $user_id , 50);
+            $this->data['content'] .= $this->load->view('blocks/v_my_order_history', $data, true);
 
             view($this->data);
         }

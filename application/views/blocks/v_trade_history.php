@@ -9,24 +9,37 @@
                 <tr>
                 <th width="13%"> Date  </th>
                 <th width="23%">       Buy/Sell</th>
-                <th width="17%">           EUR   </th>
+                <th width="17%">           <?php echo $currency_bid; ?>    </th>
                 <th width="17%">            Total Units            </th>
                 <th width="15%">      Total Cost </th>
                 </tr>
                 </thead>
 
-                </table>
-                
-                <div id="table2">
-                    <table class="table">
-                        <tr><td colspan="6"><h5><center><?php echo 'No Trade History at the moment'; ?></center></h5></td></tr>
-                        </tbody>
+                    <?php
+                            if(isset($trade_history) && $trade_history->num_rows()>0)
+                            {
+                                $rows = $trade_history ->result();
 
-                    </table>
-                </div>
+                                foreach ($rows as $row) 
+                                {
+
+                                    echo '<tr><td>', substr($row->trade_datetime,0,16), '</td><th>',$row->bidsell,
+                                    '</th><th>', number_format($row->price,8), '</th><th>', number_format($row->amount,8),
+                                    '</th><th>', number_format($row->total,8), '</th></tr>';
+                                }
+                                echo '</table>';
+                            }
+                            else {
+
+
+                                echo '<tr><td colspan="6" >No trade history</td></tr>';
+
+                            }
+                            ?>
+                </table>
+
             </div>
         </div>
     </div>
 </div>
 </div>
-        

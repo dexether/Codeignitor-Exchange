@@ -13,6 +13,7 @@ list($bid,$sell) = explode('-', $market);
 $available_bid = isset($balance->$bid)?$balance->$bid : 0;
 $available_sell = isset($balance->$sell)?$balance->$sell : 0;
 $sell_rate = 0;
+$error = null;
 
 echo '<script>FEE = \'', FEE , '\';</script>'
 ?>
@@ -107,14 +108,14 @@ echo '<script>FEE = \'', FEE , '\';</script>'
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Amount to BUY</label>
-                                                <input type="text" <?php echo $pro; ?> class="form-control numvalid" maxlength="15"  id="bb_btc">
+                                                <input type="text" name="amount" class="form-control numvalid" maxlength="15"  id="bb_btc">
                                                 <small> <?php echo $currency_sell; ?>  </small>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">If price rises to <?php echo $currency_sell; ?></label>
-                                                <input type="text"  <?php echo $pro; ?> class="form-control numvalid"  maxlength="15" value="<?php echo $buy_rate; ?>"  id="bb_price">
+                                                <input type="text"  name="price" class="form-control numvalid"  maxlength="15" value="<?php echo $buy_rate; ?>"  id="bb_price">
                                                 <small> <?php echo $currency_bid; ?> </small>
                                             </div>
                                         </div>
@@ -179,7 +180,7 @@ echo '<script>FEE = \'', FEE , '\';</script>'
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Amount to Sell</label>
-                                            <input type="text" <?php echo $pro; ?> class="form-control numvalid" id="s_btc" maxlength="20" >
+                                            <input type="text" name="amount" class="form-control numvalid" id="s_btc" maxlength="20" >
                                             <small> <?php echo $currency_sell; ?>  </small>
 
                                         </div>
@@ -187,7 +188,7 @@ echo '<script>FEE = \'', FEE , '\';</script>'
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Sell price :</label>
-                                            <input type="text" <?php echo $pro; ?> class="form-control numvalid" id="s_price" maxlength="15" placeholder="" value="<?php echo $sell_rate; ?>" >
+                                            <input type="text" name="price" class="form-control numvalid" id="s_price" maxlength="15" placeholder="" value="<?php echo $sell_rate; ?>" >
                                             <small> <?php echo $currency_bid; ?> </small>
                                         </div>
                                     </div>
@@ -220,7 +221,7 @@ echo '<script>FEE = \'', FEE , '\';</script>'
                                     <input type="hidden" name="s_fee" id="s_fee" value="" >
 
                                     <div class="cls_line_bot"> </div>
-                                    <div align="center" class=""><button type="button" id="sell_button" class="cls_buy_btn" onclick="return rambo_calculate_limit('sell');" > Sell <?php echo $currency_sell; ?> </button> </div>
+                                    <div align="center" class=""><button type="button" id="sell_button" class="cls_buy_btn"> Sell <?php echo $currency_sell; ?> </button> </div>
                                 </form>
 
                             </div>

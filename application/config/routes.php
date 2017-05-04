@@ -57,6 +57,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     'markets/(:any)'=>'markets/trade_page/$1',
     //'faq'=>'front/home/faq',
     '404_override'=>'',
-    'translate_uri_dashes'=>''
+    'translate_uri_dashes'=>'',
+    'login' => 'user/login',
+    'register' => 'user/register',
+    'forget' => 'user/forget',
     );
 
