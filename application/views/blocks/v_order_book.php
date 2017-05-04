@@ -21,7 +21,9 @@
                                 foreach ($rows as $row) 
                                 {
                                     $sum += $row->$currency_bid;
-                                    echo '<tr><td>', $sum, '</td><th>',$row->$currency_bid,'</th><th>', $row->amount, '</th><th>', $row->price,'</th></tr>';
+                                    echo '<tr><td>', number_format($sum,8), '</td><td>',$row->total,'</td><td>',
+                                            number_format($row->amount,8), '</td><td>', 
+                                            number_format($row->price,8),'</td></tr>';
                                 }
                                 echo '</table>';
                             }
@@ -53,8 +55,11 @@
                                 $total = 0;
                                 foreach ($rows as $row) 
                                 {
-                                    $sum += $row->$currency_bid;
-                                    echo '<tr><td>', $row->price, '</td><th>',$row->amount,'</th><th>', $row->$currency_bid, '</th><th>', $sum,'</th></tr>';
+                                    $sum += ($row->amount) * $row->price;
+                                    echo '<tr><td>', number_format($row->price,8), '</td><td>',
+                                            number_format(($row->amount),8),'</td><td>', 
+                                            number_format(($row->amount) * $row->price,8), '</td><td>', 
+                                            number_format($sum,8),'</td></tr>';
                                 }
                                 echo '</table>';
                             }
