@@ -456,7 +456,7 @@ $config['csrf_token_name'] = 'csrf_gt';
 $config['csrf_cookie_name'] = 'csrf_cookie_gt';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array('api/', 'wsocket/');
+$config['csrf_exclude_uris'] = array('api/', 'wsocket/', 'admin/.*');
 
 /*
 |--------------------------------------------------------------------------

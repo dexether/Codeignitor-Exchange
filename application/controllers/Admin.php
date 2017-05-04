@@ -11,7 +11,7 @@ class Admin extends MY_Controller
                 {
                     redirect ('/');
                 }
-                
+
 		$this->load->library('grocery_CRUD');
 		$this->load->model('admin_model');
 		$this->load->model('mdl_user');
@@ -28,16 +28,16 @@ class Admin extends MY_Controller
 
 	public function users()
 	{
-		
+
 		auth(['admin','superadmin']);
 
 		$crud = new grocery_CRUD();
-		
+
 		$crud->set_table('users');
 		$crud->set_subject('Manage Users');
 		$crud->columns('id','email','username','verfiyStatus','trade_verification','role');
 		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg','password');
-		
+
 		$crud->set_field_upload('profilepicture','uploads');
 
 		// types
@@ -55,9 +55,9 @@ class Admin extends MY_Controller
 
 		$output = $crud->render();
 
-		
+
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
-		view($this->data, 'admin');	
+		view($this->data, 'admin');
 	}
 
 	public function callback_users_delete($primary_key)
@@ -65,9 +65,13 @@ class Admin extends MY_Controller
 		// get user
 		$user = $this->mdl_user->get($primary_key);
 		$user_verification = $this->mdl_user_verification->get($primary_key);
-		if($user->verifyStatus != 'verified' && $user_verification->verification_status != 'verified' ){
+
+		$is_user_verified = $user->verfiyStatus === 'verified' ||
+							($user_verification && $user_verification->verification_status === 'verified');
+
+		if (!$is_user_verified){
 			$this->mdl_user->delete($primary_key);
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -116,7 +120,7 @@ class Admin extends MY_Controller
 			<script type="text/javascript">window.location = "'.site_url('admin/users').'";</script>
 			');
 
-		// check 
+		// check
 		$crud->callback_field('passport',array($this,'callback_passport'));
 		$crud->callback_field('backcard',array($this,'callback_backcard'));
 		$crud->callback_field('selfie',array($this,'callback_selfie'));
@@ -130,7 +134,7 @@ class Admin extends MY_Controller
 		$this->l_asset->add('js/admin/user_verification.js','js');
 
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
-		view($this->data, 'admin');		
+		view($this->data, 'admin');
 	}
 
 	public function clear_uploads_data()

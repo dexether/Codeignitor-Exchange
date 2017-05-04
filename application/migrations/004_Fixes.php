@@ -12,6 +12,8 @@ class Migration_Fixes extends CI_Migration {
 
     public function up()
     {
+
+        // add unique index for email field
         $fields = [
             'email' => [
                 'type'       => 'VARCHAR',
@@ -20,6 +22,16 @@ class Migration_Fixes extends CI_Migration {
             ]
         ];
         $this->dbforge->modify_column('users', $fields);
+
+        // rename column 'slefie_path' into 'selfie_path' in user_verification table
+        $fields = [
+            'slefie_path' => [
+                'name'       => 'selfie_path',
+                'type'       => 'VARCHAR',
+                'constraint' => 100
+            ]
+        ];
+        $this->dbforge->modify_column('user_verification', $fields);
     }
 
     public function down()
@@ -31,6 +43,19 @@ class Migration_Fixes extends CI_Migration {
             ]
         ];
         $this->dbforge->modify_column('users', $fields);
+
+        $fields = [
+            'selfie_path' => [
+                'name'       => 'slefie_path',
+                'type'       => 'VARCHAR',
+                'constraint' => 100
+
+            ]
+        ];
+        $this->dbforge->modify_column('user_verification', $fields);
+
+
+
     }
 
 }
