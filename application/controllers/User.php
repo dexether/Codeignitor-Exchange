@@ -133,6 +133,7 @@ class User extends MY_Controller
             redirect('/');
         }
 
+        $this->l_asset->add('js/ajaxfileupload.js', 'js');
         $this->l_asset->add('js/user/profile.js', 'js');
 
         $this->data['content'] = $this->get_balance();
@@ -250,6 +251,31 @@ class User extends MY_Controller
         }
     }
 
+    protected function save_profile_picture()
+    {
+        $config['upload_path'] = '../application/uploads/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size']     = '300';
+        $config['max_width'] = '1024';
+        $config['max_height'] = '768';
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('profilepicture')) {
+            $result = [
+                'status' => 'error',
+                'error' => $this->upload->display_errors()
+            ];
+        } else {
+            $result = [
+                'status' => 'ok',
+                'data' => $this->upload->data()
+            ];
+        }
+        return $result;
+    }
+
+
     public function logout()
     {
         $this->session->sess_destroy();
@@ -260,7 +286,30 @@ class User extends MY_Controller
     {
 
         $id = $this->session->user_id;
-        $data = array('username' => $this->input->post('username'), 'firstname' => $this->input->post('firstname'), 'lastname' => $this->input->post('lastname'), 'identity_no' => $this->input->post('id_no'), 'cellno' => $this->input->post('cellno'), 'alt_cellno' => $this->input->post('alt_cellno'), 'street1' => $this->input->post('street1'), 'street2' => $this->input->post('street2'), 'city' => $this->input->post('city'), 'state1' => $this->input->post('state'), 'country1' => $this->input->post('country'), 'zipcode' => $this->input->post('code'), 'postal_line1' => $this->input->post('line1'), 'postal_line2' => $this->input->post('line2'), 'postal_city' => $this->input->post('postal_city'), 'postal_state' => $this->input->post('postal_state'), 'postal_country' => $this->input->post('postal_country'), 'postal_code' => $this->input->post('postal_code'));
+        $data = array(
+            'username' => $this->input->post('username'),
+            'firstname' => $this->input->post('firstname'),
+            'lastname' => $this->input->post('lastname'),
+            'identity_no' => $this->input->post('id_no'),
+            'cellno' => $this->input->post('cellno'),
+            'alt_cellno' => $this->input->post('alt_cellno'),
+            'street1' => $this->input->post('street1'),
+            'street2' => $this->input->post('street2'),
+            'city' => $this->input->post('city'),
+            'state1' => $this->input->post('state'),
+            'country1' => $this->input->post('country'),
+            'zipcode' => $this->input->post('code'),
+            'postal_line1' => $this->input->post('line1'),
+            'postal_line2' => $this->input->post('line2'),
+            'postal_city' => $this->input->post('postal_city'),
+            'postal_state' => $this->input->post('postal_state'),
+            'postal_country' => $this->input->post('postal_country'),
+            'postal_code' => $this->input->post('postal_code')
+        );
+
+        $result = $this->save_profile_picture();
+        var_dump($result); die;
+
         $this->mdl_user->profile_update($data, $id);
     }
 

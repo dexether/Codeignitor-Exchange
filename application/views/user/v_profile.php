@@ -13,7 +13,7 @@
           <div class="cls_comm_head"> My Profile</div>
           <div class="cls_pro_sec">
             <h3>Personal Information</h3>
-            <?php echo form_open('', 'class="form-horizontal" name="personal_form" id="personal_form" method="post"'); ?>
+            <?php echo form_open_multipart('', 'class="form-horizontal" name="personal_form" id="personal_form" method="post"'); ?>
             <div class="form-group">
             </div>
             <div class="form-group">
@@ -45,7 +45,7 @@
           <div class="form-group">
             <label for="profilePicture" class=" col-sm-4  col-sm-offset-1  col-md-3  control-label">Profile picture</label>
             <div class="col-sm-6">
-              <input type="file" class="form-control numvalid" id="profilePicture" name="profilepicture">
+              <input type="file" class="form-control" id="profilePicture" name="profilepicture">
             </div>
           </div>
 

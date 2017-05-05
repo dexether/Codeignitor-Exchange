@@ -16,10 +16,16 @@ $(document).ready(function() {
   },
   submitHandler: function (form)
   {
-    var data = $('#personal_form').serialize();
-    $.ajax({
+    var data = {};
+    $('#personal_form input').each(function(input) {
+        data[$(this).attr('name')] = $(this).val()
+    });
+     // $('#personal_form').serialize();
+    $.ajaxFileUpload({
       type:'POST',
       data:data,
+      secireuri: false,
+      fileElementId: 'profilePicture',
       url: base_url+'user/profile_update',
       success:function(output) {
         $("#personal_success").show();
@@ -29,27 +35,27 @@ $(document).ready(function() {
   }
 
 });
-  $(".numvalid").keypress(function(e) { 
+  $(".numvalid").keypress(function(e) {
     if(e.which >= 58 || e.shiftKey || e.which == 43 || e.which == 45 || e.which == 42 || e.which == 47)  {
       e.preventDefault();
     }
     if(e.which == 46 && $(this).val().indexOf('.') != -1) {
       this.value = '' ;
-    }  
+    }
   });
 
-  $(".alphavalid").blur(function(evt) {  
+  $(".alphavalid").blur(function(evt) {
     var inputtxt = $(this).val();
-    var letters = /^[A-Za-z]+$/;  
-    if(inputtxt.match(letters))  
-    {  
-      return true;  
-    }  
-    else  
-    {   
+    var letters = /^[A-Za-z]+$/;
+    if(inputtxt.match(letters))
+    {
+      return true;
+    }
+    else
+    {
       $(this).val('');
-      return false;  
-    }  
+      return false;
+    }
   });
 
   jQuery.validator.addMethod("nodigits", function(value, element) {
