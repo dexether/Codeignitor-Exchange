@@ -281,14 +281,15 @@ class User extends MY_Controller
     }
 
 
-    protected function make_json_result($status, $msg)
+    protected function make_json_result($status, $msg, $profilepicture = '')
     {
         return json_encode(
             [
-                'status'    => $status,
-                'msg'       => $msg,
-                'csrf_name' => $this->security->get_csrf_token_name(),
-                'csrf_hash' => $this->security->get_csrf_hash()
+                'status'        => $status,
+                'msg'           => $msg,
+                'csrf_name'     => $this->security->get_csrf_token_name(),
+                'csrf_hash'     => $this->security->get_csrf_hash(),
+                'profilepicture'=> $profilepicture
             ]
         );
 
@@ -319,6 +320,7 @@ class User extends MY_Controller
             'postal_code' => $this->input->post('postal_code')
         );
 
+        $profilepicture = '';
         if (isset($_FILES['profilepicture']) &&
            ($_FILES['profilepicture']['error'] !== 4)) {
 
@@ -330,6 +332,7 @@ class User extends MY_Controller
             $data['profilepicture']      = $result['data']['raw_name'];
             $data['profilepicture_path'] = $result['data']['full_path'];
             $data['profilepicture_mime'] = $result['data']['file_type'];
+            $profilepicture = $data['profilepicture'];
         }
 
 
@@ -341,7 +344,7 @@ class User extends MY_Controller
             $status = 'error';
             $msg = "Error in Updation";
         }
-        echo $this->make_json_result($status, $msg);
+        echo $this->make_json_result($status, $msg, $profilepicture);
     }
 
     function two_factor()

@@ -32,9 +32,9 @@ $(document).ready(function() {
         if (data.csrf_name && data.csrf_hash) {
           $('#personal_form input[name=' + data.csrf_name + ']').val(data.csrf_hash);
         }
-
-        console.log(data);
-
+        if (data.profilepicture) {
+          $('#profile_picture_img').attr('src', '/tools/show_profile_picture/' + data.profilepicture);
+        }
         $("#personal_success").html(data.msg).show();
       }
     });

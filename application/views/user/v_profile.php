@@ -46,7 +46,7 @@
             <label for="profile_picture" class=" col-sm-4  col-sm-offset-1  col-md-3  control-label">Profile picture</label>
             <div class="col-sm-6">
                 <?php if (isset($profile->profilepicture) && $profile->profilepicture): ?>
-                  <img src="/tools/show_profile_picture/<?php echo $profile->profilepicture; ?>" class='img-responsive'>
+                  <img id="profile_picture_img" src="/tools/show_profile_picture/<?php echo $profile->profilepicture; ?>" class='img-responsive'>
                 <?php else: ?>
                 <?php endif ?>
                 <input type="file" class="form-control" id="profile_picture" name="profilepicture">
