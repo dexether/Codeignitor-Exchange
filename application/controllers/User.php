@@ -295,6 +295,7 @@ class User extends MY_Controller
 
     }
 
+
     function profile_update()
     {
 
@@ -321,6 +322,7 @@ class User extends MY_Controller
         );
 
         $profilepicture = '';
+        $current_profilepicture_path = '';
         if (isset($_FILES['profilepicture']) &&
            ($_FILES['profilepicture']['error'] !== 4)) {
 
@@ -333,11 +335,19 @@ class User extends MY_Controller
             $data['profilepicture_path'] = $result['data']['full_path'];
             $data['profilepicture_mime'] = $result['data']['file_type'];
             $profilepicture = $data['profilepicture'];
+
+            $current_data = $this->mdl_user->profile_details();
+            if ($current_data && $current_data->profilepicture_path) {
+                $current_profilepicture_path = $current_data->profilepicture_path;
+            }
         }
 
 
         $result = $this->mdl_user->profile_update($data, $id);
         if ($result) {
+            if ($current_profilepicture_path) {
+                @unlink($current_profilepicture_path);
+            }
             $status = 'ok';
             $msg = "Your Personal Information Successfully updated";
         } else {
