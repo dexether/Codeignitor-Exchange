@@ -292,12 +292,7 @@ class Mdl_user extends CI_Model
     function profile_update($data, $id)
     {
         $this->db->where('id', $id);
-        $res = $this->db->update('users', $data);
-        if ($res) {
-            echo "Your Personal Information Successfully updated";
-        } else {
-            echo "Error in Updation";
-        }
+        return $this->db->update('users', $data);
     }
 
     public function profile_details()

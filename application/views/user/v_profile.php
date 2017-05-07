@@ -43,9 +43,13 @@
           </div>
 
           <div class="form-group">
-            <label for="profilePicture" class=" col-sm-4  col-sm-offset-1  col-md-3  control-label">Profile picture</label>
+            <label for="profile_picture" class=" col-sm-4  col-sm-offset-1  col-md-3  control-label">Profile picture</label>
             <div class="col-sm-6">
-              <input type="file" class="form-control" id="profilePicture" name="profilepicture">
+                <?php if (isset($profile->profilepicture) && $profile->profilepicture): ?>
+                  <img src="/tools/show_profile_picture/<?php echo $profile->profilepicture; ?>" class='img-responsive'>
+                <?php else: ?>
+                <?php endif ?>
+                <input type="file" class="form-control" id="profile_picture" name="profilepicture">
             </div>
           </div>
 

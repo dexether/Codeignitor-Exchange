@@ -258,21 +258,19 @@ class User extends MY_Controller
         $config['max_size']     = '300';
         $config['max_width'] = '1024';
         $config['max_height'] = '768';
+        $config['encrypt_name'] = true;
 
         $this->load->library('upload', $config);
 
-        if (!$this->upload->do_upload('profilepicture')) {
-            $result = [
+        return !$this->upload->do_upload('profilepicture') ?
+            [
                 'status' => 'error',
-                'error' => $this->upload->display_errors()
-            ];
-        } else {
-            $result = [
+                'msg' => $this->upload->display_errors()
+            ] :
+            [
                 'status' => 'ok',
                 'data' => $this->upload->data()
             ];
-        }
-        return $result;
     }
 
 
@@ -280,6 +278,20 @@ class User extends MY_Controller
     {
         $this->session->sess_destroy();
         redirect('/');
+    }
+
+
+    protected function make_json_result($status, $msg)
+    {
+        return json_encode(
+            [
+                'status'    => $status,
+                'msg'       => $msg,
+                'csrf_name' => $this->security->get_csrf_token_name(),
+                'csrf_hash' => $this->security->get_csrf_hash()
+            ]
+        );
+
     }
 
     function profile_update()
@@ -307,10 +319,29 @@ class User extends MY_Controller
             'postal_code' => $this->input->post('postal_code')
         );
 
-        $result = $this->save_profile_picture();
-        var_dump($result); die;
+        if (isset($_FILES['profilepicture']) &&
+           ($_FILES['profilepicture']['error'] !== 4)) {
 
-        $this->mdl_user->profile_update($data, $id);
+            $result = $this->save_profile_picture();
+            if ($result['status'] === 'error') {
+                echo $this->make_json_result('error', strip_tags($result['msg']));
+                return;
+            }
+            $data['profilepicture']      = $result['data']['raw_name'];
+            $data['profilepicture_path'] = $result['data']['full_path'];
+            $data['profilepicture_mime'] = $result['data']['file_type'];
+        }
+
+
+        $result = $this->mdl_user->profile_update($data, $id);
+        if ($result) {
+            $status = 'ok';
+            $msg = "Your Personal Information Successfully updated";
+        } else {
+            $status = 'error';
+            $msg = "Error in Updation";
+        }
+        echo $this->make_json_result($status, $msg);
     }
 
     function two_factor()

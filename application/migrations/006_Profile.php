@@ -12,11 +12,17 @@ class Migration_Profile extends CI_Migration {
     public function up()
     {
         $fields = [
+            'profilepicture_path' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => 255,
+                'null'          => false,
+                'after'         => 'profilepicture'
+            ],
             'profilepicture_mime' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => 100,
                 'null'          => false,
-                'after'         => 'profilepicture'
+                'after'         => 'profilepicture_path'
             ]
         ];
         $this->dbforge->add_column('users', $fields);
@@ -25,6 +31,7 @@ class Migration_Profile extends CI_Migration {
 
     public function down()
     {
-        $this->dbforge->drop_column('users', 'profilepictire_mime');
+        $this->dbforge->drop_column('users', 'profilepicture_path');
+        $this->dbforge->drop_column('users', 'profilepicture_mime');
     }
 }

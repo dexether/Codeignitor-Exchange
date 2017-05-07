@@ -17,19 +17,25 @@ $(document).ready(function() {
   submitHandler: function (form)
   {
     var data = {};
-    $('#personal_form input').each(function(input) {
+    $('#personal_form input, #personal_form select').each(function() {
         data[$(this).attr('name')] = $(this).val()
     });
      // $('#personal_form').serialize();
     $.ajaxFileUpload({
-      type:'POST',
-      data:data,
-      secireuri: false,
-      fileElementId: 'profilePicture',
+      type: 'POST',
+      dataType: 'json',
+      data: data,
+      secureuri: false,
+      fileElementId: 'profile_picture',
       url: base_url+'user/profile_update',
-      success:function(output) {
-        $("#personal_success").show();
-        $("#personal_success").html(output);
+      success: function(data, status) {
+        if (data.csrf_name && data.csrf_hash) {
+          $('#personal_form input[name=' + data.csrf_name + ']').val(data.csrf_hash);
+        }
+
+        console.log(data);
+
+        $("#personal_success").html(data.msg).show();
       }
     });
   }
