@@ -141,6 +141,8 @@ class User extends MY_Controller
         $this->load->model('mdl_country');
         $vars['country_detail'] = $this->mdl_country->get_all();
         $vars['profile'] = $this->mdl_user->profile_details();
+        $vars['csrf_token_name'] = $this->security->get_csrf_token_name();
+
         $this->data['content'] .= $this->load->view('user/v_profile', $vars, true);
 
         view($this->data);
@@ -281,18 +283,18 @@ class User extends MY_Controller
     }
 
 
-    protected function make_json_result($status, $msg, $profilepicture = '')
+    protected function make_json_result($status, $msg, $params = array())
     {
-        return json_encode(
-            [
-                'status'        => $status,
-                'msg'           => $msg,
-                'csrf_name'     => $this->security->get_csrf_token_name(),
-                'csrf_hash'     => $this->security->get_csrf_hash(),
-                'profilepicture'=> $profilepicture
-            ]
-        );
-
+        $result = [
+            'status'        => $status,
+            'msg'           => $msg,
+            'csrf_name'     => $this->security->get_csrf_token_name(),
+            'csrf_hash'     => $this->security->get_csrf_hash()
+        ];
+        foreach($params as $k => $v) {
+            $result[$k] = $v;
+        };
+        return json_encode($result);
     }
 
 
@@ -354,7 +356,19 @@ class User extends MY_Controller
             $status = 'error';
             $msg = "Error in Updation";
         }
-        echo $this->make_json_result($status, $msg, $profilepicture);
+        echo $this->make_json_result($status, $msg, ['profilepicture' => $profilepicture]);
+    }
+
+
+    public function remove_profile_picture()
+    {
+        $user_id = $this->session->user_id;
+        if (!$user_id) {
+            echo $this->make_json_result('error', 'Only logged-in user has ability to remove profile picture!');
+            exit;
+        }
+        echo $this->make_json_result('ok', 'Profile picture has removed successfully');
+        exit;
     }
 
     function two_factor()

@@ -42,11 +42,12 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div id="profilepicture_block" class="form-group">
             <label for="profile_picture" class=" col-sm-4  col-sm-offset-1  col-md-3  control-label">Profile picture</label>
             <div class="col-sm-6">
                 <?php if (isset($profile->profilepicture) && $profile->profilepicture): ?>
                   <img id="profile_picture_img" src="/tools/show_profile_picture/<?php echo $profile->profilepicture; ?>" class='img-responsive'>
+                  <a id="profilepicture_delete_btn" data-csrf="<?php echo $csrf_token_name;?>" class="btn btn-danger" href="#">Delete</a>
                 <?php else: ?>
                 <?php endif ?>
                 <input type="file" class="form-control" id="profile_picture" name="profilepicture">
