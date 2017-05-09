@@ -31,10 +31,16 @@ $(document).ready(function() {
                 url: base_url+'user/profile_update',
                 success: function(data, status) {
                     if (data.csrf_name && data.csrf_hash) {
-                      $('#personal_form input[name=' + data.csrf_name + ']').val(data.csrf_hash);
+                        $('#personal_form input[name=' + data.csrf_name + ']').val(data.csrf_hash);
                     }
-                    if (data.profilepicture) {
-                      $('#profile_picture_img').attr('src', '/tools/show_profile_picture/' + data.profilepicture);
+                    if (data.profilepicture !== undefined) {
+                        if (data.profilepicture === '') {
+                            $('#profile_picture_img_block').hide();
+                        } else {
+                            $('#profilepicture_delete_btn').data('profilepicture', data.profilepicture);
+                            $('#profile_picture_img').attr('src', '/tools/show_profile_picture/' + data.profilepicture);
+                            $('#profile_picture_img_block').show();
+                        }
                     }
                     $("#personal_success").html(data.msg).show();
                 }
@@ -46,22 +52,24 @@ $(document).ready(function() {
     $('#profilepicture_block').on('click', '#profilepicture_delete_btn', function(e) {
         e.preventDefault();
         var csrf_token_name = $(this).data('csrf'),
+            profilepicture = $(this).data('profilepicture'),
             csrf_token_hash = $('#personal_form input[name=' + csrf_token_name + ']').val(),
             data = {};
         data[csrf_token_name] = csrf_token_hash;
 
         $.ajax({
-            url: '/user/remove_profile_picture',
+            url: '/user/remove_profile_picture/' + profilepicture,
             type: 'post',
             data: data,
             dataType: 'json',
             success: function(data) {
-                console.log(data);
                 if (data.csrf_name && data.csrf_hash) {
-                  $('#personal_form input[name=' + data.csrf_name + ']').val(data.csrf_hash);
+                    $('#personal_form input[name=' + data.csrf_name + ']').val(data.csrf_hash);
                 }
-
-
+                if (data.profilepicture !== undefined && data.profilepicture === '') {
+                    $('#profile_picture_img_block').hide();
+                }
+                $("#personal_success").html(data.msg).show();
             }
         })
     })

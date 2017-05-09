@@ -323,7 +323,7 @@ class User extends MY_Controller
             'postal_code' => $this->input->post('postal_code')
         );
 
-        $profilepicture = '';
+        $params = [];
         $current_profilepicture_path = '';
         if (isset($_FILES['profilepicture']) &&
            ($_FILES['profilepicture']['error'] !== 4)) {
@@ -336,7 +336,7 @@ class User extends MY_Controller
             $data['profilepicture']      = $result['data']['raw_name'];
             $data['profilepicture_path'] = $result['data']['full_path'];
             $data['profilepicture_mime'] = $result['data']['file_type'];
-            $profilepicture = $data['profilepicture'];
+            $params['profilepicture']    = $data['profilepicture'];
 
             $current_data = $this->mdl_user->profile_details();
             if ($current_data && $current_data->profilepicture_path) {
@@ -356,18 +356,48 @@ class User extends MY_Controller
             $status = 'error';
             $msg = "Error in Updation";
         }
-        echo $this->make_json_result($status, $msg, ['profilepicture' => $profilepicture]);
+        echo $this->make_json_result($status, $msg, $params);
     }
 
 
-    public function remove_profile_picture()
+    public function remove_profile_picture($profilepicture = '')
     {
+        if (!$profilepicture) {
+            echo $this->make_json_result('error', 'Profile picture parameter is empty!');
+            exit;
+        }
+
         $user_id = $this->session->user_id;
         if (!$user_id) {
             echo $this->make_json_result('error', 'Only logged-in user has ability to remove profile picture!');
             exit;
         }
-        echo $this->make_json_result('ok', 'Profile picture has removed successfully');
+
+        $user = $this->mdl_user->get_by_profilepicture_id($profilepicture);
+        if (!$user) {
+            echo $this->make_json_result('error', 'Profile picture ID is not found!');
+            exit;
+        }
+
+        if ($user->id !== $user_id && !is_admin()) {
+            echo $this->make_json_result('error', 'You have no rights to remove profile image!');
+            exit;
+        }
+
+
+        $params = [];
+        if ($user->profilepicture_path) {
+            @unlink($user->profilepicture_path);
+            $data = [
+                'profilepicture' => '',
+                'profilepicture_path' => '',
+                'profilepicture_mime' => ''
+            ];
+            $this->mdl_user->profile_update($data, $user->id);
+            $params['profilepicture'] = ''; // sign of removed profile picture
+        }
+
+        echo $this->make_json_result('ok', 'Profile picture has removed successfully', $params);
         exit;
     }
 

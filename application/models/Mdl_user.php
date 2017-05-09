@@ -305,6 +305,13 @@ class Mdl_user extends CI_Model
         }
     }
 
+    public function get_by_profilepicture_id($profilepicture)
+    {
+        $this->db->where('profilepicture', $profilepicture);
+        $res = $this->db->get('users');
+        return $res ? $res->row() : false;
+    }
+
     function check_tfa()
     {
         //get TFA code from user;

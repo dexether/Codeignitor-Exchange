@@ -45,11 +45,14 @@
           <div id="profilepicture_block" class="form-group">
             <label for="profile_picture" class=" col-sm-4  col-sm-offset-1  col-md-3  control-label">Profile picture</label>
             <div class="col-sm-6">
-                <?php if (isset($profile->profilepicture) && $profile->profilepicture): ?>
+                <?php
+                  $show_profile_picture = isset($profile->profilepicture) && $profile->profilepicture ? '' : ' style="display:none;"'
+                ?>
+                <div id="profile_picture_img_block" <?php echo $show_profile_picture;?>>
                   <img id="profile_picture_img" src="/tools/show_profile_picture/<?php echo $profile->profilepicture; ?>" class='img-responsive'>
-                  <a id="profilepicture_delete_btn" data-csrf="<?php echo $csrf_token_name;?>" class="btn btn-danger" href="#">Delete</a>
-                <?php else: ?>
-                <?php endif ?>
+                  <a id="profilepicture_delete_btn" data-csrf="<?php echo $csrf_token_name;?>" data-profilepicture="<?php echo $profile->profilepicture;?>"
+                     class="btn btn-danger" href="#">Delete profile picture</a>
+                </div>
                 <input type="file" class="form-control" id="profile_picture" name="profilepicture">
             </div>
           </div>
