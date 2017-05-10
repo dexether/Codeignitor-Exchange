@@ -7,7 +7,7 @@ class Mdl_balance extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 	}
 
 	function fetch_user_balance_by_id($id,$currency)
