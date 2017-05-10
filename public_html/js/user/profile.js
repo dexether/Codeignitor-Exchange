@@ -49,10 +49,22 @@ $(document).ready(function() {
     });
 
 
+    var removePictureBtn;
+
     $('#profilepicture_block').on('click', '#profilepicture_delete_btn', function(e) {
         e.preventDefault();
-        var csrf_token_name = $(this).data('csrf'),
-            profilepicture = $(this).data('profilepicture'),
+        removePictureBtn = $(this);
+        alertify.confirm('Remove profile picture dialog',
+                         'Do you really wish to remove profile picture ?',
+                         removeProfilePicture,
+                         cancelRemoveProfilePicture)
+                .set('labels', {ok: 'Yes', cancel: 'No'});
+    });
+
+
+    function removeProfilePicture() {
+        var csrf_token_name = removePictureBtn.data('csrf'),
+            profilepicture = removePictureBtn.data('profilepicture'),
             csrf_token_hash = $('#personal_form input[name=' + csrf_token_name + ']').val(),
             data = {};
         data[csrf_token_name] = csrf_token_hash;
@@ -69,10 +81,20 @@ $(document).ready(function() {
                 if (data.profilepicture !== undefined && data.profilepicture === '') {
                     $('#profile_picture_img_block').hide();
                 }
-                $("#personal_success").html(data.msg).show();
+                if (data.status === 'ok') {
+                    alertify.success(data.msg);
+                } else {
+                    alertify.error(data.msg);
+                }
+                // $("#personal_success").html(data.msg).show();
             }
         })
-    })
+    }
+
+
+    function cancelRemoveProfilePicture() {
+        alertify.error('Process Cancelled');
+    }
 
 
     $(".numvalid").keypress(function(e) {

@@ -133,6 +133,9 @@ class User extends MY_Controller
             redirect('/');
         }
 
+        $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
         $this->l_asset->add('js/ajaxfileupload.js', 'js');
         $this->l_asset->add('js/user/profile.js', 'js');
 
@@ -397,7 +400,7 @@ class User extends MY_Controller
             $params['profilepicture'] = ''; // sign of removed profile picture
         }
 
-        echo $this->make_json_result('ok', 'Profile picture has removed successfully', $params);
+        echo $this->make_json_result('ok', 'Profile picture has been removed successfully', $params);
         exit;
     }
 
