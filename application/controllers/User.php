@@ -24,7 +24,7 @@ class User extends MY_Controller
         $this->form_validation->set_message('users.email', 'Email already exist please try to ' . anchor('login', 'login', 'class="text-info"') . ' or register with new email');
         $this->form_validation->set_rules('firstname', 'Firstname', 'trim|required|min_length[2]|max_length[12]');
         $this->form_validation->set_rules('password1', 'Password', "trim|required|min_length[8]|max_length[30]|matches[password2]|regex_match[{$password_regex}]");
-        $this->form_validation->set_rules('password2', 'Confirm Password', 'trim|required|min_length[8]|max_length[30]|matches[password1]|regex_match[{$password_regex}]');
+        $this->form_validation->set_rules('password2', 'Confirm Password', 'trim|required|min_length[8]|max_length[30]|matches[password1]');
         $this->form_validation->set_rules('recaptcha', 'Recaptcha', "trim|required|callback_recaptcha");
         $this->form_validation->set_rules('terms', 'Terms', "trim|required");
 
@@ -58,10 +58,8 @@ class User extends MY_Controller
 
     function login()
     {
-        $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/';
-        
         $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[5]|max_length[50]|valid_email');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]|max_length[30]|regex_match[{$password_regex}]');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]|max_length[30]');
 
         if ($this->form_validation->run() == true) {
             $login = $this->mdl_user->check_login();

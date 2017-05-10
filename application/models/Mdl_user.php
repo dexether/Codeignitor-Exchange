@@ -512,6 +512,15 @@ class Mdl_user extends CI_Model
     {
         $oldpass = $this->input->post('oldpassword');
         $newpass = $this->input->post('newpassword');
+        $newpass1 = $this->input->post('newpassword1');
+
+        $pass_check = $this->valid_password($newpass, $newpass1);
+        if (!$pass_check['is_valid']) {
+            echo '<script>setTimeout("location.reload();", 1600)</script>';
+            echo $pass_check['error'];
+            return;
+        } 
+
         $new = password_hash($newpass, PASSWORD_DEFAULT);
         $custome_user_id = $this->session->user_id;
         $old = password_hash($oldpass, PASSWORD_DEFAULT);
@@ -539,6 +548,26 @@ class Mdl_user extends CI_Model
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }
         return $randomString;
+    }
+
+
+    private function valid_password($new_pass, $conf_new_pass) 
+    {
+        $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/';
+
+        if ($new_pass != $conf_new_pass) {
+            return ['is_valid'=>FALSE, 'error'=>'Passwords don\'t match.'];
+        }
+
+        if (strlen($new_pass) < 8) {
+            return ['is_valid'=>FALSE, 'error'=>'Password must be at least 8 characters long.'];
+        }
+
+        if (!preg_match($password_regex, $new_pass)) {
+            return ['is_valid'=>FALSE, 'error'=>'Provide at least 1 upper case, 1 lower case, 1 digit and 1 special character.'];
+        }
+
+        return ['is_valid'=>TRUE];
     }
 
 
