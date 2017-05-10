@@ -97,20 +97,40 @@ class Tools extends MY_Controller{
     }
 
 
-	public function show_passport_upload($upload_id){
+	public function show_passport_upload($upload_id)
+    {
 		$row = $this->get_user_verification_info(['passport' => $upload_id]);
         $this->output_file($row->passport_path, $row->passport_mimetype);
 	}
 
-	public function show_selfie_upload($upload_id){
+	public function show_selfie_upload($upload_id)
+    {
 		$row = $this->get_user_verification_info(['selfie' => $upload_id]);
         $this->output_file($row->selfie_path, $row->selfie_mimetype);
 	}
 
-	public function show_backcard_upload($upload_id){
+	public function show_backcard_upload($upload_id)
+    {
 		$row = $this->get_user_verification_info(['backcard' => $upload_id]);
         $this->output_file($row->backcard_path, $row->backcard_mimetype);
 	}
+
+
+    public function show_profile_picture($upload_id)
+    {
+        $res = $this->db->get_where('users', ['profilepicture' => $upload_id]);
+        if ($res->num_rows() === 0) {
+            show_404();
+            exit;
+        }
+        $row = $res->row();
+        $this->output_file($row->profilepicture_path, $row->profilepicture_mime);
+    }
+
+    public function deposit($user_id)
+    {
+
+    }
 }
 
 /* End of file Tools.php */

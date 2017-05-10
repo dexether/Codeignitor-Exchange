@@ -12,14 +12,13 @@ class Mdl_User_verification extends CI_Model {
 
 	protected function set_image_path($obj, $field_name)
 	{
-		$new_field_val = '';
 		if (!isset($obj->$field_name) || !$obj->$field_name){
-			$new_field_val = 'http://placehold.it/406x150';
+			$url = 'http://placehold.it/406x150';
 		} else {
-			$new_field_val =  base_url('tools/show_' . $field_name . '_upload/' . $obj->$field_name);
+			$url =  base_url('tools/show_' . $field_name . '_upload/' . $obj->$field_name);
 		}
 		$url_field = $field_name . '_url';
-		$obj->$url_field = $new_field_val;
+		$obj->$url_field = $url;
 	}
 
 	/**
@@ -41,7 +40,8 @@ class Mdl_User_verification extends CI_Model {
 
 	public function upload($file='')
 	{
-		$conf['upload_path']   = 'uploads';
+		$upload_path = FCPATH . '../application/uploads';
+		$conf['upload_path']   = $upload_path;
 		$conf['allowed_types'] = 'gif|jpg|png|pdf';
 		$conf['overwrite']     = FALSE;
 		$conf['max_size']      = 5000;
@@ -58,7 +58,8 @@ class Mdl_User_verification extends CI_Model {
 			'verification_trade'=>'unverified',
 			'user_id' => $this->session->user_id,
 			$file => $upload_data['raw_name'],
-			$file.'_path' => 'uploads/'.$upload_data['file_name'],
+//			$file.'_path' => 'uploads/'.$upload_data['file_name'],
+			$file.'_path' => $upload_data['full_path'],
 			$file.'_mimetype' => $upload_data['file_type'],
                              // $file.'_mimetype' => '',
 			];

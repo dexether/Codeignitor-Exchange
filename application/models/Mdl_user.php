@@ -292,12 +292,7 @@ class Mdl_user extends CI_Model
     function profile_update($data, $id)
     {
         $this->db->where('id', $id);
-        $res = $this->db->update('users', $data);
-        if ($res) {
-            echo "Your Personal Information Successfully updated";
-        } else {
-            echo "Error in Updation";
-        }
+        return $this->db->update('users', $data);
     }
 
     public function profile_details()
@@ -308,6 +303,13 @@ class Mdl_user extends CI_Model
         if ($query->num_rows() == 1) {
             return $query->row();
         }
+    }
+
+    public function get_by_profilepicture_id($profilepicture)
+    {
+        $this->db->where('profilepicture', $profilepicture);
+        $res = $this->db->get('users');
+        return $res ? $res->row() : false;
     }
 
     function check_tfa()
