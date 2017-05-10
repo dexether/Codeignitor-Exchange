@@ -38,7 +38,8 @@ $(document).ready(function () {
     $('#login_form').validate({
         rules: {
             email: {required: true, email: true},
-            password: {required: true, pwcheck: true},
+            //pwcheck disabled - reason: reset password doesnt have 1uppercase 1lowercase 1number and 1special-char for now  
+            password: {required: true/*, pwcheck: true*/},
             googleRechapatcha: {required: true}
         }
     });

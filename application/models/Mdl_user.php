@@ -157,7 +157,7 @@ class Mdl_user extends CI_Model
         $config['useragent'] = "guldentrader.com";
         $config['newline'] = "\r\n";
         $this->email->initialize($config);
-        $this->email->from(APP_SMTP_USER, APP_SMTP_HOST);
+        $this->email->from(APP_SMTP_USER, 'Guldentrader Exchange');
         $this->email->to($tomail);
         $this->email->reply_to(APP_SMTP_USER, APP_SMTP_HOST);
         $this->email->subject($email_subject);
@@ -496,7 +496,6 @@ class Mdl_user extends CI_Model
             $password = $this->generatepassword();
             $encpassword = password_hash($password, PASSWORD_DEFAULT);
             $vars['password'] = $password;
-            $vars['client_id'] = $row_pass->client_id;
             $vars['username'] = $firstname . " " . $lastname;
 
             $this->db->where('id', $getuser_id);

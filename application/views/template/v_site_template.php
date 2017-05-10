@@ -26,8 +26,8 @@
                     <?php if (!$this->session->user_id > 0) { ?>
                         <div class="col-md-8 col-sm-7 col-xs-8 col-lg-9">
                             <ul class="list-inline list-unstyled cls_top_login">
-                                <li><a href="login"> Login </a></li>
-                                <li><a href="register" class="active"> Register </a></li>
+                                <li><a href="<?php echo base_url(); ?>login"> Login </a></li>
+                                <li><a href="<?php echo base_url(); ?>register" class="active"> Register </a></li>
                             </ul>
                         </div>
                     <?php } else { ?>
