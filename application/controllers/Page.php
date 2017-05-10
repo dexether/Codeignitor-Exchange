@@ -11,6 +11,6 @@ class Page extends MY_Controller{
     public function terms() 
     {
         $this->data['content'] = $this->load->view('page/v_terms', null, true);
-        view($this->data);
+        view($this->data,'site');
     }
 }

@@ -126,6 +126,10 @@ class Tools extends MY_Controller{
         $this->output_file($row->profilepicture_path, $row->profilepicture_mime);
     }
 
+    public function deposit($user_id)
+    {
+        
+    }
 }
 
 /* End of file Tools.php */
