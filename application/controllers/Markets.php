@@ -51,7 +51,7 @@ class Markets extends MY_Controller{
 
             $user_id = $this->session->user_id;
             $data['my_open_orders'] = $this->mdl_trade->get_my_orders($data['currency_bid'], 'open', $user_id , 50);
-            $this->data['content'] .= $this->load->view('blocks/v_my_orders', $data, true);        
+            $this->data['content'] .= $this->load->view('blocks/v_my_orders', $data, true);
                     
             $data['order_history'] = $this->mdl_trade->get_my_orders($data['currency_bid'],'processed', $user_id , 50);
             $this->data['content'] .= $this->load->view('blocks/v_my_order_history', $data, true);
