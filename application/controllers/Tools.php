@@ -115,6 +115,7 @@ class Tools extends MY_Controller{
         $this->output_file($row->backcard_path, $row->backcard_mimetype);
 	}
 
+
     public function show_profile_picture($upload_id)
     {
         $res = $this->db->get_where('users', ['profilepicture' => $upload_id]);
@@ -126,6 +127,10 @@ class Tools extends MY_Controller{
         $this->output_file($row->profilepicture_path, $row->profilepicture_mime);
     }
 
+    public function deposit($user_id)
+    {
+
+    }
 }
 
 /* End of file Tools.php */
