@@ -509,7 +509,7 @@ class Mdl_user extends CI_Model
     }
 
     function change_password()
-    {
+    {   
         $oldpass = $this->input->post('oldpassword');
         $newpass = $this->input->post('newpassword');
         $newpass1 = $this->input->post('newpassword1');
@@ -531,6 +531,15 @@ class Mdl_user extends CI_Model
             $this->db->where('id', $custome_user_id);
             if ($this->db->update($this->table, ['password' => $new]) == true) {
                 echo "Your password changed Successfully";
+
+                $this->db->where('id', $this->session->user_id);
+                $query = $this->db->get('users');
+                $email = $query->row()->email;
+
+                $vars = ['username' => $this->session->firstname, 'password' => $newpass];
+                $email_content = $this->load->view('template/emails/v_change_password', $vars, TRUE);
+                $this->common_mail($email, 'Password change', $email_content);
+
             } else {
                 echo "Error in password updation";
             }
