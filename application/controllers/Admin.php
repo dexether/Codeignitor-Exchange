@@ -58,8 +58,8 @@ class Admin extends MY_Controller
 
 		$output = $crud->render();
 
-
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+        $this->l_asset->add('js/admin/user_profile.js', 'js');
 		view($this->data, 'admin');
 	}
 
@@ -74,9 +74,10 @@ class Admin extends MY_Controller
         if (!$user or !$user->profilepicture) {
             return $noImageText;
         }
+        $csrf_name = $this->security->get_csrf_token_name();
         $imgUrl = '/tools/show_profile_picture/' . $user->profilepicture;
         $img = '<img id="profilepicture_img" src="' . $imgUrl . '" class="img-responsive">';
-        $deleteBtn = '<div><a class="btn btn-warning">Remove profile picture</a></div>';
+        $deleteBtn = '<div><a id="profilepicture_delete_btn" class="btn btn-warning" data-csrf="' . $csrf_name . '" data-profilepicture="' . $user->profilepicture . '">Delete profile picture</a></div>';
 		return $img . $deleteBtn;
 	}
 
