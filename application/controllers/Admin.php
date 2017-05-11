@@ -37,9 +37,11 @@ class Admin extends MY_Controller
 		$crud->set_table('users');
 		$crud->set_subject('Manage Users');
 		$crud->columns('id','email','username','verfiyStatus','trade_verification','role');
-		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg','password');
+		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg','password','profilepicture_path', 'profilepicture_mime', 'profilepicture_remove_reason');
 
-		$crud->set_field_upload('profilepicture', $upload_path);
+		$crud->display_as('profilepicture', 'Profile picture');
+		$crud->callback_edit_field('profilepicture',
+								array($this, 'callback_edit_profilepicture'));
 
 		// types
 		$crud->change_field_type('password', 'password');
@@ -59,6 +61,23 @@ class Admin extends MY_Controller
 
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');
+	}
+
+
+	public function callback_edit_profilepicture($value, $user_id) {
+        $noImageText = '&lt;no image loaded&gt;';
+        $user_id = intval($user_id);
+        if (!$user_id) {
+            return $noImageText;
+        }
+        $user = $this->mdl_user->get_userdetails($user_id);
+        if (!$user or !$user->profilepicture) {
+            return $noImageText;
+        }
+        $imgUrl = '/tools/show_profile_picture/' . $user->profilepicture;
+        $img = '<img id="profilepicture_img" src="' . $imgUrl . '" class="img-responsive">';
+        $deleteBtn = '<div><a class="btn btn-warning">Remove profile picture</a></div>';
+		return $img . $deleteBtn;
 	}
 
 	public function callback_users_delete($primary_key)
