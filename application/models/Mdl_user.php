@@ -50,52 +50,75 @@ class Mdl_user extends CI_Model
 
     function check_login()
     {
-        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode,secret, status, password FROM `users` where email=?", array($this->input->post('email', true)));
+        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, secret, status, password FROM `users` where email=?", array($this->input->post('email', true)));
+
         if ($res_loguser->num_rows() == 1) {
             $row = $res_loguser->row();
 
             if ($row->status === 'deactive') {
                 return 'deactive';
             }
+
             if (password_verify($this->input->post('password', true), $row->password) === true) {
 
-                if ($row->randcode !== "disable") {
+                if ($row->randcode == "enable") {
                     //save some session data, so we know he is already logged in.
                     $sessiondata = array(
-                        'user_id' => $row->id,
-                        'firstname' => $row->firstname,
-                        'tfa' => $row->randcode,
+                        'pending_user_id' => $row->id,
+                        //'firstname' => $row->firstname,
+                        //'tfa' => $row->randcode,
                         'secret' => $row->secret,
-                        'status' => $row->status,
+                        //'status' => $row->status,
                         'role' => 'empty'
                     );
                     $this->session->set_userdata($sessiondata);
 
                     return 'enable';
-                } else {
-                    $sessiondata = array(
-                        'user_id' => $row->id,
-                        'firstname' => $row->firstname,
-                        'tfa' => $row->randcode,
-                        'randcode' => $row->secret,
-                        'status' => $row->status,
-                        'role' => $row->role
-                    );
-                    $this->session->set_userdata($sessiondata);
+                } 
+                    
+                $sessiondata = array(
+                    'user_id' => $row->id,
+                    'firstname' => $row->firstname,
+                    'tfa' => $row->randcode,
+                    'randcode' => $row->secret,
+                    'status' => $row->status,
+                    'role' => $row->role
+                );
+                $this->session->set_userdata($sessiondata);
 
-                    // send email
-                    $data = ['username' => $row->firstname];
-                    $message = $this->load->view('template/emails/v_success_login', $data, TRUE);
-                    $this->common_mail($this->input->post('email'), 'Login success', $message);
-                    return 'success';
-                }
+                // send email
+                $data = ['username' => $row->firstname];
+                $message = $this->load->view('template/emails/v_success_login', $data, TRUE);
+                $this->common_mail($this->input->post('email'), 'Login success', $message);
+                return 'success';
+                
+            
             } else {
                 return 'invalid';
             }
         } else {
             return "invalid";
         }
+    
+
     }
+    public function set_sesdata() 
+    {
+        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, secret, status, password FROM `users` where id=?", array($this->session->pending_user_id));
+        $row = $res_loguser->row();
+        $sessiondata = array(
+            'user_id' => $row->id,
+            'firstname' => $row->firstname,
+            'tfa' => $row->randcode,
+            'secret' => $row->secret,
+            'status' => $row->status,
+            'role' => $row->role
+        );
+        $this->session->set_userdata([]);
+        $this->session->set_userdata($sessiondata);
+        return;
+    }
+
 
     public function add_user()
     {

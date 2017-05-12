@@ -61,5 +61,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     'login' => 'user/login',
     'register' => 'user/register',
     'forget' => 'user/forget',
+    'tfa' => 'tfa/display',
     );
 

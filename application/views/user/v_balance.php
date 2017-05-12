@@ -20,4 +20,10 @@
   </div>
 </div>
 </div>
+
+<div class='row'>
+  <div class="col-md-3 col-sm-3 col-xs-12"> 
+    <div class="cls_hexa_vol"> <a href='<?php base_url() ;?>/funds/eur_withdraw' class='funds-link' >Withdraw EUR</a> </span>
+  </div>
+</div>
 </div>

@@ -9,7 +9,7 @@ echo '<div class="col-lg-12 col-sm-12 col-lg-offset-0 col-md-12 col-sm-12 col-md
 echo '<h1>',$this->lang->line('lng_u_deposit'),' ', $fund, '</h1>';
 echo '<div class="col-md-6 col-sm-6">';
 echo '<h2>iDeal</h2>';
-echo '<p>All EUR transfers are subject to a €1.00 bank fee</p>'
+echo '<p>All EUR transfers are subject to a €1.00 bank fee</p>';
 echo form_open('/funds/deposit/EUR');
 echo '<label>Bank</label>';
 echo '<select name="bank" required>';
