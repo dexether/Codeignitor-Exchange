@@ -375,8 +375,19 @@ class User extends MY_Controller
             exit;
         }
 
-        if ($user->id !== $user_id && !is_admin()) {
+        $is_admin = is_admin();
+
+        if ($user->id !== $user_id && !$is_admin) {
             echo $this->make_json_result('error', 'You have no rights to remove profile image!');
+            exit;
+        }
+
+        $profilepicture_remove_reason = $this->input->post('profilepicture_remove_reason', true);
+        $profilepicture_remove_reason = !$profilepicture_remove_reason ? '' : $profilepicture_remove_reason;
+
+        // only admin is allowed to set profile picture remove reason
+        if ($profilepicture_remove_reason && !$is_admin) {
+            echo $this->make_json_result('error', 'You have no rights to set profile picture removing reason!');
             exit;
         }
 
@@ -389,6 +400,9 @@ class User extends MY_Controller
                 'profilepicture_path' => '',
                 'profilepicture_mime' => ''
             ];
+            if ($profilepicture_remove_reason) {
+                $data['profilepicture_remove_reason'] = $profilepicture_remove_reason;
+            }
             $this->mdl_user->profile_update($data, $user->id);
             $params['profilepicture'] = ''; // sign of removed profile picture
         }
