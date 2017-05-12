@@ -13,6 +13,13 @@ $(document).ready(function() {
             data: data,
             dataType: 'json',
             success: function(data) {
+
+                console.log('data', data);
+
+                if (data.csrf_name && data.csrf_hash) {
+                    $('#crudForm input[name=' + data.csrf_name + ']').val(data.csrf_hash);
+                }
+
                 if (data.profilepicture !== undefined && data.profilepicture === '') {
 //                    $('#profile_picture_img_block').hide();
                 }

@@ -65,20 +65,37 @@ class Admin extends MY_Controller
 
 
 	public function callback_edit_profilepicture($value, $user_id) {
-        $noImageText = '&lt;no image loaded&gt;';
         $user_id = intval($user_id);
+        $noImage = false;
         if (!$user_id) {
-            return $noImageText;
+        	$noImage = true;
+        } else {
+	        $user = $this->mdl_user->get_userdetails($user_id);
+	        if (!$user or !$user->profilepicture) {
+	        	$noImage = true;
+	        }
         }
-        $user = $this->mdl_user->get_userdetails($user_id);
-        if (!$user or !$user->profilepicture) {
-            return $noImageText;
+        $csrf_token_name = $this->security->get_csrf_token_name();
+        if ($noImage) {
+        	$data = [
+        		'imgStyle' => 'style="display:none;"',
+        		'emptyStyle' => '',
+	        	'csrf_token_name' => $csrf_token_name,
+	        	'imgUrl' => '',
+        		'profilepicture' => ''
+	       	];
+        } else {
+        	$data = [
+        		'imgStyle' => '',
+        		'emptyStyle' => 'style="display:none;"',
+	        	'csrf_token_name' => $csrf_token_name,
+        		'imgUrl' => '/tools/show_profile_picture/' . $user->profilepicture,
+        		'profilepicture' => $user->profilepicture
+        	];
         }
-        $csrf_name = $this->security->get_csrf_token_name();
-        $imgUrl = '/tools/show_profile_picture/' . $user->profilepicture;
-        $img = '<img id="profilepicture_img" src="' . $imgUrl . '" class="img-responsive">';
-        $deleteBtn = '<div><a id="profilepicture_delete_btn" class="btn btn-warning" data-csrf="' . $csrf_name . '" data-profilepicture="' . $user->profilepicture . '">Delete profile picture</a></div>';
-		return $img . $deleteBtn;
+
+        $template = $this->load->view('admin/v_edit_profilepicture', $data, true);
+		return $template;
 	}
 
 	public function callback_users_delete($primary_key)
