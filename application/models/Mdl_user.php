@@ -4,6 +4,7 @@ class Mdl_user extends CI_Model
 {
 
     public $table = "users";
+    private $mailer;
 
     public function __construct()
     {
@@ -99,9 +100,9 @@ class Mdl_user extends CI_Model
         } else {
             return "invalid";
         }
-    
-
     }
+
+
     public function set_sesdata() 
     {
         $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, secret, status, password FROM `users` where id=?", array($this->session->pending_user_id));
@@ -158,7 +159,7 @@ class Mdl_user extends CI_Model
             $link = base_url() . 'user/user_verification/' . $verifydata['verifier'];
             $a = array('##USERNAME##' => $this->input->post('firstname', true), '##USERID##' => base64_encode($last_userinsid), '##CLIENTID##' => $email, '##PASSWORD##' => $this->input->post('password1'), '##FROM_EMAIL##' => 'exchange@guldentrader.com', '##COMPANYNAME##' => 'exchange.guldentrader.com', '##EMAIL##' => $email, '##SITEURL##' => base_url(), '##ADMIN_EMAIL##' => 'exchange@guldentrader.com', '##LINK##' => $link);
             $email_content = strtr($email_content1, $a);
-            $this->common_mail($email, $email_subject1, $email_content);
+            $this->mailer->common_mail($email, $email_subject1, $email_content);
             return true;
         }
 

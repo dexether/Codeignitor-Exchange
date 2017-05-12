@@ -133,11 +133,25 @@ class Funds extends MY_Controller{
         $data['content'] = $this->load->view('funds/v_eur_withdraw.php', $data, true);
         return $this->load->view('template/v_main_template', $data);
     }
+
     public function accept_withdraw()
     {
-        echo '1';
+        //var_dump($this->session->withdraw_conf);
+
+        if(!isset($this->session->withdraw_conf)) {
+            show_404();
+            return;
+        }
+
+        if($this->session->withdraw_conf !== true) {
+            show_404();
+            return;
+        }
+
+        $this->load->model('mdl_withdraw');
+        $this->mdl_withdraw->common_mail();        
     }
-        
+
     private function get_balance()
     {
         $data = array();

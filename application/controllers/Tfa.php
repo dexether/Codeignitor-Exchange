@@ -5,8 +5,8 @@ class TFA extends MY_Controller
     public $data;
 
     private $actions = [
-        'login' => 'markets/EUR-NLG',
-        'eur_withdraw' => 'x',
+        'login' => 'finish_login',
+        'eur_withdraw' => 'finish_withdraw',
     ];
 
     public function __construct()
@@ -26,20 +26,32 @@ class TFA extends MY_Controller
 
     function check_tfa($route)
     {
+        $method = $this->actions[$route];
+        $this->$method();
+    }
+    //after login set session data en redirevt to tfa
+    // check tfa against data in db. if correct, set role in sesson and redirect to market.
+    // if not correct the error then go to tfa again.
+    //  I think you can continue from here
+
+    private function finish_login()
+    {
         $this->load->model('mdl_user');
         $result = $this->mdl_user->check_tfa();
 
         if($result === true){
             $user = $this->mdl_user->get_userdetails($this->session->pending_user_id);
             $this->mdl_user->set_sesdata();
-            redirect($this->actions[$route]);
+            redirect('markets/EUR-NLG');
         }else{
             $this->session->set_flashdata('error', 'Wronge code number');
             redirect('tfa/display');
         }
     }
-    //after login set session data en redirevt to tfa
-    // check tfa against data in db. if correct, set role in sesson and redirect to market.
-    // if not correct the error then go to tfa again.
-    //  I think you can continue from here
+
+    private function finish_withdraw()
+    {
+        $this->session->withdraw_conf = true;
+        redirect('funds/accept_withdraw');
+    }
 }

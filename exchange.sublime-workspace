@@ -604,10 +604,7 @@
 	},
 	"expanded_folders":
 	[
-		"/E/server/htdocs/exchange",
-		"/E/server/htdocs/exchange/application",
-		"/E/server/htdocs/exchange/application/controllers",
-		"/E/server/htdocs/exchange/application/migrations"
+		"/var/www/exchange"
 	],
 	"file_history":
 	[
