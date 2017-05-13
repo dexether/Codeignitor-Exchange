@@ -786,6 +786,7 @@ a.funds-link {
 	background: #0094bb;
 	padding: 10px;
 	cursor: pointer;
+	border-radius: 3px;
 }
 
 div.widthdaw_form {
@@ -806,4 +807,13 @@ div.widthdaw_form button {
 	color: #fff;
 	border: 0px;
 	margin: 15px 0px;
+}
+
+
+div.funds_buttons_wrapper {
+	display: flex;
+	flex-wrap: wrap;
+}
+div.funds_buttons_wrapper div {
+	margin: 0 auto;
 }

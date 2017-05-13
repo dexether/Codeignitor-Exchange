@@ -51,7 +51,7 @@ class Withdraw extends MY_Controller
         }
 
         $data['currency'] = $currency_info;
-        $data['menu'] = $this->data['menu'];
+        $data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
         $data['content'] = $this->load->view('funds/v_eur_withdraw.php', $data, true);
         return $this->load->view('template/v_main_template', $data);
    	}

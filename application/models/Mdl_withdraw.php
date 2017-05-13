@@ -25,18 +25,11 @@ class Mdl_withdraw extends CI_Model {
 
         public function common_mail($info) 
         {
-                $query = $this->db->get_where('users', ['id' => $this->session->user_id]);
-                $user = $query->row();
+                $vars = $this->get_vars($info);
+                $tomail = $vars['tomail'];
+                unset($vars['tomail']);
 
-                $tomail = $user->email;
-                $vars['username'] = $user->firstname;
-                $vars['amount'] = $this->session->pending_curr['amount'];
-                $vars['currency'] = $this->session->pending_curr['type'];
-                $vars['purse'] = '--PURSE NAME--';
-                $vars['confirmlink'] = base_url() . '/withdraw/confirm_withdraw/' . $info['transaction'];
-                $vars['cancellink'] = base_url() . '/withdraw/cancel_withdraw/' . $info['transaction'];
-                $vars['ip'] = 'ip num';
-                $vars['login'] = $tomail;
+                $this->set_pending();
 
                 $content = $this->load->view('template/emails/v_header', [], TRUE);
                 $content .= $this->load->view('template/emails/v_withdrawal_confirmation.php', $vars, TRUE);
@@ -127,6 +120,46 @@ class Mdl_withdraw extends CI_Model {
                 $rnd = $rnd & $filter; // discard irrelevant bits
             } while ($rnd > $range);
             return $min + $rnd;
+        }
+
+        private function get_vars($info)
+        {
+            $query = $this->db->get_where('users', ['id' => $this->session->user_id]);
+            $user = $query->row();
+
+            $tomail = $user->email;
+
+            $vars['username'] = $user->firstname;
+            $vars['amount'] = $this->session->pending_curr['amount'];
+            $vars['currency'] = $this->session->pending_curr['type'];
+            $vars['purse'] = '--PURSE NAME--';
+            $vars['confirmlink'] = base_url() . '/withdraw/confirm_withdraw/' . $info['transaction'];
+            $vars['cancellink'] = base_url() . '/withdraw/cancel_withdraw/' . $info['transaction'];
+            $vars['ip'] = 'ip num';
+            $vars['login'] = $tomail;
+
+            return ['vars'=>$vars, 'tomail'=>$tomail];
+        }
+
+        private function set_pending()
+        {
+            $currency = $this->session->pending_curr['type']; 
+            $pending_currency = 'pending_' . $this->session->pending_curr['type']; 
+
+            $query = $this->db->get_where('balance', ['user_id' => $this->session->user_id]);
+            $pending = $query->row()->$pending_currency;
+            $amount = $query->row()->$currency;
+
+            $update_pending = (float)$pending + (float)$this->session->pending_curr['amount'];
+            $update_amount = (float)$amount - (float)$this->session->pending_curr['amount'];
+
+            $params = [ 
+                $currency => $update_amount, 
+                $pending_currency => $update_pending 
+            ];
+
+            $this->db->where('user_id', $this->session->user_id);
+            $query = $this->db->update('balance', $params); 
         }
 }
 
