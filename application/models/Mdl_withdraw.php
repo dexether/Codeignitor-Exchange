@@ -23,18 +23,18 @@ class Mdl_withdraw extends CI_Model {
                 return ['tfa_enabled'=>$tfa_enabled, 'bank_verified' =>$bank_verified];
 	}
 
-        public function common_mail() 
+        public function common_mail($info) 
         {
                 $query = $this->db->get_where('users', ['id' => $this->session->user_id]);
                 $user = $query->row();
 
                 $tomail = $user->email;
                 $vars['username'] = $user->firstname;
-                $vars['amount'] = 'xxx';
-                $vars['currency'] = 'EURY';
-                $vars['purse'] = 'EURY';
-                $vars['confirmlink'] = 'EURY';
-                $vars['cancellink'] = 'EURY';
+                $vars['amount'] = $this->session->amount;
+                $vars['currency'] = $this->session->currency;
+                $vars['purse'] = '--PURSE NAME--';
+                $vars['confirmlink'] = base_url() . '/withdraw/confirm_withdraw/' . $info['transaction'];
+                $vars['cancellink'] = base_url() . '/withdraw/cancel_withdraw/' . $info['transaction'];
                 $vars['ip'] = 'ip num';
                 $vars['login'] = $tomail;
 
@@ -63,8 +63,69 @@ class Mdl_withdraw extends CI_Model {
                 if ($send) {
                     return true;
                 } else {
-                    show_error($this->email->print_debugger());
+                    //show_error($this->email->print_debugger());
                 }   
+        }
+
+        public function withdraw_record () 
+        {       
+                $currency = [
+                        'EUR' => $this->session->userdata('pending_eur'),
+                        'GTS' => $this->session->userdata('pending_gts'),
+                        'NLG' => $this->session->userdata('pending_nlg'),
+                ];
+
+                $token = $this->getToken(rand(20,24));
+                $transaction = md5($this->session->firstname) . $token;
+
+                $params = [
+                        $this->session->user_id,
+                        (int)$currency['EUR'],
+                        (int)$currency['GTS'],
+                        (int)$currency['NLG'],
+                        $transaction,
+                        $token,
+                        0,
+                        0,
+                        date('Y-m-d', time()),
+                        date('Y-m-d', time()),
+                ];
+
+                var_dump($params);
+                $sql = "INSERT INTO `ciexcgt`.`withdrawal` (`user_id`, `EUR`, `GTS`, `NLG`, `transaction`, `token`, `status`, `verified`, `withdrawal_date`, `last_update`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                $this->db->query($sql, $params);
+
+                return ['token' => $token, 'transaction' => $transaction];
+        }
+
+        private function getToken($length)
+        {
+            $token = "";
+            $codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $codeAlphabet.= "abcdefghijklmnopqrstuvwxyz";
+            $codeAlphabet.= "0123456789";
+            $max = strlen($codeAlphabet);
+
+            for ($i=0; $i < $length; $i++) {
+                $token .= $codeAlphabet[$this->crypto_rand_secure(0, $max-1)];
+            }
+
+            return $token;
+        }
+
+        private function crypto_rand_secure($min, $max)
+        {
+            $range = $max - $min;
+            if ($range < 1) return $min; // not so random...
+            $log = ceil(log($range, 2));
+            $bytes = (int) ($log / 8) + 1; // length in bytes
+            $bits = (int) $log + 1; // length in bits
+            $filter = (int) (1 << $bits) - 1; // set all lower bits to 1
+            do {
+                $rnd = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes)));
+                $rnd = $rnd & $filter; // discard irrelevant bits
+            } while ($rnd > $range);
+            return $min + $rnd;
         }
 }
 

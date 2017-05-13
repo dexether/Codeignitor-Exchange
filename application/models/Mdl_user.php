@@ -66,10 +66,7 @@ class Mdl_user extends CI_Model
                     //save some session data, so we know he is already logged in.
                     $sessiondata = array(
                         'pending_user_id' => $row->id,
-                        //'firstname' => $row->firstname,
-                        //'tfa' => $row->randcode,
                         'secret' => $row->secret,
-                        //'status' => $row->status,
                         'role' => 'empty'
                     );
                     $this->session->set_userdata($sessiondata);
