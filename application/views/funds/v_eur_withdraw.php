@@ -2,11 +2,11 @@
 <div class="row">
   <div class="col-lg-12 col-sm-12 col-lg-offset-0 col-md-12 col-sm-12 col-md-offset-0">
     <div class="cls_balce_box">
-      <h3>Euro Withdraw</h3>
+      <h3><?php echo $currency['name']; ?> Withdraw</h3>
       <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-12">
-          <div class="cls_hexa_bg"> EUR   </div>
-          <div class="cls_hexa_vol"> <?php echo $EUR; ?>  </div>
+          <div class="cls_hexa_bg"> <?php echo $currency['name']; ?> </div>
+          <div class="cls_hexa_vol"> <?php echo $currency['balance']; ?>  </div>
         </div>
     </div>
     <div class='widthdaw_form'>

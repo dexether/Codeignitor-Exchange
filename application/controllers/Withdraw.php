@@ -6,6 +6,8 @@ class Withdraw extends MY_Controller
     private $status;
     private $status_error;
 
+    private $currencies = ['eur', 'nlg', 'gts'];
+
     public function __construct()
     {
         parent::__construct();
@@ -18,7 +20,7 @@ class Withdraw extends MY_Controller
         $this->status_check($this->mdl_withdraw->tfa_bank_status());
     }
 
-    public function eur_withdraw() 
+    public function currency_withdraw($currency = '') 
     {
     	if (!$this->status) {
     		$data['error'] = $this->status_error;
@@ -27,25 +29,28 @@ class Withdraw extends MY_Controller
         	return $this->load->view('template/v_main_template', $data);
     	}
 
-        $this->load->model('mdl_balance');
-        $balance = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'EUR');
-        $data['EUR'] = number_format($balance, 2);
+    	$currency_info = $this->check_currency($currency);
+
         $this->form_validation->set_rules('amount', 'Amount', 'trim|required|numeric');
 
         if ($this->form_validation->run() == true) {
             
             $amount = abs($this->input->post('amount'));
-            if ((float)$amount <= (float)$data['EUR'] && $amount !== 0) {
-                $this->session->pending_eur = $amount;
-                $this->session->pending_curr = 'EUR';
+            
+            if ((float)$amount <= (float)$currency_info['balance'] && $amount !== 0) {
+                
+                $this->session->pending_curr = [ 'type'=>$currency_info['name'] ,'amount'=>$amount ];
                 redirect('/tfa/display/eur_withdraw');
                 return;
             }
+
             $data['alert'] = '<p class="alert alert-danger">Amount not valid.</p>';
 
         } else {
             $data['alert'] = validation_errors('<p class="alert alert-danger">', '</p>');
         }
+
+        $data['currency'] = $currency_info;
         $data['menu'] = $this->data['menu'];
         $data['content'] = $this->load->view('funds/v_eur_withdraw.php', $data, true);
         return $this->load->view('template/v_main_template', $data);
@@ -101,7 +106,23 @@ class Withdraw extends MY_Controller
 
 	    	$this->status = TRUE;
 	    }
-	    
+
+	    private function check_currency($currency) 
+	    {
+	    	$currency = trim($currency);
+	    	if (!in_array($currency, $this->currencies)) {
+	    		show_404();
+	    		die();
+	    		return;
+	    	}
+
+	    	$currency = strtoupper($currency);
+	    	$this->load->model('mdl_balance');
+        	$balance = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id, $currency);
+        	$currency_info = [ 'name'=>$currency ,'balance'=>number_format($balance, 2)];
+        	return $currency_info;
+	    }
+
 	    private function index() {
 	        redirect('/');
 	    }

@@ -30,8 +30,8 @@ class Mdl_withdraw extends CI_Model {
 
                 $tomail = $user->email;
                 $vars['username'] = $user->firstname;
-                $vars['amount'] = $this->session->amount;
-                $vars['currency'] = $this->session->currency;
+                $vars['amount'] = $this->session->pending_curr['amount'];
+                $vars['currency'] = $this->session->pending_curr['type'];
                 $vars['purse'] = '--PURSE NAME--';
                 $vars['confirmlink'] = base_url() . '/withdraw/confirm_withdraw/' . $info['transaction'];
                 $vars['cancellink'] = base_url() . '/withdraw/cancel_withdraw/' . $info['transaction'];
@@ -70,11 +70,12 @@ class Mdl_withdraw extends CI_Model {
         public function withdraw_record () 
         {       
                 $currency = [
-                        'EUR' => $this->session->userdata('pending_eur'),
-                        'GTS' => $this->session->userdata('pending_gts'),
-                        'NLG' => $this->session->userdata('pending_nlg'),
+                        'EUR' => 0,
+                        'GTS' => 0,
+                        'NLG' => 0,
                 ];
 
+                $currency[$this->session->pending_curr['type']] = $this->session->pending_curr['amount']; 
                 $token = $this->getToken(rand(20,24));
                 $transaction = md5($this->session->firstname) . $token;
 
