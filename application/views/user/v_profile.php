@@ -52,6 +52,11 @@
                   <a id="profilepicture_delete_btn" data-csrf="<?php echo $csrf_token_name;?>" data-profilepicture="<?php echo $profile->profilepicture;?>"
                      class="btn btn-danger" href="#">Delete profile picture</a>
                 </div>
+                <?php if ($profile->profilepicture_remove_reason) { ?>
+                <div id="profile_picture_remove_reason_block">
+                  Reason for removal: <b><?php echo $profile->profilepicture_remove_reason; ?></b>
+                </div>
+                <?php } ?>
                 <input type="file" class="form-control" id="profile_picture" name="profilepicture">
             </div>
           </div>

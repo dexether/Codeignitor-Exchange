@@ -332,6 +332,7 @@ class User extends MY_Controller
             $data['profilepicture']      = $result['data']['raw_name'];
             $data['profilepicture_path'] = $result['data']['full_path'];
             $data['profilepicture_mime'] = $result['data']['file_type'];
+            $data['profilepicture_remove_reason'] = '';
             $params['profilepicture']    = $data['profilepicture'];
 
             $current_data = $this->mdl_user->profile_details();

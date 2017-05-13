@@ -34,6 +34,7 @@ $(document).ready(function() {
                         $('#personal_form input[name=' + data.csrf_name + ']').val(data.csrf_hash);
                     }
                     if (data.profilepicture !== undefined) {
+                        $('#profile_picture_remove_reason_block').hide();
                         if (data.profilepicture === '') {
                             $('#profile_picture_img_block').hide();
                         } else {
@@ -79,6 +80,7 @@ $(document).ready(function() {
                     $('#personal_form input[name=' + data.csrf_name + ']').val(data.csrf_hash);
                 }
                 if (data.profilepicture !== undefined && data.profilepicture === '') {
+                    $('#profile_picture_remove_reason_block').hide();
                     $('#profile_picture_img_block').hide();
                 }
                 if (data.status === 'ok') {
