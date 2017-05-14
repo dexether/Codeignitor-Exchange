@@ -32,10 +32,10 @@ class Markets extends MY_Controller{
             $this->load->model('mdl_balance');
             $data['balance'] = $this->mdl_balance->currency_balance();
             
-            //$this->data['content'] = $this->load->view('charts/v_chart_nlg', $data, true);
+            $this->data['content'] = $this->load->view('charts/v_chart_nlg', $data, true);
             
             //test data!
-            //$this->l_asset->add('//cdn.anychart.com/csv-data/csco-daily.js', 'js');
+            $this->l_asset->add('//cdn.anychart.com/csv-data/csco-daily.js', 'js');
             $this->l_asset->add('/js/trade/trade.js', 'js');
 
             $this->data['content'] .= $this->load->view('blocks/v_bid_ask', $data, true);

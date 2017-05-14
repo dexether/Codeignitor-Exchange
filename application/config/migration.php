@@ -70,6 +70,7 @@ $config['migration_auto_latest'] = true;
 |
 */
 $config['migration_version'] = 6;
+
 /*
 |--------------------------------------------------------------------------
 | Migrations Path
