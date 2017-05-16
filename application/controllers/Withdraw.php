@@ -9,7 +9,7 @@ class Withdraw extends MY_Controller
     private $status_error;
 
     // allowed currencies, see private function check_currency()
-    private $currencies = ['eur', 'nlg', 'gts'];
+    private $currencies = ['eur', 'nlg'];
 
 
     public function __construct()
