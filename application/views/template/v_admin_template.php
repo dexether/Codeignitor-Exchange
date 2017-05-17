@@ -118,6 +118,8 @@
 					<li><a href="<?php echo site_url() ?>"> Visite Website</a></li>
 					<li><a href="<?php echo site_url('admin') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 					<li><a href="<?php echo site_url('admin/users') ?>"><i class="fa fa-users"></i> Manager Users</a></li>
+					<li><a href="<?php echo site_url('admin/fees') ?>"><i class="fa fa fa-eur"></i> Fees</a></li>
+
 				</ul>
 			</section>
 			<!-- /.sidebar -->

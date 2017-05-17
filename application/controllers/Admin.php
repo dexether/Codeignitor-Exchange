@@ -262,5 +262,13 @@ class Admin extends MY_Controller
 		return $value;
 	}
 
+
+	public function fees()
+	{
+		auth(['admin','superadmin']);
+		$this->data['content'] = $this->load->view('admin/v_fees',[], true);
+		view($this->data, 'admin');
+	}
+
 }
 
