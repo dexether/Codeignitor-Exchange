@@ -270,5 +270,32 @@ class Admin extends MY_Controller
 		view($this->data, 'admin');
 	}
 
+
+	public function open_fees()
+	{
+		auth(['admin','superadmin']);
+		$this->data['content'] = $this->load->view('admin/v_open_fees',[], true);
+		view($this->data, 'admin');
+	}
+
+
+	public function closed_fees()
+	{
+		auth(['admin','superadmin']);
+		$this->data['content'] = $this->load->view('admin/v_closed_fees',[], true);
+		view($this->data, 'admin');
+	}
+
+	public function dividends()
+	{
+		auth(['admin','superadmin']);
+		$this->data['content'] = $this->load->view('admin/v_dividends',[], true);
+		view($this->data, 'admin');
+	}
+
+
+
+
+
 }
 

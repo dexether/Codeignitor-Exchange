@@ -61,5 +61,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     'login' => 'user/login',
     'register' => 'user/register',
     'forget' => 'user/forget',
+    'admin/fees/open_fees' => 'admin/open_fees',
+    'admin/fees/closed_fees' => 'admin/closed_fees',
+    'admin/fees/dividends' => 'admin/dividends',
     );
 
