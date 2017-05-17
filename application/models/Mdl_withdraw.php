@@ -95,6 +95,23 @@ class Mdl_withdraw extends CI_Model {
         return ['token' => $token, 'transaction' => $transaction];
     }
 
+    public function cancel_withdraw($pending_currency, $currency, $update_amount)
+    {
+        $query = $this->db->get_where('balance', ['user_id' => $this->session->user_id]);
+        $pending = $query->row()->$pending_currency;
+        $amount = $query->row()->$currency;
+
+        $update_pending = (float)$pending - (float)$update_amount;
+        $update_amount = (float)$amount + (float)$update_amount;
+
+        $params = [ 
+            $currency => $update_amount, 
+            $pending_currency => $update_pending 
+        ];
+
+        $this->db->where('user_id', $this->session->user_id);
+        $query = $this->db->update('balance', $params); 
+    }
 
     //=======================================================================
     // PRIVATE FUNCTIONS
@@ -118,7 +135,7 @@ class Mdl_withdraw extends CI_Model {
     }
 
 
-    // fot getToken
+    // for getToken
     private function crypto_rand_secure($min, $max)
     {
         $range = $max - $min;
@@ -178,8 +195,7 @@ class Mdl_withdraw extends CI_Model {
         $query = $this->db->update('balance', $params); 
     }
 
-
-
+    
 
 }
 
