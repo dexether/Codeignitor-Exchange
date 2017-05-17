@@ -61,6 +61,22 @@ class Admin extends MY_Controller
 		view($this->data, 'admin');
 	}
 
+	public function withdraw()
+	{
+		auth(['admin','superadmin']);
+        $upload_path = 'uploads';
+
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('withdrawal');
+		$crud->set_subject('Manage Withdrawals');
+		$crud->columns('user_id', 'EUR', 'GTS', 'NLG', 'transaction', 'status', 'verified', 'withdrawal_date');
+
+		$output = $crud->render();
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		view($this->data, 'admin');
+	}
+
 	public function callback_users_delete($primary_key)
 	{
 		// get user
