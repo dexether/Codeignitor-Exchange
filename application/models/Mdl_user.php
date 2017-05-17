@@ -104,6 +104,7 @@ class Mdl_user extends CI_Model
     {
         $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, secret, status, password FROM `users` where id=?", array($this->session->pending_user_id));
         $row = $res_loguser->row();
+        $this->session->pending_user_id = NULL;
         $sessiondata = array(
             'user_id' => $row->id,
             'firstname' => $row->firstname,

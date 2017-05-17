@@ -34,7 +34,7 @@ class Mdl_withdraw extends CI_Model {
         $this->set_pending();
 
         $content = $this->load->view('template/emails/v_header', [], TRUE);
-        $content .= $this->load->view('template/emails/v_withdrawal_confirmation.php', $vars, TRUE);
+        $content .= $this->load->view('template/emails/v_withdrawal_confirmation.php', $vars['vars'], TRUE);
         $content .= $this->load->view('template/emails/v_footer', [], TRUE);
 
         $this->load->library('email');
@@ -83,13 +83,12 @@ class Mdl_withdraw extends CI_Model {
                 (int)$currency['NLG'],
                 $transaction,
                 $token,
-                0,
+                'activate',
                 0,
                 date('Y-m-d', time()),
                 date('Y-m-d', time()),
         ];
 
-        var_dump($params);
         $sql = "INSERT INTO `ciexcgt`.`withdrawal` (`user_id`, `EUR`, `GTS`, `NLG`, `transaction`, `token`, `status`, `verified`, `withdrawal_date`, `last_update`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         $this->db->query($sql, $params);
 

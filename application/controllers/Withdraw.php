@@ -77,25 +77,56 @@ class Withdraw extends MY_Controller
             show_404();
             return;
         }
-
+  
         $this->load->model('mdl_withdraw');
         $vars = $this->mdl_withdraw->withdraw_record();
-        $this->mdl_withdraw->common_mail($vars);        
+        $this->mdl_withdraw->common_mail($vars); 
+
+        // Set some session data to null so user can't withdraw 2 times in row by accident
+        $this->session->pending_curr = NULL;  
+        $this->session->withdraw_conf = NULL;
+
+        $content = 'Your transaction has been successfully created. Email confirmation has been sent to your email address.';  
+        $vars['message'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> '.$content.' <br/></div>';
+        $data['content'] = $this->load->view('funds/v_withdraw_message', $vars, TRUE);  
+        $this->load->view('template/v_main_template', $data);
     }
 
 
 
     public function confirm_withdraw ($transaction) 
     {
-        echo 'confirm<br>';
-        echo $transaction;
+        $query = $this->db->query('SELECT * FROM `withdrawal` WHERE `transaction` = ? AND `user_id` = ? AND status = "activate"', [$transaction, $this->session->user_id]);
+        
+        if (!$query->row()) {
+            show_404();
+            return;
+        }
+
+        $query = $this->db->query("UPDATE `ciexcgt`.`withdrawal` SET `status`='pending' WHERE `id` = ? and`user_id` = ?", [$query->row()->id, $this->session->user_id]);
+        
+        $content = 'Your transaction has been successfully activated.';  
+        $vars['message'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> '.$content.'</div>';
+        $data['content'] = $this->load->view('funds/v_withdraw_message', $vars, TRUE); 
+        $this->load->view('template/v_main_template', $data);  
     }
 
 
     public function cancel_withdraw ($transaction) 
     {
-        echo 'cancel<br>';
-        echo $transaction;
+        $query = $this->db->query('SELECT * FROM `withdrawal` WHERE `transaction` = ? AND `user_id` = ? AND status = "activate"', [$transaction, $this->session->user_id]);
+        
+        if (!$query->row()) {
+            show_404();
+            return;
+        }
+
+        $query = $this->db->query("UPDATE `ciexcgt`.`withdrawal` SET `status`='cancel' WHERE `id` = ? and`user_id` = ?", [$query->row()->id, $this->session->user_id]);
+
+        $content = 'Your transaction has been successfully canceled.' ; 
+        $vars['message'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> '.$content.' <br/></div>';
+        $data['content'] = $this->load->view('funds/v_withdraw_message', $vars, TRUE);
+        $this->load->view('template/v_main_template', $data);
     }
 
 

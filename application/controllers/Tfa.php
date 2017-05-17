@@ -55,25 +55,30 @@ class TFA extends MY_Controller
     }
 
 
-    private function finish_login()
-    {
-        $user = $this->mdl_user->get_userdetails($this->session->pending_user_id);
-        $this->mdl_user->set_sesdata();
-        redirect('markets/EUR-NLG');  
-    }
-    //after login set session data en redirevt to tfa
-    // check tfa against data in db. if correct, set role in sesson and redirect to market.
-    // if not correct the error then go to tfa again.
-    //  I think you can continue from here
-
 
 
     //=======================================================================
     // PRIVATE FUNCTIONS
     //=======================================================================
 
+    private function finish_login()
+    {
+        $user = $this->mdl_user->get_userdetails($this->session->pending_user_id);
+        $this->mdl_user->set_sesdata();
+        redirect('markets/EUR-NLG');  
+    }
+    //after login set session data en redirect to tfa
+    // check tfa against data in db. if correct, set role in sesson and redirect to market.
+    // if not correct the error then go to tfa again.
+    //  I think you can continue from here
+
     private function finish_withdraw()
     {
+        if (!isset($this->session->pending_curr)) {
+            $this->session->set_flashdata('error', 'Currency and amount not set.');
+            redirect('tfa/display/' . $route);
+        }
+
         $this->session->withdraw_conf = true;
         redirect('withdraw/accept_withdraw');
     }
