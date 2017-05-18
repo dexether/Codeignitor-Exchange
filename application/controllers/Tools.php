@@ -127,7 +127,70 @@ class Tools extends MY_Controller{
         $this->output_file($row->profilepicture_path, $row->profilepicture_mime);
     }
 
+
     public function deposit($user_id)
+    {
+        \Paynl\Config::setApiToken('323b8ef7bfc81e41cf88d63a64e3e86e5d845ab5');
+
+        $transaction = \Paynl\Transaction::getForReturn();
+        $this->load->helper('url');
+
+        if($transaction->isPaid()) {
+
+            $amount = $transaction->getPaidAmount();
+            $transaction_id = $transaction->getId();
+            $description = $transaction->getDescription();
+            $date = date('Y-m-d', time());
+
+            $this->load->model('mdl_deposit');
+            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, $date, $description);
+
+            redirect(base_url() . 'tools/deposit_result/true');
+        }
+
+        if($transaction->isPending()) {
+
+            redirect(base_url() . 'tools/deposit_result/pending');
+        }
+
+        if ($transaction->isCanceled()) {
+
+            redirect(base_url() . 'tools/deposit_result/false');
+        } 
+
+        
+    }
+
+    public function deposit_result($status = null)
+    {
+        if (!isset($status) OR !in_array($status, ['true', 'false', 'pending'])) {
+            show_404();
+            return;
+        }
+
+        if ($status == 'true') {
+            $vars['message'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> Your deposit transaction is successful. All your transactions can be seen here.<br/></div>';
+            $data['content'] = $this->load->view('deposit/v_deposit_message', $vars, TRUE);
+            $this->load->view('template/v_site_template', $data);
+            return;
+        }
+
+        if ($status == 'pending') {
+            $vars['message'] = 'Your deposit transaction is pending.';
+            $data['content'] = $this->load->view('deposit/v_deposit_message', $vars, TRUE);
+            $this->load->view('template/v_site_template', $data);
+            return;
+        }
+
+        $vars['message'] = 'Your deposit transaction is not successful.';
+        $data['content'] = $this->load->view('deposit/v_deposit_message', $vars, TRUE);
+        $this->load->view('template/v_site_template', $data);
+            
+
+
+    }
+
+    public function silent_exchange ($user_id)
     {
 
     }

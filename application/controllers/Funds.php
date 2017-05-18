@@ -52,7 +52,8 @@ class Funds extends MY_Controller{
                     $result = Paynl\Transaction::start(array(
     
                         'amount' => $i['amount'],
-                        'returnUrl' => APP_BASE_URL."/tools/deposit/".$this->session->user_id,
+                        'returnUrl' => APP_BASE_URL."tools/deposit/".$this->session->user_id,
+                        'exchangeUrl' => APP_BASE_URL.'tools/silent_exchange/'.$this->session->user_id,
                         'paymentMethod' => 10,
                         'bank'=>$this->input->post('bank')
                     ));
@@ -64,8 +65,8 @@ class Funds extends MY_Controller{
 
                      $i['deposit_code'] = $transactionId;
 
-                     /*
-                     $fields = [];
+                    /*
+                    $fields = [];
                     $fields['id'] = ['type' => 'INT','constraint' => 11,'auto_increment' => true];
                     $fields['user_id'] = ['type' => 'INT','constraint' => 11];
                     $fields['EUR'] = ['type' => 'DECIMAL','constraint' => 18,8];
@@ -75,11 +76,11 @@ class Funds extends MY_Controller{
                     $fields['deposit_date'] = ['type' => 'DATE'];
                     $fields['last_update'] = ['type' => 'timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'];
                     */
-                     //insert into 
-                     $mdl_gc -> insert($i);
+                    //insert into 
+                    //$mdl_gc -> insert($i);
 
-                     redirect($redirect);
-                     exit();
+                    redirect($redirect);
+                    exit();
 
                  } else {
                      $data['alert'] = validation_errors('<p class="alert alert-danger">', '</p>');

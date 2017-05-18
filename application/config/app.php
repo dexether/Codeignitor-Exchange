@@ -23,7 +23,7 @@ defined('GULDEN_ACCOUNT') 	OR define('GULDEN_ACCOUNT', 'exchange');
 
 
 defined('PAYAPITOKEN') or define('PAYAPITOKEN', '323b8ef7bfc81e41cf88d63a64e3e86e5d845ab5');
-defined('PAYSERVICEID') or define('PAYSERVICEID', 'SL-8418-8740');
+defined('PAYSERVICEID') or define('PAYSERVICEID', 'SL-7450-1950');
 
 defined('FEE') or define('FEE', '0.25');
 defined('MARKETS') or define('MARKETS', array('EUR-NLG', 'GTS-NLG'));
