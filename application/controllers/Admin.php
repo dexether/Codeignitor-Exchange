@@ -274,7 +274,14 @@ class Admin extends MY_Controller
 	public function open_fees()
 	{
 		auth(['admin','superadmin']);
-		$this->data['content'] = $this->load->view('admin/v_open_fees',[], true);
+
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('open_fees');
+		$crud->set_subject('Open fee');
+		$output = $crud->render();
+
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');
 	}
 

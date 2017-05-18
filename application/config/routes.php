@@ -62,7 +62,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     'register' => 'user/register',
     'forget' => 'user/forget',
     'admin/fees/open_fees' => 'admin/open_fees',
+    'admin/fees/open_fees/(:any)' => 'admin/open_fees/$1',
+    'admin/fees/open_fees/(:any)/(:any)' => 'admin/open_fees/$1/$2',
+    'admin/fees/open_fees/(:any)/(:any)/(:any)' => 'admin/open_fees/$1/$2/$3',
+
     'admin/fees/closed_fees' => 'admin/closed_fees',
+    'admin/fees/closed_fees/(:any)' => 'admin/closed_fees/$1',
+    'admin/fees/closed_fees/(:any)/(:any)' => 'admin/closed_fees/$1/$2',
+    'admin/fees/closed_fees/(:any)/(:any)/(:any)' => 'admin/closed_fees/$1/$2/$3',
+
     'admin/fees/dividends' => 'admin/dividends',
+    'admin/fees/dividends/(:any)' => 'admin/dividends/$1',
+    'admin/fees/dividends/(:any)/(:any)' => 'admin/dividends/$1/$2',
+    'admin/fees/dividends/(:any)/(:any)/(:any)' => 'admin/dividends/$1/$2/$3',
     );
 
