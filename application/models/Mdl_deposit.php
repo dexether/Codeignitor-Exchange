@@ -68,11 +68,13 @@ class mdl_deposit extends CI_Model
         }
     }
 
-    public function deposit_record_EUR($user_id, $amount, $transaction, $date, $description) 
+    public function deposit_record_EUR($user_id, $amount, $transaction, $status, $date, $description) 
     {
-        $this->db->query('INSERT INTO `deposits`(`user_id`, `EUR`, `GTS`, `NLG`, `transaction`, `verified`, `deposit_date`, `last_update`, `description`, `dividend_id`) VALUES (?, ?, 0, 0, ?, "true", ?, ?, ?, "standard")', [$user_id, $amount, $transaction, $date, $date, $description]);
+        $this->db->query('INSERT INTO `deposits`(`user_id`, `EUR`, `GTS`, `NLG`, `transaction`, `verified`, `deposit_date`, `last_update`, `description`, `dividend_id`) VALUES (?, ?, 0, 0, ?, ?, ?, ?, ?, "standard")', [$user_id, $amount, $transaction, $status, $date, $date, $description]);
 
-        $this->update_balance($user_id, $amount);
+        if ($status == 'true') {
+            $this->update_balance($user_id, $amount);
+        }
     }
 
     private function update_balance($user_id, $amount)
@@ -83,7 +85,7 @@ class mdl_deposit extends CI_Model
         $eur_balance += $amount-1;
 
         $this->db->query("UPDATE `ciexcgt`.`balance` SET `EUR`=? WHERE `user_id`=?;
-", [$eur_balance, $user_id]);
+        ", [$eur_balance, $user_id]);
     }
 
 }

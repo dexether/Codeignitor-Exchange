@@ -143,7 +143,7 @@ class Tools extends MY_Controller{
             $date = date('Y-m-d', time());
 
             $this->load->model('mdl_deposit');
-            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, $date, $description);
+            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'true',$date, $description);
 
             redirect(base_url() . 'tools/deposit_result/true');
         }
@@ -155,7 +155,12 @@ class Tools extends MY_Controller{
 
         if ($transaction->isCanceled()) {
 
-            //record failed deposit
+            $amount = $transaction->getPaidAmount();
+            $transaction_id = $transaction->getId();
+            $description = $transaction->getDescription();
+            $date = date('Y-m-d', time());
+            $this->load->model('mdl_deposit');
+            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'false',$date, $description);
             redirect(base_url() . 'tools/deposit_result/false');
         } 
 
@@ -186,9 +191,7 @@ class Tools extends MY_Controller{
         $vars['message'] = 'Your deposit transaction is not successful.';
         $data['content'] = $this->load->view('deposit/v_deposit_message', $vars, TRUE);
         $this->load->view('template/v_site_template', $data);
-            
-
-
+   
     }
 
     public function silent_exchange ($user_id)
@@ -204,6 +207,9 @@ class Tools extends MY_Controller{
             $transaction_id = $transaction->getId();
             $description = $transaction->getDescription();
             $date = date('Y-m-d', time());
+            
+            $this->load->model('mdl_deposit');
+            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'true',$date, $description);
         }
 
         if ($transaction->isCanceled()) {
