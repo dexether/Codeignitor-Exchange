@@ -115,7 +115,8 @@
 <script src="<?php echo base_url(); ?>js/numericInput.min.js"></script>
 <script src="<?php echo base_url(); ?>js/base.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
-<script src="<?php echo base_url(); ?>js/sc.js"></script>
+<!--<script src="<?php echo base_url(); ?>js/sc.js"></script>-->
+<script src="<?php echo base_url(); ?>js/socket-service.js"></script>
 <?php if(isset($head_js)) echo $head_js; ?>
 </body>
 </html>
