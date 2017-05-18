@@ -155,6 +155,7 @@ class Tools extends MY_Controller{
 
         if ($transaction->isCanceled()) {
 
+            //record failed deposit
             redirect(base_url() . 'tools/deposit_result/false');
         } 
 
@@ -192,7 +193,23 @@ class Tools extends MY_Controller{
 
     public function silent_exchange ($user_id)
     {
+        \Paynl\Config::setApiToken('323b8ef7bfc81e41cf88d63a64e3e86e5d845ab5');
 
+        $transaction = \Paynl\Transaction::getForReturn();
+        $this->load->helper('url');
+
+        if($transaction->isPaid()) {
+
+            $amount = $transaction->getPaidAmount();
+            $transaction_id = $transaction->getId();
+            $description = $transaction->getDescription();
+            $date = date('Y-m-d', time());
+        }
+
+        if ($transaction->isCanceled()) {
+
+            //record failed deposit
+        } 
     }
 }
 
