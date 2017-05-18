@@ -98,6 +98,6 @@
 <script src="<?php echo base_url('js/chart_nlg.js'); ?>"></script>
 <script src="<?php echo base_url('js/jquery.nicescroll.min.js'); ?>"></script>
 <script src="<?php echo base_url('js/jquery.validate.min.js'); ?>"></script>
-<?php if (isset($head_js)) echo $head_js; ?>
+//<?php if (isset($head_js)) echo $head_js; ?>
 </body>
 </html>
