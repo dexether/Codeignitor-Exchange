@@ -279,6 +279,12 @@ class Admin extends MY_Controller
 
 		$crud->set_table('open_fees');
 		$crud->set_subject('Open fee');
+        $crud->set_relation('user_id', 'users', '{firstname} {lastname}<br> ({email})');
+        $crud->display_as('user_id', 'User');
+
+        $crud->required_fields('user_id');
+        $crud->unset_columns('table');
+
 		$output = $crud->render();
 
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
