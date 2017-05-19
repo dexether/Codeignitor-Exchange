@@ -59,7 +59,6 @@ var Table = function () {
             table = element;
             var messageTemplate = '<tr><th>Sum</th><th>Total</th><th>Size (NLG)</th><th>Bid (BTC)</th></tr>';
             var row = '+';
-            console.log(countRow);
             for(var i = 0; i < countRow; i++){
                 row = '<tr class="row-' + i + '"><td></td><td> </td><td> </td><td> </td></tr>';
                 messageTemplate += row;

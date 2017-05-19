@@ -54,10 +54,6 @@ module.exports = {
         var io = iosocket(app);
 
         io.on('connection', function (socket) {
-            //Set up the room = 'GTS-NLG' (default)
-            socket.room = 'GTS-NLG';
-            socket.join('GTS-NLG');
-            io.sockets.in('GTS-NLG').emit('message', "You are in room GTS-NLG");
             console.log('new connection is add at ', new Date());
             console.log(Object.keys(io.engine.clients));
 

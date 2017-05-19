@@ -1,4 +1,4 @@
-console.log('sc is working');
+
 if (!window.WebSocket) {
     document.body.innerHTML = 'WebSocket в этом браузере не поддерживается.';
 }

@@ -1,8 +1,7 @@
 'use strict';
 
-console.log('sc is working');
 if (!window.WebSocket) {
-    alert('our browser does not support WebSocket.');
+    alert('Your browser does not support WebSocket.');
 }
 
 
@@ -13,6 +12,13 @@ console.log(pathname);
 
 import Config from '../config';
 var rooms = Config['rooms'];
+var room;
+rooms.forEach(function(element) {
+    if (pathname.indexOf(element) >= 0) {
+        room = element;
+        console.log('You`re jioned to the room '+ room);
+    };
+});
 
 import Table from './services/createTable';
 
@@ -34,6 +40,8 @@ ask.createTable($('#table-ask'));
 // create connection
 var socket = io.connect('http://localhost:8080');
 socket.on('connect', function () {
+    socket.emit('room', room);
+    
     socket.on('message', function (msg) {
         console.log(msg);
     });
@@ -45,10 +53,6 @@ socket.on('connect', function () {
     socket.on('bids', function (msg) {
        bids.updateValue(msg);
     });
-
-    document.querySelector('#buy_button').onclick = function () {
-        socket.emit('room', 'EUR-NLG');
-    };
 });
 
 
