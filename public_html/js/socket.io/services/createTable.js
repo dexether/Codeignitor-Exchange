@@ -3,6 +3,7 @@ var Table = function () {
     var tableValue = [];
     var pageNumber = 1;
     var pageCount = 1;
+    var countRow = 6;
 
     function changePageView() {
         $(table).find('.page-number').text(pageNumber + " / " + pageCount);
@@ -12,9 +13,9 @@ var Table = function () {
     function updateTable() {
         changePageView();
 
-        var count = (pageCount !== pageNumber) ? 6 : Math.round(10 * tableValue.length / 6) - Math.round(tableValue.length / 6);
-        var data = tableValue.splice((pageNumber - 1) * 6, count);
-        for (var i = 0; i < 6; i++) {
+        var count = (pageCount !== pageNumber) ? countRow : Math.round(10 * tableValue.length / countRow) - Math.round(tableValue.length / countRow);
+        var data = tableValue.splice((pageNumber - 1) * countRow, count);
+        for (var i = 0; i < countRow; i++) {
             if (data[i]) {
                 var bid = '<tr><td>' + Math.round(data[i]['sum'] * 10000) / 10000 + '</td>\n\
                         <td>' + Math.round(data[i]['total'] * 10000) / 10000 + '</td>\n\
@@ -27,7 +28,7 @@ var Table = function () {
                         <td></td></tr>';
             }
             ;
-            $(table).find('tr:eq( ' + (i + 2) + ')').replaceWith(bid);
+            $(table).find('tr:eq( ' + (i + 1) + ')').replaceWith(bid);
 
         }
         ;
@@ -36,13 +37,17 @@ var Table = function () {
 
 
     return {
+        setCount: function (newValue) {
+            countRow = newValue;
+        },
+
         updateValue: function (value) {
             tableValue = value;
 
-            if ((value.length % 6 === 0))
-                pageCount = Math.round(value.length / 6);
+            if ((value.length % countRow === 0))
+                pageCount = Math.round(value.length / countRow);
             else
-                pageCount = Math.round(value.length / 6) + 1;
+                pageCount = Math.round(value.length / countRow) + 1;
 
             if (pageCount < pageNumber)
                 pageNumber = pageCount - 1;
@@ -52,7 +57,14 @@ var Table = function () {
 
         createTable: function (element) {
             table = element;
-            var messageTemplate = require('./template-table.pug');
+            var messageTemplate = '<tr><th>Sum</th><th>Total</th><th>Size (NLG)</th><th>Bid (BTC)</th></tr>';
+            var row = '+';
+            console.log(countRow);
+            for(var i = 0; i < countRow; i++){
+                row = '<tr class="row-' + i + '"><td></td><td> </td><td> </td><td> </td></tr>';
+                messageTemplate += row;
+            }
+
             $(table)
                     .find('tbody')
                     .html('')
