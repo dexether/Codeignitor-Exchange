@@ -1,0 +1,63 @@
+div#deposit_history_wrapper {
+	padding: 15px;
+	margin-top: 20px;
+}
+
+ul#switch {
+	list-style-type: none;
+	display: flex;
+	width: 300px;
+	margin: 0 auto;
+	cursor: pointer;
+}
+ul#switch li {
+	width: 100%;
+	border: 2px solid gray;
+	padding: 10px;
+	text-align: center;
+}
+ul#switch li:first-child {
+	border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+}
+ul#switch li:last-child {
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+	border-left: 0px;
+}
+
+div#deposit_history_list {
+	padding: 15px;
+	width: 750px;
+	margin: 0 auto;
+	margin-top: 25px;
+}
+
+
+ul.deposit_history_table {
+	list-style-type: none;
+	display: flex;
+	margin-bottom: 15px;
+}
+ul.deposit_history_table li {
+	width: 100%;
+	border:1px solid gray;
+	text-align: center;
+	padding: 10px 0px;
+}
+
+
+ul.deposit_history_records {
+	list-style-type: none;
+	display: flex;
+}
+ul.deposit_history_records li {
+	width: 100%;
+	text-align: center;
+}
+ul.deposit_history_records li.fail {
+	color: red;
+}
+ul.deposit_history_records li.success {
+	color: green;
+}

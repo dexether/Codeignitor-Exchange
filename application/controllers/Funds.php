@@ -52,8 +52,8 @@ class Funds extends MY_Controller{
                     $result = Paynl\Transaction::start(array(
     
                         'amount' => $i['amount'],
-                        'returnUrl' => APP_BASE_URL."tools/deposit/".$this->session->user_id,
-                        'exchangeUrl' => APP_BASE_URL.'tools/silent_exchange/'.$this->session->user_id,
+                        'returnUrl' => APP_BASE_URL."tools/deposit/".$this->session->user_id.'/'.$i['amount'],
+                        'exchangeUrl' => APP_BASE_URL.'tools/silent_exchange/'.$this->session->user_id.'/'.$i['amount'],
                         'paymentMethod' => 10,
                         'bank'=>$this->input->post('bank')
                     ));
@@ -98,6 +98,26 @@ class Funds extends MY_Controller{
 
        
         view($this->data);
+    }
+
+    public function deposit_history()
+    {
+        $this->load->model('mdl_deposit');
+        $model_data = $this->mdl_deposit->get_deposit_history();
+
+        if (!$model_data['status']) {
+            $vars['status'] = False;
+        } else {
+
+            foreach($model_data['data'] as $obj) {
+                $vars['status'] = True;
+                $vars['content'][] = ['status'=>$obj->verified, 'date'=>$obj->deposit_date, 'amount'=>$obj->EUR, 'transaction'=>$obj->transaction];
+            }
+        }
+
+        $data['content'] = $this->load->view('funds/v_deposit_history', $vars, TRUE);
+        $data['head_css'] = "<link href=". base_url('css/deposit_history.css') ." rel='stylesheet'>";
+        $this->load->view('template/v_site_template', $data);
     }
 
     public function withdraw($fund='NLG') 

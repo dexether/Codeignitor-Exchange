@@ -128,7 +128,7 @@ class Tools extends MY_Controller{
     }
 
 
-    public function deposit($user_id)
+    public function deposit($user_id, $url_amount)
     {
         \Paynl\Config::setApiToken('323b8ef7bfc81e41cf88d63a64e3e86e5d845ab5');
 
@@ -143,7 +143,7 @@ class Tools extends MY_Controller{
             $date = date('Y-m-d', time());
 
             $this->load->model('mdl_deposit');
-            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'true',$date, $description);
+            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'true', $date, $description);
 
             redirect(base_url() . 'tools/deposit_result/true');
         }
@@ -160,12 +160,11 @@ class Tools extends MY_Controller{
             $description = $transaction->getDescription();
             $date = date('Y-m-d', time());
             $this->load->model('mdl_deposit');
-            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'false',$date, $description);
+            $this->mdl_deposit->deposit_record_EUR($user_id, $url_amount, $transaction_id, 'false',$date, $description);
             redirect(base_url() . 'tools/deposit_result/false');
-        } 
-
-        
+        }   
     }
+
 
     public function deposit_result($status = null)
     {
@@ -217,6 +216,8 @@ class Tools extends MY_Controller{
             //record failed deposit
         } 
     }
+
+
 }
 
 /* End of file Tools.php */
