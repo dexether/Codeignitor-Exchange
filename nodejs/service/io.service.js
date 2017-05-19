@@ -108,6 +108,12 @@ module.exports = {
             });
 
 
+            socket.on('data_to_chart', function (msg) {
+                var data = require('../chart');
+                io.emit('data_to_chart', data);
+            });
+            
+            
             socket.on('unsubscribe', function (room) {
                 socket.leave(room);
             });

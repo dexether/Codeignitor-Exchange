@@ -80,8 +80,17 @@ function ClientSockets() {
             selectRoom();
             createTables();
 
+
+            var chart = require('./chart');
+
             //Connection to the room
             socket.emit('room', room);
+
+
+            socket.emit('data_to_chart', '');
+            socket.on('data_to_chart', function (msg) {
+                chart.loadData(msg);
+            });
 
             //Listen the sockets to change the tables
             socket.on('ask', function (msg) {
@@ -95,11 +104,11 @@ function ClientSockets() {
             socket.on('trade_history', function (msg) {
                 trade.updateValue(msg);
             });
-            
+
             socket.on('order_open', function (msg) {
                 orderOpen.updateValue(msg);
             });
-            
+
             socket.on('order_history', function (msg) {
                 orderHistory.updateValue(msg);
             });
