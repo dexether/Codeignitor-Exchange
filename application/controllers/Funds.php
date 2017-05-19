@@ -111,12 +111,14 @@ class Funds extends MY_Controller{
 
             foreach($model_data['data'] as $obj) {
                 $vars['status'] = True;
-                $vars['content'][] = ['status'=>$obj->verified, 'date'=>$obj->deposit_date, 'amount'=>$obj->EUR, 'transaction'=>$obj->transaction];
+                $amount = ( $obj->EUR != 0? ['type'=>'EUR', 'amount'=>$obj->EUR]: ['type'=>'NLG', 'amount'=>$obj->NLG] );
+                $vars['content'][] = ['status'=>$obj->verified, 'date'=>$obj->deposit_date, 'amount'=>$amount, 'transaction'=>$obj->transaction];
             }
         }
 
         $data['content'] = $this->load->view('funds/v_deposit_history', $vars, TRUE);
         $data['head_css'] = "<link href=". base_url('css/deposit_history.css') ." rel='stylesheet'>";
+        $data['head_js'] = "<script src='". base_url('js/deposit_history.js') ."'></script>";
         $this->load->view('template/v_site_template', $data);
     }
 

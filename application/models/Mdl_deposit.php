@@ -68,6 +68,7 @@ class mdl_deposit extends CI_Model
         }
     }
 
+
     public function get_deposit_history() 
     {
         $query = $this->db->query('SELECT * FROM `deposits` WHERE user_id = ?', [$this->session->user_id]);
@@ -82,6 +83,7 @@ class mdl_deposit extends CI_Model
 
         return ['status'=>true, 'data'=>$data];
     }
+
 
     public function deposit_record_EUR($user_id, $amount, $transaction, $status, $date, $description) 
     {

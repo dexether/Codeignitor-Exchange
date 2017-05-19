@@ -160,7 +160,7 @@ class Tools extends MY_Controller{
             $description = $transaction->getDescription();
             $date = date('Y-m-d', time());
             $this->load->model('mdl_deposit');
-            $this->mdl_deposit->deposit_record_EUR($user_id, $url_amount, $transaction_id, 'false',$date, $description);
+            $this->mdl_deposit->deposit_record_EUR($user_id, $url_amount, $transaction_id, 'false', $date, $description);
             redirect(base_url() . 'tools/deposit_result/false');
         }   
     }

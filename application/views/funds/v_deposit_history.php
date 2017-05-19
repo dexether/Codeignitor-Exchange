@@ -18,10 +18,10 @@
 		<?php if(!$status) { echo 'No history available'; } ?>
 		<?php if($status): ?>
 			<?php foreach($content as $li): ?>
-			<ul class="deposit_history_records" type='EUR'>
+			<ul class="deposit_history_records" type='<?=$li['amount']['type']?>'>
 				<li class="<?=($li['status']=='true'?'success': 'fail') ?>"> <?=($li['status']=='true'? 'success': 'fail');?> </li>
 				<li> <?=$li['date'];?> </li>
-				<li> <?=$li['amount'];?> </li>
+				<li> <?=$li['amount']['amount'];?> </li>
 				<li> <?=$li['transaction'];?> </li>
 			</ul>
 			<?php endforeach; ?>
