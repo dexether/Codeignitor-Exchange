@@ -285,6 +285,8 @@ class Admin extends MY_Controller
         $crud->required_fields('user_id');
         $crud->unset_columns('table');
 
+        $crud->field_type('status', 'enum', array('open', 'closed'));
+
 		$output = $crud->render();
 
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
