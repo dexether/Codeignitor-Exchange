@@ -1,6 +1,27 @@
 var iosocket = require('../../node_modules/socket.io/lib/');
 var rooms = ['EUR-NLG', 'GTS-NLG'];
 
+function returnFakeTradeHistory(cond) {
+   return [
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:45'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 1.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:34'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 30.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:18'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-15 07:14:46'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-15 07:14:46'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
+            {'buy/sell': 'buy', 'gts': 'NLG', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-15 07:14:46'}
+        ];
+}
+;
+
 function returnFakeData(i) {
     var dif;
     (i) ? dif = 0.2 : dif = -0.2;
@@ -78,7 +99,14 @@ module.exports = {
                 socket.join(room);
                 socket.room = room;
                 io.sockets.in(room).emit('message', "New one is in room " + room);
+                
+                //Send the fake data
+                io.emit('trade_history', returnFakeTradeHistory());
+                io.emit('order_open', returnFakeTradeHistory());
+                io.emit('order_history', returnFakeTradeHistory());
+                
             });
+
 
             socket.on('unsubscribe', function (room) {
                 socket.leave(room);
@@ -88,7 +116,7 @@ module.exports = {
             //When client is disconnect
             socket.on('disconnect', function () {
                 console.log('user disconnected');
-               // console.log(Object.keys(io.engine.clients));
+                // console.log(Object.keys(io.engine.clients));
             });
         });
     }

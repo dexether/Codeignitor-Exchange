@@ -3,7 +3,7 @@ var Table = function () {
     var tableValue = [];
     var pageNumber = 1;
     var pageCount = 1;
-    var countRow = 6;
+    var countOfRows = 6;
 
     function changePageView() {
         $(table).find('.page-number').text(pageNumber + " / " + pageCount);
@@ -13,9 +13,9 @@ var Table = function () {
     function updateTable() {
         changePageView();
 
-        var count = (pageCount !== pageNumber) ? countRow : Math.round(10 * tableValue.length / countRow) - Math.round(tableValue.length / countRow);
-        var data = tableValue.splice((pageNumber - 1) * countRow, count);
-        for (var i = 0; i < countRow; i++) {
+        var count = (pageCount !== pageNumber) ? countOfRows : Math.round(10 * tableValue.length / countOfRows) - Math.round(tableValue.length / countOfRows);
+        var data = tableValue.splice((pageNumber - 1) * countOfRows, count);
+        for (var i = 0; i < countOfRows; i++) {
             if (data[i]) {
                 var bid = '<tr><td>' + Math.round(data[i]['sum'] * 10000) / 10000 + '</td>\n\
                         <td>' + Math.round(data[i]['total'] * 10000) / 10000 + '</td>\n\
@@ -38,20 +38,19 @@ var Table = function () {
 
     return {
         setCount: function (newValue) {
-            countRow = newValue;
+            countOfRows = newValue;
         },
 
         updateValue: function (value) {
             tableValue = value;
-
-            if ((value.length % countRow === 0))
-                pageCount = Math.round(value.length / countRow);
+            if ((value.length % countOfRows === 0))
+                pageCount = Math.round(value.length / countOfRows);
             else
-                pageCount = Math.round(value.length / countRow) + 1;
+                pageCount = Math.round(value.length / countOfRows) + 1;
 
-            if (pageCount < pageNumber)
+            if ((pageCount < pageNumber)&&(pageCount>1))
                 pageNumber = pageCount - 1;
-
+            
             updateTable();
         },
 
@@ -59,7 +58,7 @@ var Table = function () {
             table = element;
             var messageTemplate = '<tr><th>Sum</th><th>Total</th><th>Size (NLG)</th><th>Bid (BTC)</th></tr>';
             var row = '+';
-            for(var i = 0; i < countRow; i++){
+            for (var i = 0; i < countOfRows; i++) {
                 row = '<tr class="row-' + i + '"><td></td><td> </td><td> </td><td> </td></tr>';
                 messageTemplate += row;
             }
