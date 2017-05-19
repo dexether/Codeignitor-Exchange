@@ -18,10 +18,12 @@ class User extends MY_Controller
 
     function register()
     {
+        $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/';
+
         $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email|is_unique[users.email]');
         $this->form_validation->set_message('users.email', 'Email already exist please try to ' . anchor('login', 'login', 'class="text-info"') . ' or register with new email');
         $this->form_validation->set_rules('firstname', 'Firstname', 'trim|required|min_length[2]|max_length[12]');
-        $this->form_validation->set_rules('password1', 'Password', 'trim|required|min_length[8]|max_length[30]|matches[password2]');
+        $this->form_validation->set_rules('password1', 'Password', "trim|required|min_length[8]|max_length[30]|matches[password2]|regex_match[{$password_regex}]");
         $this->form_validation->set_rules('password2', 'Confirm Password', 'trim|required|min_length[8]|max_length[30]|matches[password1]');
         $this->form_validation->set_rules('recaptcha', 'Recaptcha', "trim|required|callback_recaptcha");
         $this->form_validation->set_rules('terms', 'Terms', "trim|required");
@@ -69,7 +71,7 @@ class User extends MY_Controller
             } elseif ($login == "deactive") {
                 $error_message = "Please Activate Your Account";
             } elseif ($login == "enable") {
-                redirect('user/tfa');
+                redirect('tfa/display');
             } elseif ($login == "success") {
                 redirect('markets/EUR-NLG');
             } else {
@@ -96,12 +98,6 @@ class User extends MY_Controller
     {
         $res_login = $this->mdl_user->check_login_details();
         echo $res_login;
-    }
-
-    function tfa(){
-        $vars = [];
-        $this->data['content'] = $this->load->view('user/v_tfa', $vars, true);
-        view($this->data, 'site');
     }
 
     /** just for test */
@@ -456,25 +452,7 @@ class User extends MY_Controller
 
     	redirect('user/two_factor','refresh');
     }
-
-    function check_tfa()
-    {
-    	$this->load->model('mdl_user');
-    	$result = $this->mdl_user->check_tfa();
-
-    	if($result === true){
-    		$user = $this->mdl_user->get_userdetails($this->session->user_id);
-    		$this->session->role = $user->role;
-    		redirect('markets/EUR-NLG');
-    	}else{
-    		$this->session->set_flashdata('error', 'Wronge code number');
-    		redirect('user/tfa');
-    }
-    }
-    //after login set session data en redirevt to tfa
-    // check tfa against data in db. if correct, set role in sesson and redirect to market.
-    // if not correct the error en go to tfa again.
-    //  I think you can continue from here
+    
 
     function disable_tfa()
     {

@@ -99,15 +99,13 @@ class Funds extends MY_Controller{
         view($this->data);
     }
 
-    public function withdraw($fund='NLG') {
-        
-        
+    public function withdraw($fund='NLG') 
+    {
         $this->data['content'] = $this->get_balance();
-        $this->data['content'] .= $fund;
+        $this->data['content'] .= $this->load->view('funds/v_withdraw_buttons', [], true);
         view($this->data);
     }
-    
-        
+
     private function get_balance()
     {
         $data = array();
@@ -116,7 +114,7 @@ class Funds extends MY_Controller{
         $data['NLG'] = number_format($this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'NLG'), 8);
         $data['GTS'] = number_format($this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'GTS'), 8);
         
-        return $this->load->view('user/v_balance',$data,true);
+        $content = $this->load->view('user/v_balance',$data,true);
+        return $content;
     }
-    
 }

@@ -4,6 +4,7 @@ class Mdl_user extends CI_Model
 {
 
     public $table = "users";
+    private $mailer;
 
     public function __construct()
     {
@@ -50,45 +51,46 @@ class Mdl_user extends CI_Model
 
     function check_login()
     {
-        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode,secret, status, password FROM `users` where email=?", array($this->input->post('email', true)));
+        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, secret, status, password FROM `users` where email=?", array($this->input->post('email', true)));
+
         if ($res_loguser->num_rows() == 1) {
             $row = $res_loguser->row();
 
             if ($row->status === 'deactive') {
                 return 'deactive';
             }
+
             if (password_verify($this->input->post('password', true), $row->password) === true) {
 
-                if ($row->randcode !== "disable") {
+                if ($row->randcode == "enable") {
                     //save some session data, so we know he is already logged in.
                     $sessiondata = array(
-                        'user_id' => $row->id,
-                        'firstname' => $row->firstname,
-                        'tfa' => $row->randcode,
+                        'pending_user_id' => $row->id,
                         'secret' => $row->secret,
-                        'status' => $row->status,
                         'role' => 'empty'
                     );
                     $this->session->set_userdata($sessiondata);
 
                     return 'enable';
-                } else {
-                    $sessiondata = array(
-                        'user_id' => $row->id,
-                        'firstname' => $row->firstname,
-                        'tfa' => $row->randcode,
-                        'randcode' => $row->secret,
-                        'status' => $row->status,
-                        'role' => $row->role
-                    );
-                    $this->session->set_userdata($sessiondata);
+                } 
+                    
+                $sessiondata = array(
+                    'user_id' => $row->id,
+                    'firstname' => $row->firstname,
+                    'tfa' => $row->randcode,
+                    'randcode' => $row->secret,
+                    'status' => $row->status,
+                    'role' => $row->role
+                );
+                $this->session->set_userdata($sessiondata);
 
-                    // send email
-                    $data = ['username' => $row->firstname];
-                    $message = $this->load->view('template/emails/v_success_login', $data, TRUE);
-                    $this->common_mail($this->input->post('email'), 'Login success', $message);
-                    return 'success';
-                }
+                // send email
+                $data = ['username' => $row->firstname];
+                $message = $this->load->view('template/emails/v_success_login', $data, TRUE);
+                $this->common_mail($this->input->post('email'), 'Login success', $message);
+                return 'success';
+                
+            
             } else {
                 return 'invalid';
             }
@@ -96,6 +98,26 @@ class Mdl_user extends CI_Model
             return "invalid";
         }
     }
+
+
+    public function set_sesdata() 
+    {
+        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, secret, status, password FROM `users` where id=?", array($this->session->pending_user_id));
+        $row = $res_loguser->row();
+        $this->session->pending_user_id = NULL;
+        $sessiondata = array(
+            'user_id' => $row->id,
+            'firstname' => $row->firstname,
+            'tfa' => $row->randcode,
+            'secret' => $row->secret,
+            'status' => $row->status,
+            'role' => $row->role
+        );
+        $this->session->set_userdata([]);
+        $this->session->set_userdata($sessiondata);
+        return;
+    }
+
 
     public function add_user()
     {
@@ -135,7 +157,7 @@ class Mdl_user extends CI_Model
             $link = base_url() . 'user/user_verification/' . $verifydata['verifier'];
             $a = array('##USERNAME##' => $this->input->post('firstname', true), '##USERID##' => base64_encode($last_userinsid), '##CLIENTID##' => $email, '##PASSWORD##' => $this->input->post('password1'), '##FROM_EMAIL##' => 'exchange@guldentrader.com', '##COMPANYNAME##' => 'exchange.guldentrader.com', '##EMAIL##' => $email, '##SITEURL##' => base_url(), '##ADMIN_EMAIL##' => 'exchange@guldentrader.com', '##LINK##' => $link);
             $email_content = strtr($email_content1, $a);
-            $this->common_mail($email, $email_subject1, $email_content);
+            $this->mailer->common_mail($email, $email_subject1, $email_content);
             return true;
         }
 
@@ -157,7 +179,7 @@ class Mdl_user extends CI_Model
         $config['useragent'] = "guldentrader.com";
         $config['newline'] = "\r\n";
         $this->email->initialize($config);
-        $this->email->from(APP_SMTP_USER, APP_SMTP_HOST);
+        $this->email->from(APP_SMTP_USER, 'Guldentrader Exchange');
         $this->email->to($tomail);
         $this->email->reply_to(APP_SMTP_USER, APP_SMTP_HOST);
         $this->email->subject($email_subject);
@@ -496,7 +518,6 @@ class Mdl_user extends CI_Model
             $password = $this->generatepassword();
             $encpassword = password_hash($password, PASSWORD_DEFAULT);
             $vars['password'] = $password;
-            $vars['client_id'] = $row_pass->client_id;
             $vars['username'] = $firstname . " " . $lastname;
 
             $this->db->where('id', $getuser_id);
@@ -510,9 +531,18 @@ class Mdl_user extends CI_Model
     }
 
     function change_password()
-    {
+    {   
         $oldpass = $this->input->post('oldpassword');
         $newpass = $this->input->post('newpassword');
+        $newpass1 = $this->input->post('newpassword1');
+
+        $pass_check = $this->valid_password($newpass, $newpass1);
+        if (!$pass_check['is_valid']) {
+            echo '<script>setTimeout("location.reload();", 1600)</script>';
+            echo $pass_check['error'];
+            return;
+        } 
+
         $new = password_hash($newpass, PASSWORD_DEFAULT);
         $custome_user_id = $this->session->user_id;
         $old = password_hash($oldpass, PASSWORD_DEFAULT);
@@ -523,6 +553,15 @@ class Mdl_user extends CI_Model
             $this->db->where('id', $custome_user_id);
             if ($this->db->update($this->table, ['password' => $new]) == true) {
                 echo "Your password changed Successfully";
+
+                $this->db->where('id', $this->session->user_id);
+                $query = $this->db->get('users');
+                $email = $query->row()->email;
+
+                $vars = ['username' => $this->session->firstname, 'password' => $newpass];
+                $email_content = $this->load->view('template/emails/v_change_password', $vars, TRUE);
+                $this->common_mail($email, 'Password change', $email_content);
+
             } else {
                 echo "Error in password updation";
             }
@@ -540,6 +579,26 @@ class Mdl_user extends CI_Model
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }
         return $randomString;
+    }
+
+
+    private function valid_password($new_pass, $conf_new_pass) 
+    {
+        $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/';
+
+        if ($new_pass != $conf_new_pass) {
+            return ['is_valid'=>FALSE, 'error'=>'Passwords don\'t match.'];
+        }
+
+        if (strlen($new_pass) < 8) {
+            return ['is_valid'=>FALSE, 'error'=>'Password must be at least 8 characters long.'];
+        }
+
+        if (!preg_match($password_regex, $new_pass)) {
+            return ['is_valid'=>FALSE, 'error'=>'Provide at least 1 upper case, 1 lower case, 1 digit and 1 special character.'];
+        }
+
+        return ['is_valid'=>TRUE];
     }
 
 
