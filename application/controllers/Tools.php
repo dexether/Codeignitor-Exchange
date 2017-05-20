@@ -144,13 +144,11 @@ class Tools extends MY_Controller{
 
             $this->load->model('mdl_deposit');
             $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'true', $date, $description, $type);
-
-            redirect(base_url() . 'tools/deposit_result/true');
+            $status = 'true';
         }
 
         if($transaction->isPending()) {
-
-            redirect(base_url() . 'tools/deposit_result/pending');
+            $status = 'pending';
         }
 
         if ($transaction->isCanceled()) {
@@ -161,8 +159,10 @@ class Tools extends MY_Controller{
             $date = date('Y-m-d', time());
             $this->load->model('mdl_deposit');
             $this->mdl_deposit->deposit_record_EUR($user_id, $url_amount, $transaction_id, 'false', $date, $description, $type);
-            redirect(base_url() . 'tools/deposit_result/false');
-        }   
+            $status = 'false'
+        }  
+
+        redirect(base_url() . 'tools/deposit_result/' . $status); 
     }
 
 
@@ -208,7 +208,6 @@ class Tools extends MY_Controller{
         $transaction = \Paynl\Transaction::getForReturn();
         $this->load->helper('url');
 
-        echo 'TRUE'; 
 
         if($transaction->isPaid()) {
 
@@ -229,9 +228,9 @@ class Tools extends MY_Controller{
             $date = date('Y-m-d', time());
             $this->load->model('mdl_deposit');
             $this->mdl_deposit->deposit_record_EUR($user_id, $url_amount, $transaction_id, 'false', $date, $description, $type);
-            redirect(base_url() . 'tools/deposit_result/false');
         }
 
+        echo 'TRUE'; 
     }
 
 

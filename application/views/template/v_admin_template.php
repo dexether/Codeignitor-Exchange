@@ -117,7 +117,9 @@
 				<ul class="sidebar-menu">
 					<li><a href="<?php echo site_url() ?>"> Visite Website</a></li>
 					<li><a href="<?php echo site_url('admin') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-					<li><a href="<?php echo site_url('admin/users') ?>"><i class="fa fa-users"></i> Manager Users</a></li><li><a href="<?php echo site_url('admin/withdraw') ?>"><i class="fa fa-users"></i> Withdraw</a></li>
+					<li><a href="<?php echo site_url('admin/users') ?>"><i class="fa fa-users"></i> Manager Users</a></li>
+					<li><a href="<?php echo site_url('admin/withdraw') ?>"><i class="fa fa-users"></i> Withdraw</a></li>
+					<li><a href="<?php echo site_url('admin/bank_details') ?>"><i class="fa fa-users"></i> Bank details</a></li>
 				</ul>
 			</section>
 			<!-- /.sidebar -->

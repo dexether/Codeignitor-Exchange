@@ -77,6 +77,21 @@ class Admin extends MY_Controller
 		view($this->data, 'admin');
 	}
 
+	public function bank_details()
+	{
+		auth(['admin','superadmin']);
+        $upload_path = 'uploads';
+
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('user_bank_details');
+		$crud->set_subject('Manage User Bank Details');
+
+		$output = $crud->render();
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		view($this->data, 'admin');
+	}
+
 	public function callback_users_delete($primary_key)
 	{
 		// get user
