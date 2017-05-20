@@ -31,7 +31,7 @@ ul#switch li:last-child {
 
 div#deposit_history_list {
 	padding: 15px;
-	width: 750px;
+	width: 900px;
 	margin: 0 auto;
 	margin-top: 25px;
 }
@@ -61,6 +61,7 @@ ul.deposit_history_records[type='NLG'] {
 ul.deposit_history_records li {
 	width: 100%;
 	text-align: center;
+	font-size: 14px;
 }
 ul.deposit_history_records li.fail {
 	color: red;

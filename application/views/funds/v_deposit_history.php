@@ -13,6 +13,7 @@
 			<li>Date</li>
 			<li>Amount</li>
 			<li>Transaction id</li>
+			<li>Description</li>
 		</ul>
 
 		<?php if(!$status) { echo 'No history available'; } ?>
@@ -23,6 +24,7 @@
 				<li> <?=$li['date'];?> </li>
 				<li> <?=$li['amount']['amount'];?> </li>
 				<li> <?=$li['transaction'];?> </li>
+				<li> <?=$li['description'];?> </li>
 			</ul>
 			<?php endforeach; ?>
 		<?php endif; ?>

@@ -128,7 +128,7 @@ class Tools extends MY_Controller{
     }
 
 
-    public function deposit($user_id, $url_amount)
+    public function deposit($type, $user_id, $url_amount)
     {
         \Paynl\Config::setApiToken('323b8ef7bfc81e41cf88d63a64e3e86e5d845ab5');
 
@@ -143,7 +143,7 @@ class Tools extends MY_Controller{
             $date = date('Y-m-d', time());
 
             $this->load->model('mdl_deposit');
-            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'true', $date, $description);
+            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'true', $date, $description, $type);
 
             redirect(base_url() . 'tools/deposit_result/true');
         }
@@ -160,7 +160,7 @@ class Tools extends MY_Controller{
             $description = $transaction->getDescription();
             $date = date('Y-m-d', time());
             $this->load->model('mdl_deposit');
-            $this->mdl_deposit->deposit_record_EUR($user_id, $url_amount, $transaction_id, 'false', $date, $description);
+            $this->mdl_deposit->deposit_record_EUR($user_id, $url_amount, $transaction_id, 'false', $date, $description, $type);
             redirect(base_url() . 'tools/deposit_result/false');
         }   
     }
@@ -193,12 +193,22 @@ class Tools extends MY_Controller{
    
     }
 
-    public function silent_exchange ($user_id)
+    public function silent_exchange ($type, $user_id, $url_amount = 0)
     {
         \Paynl\Config::setApiToken('323b8ef7bfc81e41cf88d63a64e3e86e5d845ab5');
 
+        if (!isset($_GET['orderId']) && !isset($_GET['order_id'])) {
+            die('Transfer Error');
+        }
+
+        if (!isset($_GET['orderId']) && isset($_GET['order_id'])) {
+            $_GET['orderId'] = $_GET['order_id'];
+        }
+
         $transaction = \Paynl\Transaction::getForReturn();
         $this->load->helper('url');
+
+        echo 'TRUE'; 
 
         if($transaction->isPaid()) {
 
@@ -208,13 +218,20 @@ class Tools extends MY_Controller{
             $date = date('Y-m-d', time());
             
             $this->load->model('mdl_deposit');
-            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'true',$date, $description);
+            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'true',$date, $description, $type);
         }
 
         if ($transaction->isCanceled()) {
 
-            //record failed deposit
-        } 
+            $amount = $transaction->getPaidAmount();
+            $transaction_id = $transaction->getId();
+            $description = $transaction->getDescription();
+            $date = date('Y-m-d', time());
+            $this->load->model('mdl_deposit');
+            $this->mdl_deposit->deposit_record_EUR($user_id, $url_amount, $transaction_id, 'false', $date, $description, $type);
+            redirect(base_url() . 'tools/deposit_result/false');
+        }
+
     }
 
 

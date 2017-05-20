@@ -17,6 +17,8 @@ class Funds extends MY_Controller{
     public function index() {
         redirect('funds/deposit');
     }
+
+
     
     public function deposit($fund='NLG', $type=null) {
 
@@ -52,8 +54,8 @@ class Funds extends MY_Controller{
                     $result = Paynl\Transaction::start(array(
     
                         'amount' => $i['amount'],
-                        'returnUrl' => APP_BASE_URL."tools/deposit/".$this->session->user_id.'/'.$i['amount'],
-                        'exchangeUrl' => APP_BASE_URL.'tools/silent_exchange/'.$this->session->user_id.'/'.$i['amount'],
+                        'returnUrl' => APP_BASE_URL."tools/deposit/eur/".$this->session->user_id.'/'.$i['amount'],
+                        'exchangeUrl' => APP_BASE_URL.'tools/silent_exchange/eur/'.$this->session->user_id.'/'.$i['amount'],
                         'paymentMethod' => 10,
                         'bank'=>$this->input->post('bank')
                     ));
@@ -100,6 +102,7 @@ class Funds extends MY_Controller{
         view($this->data);
     }
 
+
     public function deposit_history()
     {
         $this->load->model('mdl_deposit');
@@ -111,8 +114,8 @@ class Funds extends MY_Controller{
 
             foreach($model_data['data'] as $obj) {
                 $vars['status'] = True;
-                $amount = ( $obj->EUR != 0? ['type'=>'EUR', 'amount'=>$obj->EUR]: ['type'=>'NLG', 'amount'=>$obj->NLG] );
-                $vars['content'][] = ['status'=>$obj->verified, 'date'=>$obj->deposit_date, 'amount'=>$amount, 'transaction'=>$obj->transaction];
+                $amount = ['type'=>$obj->type, 'amount'=>$obj->{strtoupper($obj->type)}];
+                $vars['content'][] = ['status'=>$obj->verified, 'date'=>$obj->deposit_date, 'amount'=>$amount, 'transaction'=>$obj->transaction, 'description'=>$obj->description];
             }
         }
 
@@ -122,12 +125,14 @@ class Funds extends MY_Controller{
         $this->load->view('template/v_site_template', $data);
     }
 
+
     public function withdraw($fund='NLG') 
     {
         $this->data['content'] = $this->get_balance();
         $this->data['content'] .= $this->load->view('funds/v_withdraw_buttons', [], true);
         view($this->data);
     }
+
 
     private function get_balance()
     {
