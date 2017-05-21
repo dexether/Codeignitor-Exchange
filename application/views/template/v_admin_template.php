@@ -121,7 +121,7 @@
 					<li><a href="<?php echo site_url('admin/withdraw') ?>"><i class="fa fa-users"></i> Withdraw</a></li>
 					<li><a href="<?php echo site_url('admin/bank_details') ?>"><i class="fa fa-users"></i> Bank details</a></li>
 					<li class="treeview">
-						<a href="<?php echo site_url('admin/fees');?>" style="">
+						<a href="#">
 							<i class="fa fa fa-eur"></i>
 							<span>Fees</span>
 							<span class="pull-right-container">
@@ -129,6 +129,10 @@
 							</span>
 						</a>
 						<ul class="treeview-menu">
+							<li><a href="<?php echo site_url('admin/fees');?>">
+								<i class="fa fa-circle"></i>
+								Fees charts
+							</a></li>
 							<li><a href="<?php echo site_url('admin/fees/open_fees');?>">
 								<i class="fa fa-circle"></i>
 								Open fees
