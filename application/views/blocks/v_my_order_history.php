@@ -4,7 +4,7 @@
         <div class="cls_top_table table-responsive">
             <h4>My order history</h4>
             <div class="table-responsive cls_trade_table">
-                <table class="table table-striped">
+                <table class="table table-striped" id="order-history">
                 <thead>
                 <tr>
                 <th width="13%"> Date  </th>

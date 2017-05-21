@@ -232,15 +232,14 @@
 </head>
 <body bgcolor="#FFFFFF">
 
-	<table class="head-wrap" bgcolor="#999999">
+	<table class="head-wrap" bgcolor="#0094bb">
 		<tr>
 			<td></td>
 			<td class="header container">
 				<div class="content">
-					<table bgcolor="#999999">
+					<table bgcolor="#0094bb">
 						<tr>
 							<td><img src="<?php echo APP_LOGO ?>"/></td>
-							<td align="right"><h6 class="collapse"><?php echo APP_TITLE ?></h6></td>
 						</tr>
 					</table>
 				</div>

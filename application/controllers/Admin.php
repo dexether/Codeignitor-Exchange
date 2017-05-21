@@ -69,7 +69,6 @@ class Admin extends MY_Controller
 		view($this->data, 'admin');
 	}
 
-
 	public function callback_edit_profilepicture($value, $user_id) {
         $user_id = intval($user_id);
         $noImage = false;
@@ -102,7 +101,23 @@ class Admin extends MY_Controller
 
         $template = $this->load->view('admin/v_edit_profilepicture', $data, true);
 		return $template;
-	}
+        }
+        
+	public function withdraw()
+	{
+		auth(['admin','superadmin']);
+                $upload_path = 'uploads';
+
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('withdrawal');
+		$crud->set_subject('Manage Withdrawals');
+		$crud->columns('user_id', 'EUR', 'GTS', 'NLG', 'transaction', 'status', 'verified', 'withdrawal_date');
+
+		$output = $crud->render();
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		view($this->data, 'admin');
+        }
 
 	public function callback_users_delete($primary_key)
 	{
@@ -125,7 +140,7 @@ class Admin extends MY_Controller
 		auth(['admin','superadmin']);
 		// init
 
-        $upload_path = '../application/uploads';
+                $upload_path = '../application/uploads';
 		$crud = new grocery_CRUD();
 		$crud->set_table('user_verification');
 		$crud->set_subject('user_verification');
@@ -261,6 +276,5 @@ class Admin extends MY_Controller
 		}
 		return $value;
 	}
-
 }
 

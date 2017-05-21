@@ -11,9 +11,7 @@
          Please make a note of your login details showing in below 
       </p>
 
-     <p>Cleint id : <?php echo (isset($client_id))? $client_id : '' ?></p>
-
-     <p>Password : <?php echo (isset($password))? $password : '' ?></p>
+     <p>New Password : <?php echo (isset($password))? $password : '' ?></p>
    </td>
  </tr>
 </tbody>

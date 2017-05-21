@@ -8,7 +8,7 @@
                echo '<div class="alert alert-danger">'.$this->session->flashdata('error').'</div>';
             }
         ?>
-        <?php echo form_open('user/check_tfa', 'style="margin-top:20px;" class="form-horizontal" name="tfaform" id="tfaform" method="post"'); ?>
+        <?php echo form_open($action, 'style="margin-top:20px;" class="form-horizontal" name="tfaform" id="tfaform" method="post"'); ?>
         <div class="form_type">
             <?php //dump($this->session->all_userdata()); ?>
             <input type="text" class="form-control tfacode" id="tfacode" name="tfacode" placeholder="">

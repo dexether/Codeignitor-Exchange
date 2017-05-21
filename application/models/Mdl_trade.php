@@ -173,8 +173,8 @@ class Mdl_trade  extends CI_Model {
                                 $trade_id = $this->db->insert_id();
                                 echo $this->db->last_query();
                                 
-                                //Buyer fee
-                                $this->db->insert('open_fees',[
+                                //Buyer fee 
+                               $this->db->insert('open_fees',[
                                     'user_id' => $this->session->user_id,
                                     'table'=> 'order_'.$bid,
                                     'table_id' => $order_id,
