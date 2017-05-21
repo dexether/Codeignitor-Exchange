@@ -295,6 +295,8 @@ class Admin extends MY_Controller
 	public function fees()
 	{
 		auth(['admin','superadmin']);
+		$this->l_asset->add('js/admin/fees_charts.js','js');
+
 		$this->data['content'] = $this->load->view('admin/v_fees',[], true);
 		view($this->data, 'admin');
 	}

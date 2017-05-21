@@ -202,10 +202,12 @@
 	<!-- daterangepicker -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/daterangepicker/daterangepicker.js"></script>
+	<!-- chartJS -->
+	<script src="<?php echo base_url('adminLTE') ?>/plugins/chartjs/Chart.min.js"></script>
 	<!-- Slimscroll -->
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/fastclick/fastclick.js"></script>
 	<?php if(isset($head_js)) echo $head_js; ?>
-</body>
+</body>	<script src="<?php echo base_url('adminLTE') ?>/plugins/chartjs/Chart.min.js"></scrip>
 </html>

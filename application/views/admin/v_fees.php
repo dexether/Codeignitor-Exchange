@@ -1,1 +1,1 @@
-Fees
+<canvas id="open-fees-chart" width="400" height="400"></canvas>
