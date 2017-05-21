@@ -17,6 +17,8 @@ class Funds extends MY_Controller{
     public function index() {
         redirect('funds/deposit');
     }
+
+
     
     public function deposit($fund='NLG', $type=null) {
 
@@ -52,7 +54,8 @@ class Funds extends MY_Controller{
                     $result = Paynl\Transaction::start(array(
     
                         'amount' => $i['amount'],
-                        'returnUrl' => APP_BASE_URL."/tools/deposit/".$this->session->user_id,
+                        'returnUrl' => APP_BASE_URL."tools/deposit/eur/".$this->session->user_id.'/'.$i['amount'],
+                        'exchangeUrl' => APP_BASE_URL.'tools/silent_exchange/eur/'.$this->session->user_id.'/'.$i['amount'],
                         'paymentMethod' => 10,
                         'bank'=>$this->input->post('bank')
                     ));
@@ -64,8 +67,8 @@ class Funds extends MY_Controller{
 
                      $i['deposit_code'] = $transactionId;
 
-                     /*
-                     $fields = [];
+                    /*
+                    $fields = [];
                     $fields['id'] = ['type' => 'INT','constraint' => 11,'auto_increment' => true];
                     $fields['user_id'] = ['type' => 'INT','constraint' => 11];
                     $fields['EUR'] = ['type' => 'DECIMAL','constraint' => 18,8];
@@ -75,11 +78,11 @@ class Funds extends MY_Controller{
                     $fields['deposit_date'] = ['type' => 'DATE'];
                     $fields['last_update'] = ['type' => 'timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'];
                     */
-                     //insert into 
-                     $mdl_gc -> insert($i);
+                    //insert into 
+                    //$mdl_gc -> insert($i);
 
-                     redirect($redirect);
-                     exit();
+                    redirect($redirect);
+                    exit();
 
                  } else {
                      $data['alert'] = validation_errors('<p class="alert alert-danger">', '</p>');
@@ -99,12 +102,37 @@ class Funds extends MY_Controller{
         view($this->data);
     }
 
+
+    public function deposit_history()
+    {
+        $this->load->model('mdl_deposit');
+        $model_data = $this->mdl_deposit->get_deposit_history();
+
+        if (!$model_data['status']) {
+            $vars['status'] = False;
+        } else {
+
+            foreach($model_data['data'] as $obj) {
+                $vars['status'] = True;
+                $amount = ['type'=>$obj->type, 'amount'=>$obj->{strtoupper($obj->type)}];
+                $vars['content'][] = ['status'=>$obj->verified, 'date'=>$obj->deposit_date, 'amount'=>$amount, 'transaction'=>$obj->transaction, 'description'=>$obj->description];
+            }
+        }
+
+        $data['content'] = $this->load->view('funds/v_deposit_history', $vars, TRUE);
+        $data['head_css'] = "<link href=". base_url('css/deposit_history.css') ." rel='stylesheet'>";
+        $data['head_js'] = "<script src='". base_url('js/deposit_history.js') ."'></script>";
+        $this->load->view('template/v_site_template', $data);
+    }
+
+
     public function withdraw($fund='NLG') 
     {
         $this->data['content'] = $this->get_balance();
         $this->data['content'] .= $this->load->view('funds/v_withdraw_buttons', [], true);
         view($this->data);
     }
+
 
     private function get_balance()
     {

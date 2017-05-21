@@ -68,4 +68,41 @@ class mdl_deposit extends CI_Model
         }
     }
 
+
+    public function get_deposit_history() 
+    {
+        $query = $this->db->query('SELECT * FROM `deposits` WHERE user_id = ?', [$this->session->user_id]);
+        
+        if (!$query->row()) {
+            return ['status'=>false];
+        }
+
+        foreach($query->result() as $res) {
+            $data[] = $res;
+        }
+
+        return ['status'=>true, 'data'=>$data];
+    }
+
+
+    public function deposit_record_EUR($user_id, $amount, $transaction, $status, $date, $description, $type) 
+    {
+        $this->db->query('INSERT INTO `deposits`(`user_id`, `EUR`, `GTS`, `NLG`, `transaction`, `verified`, `deposit_date`, `last_update`, `description`, `dividend_id`, `type`) VALUES (?, ?, 0, 0, ?, ?, ?, ?, ?, "standard", ?)', [$user_id, $amount, $transaction, $status, $date, $date, $description, $type]);
+
+        if ($status == 'true') {
+            $this->update_balance($user_id, $amount);
+        }
+    }
+
+    private function update_balance($user_id, $amount)
+    {
+        $this->db->select('EUR');
+        $query = $this->db->get_where('balance', ['user_id' => $user_id]);
+        $eur_balance = $query->row()->EUR;
+        $eur_balance += $amount-1;
+
+        $this->db->query("UPDATE `ciexcgt`.`balance` SET `EUR`=? WHERE `user_id`=?;
+        ", [$eur_balance, $user_id]);
+    }
+
 }

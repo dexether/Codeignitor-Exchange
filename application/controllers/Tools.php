@@ -127,10 +127,113 @@ class Tools extends MY_Controller{
         $this->output_file($row->profilepicture_path, $row->profilepicture_mime);
     }
 
-    public function deposit($user_id)
-    {
 
+    public function deposit($type, $user_id, $url_amount)
+    {
+        \Paynl\Config::setApiToken('323b8ef7bfc81e41cf88d63a64e3e86e5d845ab5');
+
+        $transaction = \Paynl\Transaction::getForReturn();
+        $this->load->helper('url');
+
+        if($transaction->isPaid()) {
+
+            $amount = $transaction->getPaidAmount();
+            $transaction_id = $transaction->getId();
+            $description = $transaction->getDescription();
+            $date = date('Y-m-d', time());
+
+            $this->load->model('mdl_deposit');
+            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'true', $date, $description, $type);
+            $status = 'true';
+        }
+
+        if($transaction->isPending()) {
+            $status = 'pending';
+        }
+
+        if ($transaction->isCanceled()) {
+
+            $amount = $transaction->getPaidAmount();
+            $transaction_id = $transaction->getId();
+            $description = $transaction->getDescription();
+            $date = date('Y-m-d', time());
+            $this->load->model('mdl_deposit');
+            $this->mdl_deposit->deposit_record_EUR($user_id, $url_amount, $transaction_id, 'false', $date, $description, $type);
+            $status = 'false'
+        }  
+
+        redirect(base_url() . 'tools/deposit_result/' . $status); 
     }
+
+
+    public function deposit_result($status = null)
+    {
+        if (!isset($status) OR !in_array($status, ['true', 'false', 'pending'])) {
+            show_404();
+            return;
+        }
+
+        if ($status == 'true') {
+            $vars['message'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> Your deposit transaction is successful. All your transactions can be seen here.<br/></div>';
+            $data['content'] = $this->load->view('deposit/v_deposit_message', $vars, TRUE);
+            $this->load->view('template/v_site_template', $data);
+            return;
+        }
+
+        if ($status == 'pending') {
+            $vars['message'] = 'Your deposit transaction is pending.';
+            $data['content'] = $this->load->view('deposit/v_deposit_message', $vars, TRUE);
+            $this->load->view('template/v_site_template', $data);
+            return;
+        }
+
+        $vars['message'] = 'Your deposit transaction is not successful.';
+        $data['content'] = $this->load->view('deposit/v_deposit_message', $vars, TRUE);
+        $this->load->view('template/v_site_template', $data);
+   
+    }
+
+    public function silent_exchange ($type, $user_id, $url_amount = 0)
+    {
+        \Paynl\Config::setApiToken('323b8ef7bfc81e41cf88d63a64e3e86e5d845ab5');
+
+        if (!isset($_GET['orderId']) && !isset($_GET['order_id'])) {
+            die('Transfer Error');
+        }
+
+        if (!isset($_GET['orderId']) && isset($_GET['order_id'])) {
+            $_GET['orderId'] = $_GET['order_id'];
+        }
+
+        $transaction = \Paynl\Transaction::getForReturn();
+        $this->load->helper('url');
+
+
+        if($transaction->isPaid()) {
+
+            $amount = $transaction->getPaidAmount();
+            $transaction_id = $transaction->getId();
+            $description = $transaction->getDescription();
+            $date = date('Y-m-d', time());
+            
+            $this->load->model('mdl_deposit');
+            $this->mdl_deposit->deposit_record_EUR($user_id, $amount, $transaction_id, 'true',$date, $description, $type);
+        }
+
+        if ($transaction->isCanceled()) {
+
+            $amount = $transaction->getPaidAmount();
+            $transaction_id = $transaction->getId();
+            $description = $transaction->getDescription();
+            $date = date('Y-m-d', time());
+            $this->load->model('mdl_deposit');
+            $this->mdl_deposit->deposit_record_EUR($user_id, $url_amount, $transaction_id, 'false', $date, $description, $type);
+        }
+
+        echo 'TRUE'; 
+    }
+
+
 }
 
 /* End of file Tools.php */

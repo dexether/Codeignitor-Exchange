@@ -4,5 +4,6 @@ echo '<div class="container">
             <div class="row">';
 echo $this->lang->line('lng_u_deposit');
 echo ' <a href="/funds/deposit/NLG">NLG</a> - ';
-echo ' <a href="/funds/deposit/EUR">EUR</a>  ';
+echo ' <a href="/funds/deposit/EUR">EUR</a> - ';
+echo ' <a href="/funds/deposit_history">HISTORY</a>  ';
 echo '</div></div>';
