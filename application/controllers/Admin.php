@@ -291,5 +291,67 @@ class Admin extends MY_Controller
 		}
 		return $value;
 	}
-}
 
+	public function fees()
+	{
+		auth(['admin','superadmin']);
+		$this->data['content'] = $this->load->view('admin/v_fees',[], true);
+		view($this->data, 'admin');
+	}
+
+
+	public function open_fees()
+	{
+		auth(['admin','superadmin']);
+
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('open_fees');
+		$crud->set_subject('Open fee');
+        $crud->set_relation('user_id', 'users', '{firstname} {lastname}<br> ({email})');
+        $crud->display_as('user_id', 'User');
+
+        $crud->required_fields('user_id');
+        $crud->unset_columns('table');
+
+        $crud->field_type('status', 'enum', array('open', 'closed'));
+
+		$output = $crud->render();
+
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		view($this->data, 'admin');
+	}
+
+
+	public function closed_fees()
+	{
+		auth(['admin','superadmin']);
+
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('closed_fees');
+		$crud->set_subject('Closed fee');
+        $crud->set_relation('open_fee_id', 'open_fees', '{user_id} {`table`} {fee}');
+        $crud->display_as('open_fee_id', 'Open fee');
+
+        $crud->required_fields('payout_id', 'open_fee_id', 'process_datetime', 'status');
+        // $crud->unset_columns('table');
+
+        $crud->field_type('status', 'enum', array('open', 'closed', 'processed'));
+
+		$output = $crud->render();
+
+
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		view($this->data, 'admin');
+	}
+
+	public function dividends()
+	{
+		auth(['admin','superadmin']);
+		$this->data['content'] = $this->load->view('admin/v_dividends',[], true);
+		view($this->data, 'admin');
+	}
+
+
+}
