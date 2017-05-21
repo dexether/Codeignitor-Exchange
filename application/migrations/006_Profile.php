@@ -23,6 +23,12 @@ class Migration_Profile extends CI_Migration {
                 'constraint'    => 100,
                 'null'          => false,
                 'after'         => 'profilepicture_path'
+            ],
+            'profilepicture_remove_reason' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => 255,
+                'null'          => false,
+                'after'         => 'profilepicture_mime'
             ]
         ];
         $this->dbforge->add_column('users', $fields);
@@ -33,5 +39,6 @@ class Migration_Profile extends CI_Migration {
     {
         $this->dbforge->drop_column('users', 'profilepicture_path');
         $this->dbforge->drop_column('users', 'profilepicture_mime');
+        $this->dbforge->drop_column('users', 'profilepicture_remove_reason');
     }
 }

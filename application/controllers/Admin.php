@@ -1,5 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+
 class Admin extends MY_Controller
 {
 
@@ -37,9 +38,11 @@ class Admin extends MY_Controller
 		$crud->set_table('users');
 		$crud->set_subject('Manage Users');
 		$crud->columns('id','email','username','verfiyStatus','trade_verification','role');
-		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg','password');
+		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg','password','profilepicture_path', 'profilepicture_mime', 'profilepicture_remove_reason');
 
-		$crud->set_field_upload('profilepicture', $upload_path);
+		$crud->display_as('profilepicture', 'Profile picture');
+		$crud->callback_edit_field('profilepicture',
+								array($this, 'callback_edit_profilepicture'));
 
 		// types
 		$crud->change_field_type('password', 'password');
@@ -57,8 +60,48 @@ class Admin extends MY_Controller
 		$output = $crud->render();
 
 
-		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+        $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
+        $this->l_asset->add('js/admin/user_profile.js', 'js');
+
+        $this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');
+	}
+
+
+	public function callback_edit_profilepicture($value, $user_id) {
+        $user_id = intval($user_id);
+        $noImage = false;
+        if (!$user_id) {
+        	$noImage = true;
+        } else {
+	        $user = $this->mdl_user->get_userdetails($user_id);
+	        if (!$user or !$user->profilepicture) {
+	        	$noImage = true;
+	        }
+        }
+        $csrf_token_name = $this->security->get_csrf_token_name();
+        if ($noImage) {
+        	$data = [
+        		'imgStyle' => 'style="display:none;"',
+        		'emptyStyle' => '',
+	        	'csrf_token_name' => $csrf_token_name,
+	        	'imgUrl' => '',
+        		'profilepicture' => ''
+	       	];
+        } else {
+        	$data = [
+        		'imgStyle' => '',
+        		'emptyStyle' => 'style="display:none;"',
+	        	'csrf_token_name' => $csrf_token_name,
+        		'imgUrl' => '/tools/show_profile_picture/' . $user->profilepicture,
+        		'profilepicture' => $user->profilepicture
+        	];
+        }
+
+        $template = $this->load->view('admin/v_edit_profilepicture', $data, true);
+		return $template;
 	}
 
 	public function callback_users_delete($primary_key)
