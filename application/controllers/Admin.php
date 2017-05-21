@@ -102,7 +102,7 @@ class Admin extends MY_Controller
         $template = $this->load->view('admin/v_edit_profilepicture', $data, true);
 		return $template;
         }
-        
+
 	public function withdraw()
 	{
 		auth(['admin','superadmin']);
@@ -349,7 +349,19 @@ class Admin extends MY_Controller
 	public function dividends()
 	{
 		auth(['admin','superadmin']);
-		$this->data['content'] = $this->load->view('admin/v_dividends',[], true);
+
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('dividend');
+		$crud->set_subject('Dividend');
+
+        $crud->required_fields('total_fee', 'dividend_datetime', 'status');
+
+        // $crud->field_type('status', 'enum', array('open', 'closed', 'processed'));
+
+		$output = $crud->render();
+
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');
 	}
 
