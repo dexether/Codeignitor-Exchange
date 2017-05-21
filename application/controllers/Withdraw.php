@@ -58,6 +58,7 @@ class Withdraw extends MY_Controller
 	        $data['alert'] = validation_errors('<p class="alert alert-danger">', '</p>');
 	    }
 
+        $currency_info['balance'] = number_format($currency_info['balance'], 2);
 	    $data['currency'] = $currency_info;
 	    $data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
 	    $data['content'] = $this->load->view('funds/v_eur_withdraw.php', $data, true);
@@ -180,7 +181,7 @@ class Withdraw extends MY_Controller
     	$currency = strtoupper($currency);
     	$this->load->model('mdl_balance');
     	$balance = $this->mdl_balance->fetch_user_balance_by_id($this->session->user_id, $currency);
-    	$currency_info = [ 'name'=>$currency ,'balance'=>number_format($balance, 2)];
+    	$currency_info = [ 'name'=>$currency ,'balance'=>$balance];
     	return $currency_info;
     }
 

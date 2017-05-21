@@ -1,6 +1,5 @@
 {
         "require": {
-            "paynl/sdk": "v1.2.0"
+        	"paynl/sdk": "v1.2.0"
         }
-
 }

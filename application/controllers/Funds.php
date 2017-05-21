@@ -12,14 +12,14 @@ class Funds extends MY_Controller{
         }
         
         $this->data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
+
     }
     
     public function index() {
         redirect('funds/deposit');
     }
 
-
-    
+ 
     public function deposit($fund='NLG', $type=null) {
 
 
