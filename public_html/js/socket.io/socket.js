@@ -1,70 +1,16 @@
 'use strict';
 
-function ClientSockets() {
-
-    var Config = require('../config');
+function ClientSockets(objectOfTables, user) {    
+    var io = require('./socket.io.min');
     var Table = require('./services/createTablesOrderBook');
-
-    var room,
-            ask,
-            bids,
-            trade,
-            orderOpen,
-            orderHistory;
-
-    function selectRoom() {
-        //Get a list of the rooms and current URL
-        var rooms = Config['rooms'];
-        var pathname = window.location.pathname;
-        //Select room (if URL contains the name of the room)
-        rooms.forEach(function (element) {
-            if (pathname.indexOf(element) >= 0) {
-                room = element;
-                console.log('You`re jioned to the room ' + room);
-            }
-            ;
-        });
-    }
-    ;
-
-    function createTables() {
-        //Create the objects of the tables
-        bids = new Table();
-        ask = new Table();
-
-        //Set the count of the row in this table
-        bids.setCount(Config['count_row_bids']);
-        ask.setCount(Config['count_row_ask']);
-
-        //Create the views of the tables
-        bids.createTable($('#table-bids'));
-        ask.createTable($('#table-ask'));
-
-        //Market history
-        trade = new TableStatistics();
-        trade.setKeys(Config['keys_trade_history']);
-        trade.setCount(Config['count_trade_history']);
-        trade.createTable($('#market-history'));
-
-
-        orderOpen = new TableStatistics();
-        orderOpen.setKeys(Config['keys_order_open']);
-        orderOpen.setCount(Config['count_order_open']);
-        orderOpen.createTable($('#table-open'));
-
-
-        orderHistory = new TableStatistics();
-        orderHistory.setKeys(Config['keys_order_history']);
-        orderHistory.setCount(Config['count_order_history']);
-        orderHistory.createTable($('#order-history'));
-    }
-
-
-
-    var TableStatistics = require('./services/createTablesStatistics');
-
-    //trade.setKeys(Config['keys_trade_history']);
-
+    
+    var room = user.room;
+    
+    var ask = objectOfTables['asks'],
+            bids = objectOfTables['bids'],
+            trade = objectOfTables['marketHistory'],
+            orderOpen = objectOfTables['openOrders'],
+            orderHistory = objectOfTables['orderHistory'];
 
     return function () {
         if (!window.WebSocket) {
@@ -76,10 +22,6 @@ function ClientSockets() {
         var socket = io.connect('http://localhost:8080');
 
         socket.on('connect', function () {
-
-            selectRoom();
-            createTables();
-
 
             var chart = require('./chart');
 
@@ -124,6 +66,5 @@ function ClientSockets() {
 }
 ;
 
-var service = new ClientSockets();
-service();
+module.exports = ClientSockets;
 

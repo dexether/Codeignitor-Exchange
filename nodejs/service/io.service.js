@@ -101,9 +101,9 @@ module.exports = {
                 io.sockets.in(room).emit('message', "New one is in room " + room);
                 
                 //Send the fake data
-                io.emit('trade_history', returnFakeTradeHistory());
-                io.emit('order_open', returnFakeTradeHistory());
-                io.emit('order_history', returnFakeTradeHistory());
+                io.sockets.in(room).emit('trade_history', returnFakeTradeHistory());
+                io.sockets.in(room).emit('order_open', returnFakeTradeHistory());
+                io.sockets.in(room).emit('order_history', returnFakeTradeHistory());
                 
             });
 
