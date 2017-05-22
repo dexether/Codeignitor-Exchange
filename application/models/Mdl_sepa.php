@@ -27,6 +27,10 @@ class mdl_sepa extends CI_Model
             $users[$key]['BIC'] = $r->routing_number; 
             $users[$key]['verification_code'] = $r->verification_code; 
             $users[$key]['bank_name'] = $r->bank_name;
+
+            $query = $this->db->get_where('users', ['id'=>$array['user_id']]);
+            $users[$key]['firstname'] = $query->result()[0]->firstname;
+            $users[$key]['lastname'] = $query->result()[0]->lastname;
         }
 
         return $users;

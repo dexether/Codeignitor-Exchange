@@ -28,6 +28,11 @@ defined('PAYSERVICEID') or define('PAYSERVICEID', 'SL-7450-1950');
 defined('FEE') or define('FEE', '0.25');
 defined('MARKETS') or define('MARKETS', array('EUR-NLG', 'GTS-NLG'));
 
+defined('INITIATORNAME') or define('INITIATORNAME', 'app-conf-change');
+defined('DEBTORNAME') or define('DEBTORNAME', 'debtor name app-conf-change');
+defined('DEBTORIBAN') or define('DEBTORIBAN', 'AT61 1904 3002 3457 3201');
+defined('DEBTORBIC') or define('DEBTORBIC', 'RZSTAT2G403');
+
 
 // can change this values from code
 // configuration array

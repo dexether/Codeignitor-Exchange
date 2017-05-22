@@ -74,7 +74,7 @@ class Mdl_withdraw extends CI_Model {
 
         $currency[$this->session->pending_curr['type']] = $this->session->pending_curr['amount']; 
         $token = $this->getToken(rand(20,24));
-        $transaction = md5($this->session->firstname) . $token;
+        $transaction = $this->session->user_id . $token;
 
         $params = [
                 $this->session->user_id,
