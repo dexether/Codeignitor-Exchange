@@ -32,7 +32,7 @@ class Withdraw extends MY_Controller
     {
 		if (!$this->status) {
 			$data['error'] = $this->status_error;
-			$data['menu'] = $this->data['menu'];
+            $data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
 	    	$data['content'] = $this->load->view('funds/v_withdraw_error', $data, true);
 	    	return $this->load->view('template/v_main_template', $data);
 		}
@@ -90,6 +90,7 @@ class Withdraw extends MY_Controller
         $content = 'Your transaction has been successfully created. Email confirmation has been sent to your email address.';  
         $vars['message'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> '.$content.' <br/></div>';
         $data['content'] = $this->load->view('funds/v_withdraw_message', $vars, TRUE);  
+        $data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
         $this->load->view('template/v_main_template', $data);
     }
 
@@ -109,6 +110,7 @@ class Withdraw extends MY_Controller
         $content = 'Your transaction has been successfully activated.';  
         $vars['message'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> '.$content.'</div>';
         $data['content'] = $this->load->view('funds/v_withdraw_message', $vars, TRUE); 
+        $data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
         $this->load->view('template/v_main_template', $data);  
     }
 
@@ -142,6 +144,7 @@ class Withdraw extends MY_Controller
         $content = 'Your transaction has been successfully canceled.' ; 
         $vars['message'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> '.$content.' <br/></div>';
         $data['content'] = $this->load->view('funds/v_withdraw_message', $vars, TRUE);
+        $data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
         $this->load->view('template/v_main_template', $data);
         
     }
