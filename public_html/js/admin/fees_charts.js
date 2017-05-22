@@ -1,44 +1,76 @@
 $(document).ready(function() {
-    var ctx = document.getElementById('open-fees-chart');
-    var openFeesChart = new Chart(
-        ctx,
-        {
-            type: 'bar',
-            data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+    var period = parseInt($('#period').val(), 10);
+    var ctx = document.getElementById('open-fees-chart'),
+        openFeesChart;
+
+    showOpenFeesData(period);
+
+    $('#period').on('change', function(e) {
+        var period = parseInt($(this).val(), 10);
+        showOpenFeesData(period);
+    })
+
+
+    function showOpenFeesData(period) {
+        $.ajax({
+            type: 'POST',
+            url: '/admin/get_open_fees_data',
+            data: {period: period},
+            dataType: 'json',
+            success: function(r) {
+                console.log(r);
+                if (r.status && r.status === 'ok') {
+                    var labels = Object.keys(r.data);
+                    var data = labels.map(function(e) {
+                        return r.data[e].fee ? r.data[e].fee : 0;
+                    });
+                    // console.log('labels', labels);
+                    // console.log('data', data);
+                    drawOpenFeesChart(labels, data);
+                } else {
+                    if (r.msg) {
+                        alert(r.msg);
+                    }
+                }
             },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
+            error: function(e) {
+                alert(e.message);
+            }
+        });
+    }
+
+
+
+    function drawOpenFeesChart(labels, data) {
+        if (openFeesChart) {
+            openFeesChart.destroy();
+        }
+
+        openFeesChart = new Chart(
+            ctx,
+            {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'open fees',
+                        data: data,
+                        backgroundColor: 'rgba(128, 225, 128, 1)',
+                        borderColor: 'rgba(255,255,255,1)',
+                        borderWidth: 1
                     }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
                 }
             }
-        }
-    );
-
+        );
+    } // drawOpenFeesChart()...
 
 });

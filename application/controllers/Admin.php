@@ -17,7 +17,7 @@ class Admin extends MY_Controller
 		$this->load->model('admin_model');
 		$this->load->model('mdl_user');
 		$this->load->model('mdl_user_verification');
-
+        $this->load->model('mdl_fees');
 	}
 
 	public function index()
@@ -300,6 +300,26 @@ class Admin extends MY_Controller
 		$this->data['content'] = $this->load->view('admin/v_fees',[], true);
 		view($this->data, 'admin');
 	}
+
+
+    public function get_open_fees_data() {
+        auth(['admin','superadmin']);
+        $days = intval($this->input->post('period', true));
+        if ($days < 0 || $days > 30) {
+            echo json_encode([
+                'status' => 'error',
+                'msg'    => 'Incorrect input parameter value'
+            ]);
+            exit;
+        }
+
+        $data = $this->mdl_fees->get_recent_fees_data($days);
+        echo json_encode([
+            'status' => 'ok',
+            'data'   => $data
+        ]);
+        exit;
+    }
 
 
 	public function open_fees()
