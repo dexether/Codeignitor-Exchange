@@ -7,10 +7,10 @@
                 <table class="table table-striped" id="market-history">
                 <thead>
                 <tr>
-                <th width="13%"> Date  </th>
-                <th width="23%">       Buy/Sell</th>
-                <th width="17%">           <?php echo $currency_bid; ?>    </th>
-                <th width="17%">            Total Units            </th>
+                <th width="14%"> Date  </th>
+                <th width="10%">       Buy/Sell</th>
+                <th width="21%">           <?php echo $currency_bid; ?>    </th>
+                <th width="21%">            Total Units            </th>
                 <th width="15%">      Total Cost </th>
                 </tr>
                 </thead>
@@ -23,9 +23,9 @@
                                 foreach ($rows as $row) 
                                 {
 
-                                    echo '<tr><td>', substr($row->trade_datetime,0,16), '</td><th>',$row->bidsell,
-                                    '</th><th>', number_format($row->price,8), '</th><th>', number_format($row->amount,8),
-                                    '</th><th>', number_format($row->total,8), '</th></tr>';
+                                    echo '<tr><td>', substr($row->trade_datetime,0,16), '</td><td>',$row->bidsell,
+                                    '</th><td>', number_format($row->price,8), '</td><td>', number_format($row->amount,8),
+                                    '</th><td>', number_format($row->total,8), '</td></tr>';
                                 }
                                 echo '</table>';
                             }

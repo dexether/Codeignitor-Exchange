@@ -20,7 +20,7 @@
                                 $total = 0;
                                 foreach ($rows as $row) 
                                 {
-                                    $sum += $row->$currency_bid;
+                                    $sum += $row->total;
                                     echo '<tr><td>', number_format($sum,8), '</td><td>',$row->total,'</td><td>',
                                             number_format($row->amount,8), '</td><td>', 
                                             number_format($row->price,8),'</td></tr>';

@@ -5,7 +5,7 @@
 defined('APP_BASE_URL')      OR define('APP_BASE_URL', base_url());
 defined('APP_COMPANY_NAME')  OR define('APP_COMPANY_NAME', 'GuldenTrader');
 defined('APP_LOGO')          OR define('APP_LOGO', base_url().'images/logo.png');
-defined('APP_TITLE') 	     OR define('APP_TITLE', 'Gulden Trader');
+defined('APP_TITLE') 	     OR define('APP_TITLE', 'GuldenTrader.com');
 defined('APP_ADMIN_EMAIL') 	 OR define('APP_ADMIN_EMAIL', 'exchange@guldentrader.com');
 defined('APP_SMTP_HOST') 	 OR define('APP_SMTP_HOST', 'mail.guldentrader.com');
 defined('APP_SMTP_USER') 	 OR define('APP_SMTP_USER', 'exchange@guldentrader.com');
