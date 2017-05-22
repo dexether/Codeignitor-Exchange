@@ -163,6 +163,8 @@ class Mdl_user extends CI_Model
 
     }
 
+
+
     function common_mail($tomail = null, $email_subject = null, $email_content = null)
     {
         $content = $this->load->view('template/emails/v_header', [], TRUE);

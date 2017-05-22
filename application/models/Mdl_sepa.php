@@ -9,47 +9,43 @@ class mdl_sepa extends CI_Model
     }
 
 
-    public function create_sepa()
+    public function prepare()
     {
-        $date = date('Y-m-d');
-        var_dump($date);
-        //var_dump($this->group_header());
+        $data = $this->get_pending_data();
+
+        foreach ($data as $records) {
+            $user_id = $records->user_id;
+            $transaction = $records->transaction;
+            $amount = $records->EUR;
+            $users[] = ['user_id'=>$user_id, 'transaction'=>$transaction, 'amount'=>$amount];
+        }
+
+
+        foreach ($users as $key=>$array) {
+            $r = $this->user_bank_details($array['user_id']);
+            $users[$key]['IBAN'] = $r->inter_banking_code;
+            $users[$key]['BIC'] = $r->routing_number; 
+            $users[$key]['verification_code'] = $r->verification_code; 
+            $users[$key]['bank_name'] = $r->bank_name;
+        }
+
+        return $users;
     }
 
 
-    private function head() 
-    {
-        return <<<SEPA
-        <?xml version="1.0" encoding="utf-8" ?>
-        <Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03" xmlns:xsi="http:⇒
-        //www.w3.org/2001/XMLSchema-instance">
-           <CstmrCdtTrfInitn>
-SEPA;
+
+
+    private function get_pending_data() 
+    {   
+        $query = $this->db->query('SELECT * FROM `withdrawal` WHERE `status` = "pending" AND `EUR` <> 0');
+        return $query->result();
     }
 
-
-    private function group_header($message_id, $date_time, $num_of_transactions, $name)
+    private function user_bank_details($user_id)
     {
-        return <<<SEPA
-        <GrpHdr>
-            <MsgId> Message Identification </MsgId>
-            <CreDtm> Creation Date Time </CreDtm>
-            <NbOfTxs> Number Of Transactions </NbOfTxs>
-            
-            <InitgPty> 
-                <nm></nm>
-            </InitgPty>
-        </GrpHdr>
-SEPA;
+        $query = $this->db->query('SELECT * FROM `user_bank_details` WHERE `user_id` = ?', [$user_id]);
+        return $query->result()[0];
     }
 
-
-    private function footer() 
-    {
-        return <<<SEPA
-        </CstmrCdtTrfInitn>
-        </Document>
-SEPA;
-    }
     
 }
