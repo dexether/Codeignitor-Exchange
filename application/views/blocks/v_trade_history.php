@@ -1,10 +1,10 @@
 <div class="container">
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <div class="cls_top_table table-responsive">
+        <div class="cls_top_table table-responsive" id="market-history">
             <h4>Market History</h4>
-            <div class="table-responsive cls_trade_table">
-                <table class="table table-striped" id="market-history">
+            <div class="table-responsive cls_trade_table" >
+                <table class="table table-striped">
                 <thead>
                 <tr>
                 <th width="13%"> Date  </th>

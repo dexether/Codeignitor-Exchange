@@ -43,8 +43,8 @@ app.post('/get_init_data', function (req, res) {
         'status request': 'all right',
         'user_id': 'u123/45',
         'room': 'EUR-NLG',
-        'EUR': 200.25,
-        'NGL': 1000,
+        'firstCurrency': 200.25,
+        'secondCurrency': 1000,
         'keys': {
             'bids_keys': ['sum', 'total', 'size(ngl)', 'bid(btc)'],
             'asks_keys': ['sum', 'total', 'size(ngl)', 'bid(btc)'],
@@ -74,6 +74,7 @@ app.post('/get_init_data', function (req, res) {
                 {'sum': 0.0015, 'total': 0.0015, 'size(ngl)': 42.30000279, 'bid(btc)': 0.00003597},
                 {'sum': 0.4985, 'total': 0.4970, 'size(ngl)': 13824.21101540, 'bid(btc)': 0.00003595},
                 {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
+                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
                 {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594}
             ]
         },
@@ -81,6 +82,9 @@ app.post('/get_init_data', function (req, res) {
             {'buy/sell': 'buy', 'gts': '12', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:45'},
             {'buy/sell': 'buy', 'gts': '12', 'total units': 1.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:34'},
             {'buy/sell': 'buy', 'gts': '256', 'total units': 30.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:18'},
+            {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+            {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+            {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
             {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
             {'buy/sell': 'sell', 'gts': '100', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
             {'buy/sell': 'buy', 'gts': '1000', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},

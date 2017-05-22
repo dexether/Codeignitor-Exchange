@@ -37,6 +37,8 @@ $.ajax({
         .done(function (json) {
             user = new User(json);  //store the user data
           //  console.log();
+          $('#availableFirst').html(json['firstCurrency']);
+          $('#availableSecond').html(json['secondCurrency']);
 
             bidsTable = new Table('#table-bids', json['keys']['bids_keys'], json['order_books']['bids']);
             bidsTable.createTable();
@@ -46,6 +48,7 @@ $.ajax({
 
             marketHistoryTable = new Table('#market-history', json['keys']['market_history_keys'], json['market_history']);
             marketHistoryTable.createTable();
+            console.log(json['market_history']);
 
             openOrdersTable = new Table('#table-open', json['keys']['order_open_keys'], json['order_open']);
             openOrdersTable.createTable();

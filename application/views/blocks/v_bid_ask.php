@@ -43,7 +43,7 @@ echo '<script>FEE = \'', FEE , '\';</script>'
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <div class="cls_ac_ba"> Available <?php echo $currency_bid; ?>: 
-                                            <b><?php echo number_format((float)$available_bid, 8, '.', ''); ?></b>
+                                            <b id="availableFirst"><?php echo number_format((float)$available_bid, 8, '.', ''); ?></b>
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +156,7 @@ echo '<script>FEE = \'', FEE , '\';</script>'
                                             <option value="stop">Stop Order (Advanced)</option></select> </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
-                                    <div class="cls_ac_ba"> Available <?php echo $currency_sell; ?>: <b><?php echo number_format((float) $available_sell, 8, '.', ''); ?>  </b> </div>
+                                    <div class="cls_ac_ba"> Available <?php echo $currency_sell; ?>: <b id="availableSecond"><?php echo number_format((float) $available_sell, 8, '.', ''); ?>  </b> </div>
                                 </div>
                             </div>
 
