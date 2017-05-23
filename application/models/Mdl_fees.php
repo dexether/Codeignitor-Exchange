@@ -45,4 +45,21 @@ class Mdl_fees extends CI_Model {
         return $result;
     }
 
+
+    /**
+     * Calculation of `fee` sum for all open-statused open_fees
+     * table records
+     *
+     * @return float
+     */
+    public function calc_open_fee()
+    {
+        $query = $this->db->select_sum('fee', 'total_fee')
+                 ->from('open_fees')
+                 ->where('status', 'open')
+                 ->get();
+        $total_fee = $query->row()->total_fee;
+        return floatval($total_fee);
+    }
+
 }

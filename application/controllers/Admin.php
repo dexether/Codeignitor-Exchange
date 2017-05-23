@@ -4,14 +4,17 @@
 class Admin extends MY_Controller
 {
 
+    // payment is enabled when open fees amount >= this constant value
+    const PAYMENT_MIN_LIMIT = 0.01;
+
 	public function __construct()
 	{
 		parent::__construct();
-                $admin_roles = ['admin','superadmin'];
-                if(!in_array($this->session->userdata('role'), $admin_roles))
-                {
-                    redirect ('/');
-                }
+        $admin_roles = ['admin','superadmin'];
+        if(!in_array($this->session->userdata('role'), $admin_roles))
+        {
+            redirect ('/');
+        }
 
 		$this->load->library('grocery_CRUD');
 		$this->load->model('admin_model');
@@ -155,7 +158,7 @@ class Admin extends MY_Controller
 		auth(['admin','superadmin']);
 		// init
 
-                $upload_path = '../application/uploads';
+        $upload_path = '../application/uploads';
 		$crud = new grocery_CRUD();
 		$crud->set_table('user_verification');
 		$crud->set_subject('user_verification');
@@ -302,7 +305,8 @@ class Admin extends MY_Controller
 	}
 
 
-    public function get_open_fees_data() {
+    public function get_open_fees_data()
+    {
         auth(['admin','superadmin']);
         $days = intval($this->input->post('period', true));
         if ($days < 0 || $days > 30) {
@@ -340,9 +344,28 @@ class Admin extends MY_Controller
 
 		$output = $crud->render();
 
+        $this->l_asset->add('js/admin/open_fees.js','js');
+
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');
 	}
+
+
+    /**
+     * AJAX-queried function to check if we need to show 'Pay' button in
+     * open_fees CRUD admin part
+     *
+     * @return boolean
+     */
+    public function is_pay_button_showed()
+    {
+        $sum = $this->mdl_fees->calc_open_fee();
+        $toShow = $sum >= self::PAYMENT_MIN_LIMIT;
+        echo json_encode(
+            ['status' => 'ok', 'data' => $toShow]
+        );
+        exit;
+    }
 
 
 	public function closed_fees()
