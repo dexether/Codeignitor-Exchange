@@ -34,6 +34,11 @@ defined('DEBTORIBAN') or define('DEBTORIBAN', 'AT61 1904 3002 3457 3201');
 defined('DEBTORBIC') or define('DEBTORBIC', 'RZSTAT2G403');
 
 
+defined('TAXSEPA') or define('TAXSEPA', 0.5);
+defined('TAXMANUAL') OR define('TAXMANUAL', 0.5);
+defined('TAXDEPOSIT') OR define('TAXDEPOSIT', 1.0);
+
+
 // can change this values from code
 // configuration array
 $config = [];

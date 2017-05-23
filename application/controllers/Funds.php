@@ -122,8 +122,8 @@ class Funds extends MY_Controller{
         $data['content'] = $this->load->view('funds/v_deposit_history', $vars, TRUE);
         $data['head_css'] = "<link href=". base_url('css/deposit_history.css') ." rel='stylesheet'>";
         $data['head_js'] = "<script src='". base_url('js/deposit_history.js') ."'></script>";
-        $data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
-        $this->load->view('template/v_site_template', $data);
+        $data['menu'] = $this->load->view('markets/v_menu', [], true);
+        $this->load->view('template/v_main_template', $data);
     }
 
 

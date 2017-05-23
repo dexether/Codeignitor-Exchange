@@ -18,6 +18,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
       <script type="text/javascript">var base_url = '<?php echo base_url(); ?>'; </script>
+    <?php if (isset($head_css)) echo $head_css; ?>
     </head>
     <body>
       <div class="wrapper">

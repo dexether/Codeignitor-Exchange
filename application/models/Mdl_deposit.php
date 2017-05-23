@@ -99,7 +99,7 @@ class mdl_deposit extends CI_Model
         $this->db->select('EUR');
         $query = $this->db->get_where('balance', ['user_id' => $user_id]);
         $eur_balance = $query->row()->EUR;
-        $eur_balance += $amount-1;
+        $eur_balance += $amount-TAXDEPOSIT;
 
         $this->db->query("UPDATE `ciexcgt`.`balance` SET `EUR`=? WHERE `user_id`=?;
         ", [$eur_balance, $user_id]);

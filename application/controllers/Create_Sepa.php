@@ -30,7 +30,13 @@ class Create_Sepa extends MY_Controller
 		$data = $this->mdl_sepa->prepare();
 		
 		foreach($data as $user) {
-			$this->add_payment( $user['transaction'], $user['amount'], $user['IBAN'], $user['BIC'], $user['firstname'] . ' ' . $user['lastname'] );
+
+			if(!SepaUtilities::checkIban($user['IBAN']) OR !SepaUtilities::checkBic($user['BIC'])) {
+				continue;
+			}
+
+			$amount = $user['amount'] - TAXSEPA;
+			$this->add_payment( $user['transaction'], $amount, $user['IBAN'], $user['BIC'], $user['firstname'] . ' ' . $user['lastname'] );
 		}
 
 		$this->creditTransferFile->downloadSepaFile();
