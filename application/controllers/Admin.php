@@ -69,11 +69,12 @@ class Admin extends MY_Controller
 		$crud = new grocery_CRUD();
 
 		$crud->set_table('withdrawal');
+		$crud->where('status', 'pending');
 		$crud->set_subject('Manage Withdrawals');
 		$crud->columns('user_id', 'EUR', 'GTS', 'NLG', 'transaction', 'status', 'verified', 'withdrawal_date');
 
 		$output = $crud->render();
-		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud_withdraw', (array) $output, true);
 		view($this->data, 'admin');
 	}
 

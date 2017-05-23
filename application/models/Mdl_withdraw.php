@@ -95,8 +95,28 @@ class Mdl_withdraw extends CI_Model {
         return ['token' => $token, 'transaction' => $transaction];
     }
 
-    public function cancel_withdraw($pending_currency, $currency, $update_amount)
+    public function cancel_withdraw($transaction)
     {
+        $query = $this->db->query('SELECT * FROM `withdrawal` WHERE `transaction` = ? AND `user_id` = ? AND status = "activate"', [$transaction, $this->session->user_id]);
+        $row = $query->row(); 
+
+        if (!$row) {
+            return FALSE;
+        }
+
+        $currency = [
+            'EUR' => $row->EUR,
+            'NLG' => $row->NLG,
+        ];
+
+        $amount = ( $currency['EUR'] != 0 ? ['EUR', $currency['EUR']]: ['NLG', $currency['NLG']] );
+
+        $pending_currency = 'pending_' . $amount[0];
+        $currency = $amount[0];
+        $update_amount = $amount[1];
+        
+        $query = $this->db->query("UPDATE `withdrawal` SET `status`='cancel' WHERE `id` = ? and`user_id` = ?", [$query->row()->id, $this->session->user_id]);
+
         $query = $this->db->get_where('balance', ['user_id' => $this->session->user_id]);
         $pending = $query->row()->$pending_currency;
         $amount = $query->row()->$currency;
@@ -111,7 +131,21 @@ class Mdl_withdraw extends CI_Model {
 
         $this->db->where('user_id', $this->session->user_id);
         $query = $this->db->update('balance', $params); 
+
+        return TRUE;
     }
+
+    public function confirm_withdraw($transaction)
+    {
+        $query = $this->db->query('SELECT * FROM `withdrawal` WHERE `transaction` = ? AND `user_id` = ? AND status = "activate"', [$transaction, $this->session->user_id]);
+        
+        if (!$query->row()) {
+            return FALSE;
+        }
+
+        $query = $this->db->query("UPDATE `withdrawal` SET `status`='pending' WHERE `id` = ? and`user_id` = ?", [$query->row()->id, $this->session->user_id]);
+        return TRUE;
+    } 
 
     //=======================================================================
     // PRIVATE FUNCTIONS

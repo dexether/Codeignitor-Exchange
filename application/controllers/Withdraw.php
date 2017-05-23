@@ -98,15 +98,14 @@ class Withdraw extends MY_Controller
 
     public function confirm_withdraw ($transaction) 
     {
-        $query = $this->db->query('SELECT * FROM `withdrawal` WHERE `transaction` = ? AND `user_id` = ? AND status = "activate"', [$transaction, $this->session->user_id]);
-        
-        if (!$query->row()) {
+        $this->load->model('mdl_withdraw');
+        $return = $this->mdl_withdraw->confirm_withdraw($transaction);
+
+        if (!$return) {
             show_404();
             return;
         }
 
-        $query = $this->db->query("UPDATE `ciexcgt`.`withdrawal` SET `status`='pending' WHERE `id` = ? and`user_id` = ?", [$query->row()->id, $this->session->user_id]);
-        
         $content = 'Your transaction has been successfully activated.';  
         $vars['message'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> '.$content.'</div>';
         $data['content'] = $this->load->view('funds/v_withdraw_message', $vars, TRUE); 
@@ -117,30 +116,14 @@ class Withdraw extends MY_Controller
 
     public function cancel_withdraw ($transaction) 
     {
-        $query = $this->db->query('SELECT * FROM `withdrawal` WHERE `transaction` = ? AND `user_id` = ? AND status = "activate"', [$transaction, $this->session->user_id]);
-        
-        $row = $query->row(); 
-        if (!$row) {
+        $this->load->model('mdl_withdraw');
+        $return = $this->mdl_withdraw->cancel_withdraw($transaction);
+
+        if (!$return) {
             show_404();
             return;
         }
 
-        $currency = [
-            'EUR' => $row->EUR,
-            'NLG' => $row->NLG,
-        ];
-
-        $amount = ( $currency['EUR'] != 0 ? ['EUR', $currency['EUR']]: ['NLG', $currency['NLG']] );
-
-        $pending_currency = 'pending_' . $amount[0];
-        $currency = $amount[0];
-        $amount = $amount[1];
-        
-        $query = $this->db->query("UPDATE `ciexcgt`.`withdrawal` SET `status`='cancel' WHERE `id` = ? and`user_id` = ?", [$query->row()->id, $this->session->user_id]);
-
-        $this->load->model('mdl_withdraw');
-        $this->mdl_withdraw->cancel_withdraw($pending_currency, $currency, $amount);
-        
         $content = 'Your transaction has been successfully canceled.' ; 
         $vars['message'] = '<div class="alert alert-success"><i class="glyphicon glyphicon-ok"></i> '.$content.' <br/></div>';
         $data['content'] = $this->load->view('funds/v_withdraw_message', $vars, TRUE);
