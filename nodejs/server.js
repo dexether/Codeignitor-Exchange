@@ -36,88 +36,103 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
 });
+
+function fake(count, start) {
+    var k = parseInt(count);
+    var st = parseInt(start);
+    var arr = [];
+    for (var i = 0; i < k; i++) {
+        arr.push(
+                {'sum': st + i, 'total': 0.0015, 'size(ngl)': 42.30000279, 'bid(btc)': 0.00003597}
+        );
+    }
+    ;
+    return arr;
+}
+
+app.post('/get_next_records', function (req, res) {
+    //req.body.room - this is the room where a user is logging
+    console.log(req.body);
+    if ((req.body.table === 'table-bids') || (req.body.table === 'table-ask')) {
+        res.send({'value': fake(req.body.count, req.body.fromNumber)});
+    } else
+        res.send({'status': 200});
+});
+
 app.post('/get_init_data', function (req, res) {
     //req.body.room - this is the room where a user is logging
     console.log(req.body);
     res.send({
-        'status request': 'all right',
-        'user_id': 'u123/45',
-        'room': 'EUR-NLG',
-        'firstCurrency': 200.25,
-        'secondCurrency': 1000,
-        'keys': {
-            'bids_keys': ['sum', 'total', 'size(ngl)', 'bid(btc)'],
-            'asks_keys': ['sum', 'total', 'size(ngl)', 'bid(btc)'],
-            'order_open_keys': ['date', 'buy/sell', 'gts', 'total units', 'total cost'],
-            'order_history_keys': ['date', 'buy/sell', 'gts', 'total units', 'total cost'],
-            'market_history_keys': ['date', 'buy/sell', 'gts', 'total units', 'total cost']
+        'user': {
+            'user_id': 'u123/45',
+            'room': req.body.room,
+            'firstCurrency': 200.25,
+            'secondCurrency': 1000
         },
-        'order_books': {
-            'bids': [
-                {'sum': 0.0015, 'total': 0.0015, 'size(ngl)': 42.30000279, 'bid(btc)': 0.00003597},
-                {'sum': 0.4985, 'total': 0.4970, 'size(ngl)': 13824.21101540, 'bid(btc)': 0.00003595},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
-                {'sum': 0.0015, 'total': 0.0015, 'size(ngl)': 42.30000279, 'bid(btc)': 0.00003597},
-                {'sum': 0.4985, 'total': 0.4970, 'size(ngl)': 13824.21101540, 'bid(btc)': 0.00003595},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594}
-            ],
-            'asks': [
-                {'sum': 0.0015, 'total': 0.0015, 'size(ngl)': 42.30000279, 'bid(btc)': 0.00003597},
-                {'sum': 0.4985, 'total': 0.4970, 'size(ngl)': 13824.21101540, 'bid(btc)': 0.00003595},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
-                {'sum': 0.0015, 'total': 0.0015, 'size(ngl)': 42.30000279, 'bid(btc)': 0.00003597},
-                {'sum': 0.4985, 'total': 0.4970, 'size(ngl)': 13824.21101540, 'bid(btc)': 0.00003595},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594},
-                {'sum': 0.4990, 'total': 0.5670, 'size(ngl)': 28824.21101540, 'bid(btc)': 0.00003594}
-            ]
-        },
-        'market_history': [
-            {'buy/sell': 'buy', 'gts': '12', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:45'},
-            {'buy/sell': 'buy', 'gts': '12', 'total units': 1.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:34'},
-            {'buy/sell': 'buy', 'gts': '256', 'total units': 30.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:18'},
-            {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
-            {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
-            {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
-            {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
-            {'buy/sell': 'sell', 'gts': '100', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
-            {'buy/sell': 'buy', 'gts': '1000', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
-            {'buy/sell': 'buy', 'gts': '50', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-15 07:14:46'},
-            {'buy/sell': 'buy', 'gts': '24', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
-            {'buy/sell': 'sell', 'gts': '259', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
-            {'buy/sell': 'buy', 'gts': '756', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
-            {'buy/sell': 'buy', 'gts': '150', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-15 07:14:46'}
-        ],
-        'order_open': [
-            {'buy/sell': 'buy', 'gts': '12', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:45'},
-            {'buy/sell': 'buy', 'gts': '12', 'total units': 1.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:34'},
-            {'buy/sell': 'buy', 'gts': '256', 'total units': 30.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:18'},
-            {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
-            {'buy/sell': 'sell', 'gts': '100', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
-            {'buy/sell': 'buy', 'gts': '1000', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
-            {'buy/sell': 'buy', 'gts': '50', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-15 07:14:46'},
-            {'buy/sell': 'buy', 'gts': '24', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
-            {'buy/sell': 'sell', 'gts': '259', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
-            {'buy/sell': 'buy', 'gts': '756', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
-        ],
-        'order-history': [
-            {'buy/sell': 'buy', 'gts': '12', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:45'},
-            {'buy/sell': 'buy', 'gts': '12', 'total units': 1.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:34'},
-            {'buy/sell': 'buy', 'gts': '256', 'total units': 30.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:18'},
-            {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
-            {'buy/sell': 'sell', 'gts': '100', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
-            {'buy/sell': 'buy', 'gts': '1000', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
-            {'buy/sell': 'buy', 'gts': '50', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-15 07:14:46'},
-            {'buy/sell': 'buy', 'gts': '24', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
-            {'buy/sell': 'sell', 'gts': '259', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
-            {'buy/sell': 'buy', 'gts': '756', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
-        ]
+        'tables': {
+            'table-bids': {
+                'keys': ['sum', 'total', 'size(ngl)', 'bid(btc)'],
+                'count': 105,
+                'first': fake(50, 1)
+            },
+            'table-ask': {
+                'keys': ['sum', 'total', 'size(ngl)', 'bid(btc)'],
+                'count': 65,
+                'first': fake(50, 1)
+            },
+            'market-history': {
+                'keys': ['date', 'buy/sell', 'gts', 'total units', 'total cost'],
+                'count': 65,
+                'first': [
+                    {'buy/sell': 'buy', 'gts': '12', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:45'},
+                    {'buy/sell': 'buy', 'gts': '12', 'total units': 1.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:34'},
+                    {'buy/sell': 'buy', 'gts': '256', 'total units': 30.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:18'},
+                    {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+                    {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+                    {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+                    {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+                    {'buy/sell': 'sell', 'gts': '100', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
+                    {'buy/sell': 'buy', 'gts': '1000', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
+                    {'buy/sell': 'buy', 'gts': '50', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-15 07:14:46'},
+                    {'buy/sell': 'buy', 'gts': '24', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+                    {'buy/sell': 'sell', 'gts': '259', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
+                    {'buy/sell': 'buy', 'gts': '756', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
+                    {'buy/sell': 'buy', 'gts': '150', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-15 07:14:46'}
+                ]
+            },
+            'table-open': {
+                'keys': ['date', 'buy/sell', 'gts', 'total units', 'total cost'],
+                'count': 65,
+                'first': [
+                    {'buy/sell': 'buy', 'gts': '12', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:45'},
+                    {'buy/sell': 'buy', 'gts': '12', 'total units': 1.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:34'},
+                    {'buy/sell': 'buy', 'gts': '256', 'total units': 30.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:18'},
+                    {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+                    {'buy/sell': 'sell', 'gts': '100', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
+                    {'buy/sell': 'buy', 'gts': '1000', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
+                    {'buy/sell': 'buy', 'gts': '50', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-15 07:14:46'},
+                    {'buy/sell': 'buy', 'gts': '24', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+                    {'buy/sell': 'sell', 'gts': '259', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
+                    {'buy/sell': 'buy', 'gts': '756', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
+                ]
+            },
+            'order-history': {
+                'keys': ['date', 'buy/sell', 'gts', 'total units', 'total cost'],
+                'count': 65,
+                'first': [
+                    {'buy/sell': 'buy', 'gts': '12', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:45'},
+                    {'buy/sell': 'buy', 'gts': '12', 'total units': 1.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:34'},
+                    {'buy/sell': 'buy', 'gts': '256', 'total units': 30.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:40:18'},
+                    {'buy/sell': 'buy', 'gts': '300', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+                    {'buy/sell': 'sell', 'gts': '100', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
+                    {'buy/sell': 'buy', 'gts': '1000', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
+                    {'buy/sell': 'buy', 'gts': '50', 'total units': 5.00000000, 'total cost': 5.00000000, 'date': '2017-02-15 07:14:46'},
+                    {'buy/sell': 'buy', 'gts': '24', 'total units': 48.00000000, 'total cost': 5.00000000, 'date': '2017-02-17 01:39:28'},
+                    {'buy/sell': 'sell', 'gts': '259', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:20:27'},
+                    {'buy/sell': 'buy', 'gts': '756', 'total units': 100.00000000, 'total cost': 5.00000000, 'date': '2017-02-13 05:24:27'},
+                ]
+            }
+        }
     });
 });
 //Add socket service

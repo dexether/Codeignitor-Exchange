@@ -35,25 +35,24 @@ $.ajax({
     dataType: "json"
 })
         .done(function (json) {
-            user = new User(json);  //store the user data
-          //  console.log();
+            user = new User(json['user']);  //store the user data
+    
           $('#availableFirst').html(json['firstCurrency']);
           $('#availableSecond').html(json['secondCurrency']);
 
-            bidsTable = new Table('#table-bids', json['keys']['bids_keys'], json['order_books']['bids']);
+            bidsTable = new Table('#table-bids', json['tables']['table-bids'], user);
             bidsTable.createTable();
 
-            asksTable = new Table('#table-ask', json['keys']['asks_keys'], json['order_books']['asks']);
+            asksTable = new Table('#table-ask', json['tables']['table-ask'], user);
             asksTable.createTable();
 
-            marketHistoryTable = new Table('#market-history', json['keys']['market_history_keys'], json['market_history']);
+            marketHistoryTable = new Table('#market-history', json['tables']['market-history'], user);
             marketHistoryTable.createTable();
-            console.log(json['market_history']);
 
-            openOrdersTable = new Table('#table-open', json['keys']['order_open_keys'], json['order_open']);
+            openOrdersTable = new Table('#table-open', json['tables']['table-open'], user);
             openOrdersTable.createTable();
 
-            orderHistoryTable = new Table('#order-history', json['keys']['order_history_keys'], json['order-history']);
+            orderHistoryTable = new Table('#order-history', json['tables']['order-history'], user);
             orderHistoryTable.createTable();
 
             var service = new ClientSockets({

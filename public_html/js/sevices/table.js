@@ -1,21 +1,75 @@
-var Table = function (element, key, data) {
+var Table = function (element, object, userInfo) {
     var k = 10; //count of the recirds
 
-    var table = $(element);
-    var keys = key;
-    var tableValue = data || [];
+    var user = userInfo;
+    var tableID = $(element).attr('id');
+    var table = $(element).find('tbody');
+    var keys = object['keys'];
+    var tableValue = object['first'] || [];
+    var firstPageInTable = 1;
+    var tableLength = object['count'];
+    
     var countOfRows = (tableValue.length < k) ? tableValue.length : k;
     var pageNumber = 1;
     var pageCount;
-    if (tableValue.length % countOfRows === 0) {
-        pageCount = Math.round(tableValue.length / countOfRows);
-    } else {
-        pageCount = Math.round(tableValue.length / countOfRows) + 1;
-    }
+    
+        pageCount = Math.round(tableLength / countOfRows);
 
+    function downloadNext(fromNumber, button) {
+        var countForLoaded = ((button === 'first') || (button === 'last')) ? 50 : 2 * k;
+        $.ajax({
+            url: "http://localhost:7777/get_next_records",
+            data: {
+                'fromNumber': fromNumber,
+                'count': countForLoaded,
+                'room': user['room'],
+                'table': tableID
+            },
+            type: "post",
+            dataType: "json"
+        })
+                .done(function (json) {
+                    if (button === 'next') {
+
+                        tableValue.splice(0, 2 * k);
+                        tableValue.push.apply(tableValue, json['value']);
+
+                    } else {
+                        if (button === 'prevent') {
+                            tableValue.splice(30, (2 * k));
+
+                            var arr2 = json['value'].slice();
+                            arr2.push.apply(arr2, tableValue);
+
+                            tableValue = arr2;
+
+                            if (firstPageInTable > 2)
+                                firstPageInTable = firstPageInTable - 2;
+
+                        } else {
+                            if (button === 'first') {
+                                firstPageInTable = 1;
+                                tableValue = json['value'];
+                            } else {
+                                if (button === 'last') {
+                                    tableValue = json['value'];
+                                }
+                            }
+
+                        }
+                    }
+                    ;
+                    changePageView();
+                })
+                .fail(function (xhr, status, errorThrown) {
+                    console.error("Error: " + errorThrown);
+                })
+                .always(function (xhr, status) {
+                    //console.log("The request is complete!");
+                });
+    }
+    ;
     function createPagination() {
-        
-                console.log('+');
         $(table).append("<div class='paginnation'>\n\
                                 <button class='first'>First</button>\n\
                                 <button class='prevent'>Prevent</button>\n\
@@ -24,68 +78,91 @@ var Table = function (element, key, data) {
                                 <button class='last'>Last</button>\n\
                             </div>");
         $(table).find('.first').on('click', function () {
-            pageNumber = 1;
-            changePageView();
+            if (pageNumber >= 3) {
+                pageNumber = 1;
+                downloadNext(1, 'first');
+            } else {
+                pageNumber = 1;
+                changePageView();
+            }
+            
         });
         $(table).find('.next').on('click', function () {
             if (pageNumber < pageCount) {
                 pageNumber++;
-                changePageView();
+                if (pageNumber >3) {
+                    if ((pageNumber - 2) % 2 === 0) {
+                        firstPageInTable = firstPageInTable + 2;
+                        
+                        downloadNext(k * (pageNumber +1) + 1, 'next');
+                    } else {
+                        changePageView();
+                    }
+                } else
+                    changePageView();
             }
+            ;
         });
         $(table).find('.prevent').on('click', function () {
             if (pageNumber > 1) {
                 pageNumber--;
-                changePageView();
+                if ((pageNumber > 2) && (pageNumber + 1 < pageCount)) {
+                    if ((pageNumber - 1) % 2 === 0) {
+                        downloadNext(k * (pageNumber - 3) + 1, 'prevent');
+                    } else
+                        changePageView();
+                } else {
+                    changePageView();
+                }
+                ;
             }
+            
         });
         $(table).find('.last').on('click', function () {
-            pageNumber = pageCount;
-            changePageView();
+            if (pageNumber + 2 >= pageCount) {
+                
+                
+                pageNumber = pageCount;
+                changePageView();
+            } else {
+                pageNumber = pageCount;
+                
+                if ((pageNumber % 2) === 0)
+                    firstPageInTable = pageCount - 3;
+                else
+                    firstPageInTable = pageNumber-2;
+                downloadNext(k * (firstPageInTable-1) + 1, 'last');
+            }
         });
     }
     ;
-
     function deletePagination() {
         $(table).find('.paginnation').remove();
     }
     ;
-
     //Recount the numbers of the pagination
     function changePageView() {
-        var length = tableValue.length;
-
-        if ((length % countOfRows === 0) && (length > countOfRows)) {
-            pageCount = Math.round(length / countOfRows);
-        } else
-            pageCount = Math.round(length / countOfRows) + 1;
-        if (pageCount < pageNumber) {
-            pageNumber = pageCount;
-        }
 
         //Replace the numbers
         $(table).find('.page-number').text(pageNumber + " / " + pageCount);
-
         updateTable();
     }
     ;
-
     function updateTable() {
         var row = '';
         var messageTemplate = '';
         for (var i = 0; i < countOfRows; i++) {
-            var rowOfTable = $(table).find('tr:eq( ' + (i + 1) + ')');
-
+            var rowOfTable = $(table).find('tr:eq( ' + i + ')');
             row = '<tr>';
-            if (tableValue[i + k * (pageNumber - 1)]) {
+            if (tableValue[i + k * (pageNumber - firstPageInTable)]) {
                 for (var key in keys) {
-                    row += '<td>' + tableValue[i + k * (pageNumber - 1)][keys[key]] + '</td>';
+                    row += '<td>' + tableValue[i + k * (pageNumber - firstPageInTable)][keys[key]] + '</td>';
                 }
                 ;
                 row += '</tr>';
                 if (rowOfTable.length === 0) {
                     if (countOfRows > $(table).find('tr').length)
-                        $(table).find('tbody').append(row);
+                        $(table).append(row);
                 } else {
                     if (countOfRows >= $(table).find('tr').length) {
                         $(rowOfTable).replaceWith(row);
@@ -105,13 +182,10 @@ var Table = function (element, key, data) {
                 }
             }
             ;
-
         }
         ;
     }
     ;
-
-
     return {
         createTable: function () {
             var row = '+';
@@ -126,22 +200,19 @@ var Table = function (element, key, data) {
                 rowTemplate += row;
             }
             ;
-
             $(table)
-                    .find('tbody')
                     .html('')
                     .append(rowTemplate);
-            
-            
-            console.log(tableValue.length, table);
-            if (countOfRows < tableValue.length) {
-                    createPagination();
+            if (countOfRows < tableLength) {
+                createPagination();
             }
         },
-
-        updateValue: function (value) {
+        updateValue: function (object) {
+            var value = object['first'];
+            tableLength = object['count'];
+            
             tableValue = value;
-            if (countOfRows < value.length) {
+            if (countOfRows <= tableLength) {
                 if ($(table).find('.paginnation').length === 0)
                     createPagination();
                 countOfRows = k;
@@ -149,11 +220,8 @@ var Table = function (element, key, data) {
                 deletePagination();
             }
             ;
-
             changePageView();
         }
     };
 };
-
-
 module.exports = Table;
