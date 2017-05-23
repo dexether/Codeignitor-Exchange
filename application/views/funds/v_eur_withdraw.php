@@ -8,7 +8,15 @@
           <div class="cls_hexa_bg"> <?php echo $currency['name']; ?> </div>
           <div class="cls_hexa_vol"> <?php echo $currency['balance']; ?>  </div>
         </div>
+
     </div>
+      <hr>
+      <div class="row">
+      <div class="col-md-3 col-sm-3 col-xs-12">
+        <div> Pending: <?php echo $currency['pending']; ?> </div>
+      </div>
+      </div>
+
     <div class='widthdaw_form'>
         <?php echo form_open('', 'class="form-horizontal" name="login_form" id="login_form" method="post"'); ?>
           <label for='amount'>Withdraw Amount</label>
