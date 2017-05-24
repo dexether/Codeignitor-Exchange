@@ -1,65 +1,75 @@
 var Table = function (element, object, userInfo) {
-    var k = 10; //count of the recirds
+    var k = 10; //count of the records in the tables
 
-    var user = userInfo;
-    var tableID = $(element).attr('id');
-    var table = $(element).find('tbody');
-    var keys = object['keys'];
-    var tableValue = object['first'] || [];
-    var firstPageInTable = 1;
-    var tableLength = object['count'];
-    
+    //Init the object
+    var user = userInfo;                    //the user object from the room.js 
+    var tableID = $(element).attr('id');    //hold the ID of the table of this object
+    var table = $(element).find('tbody');   //the DOM element of the table
+    var keys = object['keys'];              //The name of columns from thead in the order
+    var tableValue = object['first'] || []; //The array of the records of this table
+    var firstPageInTable = 1;               //The number of first page of the records that is saving
+    var tableLength = object['count'];      //MAX count of the records in this table /on the server
+
     var countOfRows = (tableValue.length < k) ? tableValue.length : k;
-    var pageNumber = 1;
-    var pageCount;
-    
-        pageCount = Math.round(tableLength / countOfRows);
+    //MAX count of the records in the tables    
+    var pageNumber = 1;                     //Page of the table that is showing on the site
+    var pageCount = Math.round(tableLength / countOfRows);
+    //Calc the count of the pages 
 
+    //Update the count of the pages
+    function setNewPageCount() {
+        pageCount = Math.round(tableLength / countOfRows);
+    }
+    ;
+
+    //Download the records of the table via AJAX
+    //  'fromNumber' - from which number the records are requested,
+    //  'button'     - which function is calling this request 
     function downloadNext(fromNumber, button) {
-        var countForLoaded = ((button === 'first') || (button === 'last')) ? 50 : 2 * k;
+        //for 'first', 'last' or 'update' we're going to update the all table
+        //for the rest only 20 records
+        var countForLoaded = ((button === 'first') || (button === 'last') || (button === 'update')) ? 50 : 2 * k;
         $.ajax({
             url: "http://localhost:7777/get_next_records",
             data: {
-                'fromNumber': fromNumber,
-                'count': countForLoaded,
-                'room': user['room'],
-                'table': tableID
+                'fromNumber': fromNumber, //from which number the records are requested
+                'count': countForLoaded, //how many records are requested
+                'room': user['room'], //this is the room where a user is logging,
+                'table': tableID            //the ID of the table whose records are requested,
             },
             type: "post",
             dataType: "json"
         })
+                //if AJAX POST request  is successful
                 .done(function (json) {
                     if (button === 'next') {
-
-                        tableValue.splice(0, 2 * k);
-                        tableValue.push.apply(tableValue, json['value']);
+                        tableValue.splice(0, 2 * k); //remove the unnecessary records
+                        tableValue.push.apply(tableValue, json['value']); // add new from the response
 
                     } else {
                         if (button === 'prevent') {
-                            tableValue.splice(30, (2 * k));
-
-                            var arr2 = json['value'].slice();
+                            tableValue.splice(20, (3 * k));//remove the unnecessary records
+                            var arr2 = json['value'].slice(); // add new from the response
                             arr2.push.apply(arr2, tableValue);
-
                             tableValue = arr2;
 
-                            if (firstPageInTable > 2)
+                            if (firstPageInTable > 2) //update the firstPageInTable
                                 firstPageInTable = firstPageInTable - 2;
 
                         } else {
                             if (button === 'first') {
-                                firstPageInTable = 1;
-                                tableValue = json['value'];
+                                firstPageInTable = 1; //update the firstPageInTable
+                                tableValue = json['value']; //update the tableValue
                             } else {
-                                if (button === 'last') {
-                                    tableValue = json['value'];
+                                if ((button === 'last') || (button === 'update')) {
+                                    tableValue = json['value'];  //update the tableValue
                                 }
                             }
-
                         }
+                        ;
                     }
                     ;
-                    changePageView();
+                    changePageView();  //update the view the table, show new records
                 })
                 .fail(function (xhr, status, errorThrown) {
                     console.error("Error: " + errorThrown);
@@ -69,7 +79,10 @@ var Table = function (element, object, userInfo) {
                 });
     }
     ;
+
+    //Create the pagination for this table
     function createPagination() {
+        //Add the HTML structure
         $(table).append("<div class='paginnation'>\n\
                                 <button class='first'>First</button>\n\
                                 <button class='prevent'>Prevent</button>\n\
@@ -77,38 +90,46 @@ var Table = function (element, object, userInfo) {
                                 <button class='next'>Next</button>\n\
                                 <button class='last'>Last</button>\n\
                             </div>");
+        //Add the EventListeners for the control buttons
         $(table).find('.first').on('click', function () {
-            if (pageNumber >= 3) {
+            if ((pageNumber >= 3) && (tableLength > 50)) { //if we need to update the tableValue
                 pageNumber = 1;
-                downloadNext(1, 'first');
+                downloadNext(1, 'first'); //load the records
             } else {
                 pageNumber = 1;
                 changePageView();
             }
-            
+
         });
+
+
         $(table).find('.next').on('click', function () {
-            if (pageNumber < pageCount) {
+            if (pageNumber < pageCount - 1) {
                 pageNumber++;
-                if (pageNumber >3) {
+                if ((pageNumber > 3) && (tableLength > 50)) { //if we need to update the tableValue
                     if ((pageNumber - 2) % 2 === 0) {
                         firstPageInTable = firstPageInTable + 2;
-                        
-                        downloadNext(k * (pageNumber +1) + 1, 'next');
+                        downloadNext(k * (pageNumber + 1) + 1, 'next');//load the records
                     } else {
                         changePageView();
                     }
                 } else
                     changePageView();
+            } else {
+                if (pageNumber === pageCount - 1) {
+                    pageNumber++;
+                    changePageView();
+                }
             }
             ;
         });
+
         $(table).find('.prevent').on('click', function () {
             if (pageNumber > 1) {
                 pageNumber--;
-                if ((pageNumber > 2) && (pageNumber + 1 < pageCount)) {
+                if ((pageNumber > 2) && (pageNumber + 1 < pageCount) && (tableLength > 50)) {
                     if ((pageNumber - 1) % 2 === 0) {
-                        downloadNext(k * (pageNumber - 3) + 1, 'prevent');
+                        downloadNext(k * (pageNumber - 3) + 1, 'prevent'); //load the records
                     } else
                         changePageView();
                 } else {
@@ -116,57 +137,68 @@ var Table = function (element, object, userInfo) {
                 }
                 ;
             }
-            
+
         });
+
         $(table).find('.last').on('click', function () {
-            if (pageNumber + 2 >= pageCount) {
-                
-                
+            if ((pageNumber + 2 >= pageCount) && (tableLength > 50)) {
                 pageNumber = pageCount;
                 changePageView();
             } else {
                 pageNumber = pageCount;
-                
+                //Update the firstPageInTable
                 if ((pageNumber % 2) === 0)
                     firstPageInTable = pageCount - 3;
                 else
-                    firstPageInTable = pageNumber-2;
-                downloadNext(k * (firstPageInTable-1) + 1, 'last');
+                    firstPageInTable = pageNumber - 2;
+
+                downloadNext(k * (firstPageInTable - 1) + 1, 'last'); //load the records
             }
         });
     }
     ;
+
+    //Delete the pagination
     function deletePagination() {
         $(table).find('.paginnation').remove();
     }
     ;
+
     //Recount the numbers of the pagination
     function changePageView() {
-
         //Replace the numbers
         $(table).find('.page-number').text(pageNumber + " / " + pageCount);
         updateTable();
     }
     ;
+
+    //update the values in the table which are shown 
     function updateTable() {
-        var row = '';
-        var messageTemplate = '';
-        for (var i = 0; i < countOfRows; i++) {
+        var row = ''; //the new row <tr> of the table
+        for (var i = 0; i < countOfRows; i++) { //for all rows of the table
+            //Get the current row
             var rowOfTable = $(table).find('tr:eq( ' + i + ')');
             row = '<tr>';
+            //if necessary record exist in the table
             if (tableValue[i + k * (pageNumber - firstPageInTable)]) {
+                //the loop by keys
                 for (var key in keys) {
+                    //add column with data
                     row += '<td>' + tableValue[i + k * (pageNumber - firstPageInTable)][keys[key]] + '</td>';
                 }
-                ;
                 row += '</tr>';
+                //if the current row in the table is not existing
                 if (rowOfTable.length === 0) {
+                    //but we need more then rows are
                     if (countOfRows > $(table).find('tr').length)
+                        //add row
                         $(table).append(row);
                 } else {
+                    //if just update
                     if (countOfRows >= $(table).find('tr').length) {
                         $(rowOfTable).replaceWith(row);
                     } else {
+                        //if table is too small
                         $(rowOfTable).remove();
                     }
                 }
@@ -186,42 +218,57 @@ var Table = function (element, object, userInfo) {
         ;
     }
     ;
+
     return {
+        //create a new table, add the records
         createTable: function () {
-            var row = '+';
-            var rowTemplate = '';
+            var row = '';         // the row of the table
+            var rowTemplate = ''; // the body of the table
             for (var i = 0; i < countOfRows; i++) {
                 row = '<tr>';
                 for (var key in keys) {
                     row += '<td>' + tableValue[i][keys[key]] + '</td>';
                 }
-                ;
                 row += '</tr>';
                 rowTemplate += row;
             }
-            ;
+            //Add HTML template to page
             $(table)
                     .html('')
                     .append(rowTemplate);
+
             if (countOfRows < tableLength) {
                 createPagination();
             }
         },
+
+        //Update the values of tableValue and change the records which are shown
         updateValue: function (object) {
-            var value = object['first'];
-            tableLength = object['count'];
-            
-            tableValue = value;
-            if (countOfRows <= tableLength) {
-                if ($(table).find('.paginnation').length === 0)
-                    createPagination();
-                countOfRows = k;
+            //if updated data have came when we save the first 5 pages
+            if (firstPageInTable === 1) {
+                var value = object['first'];
+                tableLength = object['count'];
+                setNewPageCount();
+
+                tableValue = value;
+
+                if (countOfRows <= tableLength) {
+                    if ($(table).find('.paginnation').length === 0)
+                        createPagination();
+                    countOfRows = k;
+                } else {
+                    deletePagination();
+                }
+                ;
+                changePageView();
             } else {
-                deletePagination();
+                downloadNext(k * (firstPageInTable - 1) + 1, 'update');
+                setNewPageCount();
+                changePageView();
             }
-            ;
-            changePageView();
         }
     };
 };
+
+
 module.exports = Table;

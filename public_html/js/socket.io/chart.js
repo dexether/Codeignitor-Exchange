@@ -70,6 +70,7 @@ function ChartMarket() {
     return {
         loadData: function (object) {
             data = object['data'];
+            console.log('create chart');
             createChart ();
         }
     };

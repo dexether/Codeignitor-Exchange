@@ -20,26 +20,31 @@ var user;
 
 var Table = require('../sevices/table');
 
-//Each tables contain the object with data
+//Each one of tables contain the object with data and control buttons
 var bidsTable, asksTable, marketHistoryTable, openOrdersTable, orderHistoryTable;
 
 var initData = require('./services/init_page');
 var init;
 
+//when our page are loaded, we need to get the init data
 $.ajax({
     url: "http://localhost:7777/get_init_data",
     data: {
-        'room': room
+        'room': room //send the name of the room where the user is
     },
     type: "post",
     dataType: "json"
 })
         .done(function (json) {
+            //if we got the response 
+            //create the user object
             user = new User(json['user']);  //store the user data
-    
-          $('#availableFirst').html(json['firstCurrency']);
-          $('#availableSecond').html(json['secondCurrency']);
 
+            //change the available currency
+            $('#availableFirst').html(json['firstCurrency']);
+            $('#availableSecond').html(json['secondCurrency']);
+
+            //Create the objects of the tables and show their
             bidsTable = new Table('#table-bids', json['tables']['table-bids'], user);
             bidsTable.createTable();
 
@@ -55,6 +60,7 @@ $.ajax({
             orderHistoryTable = new Table('#order-history', json['tables']['order-history'], user);
             orderHistoryTable.createTable();
 
+            //Create the socket connection
             var service = new ClientSockets({
                 'bids': bidsTable,
                 'asks': asksTable,
@@ -63,9 +69,6 @@ $.ajax({
                 'orderHistory': orderHistoryTable
             }, user);
             service();
-
-            //init = new initData(json);
-            // init();
         })
         .fail(function (xhr, status, errorThrown) {
             console.error("Error: " + errorThrown);
