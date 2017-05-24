@@ -70,9 +70,21 @@ $(document).ready(function() {
     }
 
     function doPayment() {
-        setTimeout(function() {
-            alert('Payment!'), 5000
-        })
+        $.ajax({
+            type: 'POST',
+            url: '/admin/payment',
+            dataType: 'json',
+            success: function(r) {
+                if (r.status && r.status === 'ok') {
+                    alertify.success('Ok!');
+                } else {
+                    alertify.error(r.msg);
+                }
+            },
+            error: function() {
+                alertify.error('AJAX error!');
+            }
+        });
     }
 
 

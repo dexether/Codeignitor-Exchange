@@ -326,6 +326,26 @@ class Admin extends MY_Controller
     }
 
 
+    public function payment()
+    {
+        auth(['admin','superadmin']);
+        $result = $this->mdl_fees->do_payment_main();
+        if ($result) { // if error has been occured
+            $result = [
+                'status' => 'error',
+                'msg' => $result
+            ];
+        } else {
+            $result = [
+                'status' => 'ok',
+                'data' => 'Test'
+            ];
+        }
+        echo json_encode($result);
+        exit;
+    }
+
+
 	public function open_fees()
 	{
 		auth(['admin','superadmin']);

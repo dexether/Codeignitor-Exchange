@@ -62,4 +62,35 @@ class Mdl_fees extends CI_Model {
         return floatval($total_fee);
     }
 
+
+
+    /**
+     * Do payment top-level method
+     * @return void
+     */
+    public function do_payment_main()
+    {
+        try {
+            $this->db->trans_begin();
+
+            $this->do_payment();
+
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+                return 'Error while payment processing';
+            }
+            $this->db->trans_complete();
+            return ''; // no errors result
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            return $e->getMessage();
+        }
+    }
+
+
+    protected function do_payment()
+    {
+        return true;
+    }
+
 }
