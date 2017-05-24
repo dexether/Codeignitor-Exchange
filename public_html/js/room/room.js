@@ -23,8 +23,6 @@ var Table = require('../sevices/table');
 //Each one of tables contain the object with data and control buttons
 var bidsTable, asksTable, marketHistoryTable, openOrdersTable, orderHistoryTable;
 
-var initData = require('./services/init_page');
-var init;
 
 //when our page are loaded, we need to get the init data
 $.ajax({

@@ -1,6 +1,7 @@
 'use strict';
 
 function ClientSockets(objectOfTables, user) {
+    
     //Fetch the libs
     var io = require('./vendor/socket.io.min');
 
@@ -14,6 +15,7 @@ function ClientSockets(objectOfTables, user) {
             orderHistory = objectOfTables['orderHistory'];
 
     return function () {
+        
         if (!window.WebSocket) {
             alert('Your browser does not support WebSocket.');
         } else {
@@ -22,15 +24,22 @@ function ClientSockets(objectOfTables, user) {
 
             socket.on('connect', function () {
 
-                var chart = require('./chart');
-
                 //Connection to the room
                 socket.emit('room', room);
 
-
                 socket.emit('data_to_chart', '');
+                
+                chart = require('./chart');
+                
+                
+                var chart;
                 socket.on('data_to_chart', function (msg) {
-                    chart.loadData(msg);
+                    chart = require('./chart')(msg);
+                  //  chart.loadData(msg);
+                });
+                socket.on('chart_stream', function (msg) {
+                    console.log('received');
+                    chart.stream(msg['array']);
                 });
 
                 //Listen the sockets to change the tables

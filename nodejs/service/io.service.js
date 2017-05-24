@@ -53,7 +53,20 @@ module.exports = {
             socket.on('data_to_chart', function (msg) {
                 var data = require('../chart');
                 io.emit('data_to_chart', data);
+
+                setTimeout(function () {
+                    io.emit('chart_stream', {'array': [
+                            "1990-05-19",
+                            0.0868,
+                            0.0868,
+                            0.0859,
+                            0.0868,
+                            6595200
+                        ]});
+                    //dataTable.addData(rawData.data, true);
+                }, 10500);
             });
+
 
             //The event when user leaves the room
             socket.on('unsubscribe', function (room) {
@@ -63,7 +76,7 @@ module.exports = {
 
             //The event when client is disconnect
             socket.on('disconnect', function () {
-              //  console.log('user disconnected');
+                //  console.log('user disconnected');
             });
         });
     }

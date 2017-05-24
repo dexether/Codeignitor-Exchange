@@ -109,7 +109,8 @@
 <?php if(isset($register)) echo $register; ?>
 <script src="<?php echo base_url(); ?>js/jquery.min.js"></script>
 <script src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>
-<script src="<?php echo base_url(); ?>js/anystock.min.js"></script>
+<!--<script src="<?php echo base_url(); ?>js/anystock.min.js"></script>-->
+<script src="<?php echo base_url(); ?>js/anychart.js"></script>
 <!--<script src="<?php echo base_url(); ?>js/chart_nlg.js"></script>-->
 <script src="<?php echo base_url(); ?>js/jquery.nicescroll.min.js"></script>
 <script src="<?php echo base_url(); ?>js/jquery.validate.min.js"></script>
