@@ -344,6 +344,9 @@ class Admin extends MY_Controller
 
 		$output = $crud->render();
 
+        $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
         $this->l_asset->add('js/admin/open_fees.js','js');
 
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);

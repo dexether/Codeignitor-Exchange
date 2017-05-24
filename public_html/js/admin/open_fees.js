@@ -49,8 +49,31 @@ $(document).ready(function() {
             .css({marginLeft: '20px', width: '120px'})
             .attr('href', '#')
             .attr('id', 'pay-btn');
+        payBtn.on('click', confirmPayment)
         payBtn.append(inner);
         tDiv2.append(payBtn);
     }
+
+
+    function confirmPayment(e) {
+        e.preventDefault();
+        alertify.confirm(
+            'Payment confirmation',
+            'Do you really want to proceed a payment ?',
+            doPayment,
+            cancelPayment
+        ).set('labels', {ok:'Yes', cancel:'Cancel'});
+    }
+
+    function cancelPayment() {
+        alertify.error('Process Cancelled');
+    }
+
+    function doPayment() {
+        setTimeout(function() {
+            alert('Payment!'), 5000
+        })
+    }
+
 
 });
