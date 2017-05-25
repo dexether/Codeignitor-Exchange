@@ -1,0 +1,29 @@
+.crud_users_add_deposit {
+	background: #f39c12;
+	color: #fff;
+	display: block;
+	width: 150px;
+	margin-bottom: 3px;
+	text-align: center;
+	padding: 5px 0px;
+	border-radius: 5px;
+}
+.crud_users_add_deposit:hover {
+	color: black;
+}
+
+body > div > div > section > div > section > div.content {
+	display: none;
+}
+
+form#deposit_form {
+	padding: 10px;
+}
+
+form#deposit_form label {
+	font-size: 18px;
+	margin: 0px 5px;
+}
+form#deposit_form button {
+	padding: 5px 10px;
+} 

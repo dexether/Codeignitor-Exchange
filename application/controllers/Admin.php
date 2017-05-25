@@ -54,10 +54,12 @@ class Admin extends MY_Controller
 		$this->load->model('mdl_user_verification');
 		$crud->callback_column('trade_verification',array($this,'callback_trade_verification'));
 
+		$crud->add_action('Add Deposit', '', 'admin/user_deposit', 'crud_users_add_deposit');
+
 		$output = $crud->render();
-
-
-		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		$this->data['head_js'] = '<script src="'.base_url().'js/admin/add_deposit.js"></script>';
+		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_users.css">';
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud_users', (array) $output, true);
 		view($this->data, 'admin');
 	}
 
@@ -75,6 +77,31 @@ class Admin extends MY_Controller
 
 		$output = $crud->render();
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud_withdraw', (array) $output, true);
+		view($this->data, 'admin');
+	}
+
+	public function user_deposit($id)
+	{
+		$this->form_validation->set_rules('amount', 'Amount', 'required');
+
+		if ($this->form_validation->run() == true) {
+			$rand = rand(1000, 999999);
+			$transaction = $id . $rand;
+	        $amount = abs($this->input->post('amount'));
+	        $date = date('Y-m-d', time());
+
+			$this->load->model('mdl_deposit');
+			$this->mdl_deposit->deposit_record_EUR($id, $amount, $transaction, 'true', $date, 'Admin added deposit', 'EUR');
+
+			redirect('/admin/users');
+			return;
+		} else {
+			$vars['error'] = validation_errors('<p class="alert alert-danger">', '</p>');
+		}
+
+		$this->data['head_js'] = '<script src="'.base_url().'js/admin/add_deposit.js"></script>';
+		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_users.css">';
+		$this->data['content'] = $this->load->view('admin/v_deposit', $vars, true);
 		view($this->data, 'admin');
 	}
 
