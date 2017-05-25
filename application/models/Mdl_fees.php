@@ -2,6 +2,8 @@
 
 class Mdl_fees extends CI_Model {
 
+    // payment is enabled when open fees amount >= this constant value
+    const PAYMENT_MIN_LIMIT = 0.01;
 
     /**
      * Get last N days records from open_fees table grouped by days
@@ -79,7 +81,10 @@ class Mdl_fees extends CI_Model {
                 $this->db->trans_rollback();
                 return 'Error while payment processing';
             }
-            $this->db->trans_complete();
+
+//            $this->db->trans_complete();
+            $this->db->trans_rollback();
+
             return ''; // no errors result
         } catch (Exception $e) {
             $this->db->trans_rollback();
@@ -88,9 +93,118 @@ class Mdl_fees extends CI_Model {
     }
 
 
+    protected function close_open_fees()
+    {
+        $this->db->where('status', 'open');
+        $this->db->update('open_fees', ['status' => 'closed']);
+    }
+
+
+    protected function add_dividend($total_fee)
+    {
+        $data = [
+            'total_fee'         => $total_fee,
+            'dividend_datetime' => date('Y-m-d H:i:s'),
+            'status'            => 'paid'
+        ];
+        $this->db->insert('dividend', $data);
+        return $this->db->insert_id();
+    }
+
+
     protected function do_payment()
     {
+        // check total open fees amount at the click moment
+        $open_fees_total = $this->calc_open_fee();
+        if ($open_fees_total < self::PAYMENT_MIN_LIMIT) {
+            throw new Exception('Total open fees < ' . self::PAYMENT_MIN_LIMIT);
+        }
+        $this->close_open_fees();
+        $dividend_id = $this->add_dividend($open_fees_total);
+
+        $this->process_users_balances($open_fees_total, $dividend_id);
+
         return true;
+    }
+
+
+    protected function addDeposit($user_id, $dividend_id, $dividend, $shares_cnt)
+    {
+        $shares_cnt = number_format($shares_cnt, 8, '.', '');
+        $data = [
+            'user_id'       => $user_id,
+            'EUR'           => $dividend,
+            'GTS'           => 0,
+            'NLG'           => 0,
+            'transaction'   => '',
+            'verified'      => '',
+            'deposit_date'  => date('Y-m-d'),
+            'description'   => 'dividend ' . $shares_cnt . ' GTS',
+            'dividend_id'   => $dividend_id
+        ];
+        $this->db->insert('deposits', $data);
+    }
+
+
+    protected function create_empty_balance($user_id)
+    {
+        $data = [
+            'user_id'     => $user_id,
+            'NLG'         => 0,
+            'EUR'         => 0,
+            'GTS'         => 0,
+            'pending_EUR' => 0,
+            'pending_NLG' => 0,
+            'pending_GTS' => 0
+        ];
+        $this->db->insert('balance', $data);
+    }
+
+
+    protected function add_remainig_fee_to_superadmin($fee)
+    {
+        $user = $this->db->get_where('users', ['role' => 'superadmin'])->row();
+        if (!$user) {
+            throw new Exception('Cannot find superadmin user to send remaining fee');
+        }
+        $balance = $this->db->get_where('balance', ['user_id' => $user->id ])->row();
+        if (!$balance) {
+            $this->create_empty_balance($user->id);
+        }
+        $this->updateUserBalance($user->id, $fee);
+    }
+
+
+    protected function updateUserBalance($user_id, $euro_adding_value)
+    {
+        $euro_adding_value = floatval($euro_adding_value);
+        $this->db->set('EUR', 'EUR + ' . $euro_adding_value, false)
+           ->where('user_id', $user_id)
+           ->update('balance');
+    }
+
+
+    protected function process_users_balances($total_fee, $dividend_id)
+    {
+        $remaining_fee = $total_fee;
+        $one_share_price = $total_fee / 100000;
+        $query = $this->db->get_where('balance',['GTS >' => 0]);
+        while ($balance = $query->unbuffered_row()) {
+            $user_id = $balance->user_id;
+            $gts_payment = $balance->GTS * $one_share_price;
+            // round to down to 8 decimals behind the dots
+            $gts_payment = floor($gts_payment * 100000000) / 100000000;
+            $dividend = number_format($gts_payment, 8, '.', '');
+            if ($dividend > $remaining_fee) {
+                throw new Exception('Total fee is exhosted while dividend paying');
+            }
+            $this->addDeposit($user_id, $dividend_id, $dividend, $one_share_price);
+            $this->updateUserBalance($user_id, $dividend);
+            $remaining_fee -= $dividend;
+        }
+        if ($remaining_fee > 0) { // add remain
+            $this->add_remainig_fee_to_superadmin($remaining_fee);
+        }
     }
 
 }

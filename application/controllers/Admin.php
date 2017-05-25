@@ -4,8 +4,6 @@
 class Admin extends MY_Controller
 {
 
-    // payment is enabled when open fees amount >= this constant value
-    const PAYMENT_MIN_LIMIT = 0.01;
 
 	public function __construct()
 	{
@@ -383,7 +381,7 @@ class Admin extends MY_Controller
     public function is_pay_button_showed()
     {
         $sum = $this->mdl_fees->calc_open_fee();
-        $toShow = $sum >= self::PAYMENT_MIN_LIMIT;
+        $toShow = $sum >= $this->mdl_fees::PAYMENT_MIN_LIMIT;
         echo json_encode(
             ['status' => 'ok', 'data' => $toShow]
         );
