@@ -89,8 +89,11 @@ class Mdl_withdraw extends CI_Model {
                 date('Y-m-d', time()),
         ];
 
-        $sql = "INSERT INTO `ciexcgt`.`withdrawal` (`user_id`, `EUR`, `GTS`, `NLG`, `transaction`, `token`, `status`, `verified`, `withdrawal_date`, `last_update`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO `withdrawal` (`user_id`, `EUR`, `GTS`, `NLG`, `transaction`, `token`, `status`, `verified`, `withdrawal_date`, `last_update`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         $this->db->query($sql, $params);
+
+        $sql = "INSERT INTO `withdraw_fee`(`user_id`, `dateoffee`, `fee_amount`, `status`) VALUES (?, NOW(), ?, ?);";
+        $this->db->query($sql, [$this->session->user_id, TAXSEPA, 'open']);
 
         return ['token' => $token, 'transaction' => $transaction];
     }

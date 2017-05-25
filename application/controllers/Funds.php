@@ -49,12 +49,12 @@ class Funds extends MY_Controller{
                  if ($this->form_validation->run() == true) {
                     //redirect to iDeal
                      
-                    $i['amount'] = number_format($this->input->post('amount'),2);
-
+                    $i['amount'] = (float)$this->input->post('amount');
+                    
                     $result = Paynl\Transaction::start(array(
     
                         'amount' => $i['amount'],
-                        'returnUrl' => APP_BASE_URL."tools/deposit/eur/".$this->session->user_id.'/'.$i['amount'],
+                        'returnUrl' => APP_BASE_URL."tools/deposit/eur/".$this->session->user_id.'/'.$this->input->post('amount'),
                         'exchangeUrl' => APP_BASE_URL.'tools/silent_exchange/eur/'.$this->session->user_id.'/'.$i['amount'],
                         'paymentMethod' => 10,
                         'bank'=>$this->input->post('bank')
