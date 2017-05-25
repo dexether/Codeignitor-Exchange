@@ -80,6 +80,7 @@ class Admin extends MY_Controller
 		view($this->data, 'admin');
 	}
 
+
 	public function user_deposit($id)
 	{
 		$this->form_validation->set_rules('amount', 'Amount', 'required');
@@ -93,7 +94,7 @@ class Admin extends MY_Controller
 			$this->load->model('mdl_deposit');
 			$this->mdl_deposit->deposit_record_EUR($id, $amount, $transaction, 'true', $date, 'Admin added deposit', 'EUR');
 
-			redirect('/admin/users');
+			redirect('/admin/users?r=success');
 			return;
 		} else {
 			$vars['error'] = validation_errors('<p class="alert alert-danger">', '</p>');
