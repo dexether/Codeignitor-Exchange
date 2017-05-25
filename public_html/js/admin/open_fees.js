@@ -43,8 +43,9 @@ $(document).ready(function() {
             console.log('Info: cannot find tDiv2 class element to add pay button');
             return;
         }
-        var inner = $('<i class="fa fa-eur" aria-hidden="true">&nbsp;Pay</i>');
-        payBtn = $('<a />')
+        var inner = $('<i class="fa fa-eur" aria-hidden="true">&nbsp;Pay</i><img class="ajax-loader" src="/images/ajax_loader.gif" style="margin-left:20px;display:none;" >');
+
+        payBtn = $('<button />')
             .addClass('btn btn-info')
             .css({marginLeft: '20px', width: '120px'})
             .attr('href', '#')
@@ -70,6 +71,8 @@ $(document).ready(function() {
     }
 
     function doPayment() {
+        $('.ajax-loader').show();
+        payBtn.prop('disabled', true);
         $.ajax({
             type: 'POST',
             url: '/admin/payment',
@@ -83,6 +86,10 @@ $(document).ready(function() {
             },
             error: function() {
                 alertify.error('AJAX error!');
+            },
+            complete: function() {
+                $('.ajax-loader').hide();
+                payBtn.prop('disabled', false);
             }
         });
     }
