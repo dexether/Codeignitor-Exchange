@@ -21,20 +21,22 @@ function ClientSockets(objectOfTables, user) {
         } else {
             // create connection
             var socket = io.connect('http://localhost:8080');
+            
+               var ch = require('./chart');
 
             socket.on('connect', function () {
+                
+               var chart = new ch;
 
                 //Connection to the room
                 socket.emit('room', room);
 
                 socket.emit('data_to_chart', '');
                 
-                chart = require('./chart');
                 
                 
-                var chart;
                 socket.on('data_to_chart', function (msg) {
-                    chart = require('./chart')(msg);
+                   // chart = require('./chart')(msg);
                   //  chart.loadData(msg);
                 });
                 socket.on('chart_stream', function (msg) {

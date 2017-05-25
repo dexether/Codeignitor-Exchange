@@ -31,6 +31,12 @@ function ChartMarket() {
         // create a chart
         chart = anychart.financial();
 
+//        chart.selectRange('2007-08-02', '2008-08-7');
+//        chart.scroller().thumbs(false);
+//        chart.scroller().fill('green 0.1');
+//        chart.scroller().selectedFill('green 0.5');
+//        chart.scroller().allowRangeChange(false);
+
         // map the data
         var seriesData = data.mapAs({x: [0], open: [1], high: [2], low: [3], close: [4]});
 
@@ -50,33 +56,11 @@ function ChartMarket() {
     });
 
 
-    setTimeout(function () {
-        console.log('setTimeout');
-        data.append([
-            Date.UTC(2007, 8, 10),
-            24.55,
-            23.88,
-            23.38,
-            23.62
-        ]);
-    }, 5000);
-
-    setTimeout(function () {
-        data.append([
-            Date.UTC(2007, 8, 10),
-            22.55,
-            23.88,
-            21.38,
-            23.62
-        ]
-        );
-    }, 10000);
-
-
     return {
         stream: function (newData) {
-            console.log('stream', newData);
-            //  dataTable.push(newData);
+            console.log(newData);
+            data.append(newData);
+
         }
     };
 }
