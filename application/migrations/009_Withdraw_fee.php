@@ -16,6 +16,7 @@ class Migration_Withdraw_fee extends CI_Migration {
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];
         $fields['dateoffee'] = ['type' => 'DATE'];
         $fields['fee_amount'] = ['type' => 'DECIMAL','constraint' => 18,8];
+        $fields['transaction'] = ['type' => 'TEXT'];
         $fields['status'] = ['type' => 'TEXT'];
 
         $this->dbforge->add_field($fields);
