@@ -97,11 +97,29 @@ class Admin extends MY_Controller
 
 	public function fees()
 	{
+		$this->load->model('Admin_model');
+		$fees = $this->Admin_model->fetch_paid_fees();
+
+		if ($fees == NULL) {
+			$vars['fees'] = 'No fees result';
+		} else {
+
+			foreach ($fees as $fee) {
+				$vars['fees'][] = [
+					'user' => $fee->user_id,
+					'transaction_id' => $fee->transaction,
+					'amount' => $fee->fee_amount,
+					'origin' => $fee->origin,
+					'date' => $fee->dateofpayment
+				];	
+			}
+
+		}
 
 		$this->data['head_css'] = '<link type="text/css" rel="stylesheet" href="'.base_url().'css/admin_fees.css" >';
 		$this->data['head_css'] .= '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>';
 		$this->data['head_css'] .= '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
-		$this->data['content'] = $this->load->view('admin/v_fees', [], true);
+		$this->data['content'] = $this->load->view('admin/v_fees', $vars, true);
 		view($this->data, 'admin');
 	}
 
