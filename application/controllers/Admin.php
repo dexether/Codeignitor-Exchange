@@ -95,6 +95,17 @@ class Admin extends MY_Controller
 	}
 
 
+	public function fees()
+	{
+
+		$this->data['head_css'] = '<link type="text/css" rel="stylesheet" href="'.base_url().'css/admin_fees.css" >';
+		$this->data['head_css'] .= '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>';
+		$this->data['head_css'] .= '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
+		$this->data['content'] = $this->load->view('admin/v_fees', [], true);
+		view($this->data, 'admin');
+	}
+
+
 	public function user_deposit($id)
 	{
 		$this->form_validation->set_rules('amount', 'Amount', 'required');

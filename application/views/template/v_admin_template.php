@@ -120,6 +120,7 @@
 					<li><a href="<?php echo site_url('admin/users') ?>"><i class="fa fa-users"></i> Manager Users</a></li>
 					<li><a href="<?php echo site_url('admin/withdraw') ?>"><i class="fa fa-users"></i> Withdraw</a></li>
 					<li><a href="<?php echo site_url('admin/bank_details') ?>"><i class="fa fa-users"></i> Bank details</a></li>
+					<li><a href="<?php echo site_url('admin/fees') ?>"><i class="fa fa-users"></i> Fees</a></li>
 				</ul>
 			</section>
 			<!-- /.sidebar -->
