@@ -78,9 +78,9 @@ class Mdl_withdraw extends CI_Model {
 
         $params = [
                 $this->session->user_id,
-                (int)$currency['EUR'],
-                (int)$currency['GTS'],
-                (int)$currency['NLG'],
+                (float)$currency['EUR'],
+                (float)$currency['GTS'],
+                (float)$currency['NLG'],
                 $transaction,
                 $token,
                 'activate',
@@ -149,6 +149,13 @@ class Mdl_withdraw extends CI_Model {
         $query = $this->db->query("UPDATE `withdrawal` SET `status`='pending' WHERE `id` = ? and`user_id` = ?", [$query->row()->id, $this->session->user_id]);
         return TRUE;
     } 
+
+    public function withdraw_to_paid($id)
+    {
+        $query = 'UPDATE `ciexcgt`.`withdrawal` SET `status`="paid" WHERE `id`=?;
+';
+        $this->db->query($query, [$id]);
+    }
 
     //=======================================================================
     // PRIVATE FUNCTIONS

@@ -88,6 +88,7 @@ class mdl_deposit extends CI_Model
     public function deposit_record_EUR($user_id, $amount, $transaction, $status, $date, $description, $type) 
     {
         $this->db->query('INSERT INTO `deposits`(`user_id`, `EUR`, `GTS`, `NLG`, `transaction`, `verified`, `deposit_date`, `last_update`, `description`, `dividend_id`, `type`) VALUES (?, ?, 0, 0, ?, ?, ?, ?, ?, "standard", ?)', [$user_id, $amount, $transaction, $status, $date, $date, $description, $type]);
+        $this->db->query('INSERT INTO `deposit_fee`(`user_id`, `dateoffee`, `fee_amount`, `status`) VALUES (?, NOW(), ?, ?);', [$user_id, TAXDEPOSIT, 'paid']);
 
         if ($status == 'true') {
             $this->update_balance($user_id, $amount);

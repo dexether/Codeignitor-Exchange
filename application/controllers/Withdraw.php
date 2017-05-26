@@ -44,7 +44,7 @@ class Withdraw extends MY_Controller
 	    if ($this->form_validation->run() == true) {
 	        
 	        $amount = abs($this->input->post('amount'));
-	        
+
 	        if ((float)$amount <= (float)$currency_info['balance'] && $amount !== 0) {
 	            
 	            $this->session->pending_curr = [ 'type'=>$currency_info['name'] ,'amount'=>$amount ];

@@ -75,9 +75,23 @@ class Admin extends MY_Controller
 		$crud->set_subject('Manage Withdrawals');
 		$crud->columns('user_id', 'EUR', 'GTS', 'NLG', 'transaction', 'status', 'verified', 'withdrawal_date');
 
+
+        $admin_roles = ['superadmin'];
+        if(in_array($this->session->userdata('role'), $admin_roles))
+        {
+			$crud->add_action('To Paid', '', 'admin/withdraw_to_paid', 'edit_button btn btn-default');
+        }
+
 		$output = $crud->render();
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud_withdraw', (array) $output, true);
 		view($this->data, 'admin');
+	}
+
+	public function withdraw_to_paid($id)
+	{
+		$this->load->model('mdl_withdraw');
+		$this->mdl_withdraw->withdraw_to_paid($id);
+		redirect('/admin/withdraw');
 	}
 
 

@@ -10,6 +10,14 @@ class Create_Sepa extends MY_Controller
 	public function __construct()
 	{
 		parent::__construct();
+
+        $admin_roles = ['superadmin'];
+        if(!in_array($this->session->userdata('role'), $admin_roles))
+        {
+            show_404();
+            return;
+        }
+
 		include APPPATH . '/libraries/SepaUtilities.php';
 		include APPPATH . '/libraries/SephpaCreditTransfer.php';
 		include APPPATH . '/libraries/payment-collections/SepaPaymentCollection.php';
