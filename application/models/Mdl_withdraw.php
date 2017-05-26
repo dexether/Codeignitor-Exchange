@@ -92,8 +92,8 @@ class Mdl_withdraw extends CI_Model {
         $sql = "INSERT INTO `withdrawal` (`user_id`, `EUR`, `GTS`, `NLG`, `transaction`, `token`, `status`, `verified`, `withdrawal_date`, `last_update`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         $this->db->query($sql, $params);
 
-        $sql = "INSERT INTO `withdraw_fee`(`user_id`, `dateoffee`, `fee_amount`, `status`) VALUES (?, NOW(), ?, ?);";
-        $this->db->query($sql, [$this->session->user_id, TAXSEPA, 'open']);
+        $sql = "INSERT INTO `withdraw_fee`(`user_id`, `dateoffee`, `fee_amount`, `transaction`, `status`) VALUES (?, NOW(), ?, ?, ?);";
+        $this->db->query($sql, [$this->session->user_id, TAXSEPA, $transaction, 'open']);
 
         return ['token' => $token, 'transaction' => $transaction];
     }
@@ -152,9 +152,15 @@ class Mdl_withdraw extends CI_Model {
 
     public function withdraw_to_paid($id)
     {
-        $query = 'UPDATE `ciexcgt`.`withdrawal` SET `status`="paid" WHERE `id`=?;
-';
+        $query = 'SELECT * FROM `withdrawal` WHERE `id`=?;';
+        $obj = $this->db->query($query, [$id]);
+        $obj = $obj->row();
+
+        $query = 'UPDATE `withdrawal` SET `status`="paid" WHERE `id`=?;';
         $this->db->query($query, [$id]);
+
+        $this->db->query('INSERT INTO `paid_fees`(`user_id`, `dateofpayment`, `fee_amount`, `transaction`, `origin`) VALUES (?, NOW(), ?, ?, ?);', [$obj->user_id, TAXDEPOSIT, $obj->transaction, 'withdraw']);
+
     }
 
     //=======================================================================

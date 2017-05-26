@@ -12,6 +12,7 @@ class Migration_Paid_fees extends CI_Migration {
         
         $fields = [];
         $fields['id'] = ['type' => 'INT','constraint' => 11,'auto_increment' => true];
+        $fields['user_id'] = ['type' => 'INT','constraint' => 11];
         $fields['dateofpayment'] = ['type' => 'DATE'];
         $fields['fee_amount'] = ['type' => 'DECIMAL','constraint' => 18,8];
         $fields['transaction'] = ['type' => 'TEXT'];
