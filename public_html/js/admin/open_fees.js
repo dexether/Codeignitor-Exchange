@@ -67,7 +67,7 @@ $(document).ready(function() {
     }
 
     function cancelPayment() {
-        alertify.error('Process Cancelled');
+        alertify.error('Process cancelled');
     }
 
     function doPayment() {
@@ -79,7 +79,12 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(r) {
                 if (r.status && r.status === 'ok') {
-                    alertify.success('Ok!');
+                    alertify.success(
+                        'Payment has been proceeded successfully. Now you will be redirected.',
+                        3,
+                        function() {
+                            location.href = '/admin/fees/open_fees';
+                        });
                 } else {
                     alertify.error(r.msg);
                 }
