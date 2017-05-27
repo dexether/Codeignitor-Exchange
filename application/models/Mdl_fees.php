@@ -7,6 +7,10 @@ class Mdl_fees extends CI_Model {
 
     // total count of all GTS shares
     const TOTAL_GTS_SHARES_CNT = 100000;
+    const OPEN_FEES_RECORDS_STEP = 5;  // how many open fees records will be processing at once
+
+    // total fee value that is used during payment procedure
+    protected $total_fee = 0;
 
     /**
      * Get last N days records from open_fees table grouped by days
@@ -71,12 +75,15 @@ class Mdl_fees extends CI_Model {
 
     /**
      * Do payment top-level method
+     *
      * @return void
      */
     public function do_payment_main()
     {
         try {
             $this->db->trans_begin();
+
+            $this->total_fee = 0;
 
             $this->do_payment();
 
@@ -85,7 +92,7 @@ class Mdl_fees extends CI_Model {
                 return 'Error while payment processing';
             }
 
-           $this->db->trans_complete();
+            $this->db->trans_complete();
             // $this->db->trans_rollback();
 
             return ''; // no errors result
@@ -108,20 +115,106 @@ class Mdl_fees extends CI_Model {
 
 
     /**
-     * Add a new record into `dividend` table with $total_fee value
+    *  Add closed fee record with $open_fee_id and $dividend_id fields values
+    *
+    * @param int $open_fee_id ID of open_fees record
+    * @param int $dividend_id ID of recently added dividend record
+    * @return void
+    */
+    protected function add_closed_fee($open_fee_id, $dividend_id)
+    {
+        $this->db->insert('closed_fees', [
+            'dividend_id' => $dividend_id,
+            'open_fee_id' => $open_fee_id,
+            'status'      => 'processed'
+        ]);
+    }
+
+
+    /**
+     * Process block of open_fees records at once
+     *
+     * @param array $open_fees_ids array of IDs of open_fees records to process
+     * @param int $dividend_id ID of recently added dividend record
+     * @return void
+     */
+    protected function process_open_fees_block(array $open_fees_ids, $dividend_id)
+    {
+        foreach ($open_fees_ids as $open_fee_id) {
+            $this->add_closed_fee($open_fee_id, $dividend_id);
+        }
+        $this->db->set('status', 'closed')
+                 ->where_in('id', $open_fees_ids)
+                 ->update('open_fees');
+    }
+
+
+    /**
+     * Processing of all open fees (with 'open' status) while payment
+     * and calculating a real $this->total_fee value
+     *
+     * @param int $dividend_id ID of recently added dividend record
+     * @return void
+     */
+    protected function open_fees_processing($dividend_id)
+    {
+        $total_fee = 0;
+        while (true) {
+            $limit = self::OPEN_FEES_RECORDS_STEP;
+            $query = $this->db->get_where('open_fees', ['status' => 'open'], $limit, 0);
+
+            // var_dump($this->db->last_query());
+
+            if ($query->num_rows() === 0) {
+                break;
+            }
+
+            $open_fees_ids = [];
+            foreach ($query->result() as $row) {
+                $total_fee += $row->fee;
+                $open_fees_ids[] = $row->id;
+            }
+            $query->free_result();
+
+            // var_dump($open_fees_ids);
+
+            if ($open_fees_ids) {
+                $this->process_open_fees_block($open_fees_ids, $dividend_id);
+            }
+        }
+
+        $this->total_fee = $total_fee;
+    }
+
+    /**
+     * Create an empry record in `dividend` table with 0 total_fee value
      *
      * @param type $total_fee total fee
      * @return int ID of inserted record
      */
-    protected function add_dividend($total_fee)
+    protected function create_empty_dividend()
     {
         $data = [
-            'total_fee'         => $total_fee,
+            'total_fee'         => 0,
             'dividend_datetime' => date('Y-m-d H:i:s'),
             'status'            => 'paid'
         ];
         $this->db->insert('dividend', $data);
         return $this->db->insert_id();
+    }
+
+    /**
+     * Set updated total fee value for dividend record
+     *
+     * @param int $dividend_id ID of dividend record
+     * @param float $total_fee new total fee value to update
+     * @return void
+     */
+    protected function set_total_fee_for_dividend($dividend_id, $total_fee)
+    {
+        $this->db->set('total_fee', $total_fee)
+                 ->where('id', $dividend_id)
+                 ->update('dividend');
     }
 
 
@@ -137,8 +230,16 @@ class Mdl_fees extends CI_Model {
         if ($open_fees_total < self::PAYMENT_MIN_LIMIT) {
             throw new Exception('Total open fees < ' . self::PAYMENT_MIN_LIMIT);
         }
-        $this->close_open_fees();
-        $dividend_id = $this->add_dividend($open_fees_total);
+        $dividend_id = $this->create_empty_dividend();
+        $this->open_fees_processing($dividend_id);
+
+        // check real value of total open fees
+        $open_fees_total = $this->total_fee;
+        if ($open_fees_total < self::PAYMENT_MIN_LIMIT) {
+            throw new Exception('Total open fees < ' . self::PAYMENT_MIN_LIMIT);
+        }
+        $this->set_total_fee_for_dividend($dividend_id, $open_fees_total);
+
         $this->process_users_balances($open_fees_total, $dividend_id);
         return true;
     }
