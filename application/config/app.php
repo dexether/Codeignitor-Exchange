@@ -26,7 +26,7 @@ defined('PAYAPITOKEN') or define('PAYAPITOKEN', '323b8ef7bfc81e41cf88d63a64e3e86
 defined('PAYSERVICEID') or define('PAYSERVICEID', 'SL-7450-1950');
 
 defined('FEE') or define('FEE', '0.25');
-defined('MARKETS') or define('MARKETS', array('EUR-NLG', 'GTS-NLG'));
+defined('MARKETS') or define('MARKETS', array('EUR-NLG', 'EUR-GTS', 'EUR-ZEC', 'EUR-ETH'));
 
 
 // can change this values from code

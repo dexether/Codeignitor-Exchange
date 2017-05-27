@@ -35,7 +35,7 @@ class Mdl_trade  extends CI_Model {
             {
                 $this->db->trans_start();
                     //1: insert order into order table
-                    $this->db->insert('order_'.$bid, 
+                    $this->db->insert('order_'.$sell, 
                             ['price'=>$price,
                             'amount'=>$amount,
                             'type'=>'limit',
@@ -61,7 +61,7 @@ class Mdl_trade  extends CI_Model {
                     $this->db->where('status','open');
                     $this->db->order_by('price', 'asc');
                     $this->db->order_by('order_date', 'desc');
-                    $res = $this->db->get('order_'.$bid);
+                    $res = $this->db->get('order_'.$sell);
                     if ($this->debug) echo $this->db->last_query();
                     
                     if($res->num_rows() > 0)
@@ -84,8 +84,8 @@ class Mdl_trade  extends CI_Model {
                                 
                                 //set sell to processed
                                 //$this->db->where('id',$row->id);
-                                //$this->db->update('order_'.$bid, ['status'=>'processed', 'units_filled'=>$unit_processed]);
-                                $this->db->query("UPDATE `order_".$bid."` SET `units_filled` = `units_filled` + $unit_row , `status`= 'processed' WHERE `id` = " .$row->id);
+                                //$this->db->update('order_'.$sell, ['status'=>'processed', 'units_filled'=>$unit_processed]);
+                                $this->db->query("UPDATE `order_".$sell."` SET `units_filled` = `units_filled` + $unit_row , `status`= 'processed' WHERE `id` = " .$row->id);
                                 if ($this->debug) echo $this->db->last_query();
                                 
                                 
@@ -103,7 +103,7 @@ class Mdl_trade  extends CI_Model {
                                 
                                 //insert trade record
                                 // id 	user_id 	bid_id 	sell_id 	price 	amount 	total 	fee 	trade_datetime 	status
-                                $this->db->insert('trades_'.$bid, 
+                                $this->db->insert('trades_'.$sell, 
                                     ['price'=>$price,
                                     'amount'=>$unit_row,
                                     'bidsell'=>'sell',
@@ -120,7 +120,7 @@ class Mdl_trade  extends CI_Model {
                                 //buyer fee
                                 $this->db->insert('open_fees',[
                                     'user_id' => $this->session->user_id,
-                                    'table'=> 'order_'.$bid,
+                                    'table'=> 'order_'.$sell,
                                     'table_id' => $order_id,
                                     'trade_id' =>$trade_id,
                                     'fee' => $fee,
@@ -131,7 +131,7 @@ class Mdl_trade  extends CI_Model {
                                 //seller fee
                                 $this->db->insert('open_fees',[
                                     'user_id' => $row->user_id,
-                                    'table'=> 'order_'.$bid,
+                                    'table'=> 'order_'.$sell,
                                     'table_id' => $row->id,
                                     'trade_id' =>$trade_id,
                                     'fee' => $fee,
@@ -151,7 +151,7 @@ class Mdl_trade  extends CI_Model {
                                 //$bidprice += ($units * $row->price * (100 - FEE) / 100); 
                                 if ($this->debug) echo 'bidprice = ', $bidprice, '|';
                                 $units_filled += $units;
-                                $this->db->query("UPDATE `order_".$bid."` SET `units_filled` = `units_filled` + $units WHERE `id` = " .$row->id);
+                                $this->db->query("UPDATE `order_".$sell."` SET `units_filled` = `units_filled` + $units WHERE `id` = " .$row->id);
                                 if ($this->debug) echo $this->db->last_query();
                                 
                                 //take fee from both BID and SELL record.
@@ -169,7 +169,7 @@ class Mdl_trade  extends CI_Model {
                                 
                                  //insert trade record
                                 // id 	user_id 	bid_id 	sell_id 	price 	amount 	total 	fee 	trade_datetime 	status
-                                $this->db->insert('trades_'.$bid, 
+                                $this->db->insert('trades_'.$sell, 
                                     ['price'=>$price,
                                     'amount'=>$amount,
                                     'bidsell'=>'sell',
@@ -186,7 +186,7 @@ class Mdl_trade  extends CI_Model {
                                 //Buyer fee 
                                $this->db->insert('open_fees',[
                                     'user_id' => $this->session->user_id,
-                                    'table'=> 'order_'.$bid,
+                                    'table'=> 'order_'.$sell,
                                     'table_id' => $order_id,
                                     'trade_id' =>$trade_id,
                                     'fee' => $fee,
@@ -197,7 +197,7 @@ class Mdl_trade  extends CI_Model {
                                 //seller fee
                                 $this->db->insert('open_fees',[
                                     'user_id' => $row->user_id,
-                                    'table'=> 'order_'.$bid,
+                                    'table'=> 'order_'.$sell,
                                     'table_id' => $row->id,
                                     'trade_id' =>$trade_id,
                                     'fee' => $fee,
@@ -224,9 +224,9 @@ class Mdl_trade  extends CI_Model {
                             //TODO fully filled? set status!
                             if($units_filled >= $total)
                             {
-                                $this->db->query("UPDATE `order_".$bid."` SET `units_filled` = $units_filled , `status` = 'processed' WHERE `id` = " .$order_id);
+                                $this->db->query("UPDATE `order_".$sell."` SET `units_filled` = $units_filled , `status` = 'processed' WHERE `id` = " .$order_id);
                             }
-                            else $this->db->query("UPDATE `order_".$bid."` SET `units_filled` = $units_filled WHERE `id` = " .$order_id);
+                            else $this->db->query("UPDATE `order_".$sell."` SET `units_filled` = $units_filled WHERE `id` = " .$order_id);
                             
                             echo $this->db->last_query();
                             //update balance with units filled
@@ -279,7 +279,7 @@ class Mdl_trade  extends CI_Model {
             {
                 $this->db->trans_start();
                     //1: insert order into order table
-                    $this->db->insert('order_'.$bid, 
+                    $this->db->insert('order_'.$sell, 
                             ['price'=>$price,
                             'amount'=>$amount,
                             'type'=>'limit',
@@ -307,7 +307,7 @@ class Mdl_trade  extends CI_Model {
                     $this->db->where('status','open');
                     $this->db->order_by('price', 'asc');
                     $this->db->order_by('order_date', 'desc');
-                    $res = $this->db->get('order_'.$bid);
+                    $res = $this->db->get('order_'.$sell);
                     if ($this->debug) echo $this->db->last_query();
                     
                     if($res->num_rows() > 0)
@@ -330,8 +330,8 @@ class Mdl_trade  extends CI_Model {
                                 
                                 //set sell to processed
                                 //$this->db->where('id',$row->id);
-                                //$this->db->update('order_'.$bid, ['status'=>'processed', 'units_filled'=>$unit_processed]);
-                                $this->db->query("UPDATE `order_".$bid."` SET `units_filled` = `units_filled` + $unit_row , `status`= 'processed' WHERE `id` = " .$row->id);
+                                //$this->db->update('order_'.$sell, ['status'=>'processed', 'units_filled'=>$unit_processed]);
+                                $this->db->query("UPDATE `order_".$sell."` SET `units_filled` = `units_filled` + $unit_row , `status`= 'processed' WHERE `id` = " .$row->id);
                                 if ($this->debug) echo $this->db->last_query();
                                 
                                 if ($this->debug) var_dump ($row);
@@ -349,7 +349,7 @@ class Mdl_trade  extends CI_Model {
                                 if ($this->debug) echo $this->db->last_query();
                                 //insert trade record
                                 // id 	user_id 	bid_id 	sell_id 	price 	amount 	total 	fee 	trade_datetime 	status
-                                $this->db->insert('trades_'.$bid, 
+                                $this->db->insert('trades_'.$sell, 
                                     ['price'=>$price,
                                     'amount'=>$unit_row,
                                     'bidsell'=>'sell',
@@ -366,7 +366,7 @@ class Mdl_trade  extends CI_Model {
                                 //buyer fee
                                 $this->db->insert('open_fees',[
                                     'user_id' => $this->session->user_id,
-                                    'table'=> 'order_'.$bid,
+                                    'table'=> 'order_'.$sell,
                                     'table_id' => $order_id,
                                     'trade_id' =>$trade_id,
                                     'fee' => $fee,
@@ -377,7 +377,7 @@ class Mdl_trade  extends CI_Model {
                                 //seller fee
                                 $this->db->insert('open_fees',[
                                     'user_id' => $row->user_id,
-                                    'table'=> 'order_'.$bid,
+                                    'table'=> 'order_'.$sell,
                                     'table_id' => $row->id,
                                     'trade_id' =>$trade_id,
                                     'fee' => $fee,
@@ -397,7 +397,7 @@ class Mdl_trade  extends CI_Model {
                                 $bidprice += ($units * $row->price * (100 - FEE) / 100); 
                                 if ($this->debug) echo 'bidprice = ', $bidprice, '|';
                                 $units_filled += $units;
-                                $this->db->query("UPDATE `order_".$bid."` SET `units_filled` = `units_filled` + $units WHERE `id` = " .$row->id);
+                                $this->db->query("UPDATE `order_".$sell."` SET `units_filled` = `units_filled` + $units WHERE `id` = " .$row->id);
                                 if ($this->debug) echo $this->db->last_query();
                                 
                                 //take fee from both BID and SELL record.
@@ -416,7 +416,7 @@ class Mdl_trade  extends CI_Model {
                                 
                                  //insert trade record
                                 // id 	user_id 	bid_id 	sell_id 	price 	amount 	total 	fee 	trade_datetime 	status
-                                $this->db->insert('trades_'.$bid, 
+                                $this->db->insert('trades_'.$sell, 
                                     ['price'=>$price,
                                     'amount'=>$amount,
                                     'bidsell'=>'sell',
@@ -433,7 +433,7 @@ class Mdl_trade  extends CI_Model {
                                 //Buyer fee 
                                $this->db->insert('open_fees',[
                                     'user_id' => $this->session->user_id,
-                                    'table'=> 'order_'.$bid,
+                                    'table'=> 'order_'.$sell,
                                     'table_id' => $order_id,
                                     'trade_id' =>$trade_id,
                                     'fee' => $fee,
@@ -444,7 +444,7 @@ class Mdl_trade  extends CI_Model {
                                 //seller fee
                                 $this->db->insert('open_fees',[
                                     'user_id' => $row->user_id,
-                                    'table'=> 'order_'.$bid,
+                                    'table'=> 'order_'.$sell,
                                     'table_id' => $row->id,
                                     'trade_id' =>$trade_id,
                                     'fee' => $fee,
@@ -471,9 +471,9 @@ class Mdl_trade  extends CI_Model {
                             //TODO fully filled? set status!
                             if($units_filled >= $total)
                             {
-                                $this->db->query("UPDATE `order_".$bid."` SET `units_filled` = $units_filled , `status` = 'processed' WHERE `id` = " .$order_id);
+                                $this->db->query("UPDATE `order_".$sell."` SET `units_filled` = $units_filled , `status` = 'processed' WHERE `id` = " .$order_id);
                             }
-                            else $this->db->query("UPDATE `order_".$bid."` SET `units_filled` = $units_filled WHERE `id` = " .$order_id);
+                            else $this->db->query("UPDATE `order_".$sell."` SET `units_filled` = $units_filled WHERE `id` = " .$order_id);
                             
                             if ($this->debug) echo $this->db->last_query();
                             //update balance with units filled
@@ -506,7 +506,7 @@ class Mdl_trade  extends CI_Model {
     
    
     
-    public function get_bid_orders($market='EUR', $limit=10, $user_id = null)
+    public function get_bid_orders($market='NLG', $limit=10, $user_id = null)
     {
         $this->db->limit($limit);
         $this->db->where('bidsell', 'bid');
@@ -516,7 +516,7 @@ class Mdl_trade  extends CI_Model {
         return $this->db->get('order_'.$market);
     }
     
-    public function get_sell_orders($market='EUR', $limit=10, $user_id = null)
+    public function get_sell_orders($market='NLG', $limit=10, $user_id = null)
     {
         $this->db->limit($limit);
         $this->db->where('bidsell', 'sell');
@@ -525,7 +525,7 @@ class Mdl_trade  extends CI_Model {
         return $this->db->get('order_'.$market);
     }
 
-    public function get_my_orders($market='EUR', $status ='open', $user_id = null,  $limit=10)
+    public function get_my_orders($market='NLG', $status ='open', $user_id = null,  $limit=10)
     {
         $this->db->limit($limit);
         $this->db->where('status', $status);
@@ -534,7 +534,7 @@ class Mdl_trade  extends CI_Model {
         return $this->db->get('order_'.$market);
     }
 
-    public function trade_history($market='EUR', $limit=10, $user_id = null)
+    public function trade_history($market='NLG', $limit=10, $user_id = null)
     {
         $this->db->limit($limit);
         if($user_id) $this->db->where('user_id', $user_id);

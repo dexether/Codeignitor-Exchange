@@ -12,10 +12,14 @@ class Site extends MY_Controller {
     {  
         // $this->l_asset->add('js/login.js', 'js');
         $data = array();
+        $data['currency_bid'] = 'EUR';
+        $data['currency_sell'] = 'NLG';
+        
         //$this->load->view('site/v_front', $data, true);
         //$data['login'] = $this->load->view('login/v_login', $data, true);
         //$data['register'] = $this->load->view('login/v_register', $data, true);
-        $data['chart'] = $this->load->view('charts/v_chart_nlg', $data, true);
+        
+        $data['chart'] = $this->load->view('charts/v_chart', $data, true);
 
         $data['trade_history'] = $this->load->view('blocks/v_trade_history', $data, true);
 

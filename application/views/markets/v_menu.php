@@ -11,12 +11,12 @@
                 <ul class="nav navbar-nav"> 
                     <li class="dropdown  <?php if($uri=="markets") { echo 'active'; } ?> " ><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Markets   </a>
                     <ul class="dropdown-menu">
-
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/markets/EUR-NLG">EUR-NLG</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/markets/GTS-NLG" >GTS-NLG</a></li> 
-
+                        <?php
+                         foreach (MARKETS as $key => $value) {
+                             echo '<li role="separator" class="divider"></li>
+                                    <li><a href="/markets/',$value, '">', $value, '</a></li>';
+                         }
+                         ?>
                     </ul>
               </li>
 

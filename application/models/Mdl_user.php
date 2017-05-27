@@ -118,7 +118,7 @@ class Mdl_user extends CI_Model
         return;
     }
 
-
+    //TODO - make sure SALT is unique, its use to obscure user_id
     public function add_user()
     {
         $dateofreg = date('Y-m-d');
@@ -602,4 +602,10 @@ class Mdl_user extends CI_Model
     }
 
 
+    public function get_salt()
+    {
+        $this->db->select('salt');
+        $this->db->where('id', $this->session->user_id);
+        return $this->db->get('users')->row()->salt;
+    }
 }

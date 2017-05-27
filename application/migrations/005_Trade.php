@@ -13,7 +13,7 @@ class Migration_Trade extends CI_Migration {
         $fields = [];
         //add bidsell to trades
         $fields['bidsell'] = ['type' => 'VARCHAR','constraint' => 10];
-        $this->dbforge->add_column('trades_EUR', $fields);
+        $this->dbforge->add_column('trades_NLG', $fields);
         $this->dbforge->add_column('trades_GTS', $fields);
        
         $fields = [];
@@ -21,7 +21,7 @@ class Migration_Trade extends CI_Migration {
         $fields['units_filled'] = ['type' => 'DECIMAL','constraint' => '16,8', 'default'=>'0.00000000'];
         $fields['EUR_filled'] = ['type' => 'DECIMAL','constraint' => '16,8', 'default'=>'0.00000000'];
         $fields['fee_filled'] = ['type' => 'DECIMAL','constraint' => '16,8', 'default'=>'0.00000000'];
-        $this->dbforge->add_column('order_EUR', $fields);
+        $this->dbforge->add_column('order_NLG', $fields);
         
         $fields = [];
         //add pending to orders
@@ -93,12 +93,12 @@ class Migration_Trade extends CI_Migration {
     public function down()
     {
 
-        $this->dbforge->drop_column('trades_EUR', 'bidsell');
+        $this->dbforge->drop_column('tradesNLG', 'bidsell');
         $this->dbforge->drop_column('trades_GTS', 'bidsell');
         
-        $this->dbforge->drop_column('order_EUR', 'units_filled');
-        $this->dbforge->drop_column('order_EUR', 'EUR_filled');
-        $this->dbforge->drop_column('order_EUR', 'fee_filled');
+        $this->dbforge->drop_column('order_NLG', 'units_filled');
+        $this->dbforge->drop_column('order_NLG', 'EUR_filled');
+        $this->dbforge->drop_column('order_NLG', 'fee_filled');
         
         $this->dbforge->drop_column('order_GTS', 'units_filled');
         $this->dbforge->drop_column('order_GTS', 'GTS_filled');

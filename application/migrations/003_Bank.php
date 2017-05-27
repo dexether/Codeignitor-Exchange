@@ -56,15 +56,15 @@ class Migration_Bank extends CI_Migration {
         $this->dbforge->add_key('user_id', true);
         $this->dbforge->create_table('commission', true);
         
-        //Trades_eur
+        //Trades_NLG
         $fields = [];
         $fields['id'] = ['type' => 'INT','constraint' => 11,'auto_increment' => true];
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];
         $fields['bid_id'] = ['type' => 'INT','constraint' => 11];
         $fields['sell_id'] = ['type' => 'INT','constraint' => 11];
-        $fields['price'] = ['type' => 'DECIMAL','constraint' => 16,8];
-        $fields['amount'] = ['type' => 'DECIMAL','constraint' => 16,8]; 
-        $fields['total'] = ['type' => 'DECIMAL','constraint' => 16,8]; 
+        $fields['price'] = ['type' => 'DECIMAL','constraint' => '16,8'];
+        $fields['amount'] = ['type' => 'DECIMAL','constraint' => '16,8']; 
+        $fields['total'] = ['type' => 'DECIMAL','constraint' => '16,8']; 
         $fields['fee'] = ['type' => 'DECIMAL','constraint' => 12,8]; // percentage or fixed
         $fields['trade_datetime'] = ['type' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'];
         $fields['status'] = ['type' => 'VARCHAR','constraint' => 10];
@@ -74,7 +74,7 @@ class Migration_Bank extends CI_Migration {
         $this->dbforge->add_key('user_id', true);
         $this->dbforge->add_key('bid_id', true);
         $this->dbforge->add_key('sell_id', true);
-        $this->dbforge->create_table('trades_EUR', true);
+        $this->dbforge->create_table('trades_NLG', true);
         
         //Trades_gts
         $fields = [];
@@ -82,9 +82,9 @@ class Migration_Bank extends CI_Migration {
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];
         $fields['bid_id'] = ['type' => 'INT','constraint' => 11];
         $fields['sell_id'] = ['type' => 'INT','constraint' => 11];
-        $fields['price'] = ['type' => 'DECIMAL','constraint' => 16,8];
-        $fields['amount'] = ['type' => 'DECIMAL','constraint' => 16,8]; 
-        $fields['total'] = ['type' => 'DECIMAL','constraint' => 16,8]; 
+        $fields['price'] = ['type' => 'DECIMAL','constraint' => '16,8'];
+        $fields['amount'] = ['type' => 'DECIMAL','constraint' => '16,8']; 
+        $fields['total'] = ['type' => 'DECIMAL','constraint' => '16,8']; 
         $fields['fee'] = ['type' => 'DECIMAL','constraint' => 12,8]; // percentage or fixed
         $fields['trade_datetime'] = ['type' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'];
         $fields['status'] = ['type' => 'VARCHAR','constraint' => 10];
@@ -100,9 +100,9 @@ class Migration_Bank extends CI_Migration {
         $fields = [];
         $fields['id'] = ['type' => 'INT','constraint' => 11,'auto_increment' => true];
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];
-        $fields['EUR'] = ['type' => 'DECIMAL','constraint' => 18,8];
-        $fields['GTS'] = ['type' => 'DECIMAL','constraint' => 18,8];
-        $fields['NLG'] = ['type' => 'DECIMAL','constraint' => 18,8];
+        $fields['EUR'] = ['type' => 'DECIMAL','constraint' => '18,8'];
+        $fields['GTS'] = ['type' => 'DECIMAL','constraint' => '18,8'];
+        $fields['NLG'] = ['type' => 'DECIMAL','constraint' => '18,8'];
         $fields['transaction'] = ['type' => 'VARCHAR','constraint' => 120];
         $fields['verified'] = ['type' => 'VARCHAR','constraint' => 10];
         $fields['deposit_date'] = ['type' => 'DATE'];
@@ -117,9 +117,9 @@ class Migration_Bank extends CI_Migration {
         $fields = [];
         $fields['id'] = ['type' => 'INT','constraint' => 11,'auto_increment' => true];
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];
-        $fields['EUR'] = ['type' => 'DECIMAL','constraint' => 18,8];
-        $fields['GTS'] = ['type' => 'DECIMAL','constraint' => 18,8];
-        $fields['NLG'] = ['type' => 'DECIMAL','constraint' => 18,8];
+        $fields['EUR'] = ['type' => 'DECIMAL','constraint' => '18,8'];
+        $fields['GTS'] = ['type' => 'DECIMAL','constraint' => '18,8'];
+        $fields['NLG'] = ['type' => 'DECIMAL','constraint' => '18,8'];
         $fields['transaction'] = ['type' => 'VARCHAR','constraint' => 120];
         $fields['token'] = ['type' => 'VARCHAR','constraint' => 25];
         $fields['status'] = ['type' => 'VARCHAR','constraint' => 10];
@@ -136,7 +136,7 @@ class Migration_Bank extends CI_Migration {
         $fields = [];
         $fields['id'] = ['type' => 'INT','constraint' => 11,'auto_increment' => true];
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];
-        $fields['EUR'] = ['type' => 'DECIMAL','constraint' => 18,8];
+        $fields['EUR'] = ['type' => 'DECIMAL','constraint' => '18,8'];
         $fields['deposit_code'] = ['type' => 'VARCHAR','constraint' => 10];
         $fields['status'] = ['type' => 'VARCHAR','constraint' => 10];
         $fields['verified'] = ['type' => 'VARCHAR','constraint' => 10];
@@ -148,27 +148,27 @@ class Migration_Bank extends CI_Migration {
         $this->dbforge->add_key('user_id', true);
         $this->dbforge->create_table('bank_deposit', true);
         
-        //order_EUR
+        //order_NLG
         $fields = [];
         $fields['id'] = ['type' => 'INT','constraint' => 11,'auto_increment' => true];
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];
         $fields['type'] = ['type' => 'VARCHAR','constraint' => 10]; ///limit, stop
         $fields['bidsell'] = ['type' => 'VARCHAR','constraint' => 10]; ///bid, sell
-        $fields['EUR'] = ['type' => 'DECIMAL','constraint' => 18,8];
-        $fields['price'] = ['type' => 'DECIMAL','constraint' => 16,8];
-        $fields['amount'] = ['type' => 'DECIMAL','constraint' => 16,8]; 
-        $fields['total'] = ['type' => 'DECIMAL','constraint' => 16,8]; 
+        $fields['EUR'] = ['type' => 'DECIMAL','constraint' => '18,8'];
+        $fields['price'] = ['type' => 'DECIMAL','constraint' => '16,8'];
+        $fields['amount'] = ['type' => 'DECIMAL','constraint' => '16,8']; 
+        $fields['total'] = ['type' => 'DECIMAL','constraint' => '16,8']; 
         $fields['fee'] = ['type' => 'DECIMAL','constraint' => 12,8]; // percentage or fixed
         $fields['order_date'] = ['type' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'];
         $fields['status'] = ['type' => 'VARCHAR','constraint' => 10];
-        $fields['stoporder_price'] = ['type' => 'DECIMAL','constraint' => 16,8];
-        $fields['trigger_price'] = ['type' => 'DECIMAL','constraint' => 16,8];
+        $fields['stoporder_price'] = ['type' => 'DECIMAL','constraint' => '16,8'];
+        $fields['trigger_price'] = ['type' => 'DECIMAL','constraint' => '16,8'];
         
         $this->dbforge->add_field($fields);
         $this->dbforge->add_key('id', true);
         $this->dbforge->add_key('user_id', true);
         $this->dbforge->add_key('bidsell', true);
-        $this->dbforge->create_table('order_EUR', true);
+        $this->dbforge->create_table('order_NLG', true);
         
         //order_GTS
         $fields = [];
@@ -176,15 +176,15 @@ class Migration_Bank extends CI_Migration {
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];
         $fields['type'] = ['type' => 'VARCHAR','constraint' => 10]; ///limit, stop
         $fields['bidsell'] = ['type' => 'VARCHAR','constraint' => 10]; ///bid, sell
-        $fields['GTS'] = ['type' => 'DECIMAL','constraint' => 18,8];
-        $fields['price'] = ['type' => 'DECIMAL','constraint' => 16,8];
-        $fields['amount'] = ['type' => 'DECIMAL','constraint' => 16,8]; 
-        $fields['total'] = ['type' => 'DECIMAL','constraint' => 16,8]; 
+        $fields['GTS'] = ['type' => 'DECIMAL','constraint' => '18,8'];
+        $fields['price'] = ['type' => 'DECIMAL','constraint' => '16,8'];
+        $fields['amount'] = ['type' => 'DECIMAL','constraint' => '16,8']; 
+        $fields['total'] = ['type' => 'DECIMAL','constraint' => '16,8']; 
         $fields['fee'] = ['type' => 'DECIMAL','constraint' => 12,8]; // percentage or fixed
         $fields['order_date'] = ['type' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'];
         $fields['status'] = ['type' => 'VARCHAR','constraint' => 10];
-        $fields['stoporder_price'] = ['type' => 'DECIMAL','constraint' => 16,8];
-        $fields['trigger_price'] = ['type' => 'DECIMAL','constraint' => 16,8];
+        $fields['stoporder_price'] = ['type' => 'DECIMAL','constraint' => '16,8'];
+        $fields['trigger_price'] = ['type' => 'DECIMAL','constraint' => '16,8'];
         
         $this->dbforge->add_field($fields);
         $this->dbforge->add_key('id', true);
@@ -225,9 +225,9 @@ class Migration_Bank extends CI_Migration {
         $this->dbforge->drop_table('bank_deposit');
         $this->dbforge->drop_table('addresses');
         $this->dbforge->drop_table('commission');
-        $this->dbforge->drop_table('trades_EUR');
+        $this->dbforge->drop_table('trades_NLG');
         $this->dbforge->drop_table('trades_GTS');
-        $this->dbforge->drop_table('order_EUR');
+        $this->dbforge->drop_table('order_NLG');
         $this->dbforge->drop_table('order_GTS');
     }
 
