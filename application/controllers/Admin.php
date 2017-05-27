@@ -409,8 +409,6 @@ class Admin extends MY_Controller
         exit;
     }
 
-
->>>>>>> fees_feature
 	public function open_fees()
 	{
 		auth(['admin','superadmin']);

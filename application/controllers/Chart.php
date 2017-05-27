@@ -19,7 +19,7 @@ class Chart extends MY_Controller{
 //        'high': 2,
 //        'low': 3,
 //        'close': 4,
-    public function candle($bid='EUR', $time = '30minutes')
+    public function candle($bid='NLG', $time = '30minutes')
     {
         $this->load->model('mdl_chart');
         $chart_result = $this->mdl_chart->chart($bid, $time);
