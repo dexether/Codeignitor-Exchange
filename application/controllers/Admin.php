@@ -158,7 +158,7 @@ class Admin extends MY_Controller
 					'amount' => $fee->fee_amount,
 					'origin' => $fee->origin,
 					'date' => $fee->dateofpayment
-				];	
+				];
 			}
 
 		}
@@ -166,6 +166,8 @@ class Admin extends MY_Controller
 		$this->data['head_css'] = '<link type="text/css" rel="stylesheet" href="'.base_url().'css/admin_fees.css" >';
 		$this->data['head_css'] .= '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>';
 		$this->data['head_css'] .= '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
+        $this->l_asset->add('js/admin/fees_charts.js','js');
+
 		$this->data['content'] = $this->load->view('admin/v_fees', $vars, true);
 		view($this->data, 'admin');
 	}
