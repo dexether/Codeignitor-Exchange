@@ -57,7 +57,7 @@ class Admin extends MY_Controller
 		$this->load->model('mdl_user_verification');
 		$crud->callback_column('trade_verification',array($this,'callback_trade_verification'));
 
-		$output = $crud->render();
+		$crud->add_action('Add Deposit', '', 'admin/user_deposit', 'crud_users_add_deposit');
 
 
         $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
@@ -66,6 +66,12 @@ class Admin extends MY_Controller
         $this->l_asset->add('js/admin/user_profile.js', 'js');
 
         $this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+
+		$output = $crud->render();
+		$this->data['head_js'] = '<script src="'.base_url().'js/admin/add_deposit.js"></script>';
+		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_users.css">';
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud_users', (array) $output, true);
+
 		view($this->data, 'admin');
 	}
 
@@ -111,11 +117,81 @@ class Admin extends MY_Controller
 		$crud = new grocery_CRUD();
 
 		$crud->set_table('withdrawal');
+		$crud->where('status', 'pending');
 		$crud->set_subject('Manage Withdrawals');
 		$crud->columns('user_id', 'EUR', 'GTS', 'NLG', 'transaction', 'status', 'verified', 'withdrawal_date');
 
+
+        $admin_roles = ['superadmin'];
+        if(in_array($this->session->userdata('role'), $admin_roles))
+        {
+			$crud->add_action('To Paid', '', 'admin/withdraw_to_paid', 'edit_button btn btn-default');
+        }
+
 		$output = $crud->render();
-		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud_withdraw', (array) $output, true);
+		view($this->data, 'admin');
+	}
+
+	public function withdraw_to_paid($id)
+	{
+		$this->load->model('mdl_withdraw');
+		$this->mdl_withdraw->withdraw_to_paid($id);
+		redirect('/admin/withdraw');
+	}
+
+
+	public function fees()
+	{
+		$this->load->model('Admin_model');
+		$fees = $this->Admin_model->fetch_paid_fees();
+
+		if ($fees == NULL) {
+			$vars['fees'] = 'No fees result';
+		} else {
+
+			foreach ($fees as $fee) {
+				$vars['fees'][] = [
+					'user' => $fee->user_id,
+					'transaction_id' => $fee->transaction,
+					'amount' => $fee->fee_amount,
+					'origin' => $fee->origin,
+					'date' => $fee->dateofpayment
+				];	
+			}
+
+		}
+
+		$this->data['head_css'] = '<link type="text/css" rel="stylesheet" href="'.base_url().'css/admin_fees.css" >';
+		$this->data['head_css'] .= '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>';
+		$this->data['head_css'] .= '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
+		$this->data['content'] = $this->load->view('admin/v_fees', $vars, true);
+		view($this->data, 'admin');
+	}
+
+
+	public function user_deposit($id)
+	{
+		$this->form_validation->set_rules('amount', 'Amount', 'required');
+
+		if ($this->form_validation->run() == true) {
+			$rand = rand(1000, 999999);
+			$transaction = $id . $rand;
+	        $amount = abs($this->input->post('amount'));
+	        $date = date('Y-m-d', time());
+
+			$this->load->model('mdl_deposit');
+			$this->mdl_deposit->deposit_record_EUR($id, $amount, $transaction, 'true', $date, 'Admin added deposit', 'EUR');
+
+			redirect('/admin/users?r=success');
+			return;
+		} else {
+			$vars['error'] = validation_errors('<p class="alert alert-danger">', '</p>');
+		}
+
+		$this->data['head_js'] = '<script src="'.base_url().'js/admin/add_deposit.js"></script>';
+		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_users.css">';
+		$this->data['content'] = $this->load->view('admin/v_deposit', $vars, true);
 		view($this->data, 'admin');
         }
 
@@ -291,14 +367,6 @@ class Admin extends MY_Controller
 		}
 		return $value;
 	}
-
-	public function fees()
-	{
-		auth(['admin','superadmin']);
-		$this->data['content'] = $this->load->view('admin/v_fees',[], true);
-		view($this->data, 'admin');
-	}
-
 
 	public function open_fees()
 	{

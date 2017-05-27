@@ -19,6 +19,7 @@
       <![endif]-->
       <?php if (isset($head_css)) echo $head_css; ?>
       <script type="text/javascript">var base_url = '<?php echo base_url(); ?>'; </script>
+    <?php if (isset($head_css)) echo $head_css; ?>
     </head>
     <body>
       <div class="wrapper">

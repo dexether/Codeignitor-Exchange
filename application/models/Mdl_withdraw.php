@@ -74,13 +74,13 @@ class Mdl_withdraw extends CI_Model {
 
         $currency[$this->session->pending_curr['type']] = $this->session->pending_curr['amount']; 
         $token = $this->getToken(rand(20,24));
-        $transaction = md5($this->session->firstname) . $token;
+        $transaction = $this->session->user_id . $token;
 
         $params = [
                 $this->session->user_id,
-                (int)$currency['EUR'],
-                (int)$currency['GTS'],
-                (int)$currency['NLG'],
+                (float)$currency['EUR'],
+                (float)$currency['GTS'],
+                (float)$currency['NLG'],
                 $transaction,
                 $token,
                 'activate',
@@ -89,14 +89,37 @@ class Mdl_withdraw extends CI_Model {
                 date('Y-m-d', time()),
         ];
 
-        $sql = "INSERT INTO `ciexcgt`.`withdrawal` (`user_id`, `EUR`, `GTS`, `NLG`, `transaction`, `token`, `status`, `verified`, `withdrawal_date`, `last_update`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO `withdrawal` (`user_id`, `EUR`, `GTS`, `NLG`, `transaction`, `token`, `status`, `verified`, `withdrawal_date`, `last_update`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         $this->db->query($sql, $params);
+
+        $sql = "INSERT INTO `withdraw_fee`(`user_id`, `dateoffee`, `fee_amount`, `transaction`, `status`) VALUES (?, NOW(), ?, ?, ?);";
+        $this->db->query($sql, [$this->session->user_id, TAXSEPA, $transaction, 'open']);
 
         return ['token' => $token, 'transaction' => $transaction];
     }
 
-    public function cancel_withdraw($pending_currency, $currency, $update_amount)
+    public function cancel_withdraw($transaction)
     {
+        $query = $this->db->query('SELECT * FROM `withdrawal` WHERE `transaction` = ? AND `user_id` = ? AND status = "activate"', [$transaction, $this->session->user_id]);
+        $row = $query->row(); 
+
+        if (!$row) {
+            return FALSE;
+        }
+
+        $currency = [
+            'EUR' => $row->EUR,
+            'NLG' => $row->NLG,
+        ];
+
+        $amount = ( $currency['EUR'] != 0 ? ['EUR', $currency['EUR']]: ['NLG', $currency['NLG']] );
+
+        $pending_currency = 'pending_' . $amount[0];
+        $currency = $amount[0];
+        $update_amount = $amount[1];
+        
+        $query = $this->db->query("UPDATE `withdrawal` SET `status`='cancel' WHERE `id` = ? and`user_id` = ?", [$query->row()->id, $this->session->user_id]);
+
         $query = $this->db->get_where('balance', ['user_id' => $this->session->user_id]);
         $pending = $query->row()->$pending_currency;
         $amount = $query->row()->$currency;
@@ -111,6 +134,33 @@ class Mdl_withdraw extends CI_Model {
 
         $this->db->where('user_id', $this->session->user_id);
         $query = $this->db->update('balance', $params); 
+
+        return TRUE;
+    }
+
+    public function confirm_withdraw($transaction)
+    {
+        $query = $this->db->query('SELECT * FROM `withdrawal` WHERE `transaction` = ? AND `user_id` = ? AND status = "activate"', [$transaction, $this->session->user_id]);
+        
+        if (!$query->row()) {
+            return FALSE;
+        }
+
+        $query = $this->db->query("UPDATE `withdrawal` SET `status`='pending' WHERE `id` = ? and`user_id` = ?", [$query->row()->id, $this->session->user_id]);
+        return TRUE;
+    } 
+
+    public function withdraw_to_paid($id)
+    {
+        $query = 'SELECT * FROM `withdrawal` WHERE `id`=?;';
+        $obj = $this->db->query($query, [$id]);
+        $obj = $obj->row();
+
+        $query = 'UPDATE `withdrawal` SET `status`="paid" WHERE `id`=?;';
+        $this->db->query($query, [$id]);
+
+        $this->db->query('INSERT INTO `paid_fees`(`user_id`, `dateofpayment`, `fee_amount`, `transaction`, `origin`) VALUES (?, NOW(), ?, ?, ?);', [$obj->user_id, TAXDEPOSIT, $obj->transaction, 'withdraw']);
+
     }
 
     //=======================================================================

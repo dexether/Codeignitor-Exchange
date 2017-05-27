@@ -25,7 +25,6 @@ class TFA extends MY_Controller
         }
 
         $this->load->model('mdl_user');
-        $this->data['menu'] = $this->load->view('markets/v_menu', array('uri' => $this->uri->segment(2)), true);
     }
 
 

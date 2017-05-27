@@ -4,7 +4,6 @@ class Mdl_user extends CI_Model
 {
 
     public $table = "users";
-    private $mailer;
 
     public function __construct()
     {
@@ -157,11 +156,13 @@ class Mdl_user extends CI_Model
             $link = base_url() . 'user/user_verification/' . $verifydata['verifier'];
             $a = array('##USERNAME##' => $this->input->post('firstname', true), '##USERID##' => base64_encode($last_userinsid), '##CLIENTID##' => $email, '##PASSWORD##' => $this->input->post('password1'), '##FROM_EMAIL##' => 'exchange@guldentrader.com', '##COMPANYNAME##' => 'exchange.guldentrader.com', '##EMAIL##' => $email, '##SITEURL##' => base_url(), '##ADMIN_EMAIL##' => 'exchange@guldentrader.com', '##LINK##' => $link);
             $email_content = strtr($email_content1, $a);
-            $this->mailer->common_mail($email, $email_subject1, $email_content);
+            $this->common_mail($email, $email_subject1, $email_content);
             return true;
         }
 
     }
+
+
 
     function common_mail($tomail = null, $email_subject = null, $email_content = null)
     {
@@ -305,6 +306,9 @@ class Mdl_user extends CI_Model
             //update
             $this->db->where('user_id', $row->user_id);
             $this->db->update('user_verification', array('verification_status' => 'verified'));
+
+            $this->db->query("INSERT INTO `balance` (`user_id`, `NLG`, `EUR`, `GTS`, `pending_EUR`, `pending_NLG`, `pending_GTS`) VALUES (?, '0', '0', '0', '0', '0', '0');", [$row->user_id]);
+
             return "ok";
         } else {
             return "nok";

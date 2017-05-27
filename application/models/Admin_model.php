@@ -2936,7 +2936,16 @@ function userverficationdetails1($id)
 	}
 }
 
+function fetch_paid_fees($from = '', $to = '')
+{
+	if(empty($from) OR empty($to)) {
+		$to = date('Y-m-d', time());
+		$from = date('Y-m-d', time()-2592000);
 
+		$x = $this->db->query('SELECT * FROM `paid_fees` WHERE `dateofpayment` >= ? AND `dateofpayment` <= ?', [$from, $to]);
+		return $x->result();
+	}
+}
 //general_settings
 }//end of class
 

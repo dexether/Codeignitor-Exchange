@@ -12,14 +12,14 @@ class Funds extends MY_Controller{
         }
         
         $this->data['menu'] = $this->load->view('markets/v_menu', array('uri'=>$this->uri->segment(2)), true);
+
     }
     
     public function index() {
         redirect('funds/deposit');
     }
 
-
-    
+ 
     public function deposit($fund='NLG', $type=null) {
 
 
@@ -49,12 +49,12 @@ class Funds extends MY_Controller{
                  if ($this->form_validation->run() == true) {
                     //redirect to iDeal
                      
-                    $i['amount'] = number_format($this->input->post('amount'),2);
-
+                    $i['amount'] = (float)$this->input->post('amount');
+                    
                     $result = Paynl\Transaction::start(array(
     
                         'amount' => $i['amount'],
-                        'returnUrl' => APP_BASE_URL."tools/deposit/eur/".$this->session->user_id.'/'.$i['amount'],
+                        'returnUrl' => APP_BASE_URL."tools/deposit/eur/".$this->session->user_id.'/'.$this->input->post('amount'),
                         'exchangeUrl' => APP_BASE_URL.'tools/silent_exchange/eur/'.$this->session->user_id.'/'.$i['amount'],
                         'paymentMethod' => 10,
                         'bank'=>$this->input->post('bank')
@@ -122,7 +122,8 @@ class Funds extends MY_Controller{
         $data['content'] = $this->load->view('funds/v_deposit_history', $vars, TRUE);
         $data['head_css'] = "<link href=". base_url('css/deposit_history.css') ." rel='stylesheet'>";
         $data['head_js'] = "<script src='". base_url('js/deposit_history.js') ."'></script>";
-        $this->load->view('template/v_site_template', $data);
+        $data['menu'] = $this->load->view('markets/v_menu', [], true);
+        $this->load->view('template/v_main_template', $data);
     }
 
 
@@ -138,9 +139,10 @@ class Funds extends MY_Controller{
     {
         $data = array();
         $this->load->model('mdl_balance');
-        $data['EUR'] = number_format($this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'EUR'), 2);
-        $data['NLG'] = number_format($this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'NLG'), 8);
-        $data['GTS'] = number_format($this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'GTS'), 8);
+
+        $data['EUR'] = number_format($this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'EUR')->EUR, 2);
+        $data['NLG'] = number_format($this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'NLG')->NLG, 8);
+        $data['GTS'] = number_format($this->mdl_balance->fetch_user_balance_by_id($this->session->user_id,'GTS')->GTS, 8);
         
         $content = $this->load->view('user/v_balance',$data,true);
         return $content;

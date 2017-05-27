@@ -130,7 +130,7 @@ class Tools extends MY_Controller{
 
     public function deposit($type, $user_id, $url_amount)
     {
-        \Paynl\Config::setApiToken('323b8ef7bfc81e41cf88d63a64e3e86e5d845ab5');
+        \Paynl\Config::setApiToken(PAYAPITOKEN);
 
         $transaction = \Paynl\Transaction::getForReturn();
         $this->load->helper('url');
@@ -163,6 +163,7 @@ class Tools extends MY_Controller{
         }  
 
         redirect(base_url() . 'tools/deposit_result/' . $status); 
+    
     }
 
 
