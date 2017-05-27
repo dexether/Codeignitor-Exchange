@@ -3,12 +3,15 @@ module.exports = {
     context: __dirname,
 
     devtool: "cheap-inline-module-source-map",
-    entry: "./public_html/js/socket.io/socket.js",
+    entry:
+            {
+                'roomservice': "./public_html/js/room/room.js"
+            },
 
     output: {
         path: __dirname + "/public_html/js/",
         publicPath: '/public_html/js/',
-        filename: "socket-service.js",
+        filename: '[name].js',
         chunkFilename: '[name].js',
         library: '[name]'
     },

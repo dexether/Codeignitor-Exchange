@@ -109,14 +109,14 @@
 <?php if(isset($register)) echo $register; ?>
 <script src="<?php echo base_url(); ?>js/jquery.min.js"></script>
 <script src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>
-<script src="<?php echo base_url(); ?>js/anystock.min.js"></script>
+<!--<script src="<?php echo base_url(); ?>js/anystock.min.js"></script>-->
+<script src="<?php echo base_url(); ?>js/anychart.js"></script>
 <!--<script src="<?php echo base_url(); ?>js/chart_nlg.js"></script>-->
 <script src="<?php echo base_url(); ?>js/jquery.nicescroll.min.js"></script>
 <script src="<?php echo base_url(); ?>js/jquery.validate.min.js"></script>
 <script src="<?php echo base_url(); ?>js/numericInput.min.js"></script>
 <script src="<?php echo base_url(); ?>js/base.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
-<script src="<?php echo base_url(); ?>js/socket-service.js"></script>
+<script src="<?php echo base_url(); ?>js/roomservice.js"></script>
 <?php if(isset($head_js)) echo $head_js; ?>
 </body>
 </html>
