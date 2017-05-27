@@ -4,20 +4,21 @@
 class Admin extends MY_Controller
 {
 
+
 	public function __construct()
 	{
 		parent::__construct();
-                $admin_roles = ['admin','superadmin'];
-                if(!in_array($this->session->userdata('role'), $admin_roles))
-                {
-                    redirect ('/');
-                }
+        $admin_roles = ['admin','superadmin'];
+        if(!in_array($this->session->userdata('role'), $admin_roles))
+        {
+            redirect ('/');
+        }
 
 		$this->load->library('grocery_CRUD');
 		$this->load->model('admin_model');
 		$this->load->model('mdl_user');
 		$this->load->model('mdl_user_verification');
-
+        $this->load->model('mdl_fees');
 	}
 
 	public function index()
@@ -108,7 +109,7 @@ class Admin extends MY_Controller
         $template = $this->load->view('admin/v_edit_profilepicture', $data, true);
 		return $template;
         }
-        
+
 	public function withdraw()
 	{
 		auth(['admin','superadmin']);
@@ -231,7 +232,7 @@ class Admin extends MY_Controller
 		auth(['admin','superadmin']);
 		// init
 
-                $upload_path = '../application/uploads';
+        $upload_path = '../application/uploads';
 		$crud = new grocery_CRUD();
 		$crud->set_table('user_verification');
 		$crud->set_subject('user_verification');
@@ -368,6 +369,48 @@ class Admin extends MY_Controller
 		return $value;
 	}
 
+    public function get_open_fees_data()
+    {
+        auth(['admin','superadmin']);
+        $days = intval($this->input->post('period', true));
+        if ($days < 0 || $days > 30) {
+            echo json_encode([
+                'status' => 'error',
+                'msg'    => 'Incorrect input parameter value'
+            ]);
+            exit;
+        }
+
+        $data = $this->mdl_fees->get_recent_fees_data($days);
+        echo json_encode([
+            'status' => 'ok',
+            'data'   => $data
+        ]);
+        exit;
+    }
+
+
+    public function payment()
+    {
+        auth(['admin','superadmin']);
+        $result = $this->mdl_fees->do_payment_main();
+        if ($result) { // if error has been occured
+            $result = [
+                'status' => 'error',
+                'msg' => $result
+            ];
+        } else {
+            $result = [
+                'status' => 'ok',
+                'data' => 'Test'
+            ];
+        }
+        echo json_encode($result);
+        exit;
+    }
+
+
+>>>>>>> fees_feature
 	public function open_fees()
 	{
 		auth(['admin','superadmin']);
@@ -386,9 +429,31 @@ class Admin extends MY_Controller
 
 		$output = $crud->render();
 
+        $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
+        $this->l_asset->add('js/admin/open_fees.js','js');
+
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');
 	}
+
+
+    /**
+     * AJAX-queried function to check if we need to show 'Pay' button in
+     * open_fees CRUD admin part
+     *
+     * @return boolean
+     */
+    public function is_pay_button_showed()
+    {
+        $sum = $this->mdl_fees->calc_open_fee();
+        $toShow = $sum >= $this->mdl_fees::PAYMENT_MIN_LIMIT;
+        echo json_encode(
+            ['status' => 'ok', 'data' => $toShow]
+        );
+        exit;
+    }
 
 
 	public function closed_fees()
@@ -417,7 +482,19 @@ class Admin extends MY_Controller
 	public function dividends()
 	{
 		auth(['admin','superadmin']);
-		$this->data['content'] = $this->load->view('admin/v_dividends',[], true);
+
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('dividend');
+		$crud->set_subject('Dividend');
+
+        $crud->required_fields('total_fee', 'dividend_datetime', 'status');
+
+        // $crud->field_type('status', 'enum', array('open', 'closed', 'processed'));
+
+		$output = $crud->render();
+
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
 		view($this->data, 'admin');
 	}
 
