@@ -15,7 +15,7 @@ class Migration_Withdraw_fee extends CI_Migration {
         $fields['id'] = ['type' => 'INT','constraint' => 11,'auto_increment' => true];
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];
         $fields['dateoffee'] = ['type' => 'DATE'];
-        $fields['fee_amount'] = ['type' => 'DECIMAL','constraint' => 18,8];
+        $fields['fee_amount'] = ['type' => 'DECIMAL','constraint' => '18,8'];
         $fields['transaction'] = ['type' => 'TEXT'];
         $fields['status'] = ['type' => 'TEXT'];
 
