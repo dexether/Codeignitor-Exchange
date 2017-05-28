@@ -249,6 +249,9 @@ class Mdl_trade  extends CI_Model {
                 }
                 else
                     if ($this->debug) return 'processing buy!';
+                    $this->post_node();
+                    //POST to nodejs
+                    
                     return 'succes';
             }
             else 
@@ -542,5 +545,38 @@ class Mdl_trade  extends CI_Model {
         $this->db->where('status', 'processed');
         $this->db->order_by('trade_datetime', 'desc');
         return $this->db->get('trades_'.$market);
+    }
+    
+    private function post_node($message = array())
+    {
+            $url = NODEJS_SERVER.'/post';
+            $message = array(
+            'room' => 'EUR-NLG',
+                'message'=>'test message '. date('d-m-Y H:i:s')
+            );
+            $data = json_encode($message);
+            //open connection
+            $ch = curl_init();
+            //set curl option
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data)));
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_VERBOSE, true);
+            //$verbose = fopen('php://temp', 'rw+');
+            //curl_setopt($ch, CURLOPT_STDERR, $verbose);
+
+            //execute
+            //$resp = curl_exec($ch);
+            curl_exec($ch);
+            ///rewind($verbose);
+            //$verboseLog = stream_get_contents($verbose);
+            //echo "Verbose information:\n<pre>", htmlspecialchars($verboseLog), "</pre>\n";
+            //echo $resp;
+            //close connection
+            curl_close($ch);
+       
     }
 }

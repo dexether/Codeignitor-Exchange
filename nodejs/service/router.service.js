@@ -44,7 +44,7 @@ function Route(server) {
                             'count': 100
                         };
                     } else {
-                        if (req.body.table === 'order-history') {
+                        if (req.body.table === 'chart_stream') {
                             object = {
                                 'value': fakeData.fakeOrderHistory(req.body.count, req.body.fromNumber, 100),
                                 'count': 100

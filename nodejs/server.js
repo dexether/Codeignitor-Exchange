@@ -6,10 +6,11 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+
 //get request from php
 app.post('/post', function (req, res) {
     console.log(req.body.room);
-    io.sockets.in(req.body.room).emit('message', req.body);
+    //io.sockets.in(req.body.room).emit('message', req.body);
     res.status(200);
     res.end();
 });

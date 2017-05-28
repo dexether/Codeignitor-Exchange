@@ -38,6 +38,8 @@ defined('TAXSEPA') or define('TAXSEPA', 0.5);
 defined('TAXMANUAL') OR define('TAXMANUAL', 0.5);
 defined('TAXDEPOSIT') OR define('TAXDEPOSIT', 1.0);
 
+defined('NODEJS_SERVER') OR define('NODEJS_SERVER', 'http://localhost:7777');
+
 
 // can change this values from code
 // configuration array
