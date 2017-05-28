@@ -8,3 +8,22 @@ div#container {
 div#range {
 	color: gray;
 }
+
+ul.table_header, ul.table {
+	list-style-type: none;
+	display: flex;
+	width: 1100px;
+	margin-bottom: 0px;
+}
+ul.table_header li, ul.table li {
+	width: 100%;
+	text-align: center;
+	padding: 7px 0px;
+}
+ul.table_header li {
+	background: lightgray;
+	border-right: 1px solid gray;
+}
+ul.table_header li:last-of-type {
+	border-right: 0px;
+}

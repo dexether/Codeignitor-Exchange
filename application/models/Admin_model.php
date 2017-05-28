@@ -2945,6 +2945,9 @@ function fetch_paid_fees($from = '', $to = '')
 		$x = $this->db->query('SELECT * FROM `paid_fees` WHERE `dateofpayment` >= ? AND `dateofpayment` <= ?', [$from, $to]);
 		return $x->result();
 	}
+
+	$x = $this->db->query('SELECT * FROM `paid_fees` WHERE `dateofpayment` >= ? AND `dateofpayment` <= ?', [$from, $to]);
+	return $x->result();
 }
 //general_settings
 }//end of class

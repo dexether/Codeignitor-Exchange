@@ -6,7 +6,8 @@
 	<button>Add</button>
 	<br>
 
-<?php echo form_close(); 
-echo $error; 
+<?php 
+	echo form_close(); 
+	echo ( isset($error)? $error: ''); 
 ?>
 <h2><?=$user->firstname . ' ' . $user->lastname . '-' . $user->email;?></h2>	

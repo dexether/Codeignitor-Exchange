@@ -98,10 +98,20 @@ class Admin extends MY_Controller
 	public function fees()
 	{
 		$this->load->model('Admin_model');
-		$fees = $this->Admin_model->fetch_paid_fees();
+		$this->form_validation->set_rules('from', 'From', 'required');
+		$this->form_validation->set_rules('to', 'To', 'required');
 
-		if ($fees == NULL) {
-			$vars['fees'] = 'No fees result';
+		if ($this->form_validation->run() == true) {
+			$vars['from'] = $from = $this->input->post('from');
+			$vars['to']   = $to   = $this->input->post('to');
+			$fees = $this->Admin_model->fetch_paid_fees($from, $to);
+		} else {
+			$vars['error'] = validation_errors('<p class="alert alert-danger">', '</p>');
+			$fees = $this->Admin_model->fetch_paid_fees();
+		}
+
+		if (is_null($fees)) {
+			$vars['fees'] = 'No fees record';
 		} else {
 
 			foreach ($fees as $fee) {
@@ -113,7 +123,6 @@ class Admin extends MY_Controller
 					'date' => $fee->dateofpayment
 				];	
 			}
-
 		}
 
 		$this->data['head_css'] = '<link type="text/css" rel="stylesheet" href="'.base_url().'css/admin_fees.css" >';
