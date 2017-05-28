@@ -9,3 +9,4 @@
 <?php echo form_close(); 
 echo $error; 
 ?>
+<h2><?=$user->firstname . ' ' . $user->lastname . '-' . $user->email;?></h2>	

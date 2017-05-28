@@ -143,6 +143,9 @@ class Admin extends MY_Controller
 			$vars['error'] = validation_errors('<p class="alert alert-danger">', '</p>');
 		}
 
+		$this->load->model('mdl_user');
+		$vars['user'] = $this->mdl_user->get_userdetails($id);
+
 		$this->data['head_js'] = '<script src="'.base_url().'js/admin/add_deposit.js"></script>';
 		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_users.css">';
 		$this->data['content'] = $this->load->view('admin/v_deposit', $vars, true);

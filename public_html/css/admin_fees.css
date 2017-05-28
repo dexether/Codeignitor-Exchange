@@ -1,6 +1,8 @@
 div#container {
 	background: #fff;
 	padding: 20px;
+	border-top: 3px solid #3c8dbc;
+	border-radius: 3px;
 }
 
 div#range {
