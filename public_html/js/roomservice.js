@@ -87,7 +87,7 @@ function ChartMarket() {
         //  /chart/candle/NLG/30minutes
         dataTable = anychart.data.table();
         $.ajax({
-            url: base_url+"chart/candle/NLG/30minutes",
+            url: base_url+"chart/candle/"+ $("div[data-market]").attr('data-market') + "/30minutes",
             type: "get",
             dataType: "json"
         }).done(function (json) {
@@ -124,15 +124,16 @@ function ChartMarket() {
         var series = plot.candlestick(seriesData).name('Timeline');
         series.legendItem().iconType('risingfalling');
 
-       
         chart.container("container_chart");
         chart.draw();
+       
+        
     });
 
     return {
         stream: function (newData) {
             console.log(newData);
-            data.append(newData);
+            dataTable.append(newData);
         }
     };
 }
@@ -529,6 +530,7 @@ function ClientSockets(objectOfTables, user) {
 }
 ;
 
+module.exports = ClientSockets;
 module.exports = ClientSockets;
 
 /***/ }),

@@ -6,7 +6,7 @@ if(isset($market))
             echo '<h1>Market ', $market, '</h1>';
     echo '</div></div>';
     echo '<div class="container">
-    <div class="row" ', (isset($user_id)?'data-suid="'. $user_id.'"':''), '>';
+    <div class="row" ', (isset($user_id)?'data-suid="'. $user_id.'"':''), ' data-market="', $market, '">';
 }
 ?>
 

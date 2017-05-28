@@ -19,21 +19,25 @@ class Chart extends MY_Controller{
 //        'high': 2,
 //        'low': 3,
 //        'close': 4,
-    public function candle($bid='NLG', $time = '30minutes')
+    public function candle($market='EUR-NLG', $time = '30minutes')
     {
-        $this->load->model('mdl_chart');
-        $chart_result = $this->mdl_chart->chart($bid, $time);
-        if($chart_result->num_rows() > 0)
+        if(in_array($market, MARKETS))
         {
-            $json = [];
-            $json['data'] = [];
-            $rows = $chart_result->result();
-            foreach ($rows as $row) 
+            $this->load->model('mdl_chart');
+            list($bid,$sell) = explode('-',$market);
+            $chart_result = $this->mdl_chart->chart($sell, $time);
+            if($chart_result->num_rows() > 0)
             {
-                $json['data'][] = ["$row->timeslice", $row->open, $row->highest, $row->low, $row->close];
+                $json = [];
+                $json['data'] = [];
+                $rows = $chart_result->result();
+                foreach ($rows as $row) 
+                {
+                    $json['data'][] = ["$row->timeslice", $row->open, $row->highest, $row->low, $row->close];
+                }
+
+                echo json_encode($json);
             }
-            
-            echo json_encode($json);
         }
     }
 }
