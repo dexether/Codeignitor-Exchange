@@ -10,8 +10,11 @@ var config = {
     'count_order_history': 5,
     'keys_order_history': ['date', 'buy/sell', 'gts', 'total units', 'total cost', 'something'],
     'rooms': [
-        'GTS-NLG',
-        'EUR-NLG'
+        'EUR-GTS',
+        'EUR-NLG',
+        'EUR-ETH',
+        'EUR-ZEC'
+        
     ]
 };
 

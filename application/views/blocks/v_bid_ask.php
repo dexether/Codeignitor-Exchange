@@ -10,8 +10,8 @@ $pro = 0;
 $buy_rate = 0;
 $trade_comm = 0.25;
 list($bid,$sell) = explode('-', $market);
-$available_bid = isset($balance->$bid)?$balance->$bid : 0;
-$available_sell = isset($balance->$sell)?$balance->$sell : 0;
+$available_bid = 0;
+$available_sell = 0;
 $sell_rate = 0;
 $error = null;
 

@@ -44,7 +44,7 @@ $(function(){
     $("#buy_button").click(function(){
         if($('#buylimit_order input[name=price]').val() > 0 && $("#buylimit_order input[name=amount]").val() > 0)
         {
-            $.post( "/trades/buylimit_order?XDEBUG_SESSION_START=netbeans-xdebug", { amount: $('#buylimit_order input[name=amount]').val(), 
+            $.post( "/trades/buylimit_order", { amount: $('#buylimit_order input[name=amount]').val(), 
                                             price: $('#buylimit_order input[name=price]').val(),
                                             trade_pair: $('input[name=market]').val(),
                                             csrf_gt: $('input[name=csrf_gt]').val(),
@@ -72,7 +72,7 @@ $(function(){
     $("#sell_button").click(function(){
         if($('#selllimit_order input[name=price]').val() > 0 && $("#selllimit_order input[name=amount]").val() > 0)
         {
-            $.post( "/trades/selllimit_order?XDEBUG_SESSION_START=netbeans-xdebug", { amount: $('#selllimit_order input[name=amount]').val(), 
+            $.post( "/trades/selllimit_order", { amount: $('#selllimit_order input[name=amount]').val(), 
                                             price: $('#selllimit_order input[name=price]').val(),
                                             trade_pair: $('input[name=market]').val(),
                                             csrf_gt: $('input[name=csrf_gt]').val(),

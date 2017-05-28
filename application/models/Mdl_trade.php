@@ -28,6 +28,7 @@ class Mdl_trade  extends CI_Model {
         else
         {
             //TODO add what is paid in total for all order > when buying up.
+            $json = [];
             $total = $amount;
             $bidprice = $price*$amount;
             $fee = $bidprice / 100 * FEE;

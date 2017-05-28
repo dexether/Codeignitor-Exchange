@@ -7,7 +7,7 @@ class Mdl_chart extends CI_Model {
         parent::__construct();
     }
 
-    public function chart($bid='EUR', $time = '30minutes')
+    public function chart($bid='nlg', $time = '30minutes')
     {
         switch ($time) {
             case '5minutes':
@@ -27,7 +27,7 @@ class Mdl_chart extends CI_Model {
                 . "SUBSTRING_INDEX( GROUP_CONCAT(CAST(`price` AS CHAR) ORDER BY `trade_datetime`), ',', 1 ) AS `open`, "
                 . "SUBSTRING_INDEX( GROUP_CONCAT(CAST(`price` AS CHAR) ORDER BY `trade_datetime` DESC), ',', 1 ) AS `close`, "
                 . "FROM_UNIXTIME( CEILING(UNIX_TIMESTAMP(`trade_datetime`)/$time)*$time ) AS `timeslice` "
-                . "FROM trades_EUR "
+                . "FROM trades_$bid "
                 . "GROUP BY `timeslice`";
         
         return $this->db->query($sql);

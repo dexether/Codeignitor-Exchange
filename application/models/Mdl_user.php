@@ -50,7 +50,7 @@ class Mdl_user extends CI_Model
 
     function check_login()
     {
-        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, secret, status, password FROM `users` where email=?", array($this->input->post('email', true)));
+        $res_loguser = $this->db->query("SELECT id, firstname, role, salt, randcode, secret, status, password FROM `users` where email=?", array($this->input->post('email', true)));
 
         if ($res_loguser->num_rows() == 1) {
             $row = $res_loguser->row();
@@ -66,6 +66,7 @@ class Mdl_user extends CI_Model
                     $sessiondata = array(
                         'pending_user_id' => $row->id,
                         'secret' => $row->secret,
+                        'salt' => $row->salt,
                         'role' => 'empty'
                     );
                     $this->session->set_userdata($sessiondata);
@@ -79,6 +80,7 @@ class Mdl_user extends CI_Model
                     'tfa' => $row->randcode,
                     'randcode' => $row->secret,
                     'status' => $row->status,
+                    'salt' => $row->salt,
                     'role' => $row->role
                 );
                 $this->session->set_userdata($sessiondata);
@@ -101,7 +103,7 @@ class Mdl_user extends CI_Model
 
     public function set_sesdata() 
     {
-        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, secret, status, password FROM `users` where id=?", array($this->session->pending_user_id));
+        $res_loguser = $this->db->query("SELECT id, firstname, role, salt, randcode, secret, status, password FROM `users` where id=?", array($this->session->pending_user_id));
         $row = $res_loguser->row();
         $this->session->pending_user_id = NULL;
         $sessiondata = array(
@@ -110,6 +112,7 @@ class Mdl_user extends CI_Model
             'tfa' => $row->randcode,
             'secret' => $row->secret,
             'status' => $row->status,
+            'salt' => $row->salt,
             'role' => $row->role
         );
         $this->session->set_userdata([]);

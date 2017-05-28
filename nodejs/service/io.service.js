@@ -54,17 +54,17 @@ module.exports = {
                 var data = require('../chart');
                 io.emit('data_to_chart', data);
 
-                setTimeout(function () {
-                    io.emit('chart_stream', {'array': [
-                            "1990-05-19",
-                            0.0868,
-                            0.0868,
-                            0.0859,
-                            0.0868,
-                            6595200
-                        ]});
-                    //dataTable.addData(rawData.data, true);
-                }, 10500);
+//                setTimeout(function () {
+//                    io.emit('chart_stream', {'array': [
+//                            "1990-05-19",
+//                            0.0868,
+//                            0.0868,
+//                            0.0859,
+//                            0.0868,
+//                            6595200
+//                        ]});
+//                    //dataTable.addData(rawData.data, true);
+//                }, 10500);
             });
 
 

@@ -78,37 +78,53 @@ function ChartMarket() {
     //var data = object['data'];
     console.log('ChartMarket');
 
-    var data;
+    var dataTable;
 
     anychart.onDocumentReady(function () {
         console.log('insert');
 
         // create a data set
         //  /chart/candle/NLG/30minutes
-        data = anychart.data.set([[Date.UTC(2007, 8, 7), 22.75, 23.7, 22.69, 23.44], [Date.UTC(2007, 8, 6), 23.03, 23.15, 22.44, 22.97], [Date.UTC(2007, 8, 3), 23.2, 23.39, 22.87, 22.92], [Date.UTC(2007, 8, 2), 22.65, 23.7, 22.65, 23.36], [Date.UTC(2007, 8, 1), 23.17, 23.4, 22.85, 23.25], [Date.UTC(2007, 7, 31), 23.88, 23.93, 23.24, 23.25], [Date.UTC(2007, 7, 30), 23.55, 23.88, 23.38, 23.62], [Date.UTC(2007, 7, 27), 23.98, 24.49, 23.47, 23.49], [Date.UTC(2007, 7, 26), 23.2, 23.39, 22.87, 22.92], [Date.UTC(2007, 7, 25), 22.75, 23.7, 22.69, 23.44], [Date.UTC(2007, 7, 24), 22.65, 23.7, 22.65, 23.36], [Date.UTC(2007, 7, 23), 23.55, 23.88, 23.38, 23.62]]);
+        dataTable = anychart.data.table();
+        $.ajax({
+            url: base_url+"chart/candle/NLG/30minutes",
+            type: "get",
+            dataType: "json"
+        }).done(function (json) {
+            //if we got the response 
+            //create the user object
+                
+            dataTable.addData(json['data']);
+            console.log(dataTable);
+        });
+        //data = anychart.data.set([[Date.UTC(2007, 8, 7), 22.75, 23.7, 22.69, 23.44], [Date.UTC(2007, 8, 6), 23.03, 23.15, 22.44, 22.97], [Date.UTC(2007, 8, 3), 23.2, 23.39, 22.87, 22.92], [Date.UTC(2007, 8, 2), 22.65, 23.7, 22.65, 23.36], [Date.UTC(2007, 8, 1), 23.17, 23.4, 22.85, 23.25], [Date.UTC(2007, 7, 31), 23.88, 23.93, 23.24, 23.25], [Date.UTC(2007, 7, 30), 23.55, 23.88, 23.38, 23.62], [Date.UTC(2007, 7, 27), 23.98, 24.49, 23.47, 23.49], [Date.UTC(2007, 7, 26), 23.2, 23.39, 22.87, 22.92], [Date.UTC(2007, 7, 25), 22.75, 23.7, 22.69, 23.44], [Date.UTC(2007, 7, 24), 22.65, 23.7, 22.65, 23.36], [Date.UTC(2007, 7, 23), 23.55, 23.88, 23.38, 23.62]]);
 
         // create a chart
-        chart = anychart.financial();
+        chart = anychart.stock();
+        
+        // create first plot on the chart
+        var plot = chart.plot();
+        plot.grid().enabled(true);
+        plot.grid(1).enabled(true).layout('vertical');
+        plot.minorGrid().enabled(true);
+        plot.minorGrid(1).enabled(true).layout('vertical');
 
-        //        chart.selectRange('2007-08-02', '2008-08-7');
-        //        chart.scroller().thumbs(false);
-        //        chart.scroller().fill('green 0.1');
-        //        chart.scroller().selectedFill('green 0.5');
-        //        chart.scroller().allowRangeChange(false);
+        
 
         // map the data
-        var seriesData = data.mapAs({ x: [0], open: [1], high: [2], low: [3], close: [4] });
+        var seriesData = dataTable.mapAs(
+                {'open': 1,
+                'high': 2,
+                'low': 3,
+                'close': 4,
+                'value': {column: 4, type: 'close'}
+                }
+                );
+        
+        var series = plot.candlestick(seriesData).name('Timeline');
+        series.legendItem().iconType('risingfalling');
 
-        // create a japanese candlestick series and set the data
-        var series = chart.candlestick(seriesData);
-        series.pointWidth(10);
-
-        // set the chart title
-        chart.title("Japanese Candlestick Chart: Basic Sample");
-
-        // set the interactivity mode
-        chart.interactivity("byX");
-
+       
         chart.container("container_chart");
         chart.draw();
     });
@@ -139,7 +155,7 @@ var config = {
     'keys_order_open': ['date', 'buy/sell', 'gts', 'total units', 'total cost', 'something'],
     'count_order_history': 5,
     'keys_order_history': ['date', 'buy/sell', 'gts', 'total units', 'total cost', 'something'],
-    'rooms': ['GTS-NLG', 'EUR-NLG']
+    'rooms': ['EUR-GTS', 'EUR-NLG', 'EUR-ETH', 'EUR-ZEC']
 };
 
 module.exports = config;
@@ -179,6 +195,8 @@ var Table = function (element, object, userInfo) {
         //for 'first', 'last' or 'update' we're going to update the all table
         //for the rest only 20 records
         var countForLoaded = button === 'first' || button === 'last' || button === 'update' ? 50 : 2 * k;
+        
+        alert(fromNumber + ' | ' + countForLoaded + ' | ' + tableID) 
         $.ajax({
             url: "http://localhost:7777/get_next_records",
             data: {
@@ -196,7 +214,7 @@ var Table = function (element, object, userInfo) {
                 tableValue.splice(0, 2 * k); //remove the unnecessary records
                 tableValue.push.apply(tableValue, json['value']); // add new from the response
             } else {
-                if (button === 'prevent') {
+                if (button === 'previous') {
                     tableValue.splice(20, 3 * k); //remove the unnecessary records
                     var arr2 = json['value'].slice(); // add new from the response
                     arr2.push.apply(arr2, tableValue);
@@ -231,7 +249,7 @@ var Table = function (element, object, userInfo) {
         //Add the HTML structure
         $(table).append("<div class='paginnation'>\n\
                                 <button class='first'>First</button>\n\
-                                <button class='prevent'>Prevent</button>\n\
+                                <button class='prevvious'>Previous</button>\n\
                                 <span class='page-number'>" + pageNumber + " / " + pageCount + "</span>\n\
                                 <button class='next'>Next</button>\n\
                                 <button class='last'>Last</button>\n\
@@ -269,12 +287,12 @@ var Table = function (element, object, userInfo) {
             ;
         });
 
-        $(table).find('.prevent').on('click', function () {
+        $(table).find('.previous').on('click', function () {
             if (pageNumber > 1) {
                 pageNumber--;
                 if (pageNumber > 2 && pageNumber + 1 < pageCount && tableLength > 50) {
                     if ((pageNumber - 1) % 2 === 0) {
-                        downloadNext(k * (pageNumber - 3) + 1, 'prevent'); //load the records
+                        downloadNext(k * (pageNumber - 3) + 1, 'previous'); //load the records
                     } else changePageView();
                 } else {
                     changePageView();
@@ -417,14 +435,14 @@ module.exports = Table;
 var User = function (data) {
     var user_id = data['user_id'] || '';
     activeRoom = data['room'];
-    var EUR = data['EUR'] || 0;
-    var NGL = data['NGL'] || 0;
+//    var EUR = data['EUR'] || 0;
+//    var NGL = data['NGL'] || 0;
 
     return {
         userId: user_id,
         room: activeRoom,
-        eurAvalaible: EUR,
-        nglAvalaible: NGL
+        firstCurrency:  data['firstCurrency'],
+        secondCurrency:  data['secondCurrency']
     };
 };
 
@@ -544,20 +562,18 @@ var bidsTable, asksTable, marketHistoryTable, openOrdersTable, orderHistoryTable
 
 //when our page are loaded, we need to get the init data
 $.ajax({
-    url: "http://localhost:7777/get_init_data",
-    data: {
-        'room': room //send the name of the room where the user is
-    },
-    type: "post",
+    url: base_url+"markets/get_init_data/"+ room + "/"+$("div[data-suid]").attr('data-suid'),
+    type: "get",
     dataType: "json"
 }).done(function (json) {
     //if we got the response 
     //create the user object
+    
     user = new User(json['user']); //store the user data
 
     //change the available currency
-    $('#availableFirst').html(json['firstCurrency']);
-    $('#availableSecond').html(json['secondCurrency']);
+    $('#availableFirst').html(user['firstCurrency']);
+    $('#availableSecond').html(user['secondCurrency']);
 
     //Create the objects of the tables and show their
     bidsTable = new Table('#table-bids', json['tables']['table-bids'], user);
