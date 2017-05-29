@@ -171,8 +171,34 @@ class Admin extends MY_Controller
 		$crud->set_table('user_bank_details');
 		$crud->set_subject('Manage User Bank Details');
 
+		$crud->add_action('Reject', '', 'admin/reject_bank', 'btn btn-danger');
+		$crud->add_action('Approve', '', 'admin/approve_bank', 'btn btn-primary');
+
 		$output = $crud->render();
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		view($this->data, 'admin');
+	}
+
+	public function approve_bank($id)
+	{
+		$this->load->model('mdl_user_bank_details');
+		$this->mdl_user_bank_details->admin_action(1, $id);
+			redirect('admin/bank_details');
+	}
+	
+	public function reject_bank($id)
+	{
+		if (isset($_POST['message'])) {
+			$post_message = trim($this->input->post('message'));
+			$message = (!empty($post_message)? $post_message:'Bank information is rejected by admin.');
+
+			$this->load->model('mdl_user_bank_details');
+			$this->mdl_user_bank_details->admin_action(0, $id, $message);
+
+			redirect('admin/bank_details');
+		}
+
+		$this->data['content'] = $this->load->view('admin/v_reject_message', [], True);
 		view($this->data, 'admin');
 	}
 

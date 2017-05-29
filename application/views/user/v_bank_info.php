@@ -65,6 +65,12 @@ if($this->session->flashdata('success')){
        </div>
      <?php echo form_close(); ?>
      </div>
+     
+        <?php 
+        if (isset($bank->message)) {
+          if (!empty($bank->message)) { 
+            echo '<p class="alert alert-info">'. $bank->message ."</p>";
+        }}?></p>
  </div>
 </div> 
 </div>
