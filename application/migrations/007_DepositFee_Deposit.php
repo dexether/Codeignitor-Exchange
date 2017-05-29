@@ -10,7 +10,7 @@ class Migration_DepositFee_Deposit extends CI_Migration {
     }
 
     public function up()
-    {/*
+    {
         $fields = [
             'deposit_fee' => [
                 'type'          => 'FLOAT',
@@ -20,7 +20,6 @@ class Migration_DepositFee_Deposit extends CI_Migration {
             ],
         ];
         $this->dbforge->add_column('deposits', $fields);
-    */
     }
 
 
