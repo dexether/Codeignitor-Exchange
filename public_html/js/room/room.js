@@ -11,6 +11,7 @@ rooms.forEach(function (element) {
     ;
 });
 
+
 var ClientSockets = require('../socket.io/socket');
 var service;
 
@@ -26,11 +27,8 @@ var bidsTable, asksTable, marketHistoryTable, openOrdersTable, orderHistoryTable
 
 //when our page are loaded, we need to get the init data
 $.ajax({
-    url: "http://localhost:7777/get_init_data",
-    data: {
-        'room': room //send the name of the room where the user is
-    },
-    type: "post",
+    url: base_url + "markets/get_init_data/" + room + "/" + $("div[data-suid]").attr('data-suid'),
+    type: "get",
     dataType: "json"
 })
         .done(function (json) {
@@ -39,8 +37,12 @@ $.ajax({
             user = new User(json['user']);  //store the user data
 
             //change the available currency
-            $('#availableFirst').html(json['firstCurrency']);
-            $('#availableSecond').html(json['secondCurrency']);
+            //            {
+//                firstCurrency: ... ,
+//                secondCurrency: ...
+//            }
+            user.setCurrencies(json['user']);
+            
 
             //Create the objects of the tables and show their
             bidsTable = new Table('#table-bids', json['tables']['table-bids'], user);

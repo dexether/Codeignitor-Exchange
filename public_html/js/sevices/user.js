@@ -1,14 +1,30 @@
 var User = function (data) {
     var user_id = data['user_id'] || '';
     activeRoom = data['room'];
-    var EUR = data['EUR'] || 0;
-    var NGL = (data['NGL']) || 0;
-
+    var firstCurrency = data['firstCurrency'] || 0;
+    var secondCurrency = (data['secondCurrency']) || 0;
+    
+    function updateValueOfCurrences (){
+                $('#availableFirst').html(firstCurrency);
+                $('#availableSecond').html(secondCurrency);
+    };
+    
     return  {
         userId: user_id,
         room: activeRoom,
-        eurAvalaible: EUR,
-        nglAvalaible: NGL
+        firstCurrency: firstCurrency,
+        secondCurrency: secondCurrency,
+
+        setCurrencies: function (currencies) {
+            if (currencies[firstCurrency]) {
+                firstCurrency = currencies[firstCurrency];
+            }
+            ;
+            if (currencies[secondCurrency]) {
+                secondCurrency = currencies[secondCurrency];
+            }
+            updateValueOfCurrences();
+        }
     };
 };
 

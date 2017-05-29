@@ -36,15 +36,15 @@ module.exports = {
             setInterval(function () {
                 i0 = !i0;
                 io.emit('ask', {'count': 105, 'first': fakeData.fake(50, 1, 105)});
-            }, 10500);
+            }, 25500);
 
             var i = true;
             setInterval(function () {
                 i = !i;
                 io.emit('bids', {'count': 85, 'first': fakeData.fake(50, 1, 85)});
-            }, 12500);
+            }, 22500);
 
-            io.emit('trade_history', {'count': 65, 'first': fakeData.fakeMarket(50, 1, 100)});
+         //   io.emit('trade_history', {'count': 65, 'first': fakeData.fakeMarket(50, 1, 100)});
             io.emit('order_open', {'count': 65, 'first': fakeData.fakeOpen(50, 1, 100)});
             io.emit('order_history', {'count': 65, 'first': fakeData.fakeOrderHistory(50, 1, 100)});
             //---------------------------------------------------------------------------------------

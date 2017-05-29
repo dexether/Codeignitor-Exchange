@@ -47,7 +47,7 @@ var Table = function (element, object, userInfo) {
                         tableValue.push.apply(tableValue, json['value']); // add new from the response
 
                     } else {
-                        if (button === 'prevent') {
+                        if (button === 'previous') {
                             tableValue.splice(20, (3 * k));//remove the unnecessary records
                             var arr2 = json['value'].slice(); // add new from the response
                             arr2.push.apply(arr2, tableValue);
@@ -83,15 +83,15 @@ var Table = function (element, object, userInfo) {
     //Create the pagination for this table
     function createPagination() {
         //Add the HTML structure
-        $(table).append("<div class='paginnation'>\n\
+        $('#' + tableID).append("<div class='paginnation'>\n\
                                 <button class='first'>First</button>\n\
-                                <button class='prevent'>Prevent</button>\n\
+                                <button class='previous'>previous</button>\n\
                                 <span class='page-number'>" + pageNumber + " / " + pageCount + "</span>\n\
                                 <button class='next'>Next</button>\n\
                                 <button class='last'>Last</button>\n\
                             </div>");
         //Add the EventListeners for the control buttons
-        $(table).find('.first').on('click', function () {
+        $('#' + tableID).find('.first').on('click', function () {
             if ((pageNumber >= 3) && (tableLength > 50)) { //if we need to update the tableValue
                 pageNumber = 1;
                 downloadNext(1, 'first'); //load the records
@@ -103,7 +103,7 @@ var Table = function (element, object, userInfo) {
         });
 
 
-        $(table).find('.next').on('click', function () {
+        $('#' + tableID).find('.next').on('click', function () {
             if (pageNumber < pageCount - 1) {
                 pageNumber++;
                 if ((pageNumber > 3) && (tableLength > 50)) { //if we need to update the tableValue
@@ -124,12 +124,12 @@ var Table = function (element, object, userInfo) {
             ;
         });
 
-        $(table).find('.prevent').on('click', function () {
+        $('#' + tableID).find('.previous').on('click', function () {
             if (pageNumber > 1) {
                 pageNumber--;
                 if ((pageNumber > 2) && (pageNumber + 1 < pageCount) && (tableLength > 50)) {
                     if ((pageNumber - 1) % 2 === 0) {
-                        downloadNext(k * (pageNumber - 3) + 1, 'prevent'); //load the records
+                        downloadNext(k * (pageNumber - 3) + 1, 'previous'); //load the records
                     } else
                         changePageView();
                 } else {
@@ -140,7 +140,7 @@ var Table = function (element, object, userInfo) {
 
         });
 
-        $(table).find('.last').on('click', function () {
+        $('#' + tableID).find('.last').on('click', function () {
             if ((pageNumber + 2 >= pageCount) && (tableLength > 50)) {
                 pageNumber = pageCount;
                 changePageView();
@@ -160,7 +160,7 @@ var Table = function (element, object, userInfo) {
 
     //Delete the pagination
     function deletePagination() {
-        $(table).find('.paginnation').remove();
+        $('#' + tableID).find('.paginnation').remove();
     }
     ;
 
@@ -184,7 +184,12 @@ var Table = function (element, object, userInfo) {
                 //the loop by keys
                 for (var key in keys) {
                     //add column with data
-                    row += '<td>' + tableValue[i + k * (pageNumber - firstPageInTable)][keys[key]] + '</td>';
+                    var templ = parseFloat(tableValue[i + k * (pageNumber - firstPageInTable)][keys[key]]);
+                    if (templ&&(keys[key] !== 'Date'))
+                        row += '<td>' + templ.toFixed(8) + '</td>';
+                    else {
+                        row += '<td>' + tableValue[i + k * (pageNumber - firstPageInTable)][keys[key]] + '</td>';
+                    }
                 }
                 row += '</tr>';
                 //if the current row in the table is not existing
@@ -227,7 +232,13 @@ var Table = function (element, object, userInfo) {
             for (var i = 0; i < countOfRows; i++) {
                 row = '<tr>';
                 for (var key in keys) {
-                    row += '<td>' + tableValue[i][keys[key]] + '</td>';
+                    // console.log(tableValue[i][keys[key]]);
+                    var templ = parseFloat(tableValue[i][keys[key]]);
+                    if (templ&&(keys[key] !== 'Date'))
+                        row += '<td>' + templ.toFixed(8) + '</td>';
+                    else {
+                        row += '<td>' + tableValue[i][keys[key]] + '</td>';
+                    }
                 }
                 row += '</tr>';
                 rowTemplate += row;
@@ -253,7 +264,7 @@ var Table = function (element, object, userInfo) {
                 tableValue = value;
 
                 if (countOfRows <= tableLength) {
-                    if ($(table).find('.paginnation').length === 0)
+                    if ($('#' + tableID).find('.paginnation').length === 0)
                         createPagination();
                     countOfRows = k;
                 } else {
