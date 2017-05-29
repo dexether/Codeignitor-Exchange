@@ -5,7 +5,7 @@
 defined('APP_BASE_URL')      OR define('APP_BASE_URL', base_url());
 defined('APP_COMPANY_NAME')  OR define('APP_COMPANY_NAME', 'GuldenTrader');
 defined('APP_LOGO')          OR define('APP_LOGO', base_url().'images/logo.png');
-defined('APP_TITLE') 	     OR define('APP_TITLE', 'Gulden Trader');
+defined('APP_TITLE') 	     OR define('APP_TITLE', 'GuldenTrader.com');
 defined('APP_ADMIN_EMAIL') 	 OR define('APP_ADMIN_EMAIL', 'exchange@guldentrader.com');
 defined('APP_SMTP_HOST') 	 OR define('APP_SMTP_HOST', 'mail.guldentrader.com');
 defined('APP_SMTP_USER') 	 OR define('APP_SMTP_USER', 'exchange@guldentrader.com');
@@ -26,7 +26,7 @@ defined('PAYAPITOKEN') or define('PAYAPITOKEN', '323b8ef7bfc81e41cf88d63a64e3e86
 defined('PAYSERVICEID') or define('PAYSERVICEID', 'SL-7450-1950');
 
 defined('FEE') or define('FEE', '0.25');
-defined('MARKETS') or define('MARKETS', array('EUR-NLG', 'GTS-NLG'));
+defined('MARKETS') or define('MARKETS', array('EUR-NLG', 'EUR-GTS', 'EUR-ZEC', 'EUR-ETH'));
 
 defined('INITIATORNAME') or define('INITIATORNAME', 'app-conf-change');
 defined('DEBTORNAME') or define('DEBTORNAME', 'debtor name app-conf-change');

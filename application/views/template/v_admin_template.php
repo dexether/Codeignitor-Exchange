@@ -120,7 +120,34 @@
 					<li><a href="<?php echo site_url('admin/users') ?>"><i class="fa fa-users"></i> Manager Users</a></li>
 					<li><a href="<?php echo site_url('admin/withdraw') ?>"><i class="fa fa-users"></i> Withdraw</a></li>
 					<li><a href="<?php echo site_url('admin/bank_details') ?>"><i class="fa fa-users"></i> Bank details</a></li>
-					<li><a href="<?php echo site_url('admin/fees') ?>"><i class="fa fa-users"></i> Fees</a></li>
+
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa fa-eur"></i>
+							<span>Fees</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="<?php echo site_url('admin/fees');?>">
+								<i class="fa fa-circle"></i>
+								Fees charts
+							</a></li>
+							<li><a href="<?php echo site_url('admin/fees/open_fees');?>">
+								<i class="fa fa-circle"></i>
+								Open fees
+							</a></li>
+							<li><a href="<?php echo site_url('admin/fees/closed_fees');?>">
+								<i class="fa fa-circle"></i>
+								Closed fees
+							</a></li>
+							<li><a href="<?php echo site_url('admin/fees/dividends');?>">
+								<i class="fa fa-circle"></i>
+								Dividends
+							</a></li>
+						</ul>
+					</li>
 				</ul>
 			</section>
 			<!-- /.sidebar -->
@@ -162,6 +189,8 @@
 	<!-- Morris.js charts -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/morris/morris.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="<?php echo base_url('adminLTE') ?>/dist/js/app.min.js"></script>
 	<!-- Sparkline -->
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/sparkline/jquery.sparkline.min.js"></script>
 	<!-- jvectormap -->
@@ -172,10 +201,12 @@
 	<!-- daterangepicker -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/daterangepicker/daterangepicker.js"></script>
+	<!-- chartJS -->
+	<script src="<?php echo base_url('adminLTE') ?>/plugins/chartjs/Chart.min.js"></script>
 	<!-- Slimscroll -->
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/fastclick/fastclick.js"></script>
 	<?php if(isset($head_js)) echo $head_js; ?>
-</body>
+</body>	<script src="<?php echo base_url('adminLTE') ?>/plugins/chartjs/Chart.min.js"></scrip>
 </html>

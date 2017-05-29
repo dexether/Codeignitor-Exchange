@@ -127,6 +127,9 @@ class User extends MY_Controller
             redirect('/');
         }
 
+        $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
         $this->l_asset->add('js/ajaxfileupload.js', 'js');
         $this->l_asset->add('js/user/profile.js', 'js');
         $this->load->model('mdl_country');
@@ -326,6 +329,7 @@ class User extends MY_Controller
             $data['profilepicture']      = $result['data']['raw_name'];
             $data['profilepicture_path'] = $result['data']['full_path'];
             $data['profilepicture_mime'] = $result['data']['file_type'];
+            $data['profilepicture_remove_reason'] = '';
             $params['profilepicture']    = $data['profilepicture'];
 
             $current_data = $this->mdl_user->profile_details();
@@ -369,8 +373,19 @@ class User extends MY_Controller
             exit;
         }
 
-        if ($user->id !== $user_id && !is_admin()) {
+        $is_admin = is_admin();
+
+        if ($user->id !== $user_id && !$is_admin) {
             echo $this->make_json_result('error', 'You have no rights to remove profile image!');
+            exit;
+        }
+
+        $profilepicture_remove_reason = $this->input->post('profilepicture_remove_reason', true);
+        $profilepicture_remove_reason = !$profilepicture_remove_reason ? '' : $profilepicture_remove_reason;
+
+        // only admin is allowed to set profile picture remove reason
+        if ($profilepicture_remove_reason && !$is_admin) {
+            echo $this->make_json_result('error', 'You have no rights to set profile picture removing reason!');
             exit;
         }
 
@@ -383,11 +398,14 @@ class User extends MY_Controller
                 'profilepicture_path' => '',
                 'profilepicture_mime' => ''
             ];
+            if ($profilepicture_remove_reason) {
+                $data['profilepicture_remove_reason'] = $profilepicture_remove_reason;
+            }
             $this->mdl_user->profile_update($data, $user->id);
             $params['profilepicture'] = ''; // sign of removed profile picture
         }
 
-        echo $this->make_json_result('ok', 'Profile picture has removed successfully', $params);
+        echo $this->make_json_result('ok', 'Profile picture has been removed successfully', $params);
         exit;
     }
 

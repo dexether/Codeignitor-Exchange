@@ -1,22 +1,24 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+
 class Admin extends MY_Controller
 {
+
 
 	public function __construct()
 	{
 		parent::__construct();
-                $admin_roles = ['admin','superadmin'];
-                if(!in_array($this->session->userdata('role'), $admin_roles))
-                {
-                    redirect ('/');
-                }
+        $admin_roles = ['admin','superadmin'];
+        if(!in_array($this->session->userdata('role'), $admin_roles))
+        {
+            redirect ('/');
+        }
 
 		$this->load->library('grocery_CRUD');
 		$this->load->model('admin_model');
 		$this->load->model('mdl_user');
 		$this->load->model('mdl_user_verification');
-
+        $this->load->model('mdl_fees');
 	}
 
 	public function index()
@@ -37,9 +39,11 @@ class Admin extends MY_Controller
 		$crud->set_table('users');
 		$crud->set_subject('Manage Users');
 		$crud->columns('id','email','username','verfiyStatus','trade_verification','role');
-		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg','password');
+		$crud->unset_fields('id','modified_date','dateofreg','activated_date','timeofreg','password','profilepicture_path', 'profilepicture_mime', 'profilepicture_remove_reason');
 
-		$crud->set_field_upload('profilepicture', $upload_path);
+		$crud->display_as('profilepicture', 'Profile picture');
+		$crud->callback_edit_field('profilepicture',
+								array($this, 'callback_edit_profilepicture'));
 
 		// types
 		$crud->change_field_type('password', 'password');
@@ -56,17 +60,60 @@ class Admin extends MY_Controller
 
 		$crud->add_action('Add Deposit', '', 'admin/user_deposit', 'crud_users_add_deposit');
 
+
+        $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
+        $this->l_asset->add('js/admin/user_profile.js', 'js');
+
+        $this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+
 		$output = $crud->render();
 		$this->data['head_js'] = '<script src="'.base_url().'js/admin/add_deposit.js"></script>';
 		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_users.css">';
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud_users', (array) $output, true);
+
 		view($this->data, 'admin');
 	}
+
+	public function callback_edit_profilepicture($value, $user_id) {
+        $user_id = intval($user_id);
+        $noImage = false;
+        if (!$user_id) {
+        	$noImage = true;
+        } else {
+	        $user = $this->mdl_user->get_userdetails($user_id);
+	        if (!$user or !$user->profilepicture) {
+	        	$noImage = true;
+	        }
+        }
+        $csrf_token_name = $this->security->get_csrf_token_name();
+        if ($noImage) {
+        	$data = [
+        		'imgStyle' => 'style="display:none;"',
+        		'emptyStyle' => '',
+	        	'csrf_token_name' => $csrf_token_name,
+	        	'imgUrl' => '',
+        		'profilepicture' => ''
+	       	];
+        } else {
+        	$data = [
+        		'imgStyle' => '',
+        		'emptyStyle' => 'style="display:none;"',
+	        	'csrf_token_name' => $csrf_token_name,
+        		'imgUrl' => '/tools/show_profile_picture/' . $user->profilepicture,
+        		'profilepicture' => $user->profilepicture
+        	];
+        }
+
+        $template = $this->load->view('admin/v_edit_profilepicture', $data, true);
+		return $template;
+        }
 
 	public function withdraw()
 	{
 		auth(['admin','superadmin']);
-        $upload_path = 'uploads';
+                $upload_path = 'uploads';
 
 		$crud = new grocery_CRUD();
 
@@ -159,7 +206,7 @@ class Admin extends MY_Controller
 		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_users.css">';
 		$this->data['content'] = $this->load->view('admin/v_deposit', $vars, true);
 		view($this->data, 'admin');
-	}
+        }
 
 	public function bank_details()
 	{
@@ -360,5 +407,132 @@ class Admin extends MY_Controller
 		return $value;
 	}
 
-}
+    public function get_open_fees_data()
+    {
+        auth(['admin','superadmin']);
+        $days = intval($this->input->post('period', true));
+        if ($days < 0 || $days > 30) {
+            echo json_encode([
+                'status' => 'error',
+                'msg'    => 'Incorrect input parameter value'
+            ]);
+            exit;
+        }
 
+        $data = $this->mdl_fees->get_recent_fees_data($days);
+        echo json_encode([
+            'status' => 'ok',
+            'data'   => $data
+        ]);
+        exit;
+    }
+
+
+    public function payment()
+    {
+        auth(['admin','superadmin']);
+        $result = $this->mdl_fees->do_payment_main();
+        if ($result) { // if error has been occured
+            $result = [
+                'status' => 'error',
+                'msg' => $result
+            ];
+        } else {
+            $result = [
+                'status' => 'ok',
+                'data' => 'Test'
+            ];
+        }
+        echo json_encode($result);
+        exit;
+    }
+
+	public function open_fees()
+	{
+		auth(['admin','superadmin']);
+
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('open_fees');
+		$crud->set_subject('Open fee');
+        $crud->set_relation('user_id', 'users', '{firstname} {lastname}<br> ({email})');
+        $crud->display_as('user_id', 'User');
+
+        $crud->required_fields('user_id');
+        $crud->unset_columns('table');
+
+        $crud->field_type('status', 'enum', array('open', 'closed'));
+
+		$output = $crud->render();
+
+        $this->l_asset->add('plugins/alertifyjs/css/alertify.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/css/themes/default.min.css','css');
+        $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
+        $this->l_asset->add('js/admin/open_fees.js','js');
+
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		view($this->data, 'admin');
+	}
+
+
+    /**
+     * AJAX-queried function to check if we need to show 'Pay' button in
+     * open_fees CRUD admin part
+     *
+     * @return boolean
+     */
+    public function is_pay_button_showed()
+    {
+        $sum = $this->mdl_fees->calc_open_fee();
+        $toShow = $sum >= $this->mdl_fees::PAYMENT_MIN_LIMIT;
+        echo json_encode(
+            ['status' => 'ok', 'data' => $toShow]
+        );
+        exit;
+    }
+
+
+	public function closed_fees()
+	{
+		auth(['admin','superadmin']);
+
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('closed_fees');
+		$crud->set_subject('Closed fee');
+        $crud->set_relation('open_fee_id', 'open_fees', '{user_id} {`table`} {fee}');
+        $crud->display_as('open_fee_id', 'Open fee');
+
+        $crud->required_fields('payout_id', 'open_fee_id', 'process_datetime', 'status');
+        // $crud->unset_columns('table');
+
+        $crud->field_type('status', 'enum', array('open', 'closed', 'processed'));
+
+		$output = $crud->render();
+
+
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		view($this->data, 'admin');
+	}
+
+	public function dividends()
+	{
+		auth(['admin','superadmin']);
+
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('dividend');
+		$crud->set_subject('Dividend');
+
+        $crud->required_fields('total_fee', 'dividend_datetime', 'status');
+
+        // $crud->field_type('status', 'enum', array('open', 'closed', 'processed'));
+
+		$output = $crud->render();
+
+		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		view($this->data, 'admin');
+	}
+
+
+}

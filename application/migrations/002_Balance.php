@@ -15,9 +15,9 @@ class Migration_Balance extends CI_Migration {
         $fields = [];
         $fields['id'] = ['type' => 'INT','constraint' => 11,'auto_increment' => true];
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];
-        $fields['NLG'] = ['type' => 'DECIMAL','constraint' => 18,8];
-        $fields['EUR'] = ['type' => 'DECIMAL','constraint' => 18,8];
-        $fields['GTS'] = ['type' => 'DECIMAL','constraint' => 18,8];
+        $fields['NLG'] = ['type' => 'DECIMAL','constraint' => '18,8'];
+        $fields['EUR'] = ['type' => 'DECIMAL','constraint' => '18,8'];
+        $fields['GTS'] = ['type' => 'DECIMAL','constraint' => '18,8'];
 
         $this->dbforge->add_field($fields);
         $this->dbforge->add_key('id', true);

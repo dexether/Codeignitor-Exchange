@@ -56,7 +56,7 @@ if($this->session->flashdata('errors')){
 									<b class="text-danger">Refused</b>
 									<br>
 									<p class="text-danger"><small>reviewer comment:</small></p>
-							    	<blockquote class="text-danger"><small><?php echo $bank->passport_refuse_reason ?></small></blockquote>
+							    	<blockquote class="text-danger"><small><?php echo (isset($bank->passport_refuse_reason)? $bank->passport_refuse_reason:'Pending'); ?></small></blockquote>
 							    <?php endif ?>
 								<input type="file" id="passport" name="passport" class="form-control" >
 							</div>
@@ -70,7 +70,7 @@ if($this->session->flashdata('errors')){
 									<b class="text-danger">Refused</b>
 									<br>
 									<p class="text-danger"><small>reviewer comment:</small></p>
-							    	<blockquote class="text-danger"><small><?php echo $bank->selfie_refuse_reason ?></small></blockquote>
+							    	<blockquote class="text-danger"><small><?php echo (isset($bank->selfie_refuse_reason)? $bank->selfie_refuse_reason:'Pending'); ?></small></blockquote>
 							    <?php endif ?>
 								<input type="file" id="selfie" name="selfie" class="form-control" >
 							</div>
@@ -84,7 +84,7 @@ if($this->session->flashdata('errors')){
 									<b class="text-danger">Refused</b>
 									<br>
 									<p class="text-danger"><small>reviewer comment:</small></p>
-							    	<blockquote class="text-danger"><small><?php echo $bank->backcard_refuse_reason ?></small></blockquote>
+							    	<blockquote class="text-danger"><small><?php echo (isset($bank->backcard_refuse_reason)? $bank->backcard_refuse_reason:'Pending');  ?></small></blockquote>
 							    <?php endif ?>
 								<input type="file" id="backcard" name="backcard" class="form-control" >
 							</div>
