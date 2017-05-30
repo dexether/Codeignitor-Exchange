@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div id='container'>
 
 	<div id='range'>
@@ -78,4 +77,3 @@
         <canvas id="open-fees-chart"></canvas>
     </div>
 </div>
->>>>>>> remotes/origin/master

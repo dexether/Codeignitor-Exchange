@@ -141,6 +141,44 @@ class Admin extends MY_Controller
 		redirect('/admin/withdraw');
 	}
 
+	public function sepa_files($filename = '') 
+	{
+		if (!empty($filename)) {
+			$file = APPPATH . 'SEPA/' . $filename;
+			header('Content-Description: File Transfer');
+		    header('Content-Type: application/octet-stream');
+		    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+		    header('Expires: 0');
+		    header('Cache-Control: must-revalidate');
+		    header('Pragma: public');
+		    header('Content-Length: ' . filesize($file));
+		    readfile($file);
+		    exit;
+		}
+		$files = array_diff(scandir(APPPATH . 'SEPA/'), array('..', '.'));
+
+		foreach ($files as $file) {
+			$string = file_get_contents(APPPATH . 'SEPA/' . $file);
+			$splxml = simplexml_load_string($string);
+			
+			$creation_date = $splxml->CstmrCdtTrfInitn->GrpHdr->CreDtTm;
+			$creation_date = implode(' at ', explode('T', $creation_date));
+
+			$num_of_trx = $splxml->CstmrCdtTrfInitn->GrpHdr->NbOfTxs;
+			$sum = $splxml->CstmrCdtTrfInitn->GrpHdr->CtrlSum;
+			$output['names'][$file] = [
+				'creation_date' => $creation_date,
+				'num_of_trx' => $num_of_trx,
+				'sum' => $sum
+			];
+		}
+
+		$this->data['head_css'] = '<link type="text/css" rel="stylesheet" href="'.base_url().'css/admin_fees.css" >';
+		$this->data['head_css'] .= '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>';
+		$this->data['head_css'] .= '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
+		$this->data['content'] = $this->load->view('admin/v_sepa_files', $output, true);
+		view($this->data, 'admin');
+	}
 
 	public function fees()
 	{

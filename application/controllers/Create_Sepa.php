@@ -1,4 +1,4 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+ <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Create_Sepa extends MY_Controller
 {
@@ -39,15 +39,23 @@ class Create_Sepa extends MY_Controller
 		
 		foreach($data as $user) {
 
-			if(!SepaUtilities::checkIban($user['IBAN']) OR !SepaUtilities::checkBic($user['BIC'])) {
+			/*if(!SepaUtilities::checkIban($user['IBAN']) OR !SepaUtilities::checkBic($user['BIC'])) {
 				continue;
-			}
+			}*/
 
 			$amount = $user['amount'] - TAXSEPA;
 			$this->add_payment( $user['transaction'], $amount, $user['IBAN'], $user['BIC'], $user['firstname'] . ' ' . $user['lastname'] );
 		}
 
-		$this->creditTransferFile->downloadSepaFile();
+		$filename =  APPPATH . 'SEPA/sepa'.date('Y-m-d.');
+		$rand = rand(1000, 9999);
+		while (file_exists($filename . $rand . '.xml')) {
+			$rand = rand(1000, 9999);
+		}
+		$filename = $filename . $rand . '.xml';
+		$this->creditTransferFile->storeSepaFile($filename);
+
+		redirect('admin/withdraw');
 	}
 
 	private function start_sepa()

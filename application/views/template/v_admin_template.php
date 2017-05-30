@@ -118,8 +118,22 @@
 					<li><a href="<?php echo site_url() ?>"> Visite Website</a></li>
 					<li><a href="<?php echo site_url('admin') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 					<li><a href="<?php echo site_url('admin/users') ?>"><i class="fa fa-users"></i> Manager Users</a></li>
-					<li><a href="<?php echo site_url('admin/withdraw') ?>"><i class="fa fa-users"></i> Withdraw</a></li>
 					<li><a href="<?php echo site_url('admin/bank_details') ?>"><i class="fa fa-users"></i> Bank details</a></li>
+
+
+					<li class="treeview">
+						<a href="#">
+							<i class="fa fa fa-eur"></i>
+							<span>Withdraw</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="<?php echo site_url('admin/withdraw') ?>"><i class="fa fa-users"></i> Withdraw</a></li>
+							<li><a href="<?php echo site_url('admin/sepa_files') ?>"><i class="fa fa-users"></i> Sepa Files</a></li>
+						</ul>
+					</li>
 
 					<li class="treeview">
 						<a href="#">
