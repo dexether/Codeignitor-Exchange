@@ -188,7 +188,7 @@ class Markets extends MY_Controller{
                 }
             }
             $json['tables']['table-open'] = array (
-                'keys'=>array('Date', 'Buy/Sell', $bid, 'Units filled' , 'Total Units', 'Total Cost'),
+                'keys'=>array('Date', 'Buy/Sell', $bid, 'Units filled' , 'Total Units', 'Total Cost', 'Id'),
                 'count'=> $my_open_orders->num_rows(),
                 'first'=> $my_open_orders_data
                     );
@@ -209,7 +209,8 @@ class Markets extends MY_Controller{
                         $bid=>  number_format($row->$bid,8),
                         'Total Units'=>  number_format($row->amount,8),
                         'Total Cost'=>  number_format($row->amount * $row->price,8),
-                        'Fee'=>  number_format($row->fee,8)
+                        'Fee'=>  number_format($row->fee,8),
+                        'ID'=>  $row->id
                     );
                 }
             }
