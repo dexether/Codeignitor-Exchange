@@ -9,6 +9,7 @@
   <link href="<?php echo base_url(); ?>/css/bootstrap.min.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>/css/anychart-ui.min.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>/css/style.css" rel="stylesheet">
+  <link href="<?php echo base_url(); ?>/css/paginnation.css" rel="stylesheet">
 <!--<link href="<?php echo base_url(); ?>assets/css/animate.min.css" rel="stylesheet">
 
 <link href="<?php echo base_url(); ?>assets/css/responsive.css" rel="stylesheet">

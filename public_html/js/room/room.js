@@ -12,14 +12,15 @@ rooms.forEach(function (element) {
 });
 
 
-var ClientSockets = require('../socket.io/socket');
+var ClientSockets = require('./socket.io/socket');
 var service;
 
-var User = require('../sevices/user');
+var User = require('./sevices/user');
 //The object that contains the user data
 var user;
+var dataInfoElem = $('#data-info');
 
-var Table = require('../sevices/table');
+var Table = require('./sevices/table');
 
 //Each one of tables contain the object with data and control buttons
 var bidsTable, asksTable, marketHistoryTable, openOrdersTable, orderHistoryTable;
@@ -34,7 +35,7 @@ $.ajax({
         .done(function (json) {
             //if we got the response 
             //create the user object
-            user = new User(json['user']);  //store the user data
+            user = new User(json['user'], dataInfoElem);  //store the user data
 
             //change the available currency
             //            {

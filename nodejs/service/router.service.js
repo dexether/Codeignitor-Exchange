@@ -22,14 +22,14 @@ function Route(server) {
         //DEVELOPMENT: return fake data via res.send(object);
         if (req.body.table === 'table-bids') {
             object = {
-                'value': fakeData.fake(req.body.count, req.body.fromNumber, 85),
-                'count': 85
+                'value': fakeData.fake(req.body.count, req.body.fromNumber, 485),
+                'count': 485
             };
         } else {
             if (req.body.table === 'table-ask') {
                 object = {
-                    'value': fakeData.fake(req.body.count, req.body.fromNumber, 105),
-                    'count': 105
+                    'value': fakeData.fake(req.body.count, req.body.fromNumber, 205),
+                    'count': 205
                 };
             } else {
                 if (req.body.table === 'market-history') {
@@ -70,7 +70,19 @@ function Route(server) {
 
 
     //POST request to get init data for the room
-    app.post('/get_init_data', function (req, res) {
+    app.post('/order-history', function (req, res) {
+        if(req.body.action === 'delete'){
+            // ... do something
+            //if the action have successful finish
+            res.send({
+                'status': 'success',
+                'value': {'hhh': 'kjk'} //if a count of rows is more then 200
+            });
+        }
+    });
+    
+    //POST request to get init data for the room
+    app.get('/get_init_data', function (req, res) {
         //Object of the request body: 
         //req.body = {
         //  'room'      : 'EUR-NLG'', - this is the room where a user is,
@@ -106,13 +118,13 @@ function Route(server) {
             'tables': {
                 'table-bids': {
                     'keys': ['sum', 'total', 'size(ngl)', 'bid(btc)'],
-                    'count': 85,
-                    'first': fakeData.fake(50, 1, 85)
+                    'count': 485,
+                    'first': fakeData.fake(200, 1, 485)
                 },
                 'table-ask': {
                     'keys': ['sum', 'total', 'size(ngl)', 'bid(btc)'],
-                    'count': 135,
-                    'first': fakeData.fake(35, 1, 135)
+                    'count': 205,
+                    'first': fakeData.fake(200, 1, 205)
                 },
                 'market-history': {
                     'keys': ['date', 'buy/sell', 'gts', 'total units', 'total cost'],
@@ -125,7 +137,7 @@ function Route(server) {
                     'first': fakeData.fakeOpen(50, 1, 65)
                 },
                 'order-history': {
-                    'keys': ['date', 'buy/sell', 'gts', 'total units', 'total cost', 'fee'],
+                    'keys': ['Date', 'Buy/Sell', 'EUR', 'Units filled', 'Total Units', 'Total Cost'],
                     'count': 65,
                     'first': fakeData.fakeOrderHistory(50, 1, 65)
                 }
