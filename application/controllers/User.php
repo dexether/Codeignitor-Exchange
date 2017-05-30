@@ -18,7 +18,7 @@ class User extends MY_Controller
 
     function register()
     {
-        $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/';
+        $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.])[A-Za-z\d$@$!%*?&#.]{8,}/';
 
         $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email|is_unique[users.email]');
         $this->form_validation->set_message('users.email', 'Email already exist please try to ' . anchor('login', 'login', 'class="text-info"') . ' or register with new email');
