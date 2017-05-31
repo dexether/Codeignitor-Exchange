@@ -7,14 +7,21 @@ var rooms = ['EUR-NLG', 'GTS-NLG'];
 var Fake = require('./fake');
 var fakeData = new Fake();
 
-var users = {};
-var ioClients;
+var users = {}; //contains the objects of the connected users like next:
+//{
+//  idOfConnection: {
+//      room: roomName,
+//      id: userID,
+//      hash: userHash
+//  }
+//}
+var ioClients = [];
 var io;
 
 //Retucn the connection of the user with ID
 function isOnline(id) {
     for (var i = 0; i < ioClients.length; i++) {
-        if (users[ioClients[i]] === id) {
+        if (users[ioClients[i]]['id'] === id) {
             return ioClients[i];
             //ioClients[i] - a connection of the user with this ID
         }
@@ -37,8 +44,9 @@ module.exports = {
 
             //change the room
             socket.on('market', function (msg) {
-               // console.log('a user ' + msg.userId + ' connected');
-                users[socket.id] = msg['userId']; //saving userId to array with socket ID
+                // console.log('a user ' + msg.userId + ' connected');
+                users[socket.id] = {id: msg['userId'], room: msg['room'], hash: msg['hash']}; //saving userId to array with socket ID
+                console.log(users);
                 var room = msg['room'];
                 if (room) {
                     socket.leave(socket.room);  // the user leaves the old room 
@@ -58,7 +66,8 @@ module.exports = {
 
             //The event when client is disconnect
             socket.on('disconnect', function () {
-               // console.log('a user ' + users[socket.id] + ' disconnected');
+                delete users[socket.id];
+                // console.log('a user ' + users[socket.id] + ' disconnected');
             });
         });
 
@@ -79,13 +88,20 @@ module.exports = {
             io.sockets.in(rooms[0]).emit('market', {'table': 'table-bids', 'data': {'count': 485, 'first': fakeData.fake(200, 1, 485)}});
         }, 22500);
 
+
+        var k = 0;
+        var fakeChart = fakeData.fakeChart;
+        var chartInt = setInterval(function () {
+            io.sockets.in(rooms[0]).emit('market', {'table': 'chart', 'data': fakeChart[k]});
+            k++;
+            if(k >= fakeChart.length) clearInterval(chartInt);
+        }, 5500);
         //---------------------------------------------------------------------------------------
 
         //create the stream for the chart
         var data = require('../chart');
         io.sockets.in(rooms[0]).emit('market', {'table': 'chart', 'data': data});
     },
-
     sendToId: function (id, msg) {
         var t = isOnline(id);//ID of the socket connection
         if (io.sockets.connected[t]) {

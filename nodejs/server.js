@@ -44,8 +44,8 @@ app.use(function (req, res, next) {
 //Add socket service
 var io = require('./service/io.service');
 io.create(server);
-
-//io.sendToId('749720331715e45c1bd35c775d492095', 'test'); - an example of send data to only one user by user's ID
+//An example of send data to only one user by user's ID
+//io.sendToId('749720331715e45c1bd35c775d492095', 'test'); 
 
 
 //Add router for the POST requests via AJAX

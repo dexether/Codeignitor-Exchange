@@ -78,39 +78,65 @@ var Table = function (element, object, userInfo) {
                     });
     }
     ;
-    function deleteRecord(user, mooidForRemove, length, numberForRemove) {
-        $.ajax({
-            url: 'http://localhost:7777/order-history',
-            data: {
-                'user': user.userId, //user's ID
-                'action': 'delete', //action
-                'mooid': mooidForRemove, //data-mooid of this record
-                'tableLenght': length, //how many records are in the table
-                'data-market': user.market,
-                'data-suid': user.suid
-            },
-            type: "post",
-            dataType: "json"
-        })
-                .done(function (json) {
-                    if (json['status'] === 'success') {
-                        var index = tableValue.splice(numberForRemove, 1); //remove the record
-                        if (json['value']) {
-                            tableValue.push(json['value']); //add the new one instead the removed record
-                        } else {
-                            tableLength -= 1;
-                            setNewPageCount();
+
+    function getNumberInTableById(id) {
+        for (var i = 0; i < tableValue.length; i++) {
+            if (tableValue[i]['Id'] === mooidForRemove) {
+                return i;
+            }
+        }
+        return undefined;
+    };
+    
+    function addAtTopOfTable(record){
+        var lengthOfTableAtTheMomment = tableValue.length;
+        tableValue.unshift(record);
+        if(lengthOfTableAtTheMomment < tableValue.length){
+            tableValue.splice(lengthOfTableAtTheMomment, 1);
+        }
+        
+    };
+
+    function deleteRecordFromTable(numberInTable, newValue) {
+        tableValue.splice(numberInTable, 1); //remove the record
+        if (newValue) {
+            tableValue.push(newValue); //add the new one instead the removed record
+        } else {
+            tableLength -= 1;
+            setNewPageCount();
+        }
+        updateTable();
+    }
+    ;
+
+    function deleteRecord(user, mooidForRemove, length) {
+        var numberForRemove = getNumberInTableById(mooidForRemove);
+
+        if (numberForRemove)
+            $.ajax({
+                url: 'http://localhost:7777/order-history',
+                data: {
+                    'user': user.userId, //user's ID
+                    'action': 'delete', //action
+                    'mooid': mooidForRemove, //data-mooid of this record
+                    'tableLenght': length, //how many records are in the table
+                    'data-market': user.market,
+                    'data-suid': user.suid
+                },
+                type: "post",
+                dataType: "json"
+            })
+                    .done(function (json) {
+                        if (json['status'] === 'success') {
+                            deleteRecordFromTable(numberForRemove, json['value']);
                         }
-                        updateTable();
-                        console.log(numberForRemove, ' was deleted');
-                    }
-                })
-                .fail(function (xhr, status, errorThrown) {
-                    console.error("Error: " + errorThrown);
-                })
-                .always(function (xhr, status) {
-                    //console.log("The request is complete!");
-                });
+                    })
+                    .fail(function (xhr, status, errorThrown) {
+                        console.error("Error: " + errorThrown);
+                    })
+                    .always(function (xhr, status) {
+                        //console.log("The request is complete!");
+                    });
     }
     ;
 //Create the pagination for this table
@@ -192,14 +218,17 @@ var Table = function (element, object, userInfo) {
                 for (var key in keys) {
                     //add column with data
                     var templ = parseFloat(tableValue[i + k * (pageNumber - 1)][keys[key]]);
-                    if (templ && (keys[key] !== 'Date'))
-                        row += '<td>' + templ.toFixed(8) + '</td>';
-                    else {
-                        row += '<td>' + tableValue[i + k * (pageNumber - 1)][keys[key]] + '</td>';
+                    if (templ) {
+                        if (keys[key] !== 'Date')
+                            row += '<td>' + templ.toFixed(8) + '</td>';
+                        else {
+                            if (keys[key] !== 'Id')
+                                row += '<td>' + tableValue[i + k * (pageNumber - 1)][keys[key]] + '</td>';
+                        }
                     }
                 }
                 if (orderHistory) {
-                    row += '<td class="delete"  data-number="' + (i + k * (pageNumber - 1)) + '" data-mooid="<id value>"><img src="/images/cross.png" style="width: 20px;"></td>';
+                    row += '<td class="delete" data-mooid="' + tableValue[i]['Id'] + '"><img src="/images/cross.png" style="width: 20px;"></td>';
                 }
                 row += '</tr>';
                 //if the current row in the table is not existing
@@ -244,15 +273,18 @@ var Table = function (element, object, userInfo) {
             for (var i = 0; i < countOfRows; i++) {
                 row = '<tr>';
                 for (var key in keys) {
-                    if (keys[key] !== 'mooid') {
+                    if (keys[key] !== 'Id') {
                         var templ = parseFloat(tableValue[i][keys[key]]);
-                        if (templ && (keys[key] !== 'Date'))
-                            row += '<td>' + templ.toFixed(8) + '</td>';
-                        else {
-                            row += '<td>' + tableValue[i][keys[key]] + '</td>';
+                        if (templ) {
+                            if (keys[key] !== 'Date')
+                                row += '<td>' + templ.toFixed(8) + '</td>';
+                            else {
+                                if (keys[key] !== 'Id')
+                                    row += '<td>' + tableValue[i][keys[key]] + '</td>';
+                            }
                         }
                     } else {
-                        row += '<td class="delete" data-number="' + i + '" data-mooid="]' + tableValue[i]['mooid'] + '"><img src="/images/cross.png"></td>';
+                        row += '<td class="delete" data-mooid="' + tableValue[i]['Id'] + '"><img src="/images/cross.png"></td>';
                     }
                 }
                 row += '</tr>';
@@ -272,10 +304,8 @@ var Table = function (element, object, userInfo) {
                 e.stopPropagation();
                 var button = e.target;
                 var mooidForRemove = $(button).parents('td').attr('data-mooid');
-                var numberForRemove = $(button).parents('td').attr('data-number');
-                console.log(numberForRemove);
                 // console.log(mooid);
-                deleteRecord(user, mooidForRemove, tableValue.length, numberForRemove);
+                deleteRecord(user, mooidForRemove, tableValue.length);
 
 
             });
@@ -305,6 +335,16 @@ var Table = function (element, object, userInfo) {
                 setNewPageCount();
                 changePageView();
             }
+        },
+
+        removeRecord: function (id, newValue) {
+            var numberForRemove = getNumberInTableById(id);
+            if (numberForRemove)
+                deleteRecordFromTable(numberForRemove, newValue);
+        },
+        
+        addRecordAtTheTop(record){
+            addAtTopOfTable(record);
         }
     }
     ;

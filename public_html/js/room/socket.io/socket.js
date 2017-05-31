@@ -22,13 +22,15 @@ function ClientSockets(objectOfTables, user) {
             // create connection
             var socket = io.connect('http://localhost:8080');
 
-            var ch = require('./chart');
-            
+            var ch = require('../sevices/chart');
+
 
             var chart = new ch;
+            chart.init(user);
+            chart.createChart();
 
             //Connection to the room
-            socket.emit('market', {'room': room, 'userId': user.userId});
+            socket.emit('market', {'room': room, 'userId': user.userId, 'user_hash': user.hash});
 
             socket.on('market', function (msg) {
                 switch (msg['table']) {
@@ -47,13 +49,13 @@ function ClientSockets(objectOfTables, user) {
                     case 'chart':
                     {
                         //console.log(msg['data']);
-                        // chart.stream(msg['array']);
+                        chart.stream(msg['data']);
                         break;
                     }
 
                     default:
                     {
-                         console.log(msg);
+                        console.log(msg);
                         break;
                     }
                 }
