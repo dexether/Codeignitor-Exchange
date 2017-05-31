@@ -66,7 +66,7 @@ class Admin extends MY_Controller
         $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
         $this->l_asset->add('js/admin/user_profile.js', 'js');
 
-        $this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+        //$this->data['content'] = $this->load->view('admin/v_grocery_crud', [], true);
 
 		$output = $crud->render();
 		$this->data['head_js'] = '<script src="'.base_url().'js/admin/add_deposit.js"></script>';
@@ -221,15 +221,17 @@ class Admin extends MY_Controller
 	public function user_deposit($id)
 	{
 		$this->form_validation->set_rules('amount', 'Amount', 'required');
+		$this->form_validation->set_rules('currency', 'Currency', 'required');
 
 		if ($this->form_validation->run() == true) {
 			$rand = rand(1000, 999999);
 			$transaction = $id . $rand;
 	        $amount = abs($this->input->post('amount'));
 	        $date = date('Y-m-d', time());
+	        $currency = $this->input->post('currency');
 
 			$this->load->model('mdl_deposit');
-			$this->mdl_deposit->deposit_record_EUR($id, $amount, $transaction, 'true', $date, 'Admin added deposit', 'EUR');
+			$this->mdl_deposit->deposit_record_EUR($id, $amount, $transaction, 'true', $date, 'Admin added deposit', $currency);
 
 			redirect('/admin/users?r=success');
 			return;
@@ -243,6 +245,7 @@ class Admin extends MY_Controller
 		$this->data['head_js'] = '<script src="'.base_url().'js/admin/add_deposit.js"></script>';
 		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_users.css">';
 		$this->data['content'] = $this->load->view('admin/v_deposit', $vars, true);
+		$this->data['head_css'] = '<link type="text/css" rel="stylesheet" href="'.base_url().'css/admin_fees.css" >';
 		view($this->data, 'admin');
         }
 
