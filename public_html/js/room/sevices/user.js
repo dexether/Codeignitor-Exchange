@@ -5,7 +5,7 @@ var User = function (data, dataInfoElem) {
     var secondCurrency = (data['secondCurrency']) || 0;
     var market = $(dataInfoElem).attr('data-market');
     var suid = $(dataInfoElem).attr('data-suid');
-    var hash = data['hash'];
+    var hash = $(dataInfoElem).attr('data-suid');
     
     function updateValueOfCurrences (){
                 $('#availableFirst').html(firstCurrency);

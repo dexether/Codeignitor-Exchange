@@ -20,7 +20,7 @@ function ClientSockets(objectOfTables, user) {
             alert('Your browser does not support WebSocket.');
         } else {
             // create connection
-            var socket = io.connect('http://localhost:8080');
+            var socket = io.connect('http://node.guldentrader.com');
 
             var ch = require('../sevices/chart');
 

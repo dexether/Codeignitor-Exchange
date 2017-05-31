@@ -86,16 +86,18 @@ var Table = function (element, object, userInfo) {
             }
         }
         return undefined;
-    };
-    
-    function addAtTopOfTable(record){
+    }
+    ;
+
+    function addAtTopOfTable(record) {
         var lengthOfTableAtTheMomment = tableValue.length;
         tableValue.unshift(record);
-        if(lengthOfTableAtTheMomment < tableValue.length){
+        if (lengthOfTableAtTheMomment < tableValue.length) {
             tableValue.splice(lengthOfTableAtTheMomment, 1);
         }
-        
-    };
+
+    }
+    ;
 
     function deleteRecordFromTable(numberInTable, newValue) {
         tableValue.splice(numberInTable, 1); //remove the record
@@ -219,14 +221,18 @@ var Table = function (element, object, userInfo) {
                     //add column with data
                     var templ = parseFloat(tableValue[i + k * (pageNumber - 1)][keys[key]]);
                     if (templ) {
-                        if (keys[key] !== 'Date')
+                        if ((keys[key] !== 'Date') && (keys[key] !== 'Id'))
                             row += '<td>' + templ.toFixed(8) + '</td>';
-                        else {
-                            if (keys[key] !== 'Id')
-                                row += '<td>' + tableValue[i + k * (pageNumber - 1)][keys[key]] + '</td>';
+                        else
+                        if (keys[key] === 'Date') {
+                            row += '<td>' + tableValue[i + k * (pageNumber - 1)][keys[key]] + '</td>';
                         }
+                    } else {
+                        row += '<td>' + tableValue[i + k * (pageNumber - 1)][keys[key]] + '</td>';
+
                     }
                 }
+
                 if (orderHistory) {
                     row += '<td class="delete" data-mooid="' + tableValue[i]['Id'] + '"><img src="/images/cross.png" style="width: 20px;"></td>';
                 }
@@ -276,12 +282,15 @@ var Table = function (element, object, userInfo) {
                     if (keys[key] !== 'Id') {
                         var templ = parseFloat(tableValue[i][keys[key]]);
                         if (templ) {
-                            if (keys[key] !== 'Date')
+                            if ((keys[key] !== 'Date') && (keys[key] !== 'Id'))
                                 row += '<td>' + templ.toFixed(8) + '</td>';
-                            else {
-                                if (keys[key] !== 'Id')
-                                    row += '<td>' + tableValue[i][keys[key]] + '</td>';
+                            else
+                            if (keys[key] === 'Date') {
+                                row += '<td>' + tableValue[i][keys[key]] + '</td>';
                             }
+                        } else {
+                            row += '<td>' + tableValue[i][keys[key]] + '</td>';
+
                         }
                     } else {
                         row += '<td class="delete" data-mooid="' + tableValue[i]['Id'] + '"><img src="/images/cross.png"></td>';
@@ -342,8 +351,8 @@ var Table = function (element, object, userInfo) {
             if (numberForRemove)
                 deleteRecordFromTable(numberForRemove, newValue);
         },
-        
-        addRecordAtTheTop(record){
+
+        addRecordAtTheTop(record) {
             addAtTopOfTable(record);
         }
     }
