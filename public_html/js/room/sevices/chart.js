@@ -33,34 +33,22 @@ function ChartMarket() {
                 // create a chart
                 chart = anychart.stock();
 
-//                setTimeout(function () {
-//                    console.log('try');
-//                    dataTable.addData(
-//                            [
-//                                {0: "2017-06-04 11:00:00",
-//                                    1: "0.03000000",
-//                                    2: "0.03000000",
-//                                    3: "0.02000000",
-//                                    4: "0.01000000"}
-//                            ]);
-//                }, 5000);
-//                setTimeout(function () {
-//                    console.log('try');
-//                    dataTable.addData([
-//                        {0: "2017-06-10 11:00:00",
-//                            1: "0.03000000",
-//                            2: "0.03000000",
-//                            3: "0.07000000",
-//                            4: "0.09000000"}
-//                    ]);
-//                }, 10000);
-
                 // create first plot on the chart
                 var plot = chart.plot();
+
                 plot.grid().enabled(true);
                 plot.grid(1).enabled(true).layout('vertical');
                 plot.minorGrid().enabled(true);
                 plot.minorGrid(1).enabled(true).layout('vertical');
+
+                chart.scroller().area(dataTable.mapAs({
+                    'value': 4
+                }));
+
+
+                // set chart selected date/time range
+                chart.selectRange('2007-05-03', '2007-05-20');
+
                 // map the data
                 var seriesData = dataTable.mapAs(
                         {
@@ -71,6 +59,8 @@ function ChartMarket() {
                             'value': {column: 4, type: 'close'}
                         }
                 );
+
+
                 var series = plot.candlestick(seriesData).name('Timeline');
                 series.legendItem().iconType('risingfalling');
                 chart.container("container_chart").draw();
