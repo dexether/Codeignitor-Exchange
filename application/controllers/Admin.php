@@ -251,19 +251,32 @@ class Admin extends MY_Controller
 
     public function user_stats() 
     {	
-    	$this->load->model('mdl_stats');
-    	$week = $this->mdl_stats->get_today();
+	    $this->load->model('mdl_stats');
+    	if (empty($_POST)) {
 
-    	$data['today'] = $week['today'];
-    	$data['yesterday'] = $week['yesterday'];
-    	$data['this_week'] = $week['this_week'];
-    	$data['last_week'] = $week['last_week']; 
+	    	$week = $this->mdl_stats->get_today();
 
-    	$month = $this->mdl_stats->get_by_month();
-    	$data['this_month'] = $month['this_month'];
-    	$data['last_month'] = $month['last_month'];
+	    	$data['today'] = $week['today'];
+	    	$data['yesterday'] = $week['yesterday'];
+	    	$data['this_week'] = $week['this_week'];
+	    	$data['last_week'] = $week['last_week']; 
 
-    	$data['year'] = $this->mdl_stats->get_by_year();
+	    	$month = $this->mdl_stats->get_by_month();
+	    	$data['this_month'] = $month['this_month'];
+	    	$data['last_month'] = $month['last_month'];
+	    	$data['type'] = TRUE;
+	    	$data['year'] = $this->mdl_stats->get_by_year();
+	    } else {
+
+	    	if ($_POST['func'] == 'get_by_year' OR $_POST['func'] == 'get_by_month') {
+				$this->mdl_stats->{$_POST['func']}($_POST['param']);
+			}
+
+			if ($_POST['func'] == 'get_in_range') {
+				$this->mdl_stats->{$_POST['func']}($_POST['from'], $_POST['to']);
+			}
+			$data = [];
+	    }
 
     	$this->data['content'] = $this->load->view('admin/v_stats', $data, true);
 		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_stats.css">';

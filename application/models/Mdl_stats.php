@@ -42,8 +42,8 @@ class Mdl_Stats extends CI_Model
 
     public function get_by_month ($month = '')
     {
+    	$dt = new DateTime();
     	if (empty($month)) {
-    		$dt = new DateTime();
     		$month = $dt->format('Y-m');
     	}
 
@@ -82,4 +82,17 @@ class Mdl_Stats extends CI_Model
 
     	return $result;
     }
+
+    public function get_in_range ($from, $to)
+    {
+    	if(empty($from) or empty($to)) {
+    		$from = date('Y-m-d');
+    		$to   = date('Y-m-d');
+    	}
+
+    	$query = $this->db->query('SELECT COUNT(`id`) AS x FROM `users` WHERE `dateofreg` BETWEEN ? and ?', [$from, $to]);
+    	
+    	return ($query->row()? $query->row()->x: 0);
+    } 
+
 }
