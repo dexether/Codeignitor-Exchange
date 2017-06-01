@@ -247,7 +247,28 @@ class Admin extends MY_Controller
 		$this->data['content'] = $this->load->view('admin/v_deposit', $vars, true);
 		$this->data['head_css'] = '<link type="text/css" rel="stylesheet" href="'.base_url().'css/admin_fees.css" >';
 		view($this->data, 'admin');
-        }
+    }
+
+    public function user_stats() 
+    {	
+    	$this->load->model('mdl_stats');
+    	$week = $this->mdl_stats->get_today();
+
+    	$data['today'] = $week['today'];
+    	$data['yesterday'] = $week['yesterday'];
+    	$data['this_week'] = $week['this_week'];
+    	$data['last_week'] = $week['last_week']; 
+
+    	$month = $this->mdl_stats->get_by_month();
+    	$data['this_month'] = $month['this_month'];
+    	$data['last_month'] = $month['last_month'];
+
+    	$this->data['content'] = $this->load->view('admin/v_stats', $data, true);
+		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_stats.css">';
+		$this->data['head_css'] .= '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>';
+		$this->data['head_css'] .= '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
+		view($this->data, 'admin');
+    }
 
 	public function bank_details()
 	{

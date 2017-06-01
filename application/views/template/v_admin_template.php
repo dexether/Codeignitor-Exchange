@@ -119,6 +119,7 @@
 					<li><a href="<?php echo site_url('admin') ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 					<li><a href="<?php echo site_url('admin/users') ?>"><i class="fa fa-users"></i> Manager Users</a></li>
 					<li><a href="<?php echo site_url('admin/bank_details') ?>"><i class="fa fa-users"></i> Bank details</a></li>
+					<li><a href="<?php echo site_url('admin/user_stats') ?>"><i class="fa fa-users"></i> Stats</a></li>
 
 
 					<li class="treeview">
