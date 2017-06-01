@@ -61,8 +61,25 @@ class Mdl_Stats extends CI_Model
     	];
     }
 
-    public function get_by_year ()
+    public function get_by_year ($year = '')
     {
+    	if (empty($year)) {
+    		$year = date('Y');
+    	}
 
+    	$months = [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12' ];
+    	$result = 0;
+    	foreach ($months as $month) {
+    		$param = $year . '-' . $month;
+    		$qry = 'SELECT `users_num` FROM `monthly_registrations` WHERE `month-year` = ?';
+    		$query = $this->db->query($qry, [$param]);
+    		
+    		if ($query->row()) {
+    			$result += (int)$query->row()->users_num;
+    			continue;
+    		}
+    	}
+
+    	return $result;
     }
 }

@@ -263,6 +263,8 @@ class Admin extends MY_Controller
     	$data['this_month'] = $month['this_month'];
     	$data['last_month'] = $month['last_month'];
 
+    	$data['year'] = $this->mdl_stats->get_by_year();
+
     	$this->data['content'] = $this->load->view('admin/v_stats', $data, true);
 		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_stats.css">';
 		$this->data['head_css'] .= '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>';
