@@ -66,7 +66,7 @@ class Admin extends MY_Controller
         $this->l_asset->add('plugins/alertifyjs/alertify.min.js','js');
         $this->l_asset->add('js/admin/user_profile.js', 'js');
 
-        $this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+        //$this->data['content'] = $this->load->view('admin/v_grocery_crud', [], true);
 
 		$output = $crud->render();
 		$this->data['head_js'] = '<script src="'.base_url().'js/admin/add_deposit.js"></script>';
@@ -141,14 +141,62 @@ class Admin extends MY_Controller
 		redirect('/admin/withdraw');
 	}
 
+	public function sepa_files($filename = '') 
+	{
+		if (!empty($filename)) {
+			$file = APPPATH . 'SEPA/' . $filename;
+			header('Content-Description: File Transfer');
+		    header('Content-Type: application/octet-stream');
+		    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+		    header('Expires: 0');
+		    header('Cache-Control: must-revalidate');
+		    header('Pragma: public');
+		    header('Content-Length: ' . filesize($file));
+		    readfile($file);
+		    exit;
+		}
+		$files = array_diff(scandir(APPPATH . 'SEPA/'), array('..', '.'));
+
+		foreach ($files as $file) {
+			$string = file_get_contents(APPPATH . 'SEPA/' . $file);
+			$splxml = simplexml_load_string($string);
+			
+			$creation_date = $splxml->CstmrCdtTrfInitn->GrpHdr->CreDtTm;
+			$creation_date = implode(' at ', explode('T', $creation_date));
+
+			$num_of_trx = $splxml->CstmrCdtTrfInitn->GrpHdr->NbOfTxs;
+			$sum = $splxml->CstmrCdtTrfInitn->GrpHdr->CtrlSum;
+			$output['names'][$file] = [
+				'creation_date' => $creation_date,
+				'num_of_trx' => $num_of_trx,
+				'sum' => $sum
+			];
+		}
+
+		$this->data['head_css'] = '<link type="text/css" rel="stylesheet" href="'.base_url().'css/admin_fees.css" >';
+		$this->data['head_css'] .= '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>';
+		$this->data['head_css'] .= '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
+		$this->data['content'] = $this->load->view('admin/v_sepa_files', $output, true);
+		view($this->data, 'admin');
+	}
 
 	public function fees()
 	{
 		$this->load->model('Admin_model');
-		$fees = $this->Admin_model->fetch_paid_fees();
+		$this->form_validation->set_rules('from', 'From', 'required');
+		$this->form_validation->set_rules('to', 'To', 'required');
 
-		if ($fees == NULL) {
-			$vars['fees'] = 'No fees result';
+		if ($this->form_validation->run() == true) {
+			$vars['from'] = $from = $this->input->post('from');
+			$vars['to']   = $to   = $this->input->post('to');
+			$fees = $this->Admin_model->fetch_paid_fees($from, $to);
+		} else {
+			$vars['error'] = validation_errors('<p class="alert alert-danger">', '</p>');
+			$fees = $this->Admin_model->fetch_paid_fees();
+		}
+
+		if (is_null($fees)) {
+			$vars['fees'] = 'No fees record';
 		} else {
 
 			foreach ($fees as $fee) {
@@ -160,7 +208,6 @@ class Admin extends MY_Controller
 					'date' => $fee->dateofpayment
 				];	
 			}
-
 		}
 
 		$this->data['head_css'] = '<link type="text/css" rel="stylesheet" href="'.base_url().'css/admin_fees.css" >';
@@ -174,15 +221,17 @@ class Admin extends MY_Controller
 	public function user_deposit($id)
 	{
 		$this->form_validation->set_rules('amount', 'Amount', 'required');
+		$this->form_validation->set_rules('currency', 'Currency', 'required');
 
 		if ($this->form_validation->run() == true) {
 			$rand = rand(1000, 999999);
 			$transaction = $id . $rand;
 	        $amount = abs($this->input->post('amount'));
 	        $date = date('Y-m-d', time());
+	        $currency = $this->input->post('currency');
 
 			$this->load->model('mdl_deposit');
-			$this->mdl_deposit->deposit_record_EUR($id, $amount, $transaction, 'true', $date, 'Admin added deposit', 'EUR');
+			$this->mdl_deposit->deposit_record_EUR($id, $amount, $transaction, 'true', $date, 'Admin added deposit', $currency);
 
 			redirect('/admin/users?r=success');
 			return;
@@ -190,11 +239,51 @@ class Admin extends MY_Controller
 			$vars['error'] = validation_errors('<p class="alert alert-danger">', '</p>');
 		}
 
+		$this->load->model('mdl_user');
+		$vars['user'] = $this->mdl_user->get_userdetails($id);
+
 		$this->data['head_js'] = '<script src="'.base_url().'js/admin/add_deposit.js"></script>';
 		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_users.css">';
 		$this->data['content'] = $this->load->view('admin/v_deposit', $vars, true);
+		$this->data['head_css'] = '<link type="text/css" rel="stylesheet" href="'.base_url().'css/admin_fees.css" >';
 		view($this->data, 'admin');
-        }
+    }
+
+    public function user_stats() 
+    {	
+	    $this->load->model('mdl_stats');
+    	if (empty($_POST)) {
+
+	    	$week = $this->mdl_stats->get_today();
+
+	    	$data['today'] = $week['today'];
+	    	$data['yesterday'] = $week['yesterday'];
+	    	$data['this_week'] = $week['this_week'];
+	    	$data['last_week'] = $week['last_week']; 
+
+	    	$month = $this->mdl_stats->get_by_month();
+	    	$data['this_month'] = $month['this_month'];
+	    	$data['last_month'] = $month['last_month'];
+	    	$data['type'] = TRUE;
+	    	$data['year'] = $this->mdl_stats->get_by_year();
+	    } else {
+
+	    	if ($_POST['func'] == 'get_by_year' OR $_POST['func'] == 'get_by_month') {
+				$this->mdl_stats->{$_POST['func']}($_POST['param']);
+			}
+
+			if ($_POST['func'] == 'get_in_range') {
+				$this->mdl_stats->{$_POST['func']}($_POST['from'], $_POST['to']);
+			}
+			$data = [];
+	    }
+
+    	$this->data['content'] = $this->load->view('admin/v_stats', $data, true);
+		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_stats.css">';
+		$this->data['head_css'] .= '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>';
+		$this->data['head_css'] .= '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
+		view($this->data, 'admin');
+    }
 
 	public function bank_details()
 	{
@@ -206,8 +295,34 @@ class Admin extends MY_Controller
 		$crud->set_table('user_bank_details');
 		$crud->set_subject('Manage User Bank Details');
 
+		$crud->add_action('Reject', '', 'admin/reject_bank', 'btn btn-danger');
+		$crud->add_action('Approve', '', 'admin/approve_bank', 'btn btn-primary');
+
 		$output = $crud->render();
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud', (array) $output, true);
+		view($this->data, 'admin');
+	}
+
+	public function approve_bank($id)
+	{
+		$this->load->model('mdl_user_bank_details');
+		$this->mdl_user_bank_details->admin_action(1, $id);
+			redirect('admin/bank_details');
+	}
+	
+	public function reject_bank($id)
+	{
+		if (isset($_POST['message'])) {
+			$post_message = trim($this->input->post('message'));
+			$message = (!empty($post_message)? $post_message:'Bank information is rejected by admin.');
+
+			$this->load->model('mdl_user_bank_details');
+			$this->mdl_user_bank_details->admin_action(0, $id, $message);
+
+			redirect('admin/bank_details');
+		}
+
+		$this->data['content'] = $this->load->view('admin/v_reject_message', [], True);
 		view($this->data, 'admin');
 	}
 

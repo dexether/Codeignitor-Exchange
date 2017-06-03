@@ -10,17 +10,16 @@
         <?php echo isset($success) ? $success : ''; ?>
         <?php echo form_open('', 'name="registering" id="registering" method="post"'); ?>
         <div class="form-group">
-            <input type="text" class="form-control" name="email" id="email" placeholder="Email">
+            <input type="text" class="form-control" name="email" id="email" placeholder="Email" value="<?php echo set_value('email'); ?>">
         </div>
         <div class="form-group">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <input type="text" class="form-control" id="inputPassword3" name="firstname"
-                           placeholder="Firstname">
+                           placeholder="Firstname" value="<?php echo set_value('firstname'); ?>">
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <input type="text" class="form-control" id="inputPassword3" name="lastname" id="last_name"
-                           placeholder="Lastname">
+                    <input type="text" class="form-control" id="inputPassword3" name="lastname" id="last_name" placeholder="Lastname" value="<?php echo set_value('lastname'); ?>">
                 </div>
             </div>
         </div>
@@ -28,11 +27,11 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <input type="password" class="form-control" id="password1" name="password1"
-                           placeholder="Password">
+                           placeholder="Password" value="<?php echo set_value('password1'); ?>">
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <input type="password" class="form-control" id="password2" name="password2"
-                           placeholder="Confirm Password">
+                           placeholder="Confirm Password" >
                 </div>
             </div>
             <div class="row">

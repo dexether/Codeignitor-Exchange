@@ -18,7 +18,7 @@ class User extends MY_Controller
 
     function register()
     {
-        $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/';
+        $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.])[A-Za-z\d$@$!%*?&#.]{8,}/';
 
         $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[3]|max_length[50]|valid_email|is_unique[users.email]');
         $this->form_validation->set_message('users.email', 'Email already exist please try to ' . anchor('login', 'login', 'class="text-info"') . ' or register with new email');
@@ -186,7 +186,8 @@ class User extends MY_Controller
         'bank_account' => $this->input->post('accounttype'),
         'inter_banking_code' => $this->input->post('iban'),
         'verification_code' => $this->input->post('verification_code'),
-        'routing_number' => $this->input->post('routing_number')
+        'routing_number' => $this->input->post('routing_number'),
+        'message' => 'Your bank details need to be approved.'
         ];
         $this->mdl_user_bank_details->bank_details_update($data, $id);
     }

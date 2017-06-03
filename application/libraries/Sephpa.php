@@ -11,7 +11,7 @@
 
 //namespace AbcAeffchen\Sephpa;
 //use AbcAeffchen\SepaUtilities\SepaUtilities;
-use SepaUtilities;
+//use SepaUtilities;
 
 // Set default Timezone
 date_default_timezone_set(@date_default_timezone_get());
@@ -174,7 +174,7 @@ abstract class Sephpa
      */
     public function storeSepaFile($filename = 'payments.xml', $creDtTm = '')
     {
-        $file = fopen($filename, 'b');
+        $file = fopen($filename, 'w');
         fwrite($file, $this->generateXml($creDtTm));
         fclose($file);
     }

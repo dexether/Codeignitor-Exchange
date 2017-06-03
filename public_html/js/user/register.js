@@ -8,6 +8,12 @@ errorMessage = $('#error_message');
 registerBtn.val('Loading...');
 registerBtn.attr('disabled', true);
 
+function refreshCaptcha() {
+        var img = document.images['captchaimg'];
+        img.src = img.src.substring(0, img.src.lastIndexOf("?")) + "?rand=" + Math.random() * 1000;
+        $('#capchaimg').attr('src', img.src);
+    }
+
 $(document).ready(function () {
 
     $.validator.addMethod("pwcheck", function (value) {
@@ -31,8 +37,5 @@ $(document).ready(function () {
         }
     });
 
-    function refreshCaptcha() {
-        var img = document.images['captchaimg'];
-        img.src = img.src.substring(0, img.src.lastIndexOf("?")) + "?rand=" + Math.random() * 1000;
-    }
+    
 });

@@ -46,6 +46,22 @@ class Mdl_user_bank_details extends CI_Model {
 		}
 	}
 
+	function admin_action ($action, $id, $admin_message = 'Bank information is rejected by admin.')
+	{
+		if ($action == 0) {
+
+			$this->db->query("UPDATE `ciexcgt`.`user_bank_details` SET `status`='0' WHERE `id`=?;",  [$id]);
+			$this->db->query("UPDATE `ciexcgt`.`user_bank_details` SET `message`=? WHERE `id`=?;",   [$admin_message, $id]);
+			return;
+		}
+
+		$message = 'Your bank information is approved by admin.';
+
+		$this->db->query("UPDATE `ciexcgt`.`user_bank_details` SET `status`='1' WHERE `id`=?;",  [$id]);
+		$this->db->query("UPDATE `ciexcgt`.`user_bank_details` SET `message`=? WHERE `id`=?;",   [$message, $id]);
+		return;
+	}
+
 }
 
 /* End of file User_bank_details_model.php */
