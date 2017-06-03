@@ -252,6 +252,8 @@ class Admin extends MY_Controller
     public function user_stats() 
     {	
 	    $this->load->model('mdl_stats');
+	    $this->data['content'] = $this->load->view('admin/v_stats', [], true);
+
     	if (empty($_POST)) {
 
 	    	$week = $this->mdl_stats->get_today();
@@ -266,21 +268,45 @@ class Admin extends MY_Controller
 	    	$data['last_month'] = $month['last_month'];
 	    	$data['type'] = TRUE;
 	    	$data['year'] = $this->mdl_stats->get_by_year();
+
 	    } else {
 
-	    	if ($_POST['func'] == 'get_by_year' OR $_POST['func'] == 'get_by_month') {
-				$this->mdl_stats->{$_POST['func']}($_POST['param']);
+	    	if ($_POST['func'] == 'get_by_year') {
+	    		$year = $_POST['param'];
+				$return = $this->mdl_stats->get_by_year($year);
+				$vars['text'] = "'New users in year ". $year .": ". $return['num']."'";
+				unset($return['num']);
+
+				$vars['js'] = '';
+				foreach ($return as $key => $value) {
+					$vars['js'] .= "{ x: new Date($year, $key, 1), y: {$value['num']} },";
+				}
+			}
+
+			if ($_POST['func'] == 'get_by_month') {
+				$return = $this->mdl_stats->get_by_month($_POST['param']);
+				$year = date('Y');
+				$month = explode('-' ,$_POST['param'])[1];
+
+				$vars['text'] = "'Number of new users for {$_POST['param']}'";
+				$vars['js'] = '';
+				foreach ($return['month'] as $key => $value) {
+					$vars['js'] .= "{ x: new Date($year, $month, $key), y: {$value} },";
+				}
 			}
 
 			if ($_POST['func'] == 'get_in_range') {
 				$this->mdl_stats->{$_POST['func']}($_POST['from'], $_POST['to']);
 			}
+
 			$data = [];
+
+	    	$this->data['content'] .= $this->load->view('admin/v_stats_chart', $vars, true);
 	    }
 
-    	$this->data['content'] = $this->load->view('admin/v_stats', $data, true);
 		$this->data['head_css'] = '<link rel="stylesheet" href="'. base_url() .'/css/crud_stats.css">';
 		$this->data['head_css'] .= '<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>';
+		$this->data['head_css'] .= '<script src="'. base_url() .'/js/canvasjs.min.js"></script>';
 		$this->data['head_css'] .= '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
 		view($this->data, 'admin');
     }
