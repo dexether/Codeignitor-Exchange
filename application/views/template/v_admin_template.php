@@ -223,5 +223,5 @@
 	<!-- FastClick -->
 	<script src="<?php echo base_url('adminLTE') ?>/plugins/fastclick/fastclick.js"></script>
 	<?php if(isset($head_js)) echo $head_js; ?>
-</body>	<script src="<?php echo base_url('adminLTE') ?>/plugins/chartjs/Chart.min.js"></scrip>
+</body>
 </html>
