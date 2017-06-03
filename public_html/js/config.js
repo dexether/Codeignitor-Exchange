@@ -14,7 +14,6 @@ var config = {
         'EUR-NLG',
         'EUR-ETH',
         'EUR-ZEC'
-        
     ]
 };
 

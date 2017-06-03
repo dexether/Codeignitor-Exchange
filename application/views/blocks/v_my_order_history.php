@@ -3,8 +3,8 @@
     <div class="col-md-12 col-sm-12">
         <div class="cls_top_table table-responsive">
             <h4>My order history</h4>
-            <div class="table-responsive cls_trade_table">
-                <table class="table table-striped" id="order-history">
+            <div class="table-responsive cls_trade_table" id="order-history">
+                <table class="table table-striped">
                 <thead>
                 <tr>
                 <th width="13%"> Date  </th>
@@ -12,7 +12,8 @@
                 <th width="20%">           <?php echo $currency_bid; ?>   </th>
                 <th width="20%">            Total Units            </th>
                 <th width="15%">      Total Cost </th>
-                <th width="15%">      Fee </th>
+                <th width="12%">      Fee </th>
+                <th width="3%"> </th>
                 </tr>
                 </thead>
                     <?php

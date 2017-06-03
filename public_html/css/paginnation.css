@@ -1,0 +1,32 @@
+.paginnation{
+    display: block;
+    width: 100%;
+    text-align: right;
+    padding: 10px 0;
+}
+
+.paginnation__control{
+    display: inline-block;
+    width: auto;
+    padding: 5px 10px;
+    background: #65808e;
+    color: #fff;
+    transition: all 0.3s ease;
+    outline: none;
+    border: 1px solid #f0f5fa;
+    text-transform: capitalize;
+}
+
+.paginnation__control:hover{
+    background: #f0f5fa;
+    border: 1px solid #65808e;
+    color: #000;
+}
+
+.paginnation__page-number{
+    margin: 0 10px;
+    padding: 5px 10px;
+    border: 1px solid #65808e;
+    background: #fff;
+    pointer-events: none;
+}

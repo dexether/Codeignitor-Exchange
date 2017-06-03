@@ -7,66 +7,56 @@ var rooms = ['EUR-NLG', 'GTS-NLG'];
 var Fake = require('./fake');
 var fakeData = new Fake();
 
+var users = {}; //contains the objects of the connected users like next:
+//{
+//  idOfConnection: {
+//      room: roomName,
+//      id: userID,
+//      hash: userHash
+//  }
+//}
+var ioClients = [];
+var io;
+
+//Retucn the connection of the user with ID
+function isOnline(id) {
+    for (var i = 0; i < ioClients.length; i++) {
+        if (users[ioClients[i]]['id'] === id) {
+            return ioClients[i];
+            //ioClients[i] - a connection of the user with this ID
+        }
+    }
+    ;
+    return 0;
+}
+;
 
 module.exports = {
 
     create: function (app) {
         //Init the iosocket via the main module server.js
-        var io = iosocket(app);
+
+        io = iosocket(app);
 
         //The event when user was connected
         io.on('connection', function (socket) {
-            //Object.keys(io.engine.clients) - the object of all connected users
+            ioClients = Object.keys(io.engine.clients); //- the object of all connected users
 
             //change the room
-            socket.on('room', function (room) {
-                socket.leave(socket.room);  // the user leaves the old room 
-                socket.join(room);          //             and connect to needed room
-                socket.room = room;         // update the socket room
+            socket.on('market', function (msg) {
+                // console.log('a user ' + msg.userId + ' connected');
+                users[socket.id] = {id: msg['userId'], room: msg['room'], hash: msg['hash']}; //saving userId to array with socket ID
+                console.log(users);
+                var room = msg['room'];
+                if (room) {
+                    socket.leave(socket.room);  // the user leaves the old room 
+                    socket.join(room);          //             and connect to needed room
+                    socket.room = room;         // update the socket room
 
-                io.sockets.in(room).emit('message', "New one is in room " + room); // send the message about new one in the room to all users in this room
+                    io.sockets.in(room).emit('message', "New one is in room " + room); // send the message about new one in the room to all users in this room
+                }
+                ;
             });
-
-
-            //---------Send the fake data via socket----------------------------------------------------------
-            // there musr be next :
-            //         io.sockets.in(room).emit('ask', {'count': 105, 'first': fakeData.fake(50, 1, 105)});
-            // but for development I don't use room and send to all the connections
-            var i0 = true;
-            setInterval(function () {
-                i0 = !i0;
-                io.emit('ask', {'count': 105, 'first': fakeData.fake(50, 1, 105)});
-            }, 10500);
-
-            var i = true;
-            setInterval(function () {
-                i = !i;
-                io.emit('bids', {'count': 85, 'first': fakeData.fake(50, 1, 85)});
-            }, 12500);
-
-            io.emit('trade_history', {'count': 65, 'first': fakeData.fakeMarket(50, 1, 100)});
-            io.emit('order_open', {'count': 65, 'first': fakeData.fakeOpen(50, 1, 100)});
-            io.emit('order_history', {'count': 65, 'first': fakeData.fakeOrderHistory(50, 1, 100)});
-            //---------------------------------------------------------------------------------------
-
-            //create the stream for the chart
-            socket.on('data_to_chart', function (msg) {
-                var data = require('../chart');
-                io.emit('data_to_chart', data);
-
-//                setTimeout(function () {
-//                    io.emit('chart_stream', {'array': [
-//                            "1990-05-19",
-//                            0.0868,
-//                            0.0868,
-//                            0.0859,
-//                            0.0868,
-//                            6595200
-//                        ]});
-//                    //dataTable.addData(rawData.data, true);
-//                }, 10500);
-            });
-
 
             //The event when user leaves the room
             socket.on('unsubscribe', function (room) {
@@ -76,9 +66,48 @@ module.exports = {
 
             //The event when client is disconnect
             socket.on('disconnect', function () {
-                //  console.log('user disconnected');
+                delete users[socket.id];
+                // console.log('a user ' + users[socket.id] + ' disconnected');
             });
         });
+
+
+        //---------Send the fake data via socket to each user in the room[0]----------------------------------------------------------
+        // there musr be next :
+        //         io.sockets.in(room).emit('ask', {'count': 105, 'first': fakeData.fake(50, 1, 105)});
+        // but for development I don't use room and send to all the connections
+        var i0 = true;
+        setInterval(function () {
+            i0 = !i0;
+            io.sockets.in(rooms[0]).emit('market', {'table': 'table-ask', 'data': {'count': 205, 'first': fakeData.fake(200, 1, 205)}});
+        }, 25500);
+
+        var i = true;
+        setInterval(function () {
+            i = !i;
+            io.sockets.in(rooms[0]).emit('market', {'table': 'table-bids', 'data': {'count': 485, 'first': fakeData.fake(200, 1, 485)}});
+        }, 22500);
+
+
+        var k = 0;
+        var fakeChart = fakeData.fakeChart;
+        var chartInt = setInterval(function () {
+            io.sockets.in(rooms[0]).emit('market', {'table': 'chart', 'data': fakeChart[k]});
+            k++;
+            if(k >= fakeChart.length) clearInterval(chartInt);
+        }, 5500);
+        //---------------------------------------------------------------------------------------
+
+        //create the stream for the chart
+        var data = require('../chart');
+        io.sockets.in(rooms[0]).emit('market', {'table': 'chart', 'data': data});
+    },
+    sendToId: function (id, msg) {
+        var t = isOnline(id);//ID of the socket connection
+        if (io.sockets.connected[t]) {
+            //Send a data to the user with this ID
+            io.sockets.connected[t].emit('market', msg);
+        }
     }
 
 };

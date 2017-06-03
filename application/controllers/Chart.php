@@ -21,6 +21,7 @@ class Chart extends MY_Controller{
 //        'close': 4,
     public function candle($market='EUR-NLG', $time = '30minutes')
     {
+
         if(in_array($market, MARKETS))
         {
             $this->load->model('mdl_chart');

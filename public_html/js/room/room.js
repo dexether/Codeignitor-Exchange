@@ -11,14 +11,16 @@ rooms.forEach(function (element) {
     ;
 });
 
-var ClientSockets = require('../socket.io/socket');
+
+var ClientSockets = require('./socket.io/socket');
 var service;
 
-var User = require('../sevices/user');
+var User = require('./sevices/user');
 //The object that contains the user data
 var user;
+var dataInfoElem = $('#data-info');
 
-var Table = require('../sevices/table');
+var Table = require('./sevices/table');
 
 //Each one of tables contain the object with data and control buttons
 var bidsTable, asksTable, marketHistoryTable, openOrdersTable, orderHistoryTable;
@@ -26,21 +28,22 @@ var bidsTable, asksTable, marketHistoryTable, openOrdersTable, orderHistoryTable
 
 //when our page are loaded, we need to get the init data
 $.ajax({
-    url: "http://localhost:7777/get_init_data",
-    data: {
-        'room': room //send the name of the room where the user is
-    },
-    type: "post",
+    url: base_url + "markets/get_init_data/" + room + "/" + $("div[data-suid]").attr('data-suid'),
+    type: "get",
     dataType: "json"
 })
         .done(function (json) {
             //if we got the response 
             //create the user object
-            user = new User(json['user']);  //store the user data
+            user = new User(json['user'], dataInfoElem);  //store the user data
 
             //change the available currency
-            $('#availableFirst').html(json['firstCurrency']);
-            $('#availableSecond').html(json['secondCurrency']);
+            //            {
+//                firstCurrency: ... ,
+//                secondCurrency: ...
+//            }
+            user.setCurrencies(json['user']);
+            
 
             //Create the objects of the tables and show their
             bidsTable = new Table('#table-bids', json['tables']['table-bids'], user);

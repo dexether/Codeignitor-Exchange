@@ -5,8 +5,8 @@
     <div class="cls_mid_con cls_comm_bg">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 col-sm-6" id="">
-                    <div class="cls_top_table cls_trade_table" id="table-bids">
+                <div class="col-md-6 col-sm-6" id="table-bids">
+                    <div class="cls_top_table cls_trade_table">
                     <h4>Bids</h4>
                         <div class="cls_trade_table">
                             <?php
