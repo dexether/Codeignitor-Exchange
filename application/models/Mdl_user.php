@@ -120,6 +120,15 @@ class Mdl_user extends CI_Model
     //TODO - make sure SALT is unique, its use to obscure user_id
     public function add_user()
     {
+        $query = $this->db->query('SELECT `users_num` FROM `monthly_registrations` WHERE `month-year` = ?', [date('Y-m')]);
+        if (!$query->row()) {
+            $this->db->query('INSERT INTO `monthly_registrations` (`month-year`, `users_num`) VALUES (?, ?);', [date('Y-m'), 1]);
+        } else {
+            $increment = (int)$query->row()->users_num;
+            $increment++;
+            $this->db->query('UPDATE `monthly_registrations` SET `users_num`=? WHERE `month-year`=?',[$increment, date('Y-m')]);
+        }
+
         $dateofreg = date('Y-m-d');
         $user_ip = $this->input->ip_address();
         $this->load->library('user_agent');
