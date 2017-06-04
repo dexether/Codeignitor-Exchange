@@ -183,7 +183,8 @@ class Markets extends MY_Controller{
                         $bid=>  number_format($row->price,8),
                         'Units filled'=>  number_format($row->units_filled,8),
                         'Total Units'=>  number_format($row->amount,8),
-                        'Total Cost'=>  number_format($row->total,8)
+                        'Total Cost'=>  number_format($row->total,8),
+                        'Id'=>  $row->id
                     );
                 }
             }
@@ -209,8 +210,8 @@ class Markets extends MY_Controller{
                         $bid=>  number_format($row->$bid,8),
                         'Total Units'=>  number_format($row->amount,8),
                         'Total Cost'=>  number_format($row->amount * $row->price,8),
-                        'Fee'=>  number_format($row->fee,8),
-                        'ID'=>  $row->id
+                        'Fee'=>  number_format($row->fee,8)
+                        
                     );
                 }
             }

@@ -15,6 +15,8 @@ class Mdl_trade  extends CI_Model {
     
     public function buylimit_order($amount=0, $price=0, $trade_pair='EUR-NLG')
     {
+        $message = ['market'=>$market];
+        $message['user_1'] = ['user_id'=>$this->session->salt];
         list($bid, $sell) = explode('-', $trade_pair);
         
         //get balance
@@ -55,6 +57,7 @@ class Mdl_trade  extends CI_Model {
                     //$this->db->where('user_id',$this->session->user_id);
                     $this->db->query("UPDATE `balance` SET `$bid` = `$bid`- $bidprice - $fee , `pending_$bid` = `pending_$bid` + $bidprice + $fee WHERE `user_id` = " .$this->session->user_id);
                     if ($this->debug) echo $this->db->last_query();
+                    $message['user_1'] = ['balance'=>array('first'=>($bid- $bidprice - $fee),'second'=>$balance->sell)];
                         
                     //3: check for open sell orders
                     $this->db->where('bidsell','sell');
@@ -89,7 +92,6 @@ class Mdl_trade  extends CI_Model {
                                 $this->db->query("UPDATE `order_".$sell."` SET `units_filled` = `units_filled` + $unit_row , `status`= 'processed' WHERE `id` = " .$row->id);
                                 if ($this->debug) echo $this->db->last_query();
                                 
-                                
                                 //take fee from both BID and SELL record.
                                 //$bidprice += ($unit_row * $row->price * (100 - FEE) / 100);
                                 $tot_bid  = $unit_row * $row->price;
@@ -98,9 +100,13 @@ class Mdl_trade  extends CI_Model {
                                 
                                 //update both seller end bidden balance; Update them without the EUR fee.
                                 $this->db->query("UPDATE `balance` SET `$sell` = `$sell`+ $unit_row, `pending_$bid` = `pending_$bid` - $tot_bid -$fee WHERE `user_id` = " .$this->session->user_id);
+                                $message['user_1']['balance']['second'] = $balance->sell+ $unit_row;
                                 if ($this->debug) echo $this->db->last_query();
                                 $this->db->query("UPDATE `balance` SET  `$bid` = `$bid` + $tot_bid, `pending_$sell` = `pending_$sell` - $unit_row WHERE `user_id` = " .$row->user_id);
                                 if ($this->debug) echo $this->db->last_query();
+                                
+                                //TODO for each user that has an order filled, create a record in the message
+                                
                                 
                                 //insert trade record
                                 // id 	user_id 	bid_id 	sell_id 	price 	amount 	total 	fee 	trade_datetime 	status
@@ -117,6 +123,8 @@ class Mdl_trade  extends CI_Model {
                                     );
                                 $trade_id = $this->db->insert_id();
                                 if ($this->debug) echo $this->db->last_query();
+                                $message['tables']= array('market_history');
+                                $message['tables']= array('market_history');
                                 
                                 //buyer fee
                                 $this->db->insert('open_fees',[
@@ -550,10 +558,6 @@ class Mdl_trade  extends CI_Model {
     private function post_node($message = array())
     {
             $url = NODEJS_SERVER.'/post';
-            $message = array(
-            'room' => 'EUR-NLG',
-                'message'=>'test message '. date('d-m-Y H:i:s')
-            );
             $data = json_encode($message);
             //open connection
             $ch = curl_init();
