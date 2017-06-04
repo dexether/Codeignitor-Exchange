@@ -252,7 +252,15 @@ class Admin extends MY_Controller
     public function user_stats() 
     {	
 	    $this->load->model('mdl_stats');
-	    $this->data['content'] = $this->load->view('admin/v_stats', [], true);
+
+	    $dt = new DateTime();
+	    $vars['year_list'] = [
+	    	$dt->sub(new DateInterval('P2Y'))->format('Y'),
+	    	$dt->add(new DateInterval('P1Y'))->format('Y'),
+	    	$dt->add(new DateInterval('P1Y'))->format('Y'),
+	    ];
+	    $this->data['content'] = $this->load->view('admin/v_stats', $vars, true);
+
 
     	if (empty($_POST)) {
 
@@ -284,11 +292,12 @@ class Admin extends MY_Controller
 			}
 
 			if ($_POST['func'] == 'get_by_month') {
-				$return = $this->mdl_stats->get_by_month($_POST['param']);
-				$year = date('Y');
-				$month = explode('-' ,$_POST['param'])[1];
+				$param = $_POST['param_y'] . '-' . $_POST['param_m'];
+				$return = $this->mdl_stats->get_by_month($param);
+				$year = $_POST['param_y'] ;
+				$month = $_POST['param_m'];
 
-				$vars['text'] = "'Number of new users for {$_POST['param']}'";
+				$vars['text'] = "'Number of new users for {$param}'";
 				$vars['js'] = '';
 				foreach ($return['month'] as $key => $value) {
 					$vars['js'] .= "{ x: new Date($year, $month, $key), y: {$value} },";
@@ -296,7 +305,19 @@ class Admin extends MY_Controller
 			}
 
 			if ($_POST['func'] == 'get_in_range') {
-				$this->mdl_stats->{$_POST['func']}($_POST['from'], $_POST['to']);
+				$from = $_POST['from'];
+				$to = $_POST['to'];
+				$return = $this->mdl_stats->{$_POST['func']}($from, $to);
+
+				$vars['text'] = "'Stats for $from to $to'";
+				$vars['js'] = '';
+				foreach ($return as $key => $value) {
+					$year = explode('-', $key)[0];
+					$month = explode('-', $key)[1];
+					$day = explode('-', $key)[2];
+
+					$vars['js'] .= "{ x: new Date($year, $month, $day), y: {$value} },";
+				}
 			}
 
 			$data = [];

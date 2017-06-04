@@ -1,10 +1,5 @@
 <div id="chartContainer"></div>
-
 <script>
-	$( function() {
-    	$( ".datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' }).val();
-  	} );
-
   	window.onload = function () {
     var chart = new CanvasJS.Chart("chartContainer",
     {

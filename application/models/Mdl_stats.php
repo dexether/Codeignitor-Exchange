@@ -114,9 +114,32 @@ class Mdl_Stats extends CI_Model
     		$to   = date('Y-m-d');
     	}
 
-    	$query = $this->db->query('SELECT COUNT(`id`) AS x FROM `users` WHERE `dateofreg` BETWEEN ? and ?', [$from, $to]);
+    	//$query = $this->db->query('SELECT COUNT(`id`) AS x FROM `users` WHERE `dateofreg` BETWEEN ? and ?', [$from, $to]);
     	
-    	return ($query->row()? $query->row()->x: 0);
+    	//return ($query->row()? $query->row()->x: 0);
+    	$a = strptime($from, '%Y-%m-%d');
+    	$from = mktime(0, 0, 0, $a['tm_mon']+1, $a['tm_mday'], $a['tm_year']+1900);
+
+    	$a = strptime($to, '%Y-%m-%d');
+    	$to = mktime(0, 0, 0, $a['tm_mon']+1, $a['tm_mday'], $a['tm_year']+1900) + 86400;
+
+    	$return = [];
+    	while ($from != $to) {
+    		$key = date('Y-m-d', $from);
+    		$qry = 'SELECT COUNT(`id`) AS x FROM `users` WHERE `dateofreg` = ?';
+    		
+    		$query = $this->db->query($qry, [$key]);
+    		$from += 86400;
+
+    		if(!$query->row()) {
+    			$return[$key] = 0;
+    			continue;
+    		}
+
+    		$return[$key] = $query->row()->x;
+    	};
+
+    	return $return;
     } 
 
 }
