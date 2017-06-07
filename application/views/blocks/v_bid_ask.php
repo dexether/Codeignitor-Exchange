@@ -114,32 +114,30 @@ echo '<script>FEE = \'', FEE , '\';</script>'
                                         </div>
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">If price rises to <?php echo $currency_sell; ?></label>
-                                                <input type="text"  name="price" class="form-control numvalid"  maxlength="15" value="<?php echo $buy_rate; ?>"  id="bb_price">
+                                                <label for="exampleInputEmail1">Trigger price <?php echo $currency_bid; ?></label>
+                                                <input type="text"  name="triggerprice" class="form-control numvalid"  maxlength="15" value=""  id="bb_price">
                                                 <small> <?php echo $currency_bid; ?> </small>
                                             </div>
                                         </div>
                                     </div>
-                                    <form class="form-horizontal cls_as">
+                                    <div class="row">
+
+
                                     <div class="form-group">
                                         <div class="col-sm-8">
-                                            <ul>
-                                                <li>
-                                                    <span class="name" style="font-size:12px;">Trailing stop</span>
-                                                    <span class="pull-right" style="margin-top: -8px; text-align:right;">
-                                                        <div class="checkbox">
-                                                            <input type="checkbox" name="buytrailing_stop" id="buytrailing_stop" value="trailing_stop" >
-                                                        </div>
-                                                    </span>
-                                                </li>
-                                            </ul>
+                                             <div class="form-group">
+                                                <label for="exampleInputEmail1">for price  <?php echo $currency_bid; ?></label>
+                                                <input type="text"  name="price" class="form-control numvalid"  maxlength="15" value=""  id="bb_price">
+                                                <small> <?php echo $currency_bid; ?> </small>
+                                            </div>
                                       </div>
                                     </div> 
+                                        </div>
                                     <div id="b_comm1" class="click_sum" style="height: 35px;font-weight: bold; color:red"></div>
                                     <input type="hidden" name="b_fee" id="b_fee" value="" >
                                     <div class="cls_line_bot"> </div>
                                     <div align="center" class=""><button type="button" id="buy_button_stop" class="cls_buy_btn" onclick="return rambo_calculate('buy');" > Buy <?php echo $currency_sell; ?> </button> </div>
-                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -240,27 +238,32 @@ echo '<script>FEE = \'', FEE , '\';</script>'
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Sell Price rises to :</label>
+                                            <label for="exampleInputEmail1">Trigger Sell Price  <?php echo $currency_bid; ?></label>
                                             <input type="text"  <?php echo $pro; ?> class="form-control numvalid"  maxlength="15" value="<?php echo $sell_rate; ?>"  id="ss_price">
-                                            <small> <?php echo $currency_sell; ?> </small>
+                                            <small> <?php echo $currency_bid; ?> </small>
                                         </div>
                                     </div>
                                 </div>
 
-                                <form class="form-horizontal cls_as">
+
+                                <div class="row">
                                     <div class="form-group">
                                         <div class="col-sm-8">
-                                            <ul ><li ><span class="name" style="font-size:12px;">Trailing stop</span><span class="pull-right" style="margin-top: -8px; text-align:right;"><div class="checkbox">
-                                                            <input type="checkbox" value="trailing_stop" name="selltrailing_stop" id="selltrailing_stop">
-                                                        </div></span></li></ul>
+                                          <div class="form-group">
+                                                <label for="exampleInputEmail1">for price  <?php echo $currency_bid; ?></label>
+                                                <input type="text"  name="price" class="form-control numvalid"  maxlength="15" value=""  id="bb_price">
+                                                <small> <?php echo $currency_bid; ?> </small>
+                                            </div>
                                         </div>
                                     </div> 
+
                                     <div id="s_comm1" class="click_sum" style="height: 35px;font-weight: bold; color:red"></div>
                                     <input type="hidden" name="s_fee" id="s_fee" value="" >
-
+                                </div>div>
                                     <div class="cls_line_bot"> </div>
                                     <div align="center" class=""><button type="button" id="stop_buy_button" class="cls_buy_btn" onclick="return rambo_calculate('sell');" > Sell <?php echo $currency_sell; ?> </button> </div>
-                                </form>
+
+
                             </div>
                         </div>
                     </div>
