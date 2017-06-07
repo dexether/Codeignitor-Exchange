@@ -123,8 +123,8 @@ class Mdl_trade  extends CI_Model {
                                     );
                                 $trade_id = $this->db->insert_id();
                                 if ($this->debug) echo $this->db->last_query();
-                                $message['tables']= array('market_history');
-                                $message['tables']= array('market_history');
+                                $message['tables']['market_history']= 
+                                    array('type'=>'buy', $bid=>$bidprice,$sell=>$amount, 'date'=>date('Y-m-d H:i:s'));
                                 
                                 //buyer fee
                                 $this->db->insert('open_fees',[
@@ -247,6 +247,15 @@ class Mdl_trade  extends CI_Model {
                         if ($this->debug) echo 'found order!';
                         
                     }
+                    else
+                    {
+                        //no trade, send full bid order
+                        //"ORDER_ADD": 
+                        //{"EUR": 0.06, "NLG":100, "FILL":30, "date": "2017-05-2017 12:35:34",”ID”:”85349” }
+                        $message['user_1']['order_add'] = array($bid=>$bidprice,$sell=>$amount,'fill'=>0, 'date'=>date('y-m-d :H:i:s'), 'id'=>$order_id);
+                        $message['tables']['bid_add'] = array($bid=>$bidprice,$sell=>$amount);
+                    }
+                    
                     
                 
                 $this->db->trans_complete();
