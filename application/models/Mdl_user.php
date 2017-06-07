@@ -50,7 +50,7 @@ class Mdl_user extends CI_Model
 
     function check_login()
     {
-        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, secret, status, password FROM `users` where email=?", array($this->input->post('email', true)));
+        $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, secret, status, password, profilepicture FROM `users` where email=?", array($this->input->post('email', true)));
 
         if ($res_loguser->num_rows() == 1) {
             $row = $res_loguser->row();
@@ -62,11 +62,16 @@ class Mdl_user extends CI_Model
             if (password_verify($this->input->post('password', true), $row->password) === true) {
 
                 if ($row->randcode == "enable") {
+                    $show_picture = '/tools/show_profile_picture/';
+                    $profilepicture = $row->profilepicture;
+                    $profile_picture = (!empty(trim($profilepicture))?$show_picture . $row->profilepicture: FALSE);
+
                     //save some session data, so we know he is already logged in.
                     $sessiondata = array(
                         'pending_user_id' => $row->id,
                         'secret' => $row->secret,
-                        'role' => 'empty'
+                        'role' => 'empty',
+                        'profile_picture' => $profile_picture
                     );
                     $this->session->set_userdata($sessiondata);
 
@@ -415,7 +420,7 @@ class Mdl_user extends CI_Model
             }
         } else {
             if ($code == 1) {
-                $this->db->where('user_id', $customer_user_id);
+                $this->db->where('id', $customer_user_id);
                 $data = array(
                     'secret' => $secret_code,
                     'onecode' => $onecode,

@@ -33,9 +33,9 @@
 
                 <div class="col-md-8 col-sm-7  col-xs-8 col-lg-9">
                   <ul class="list-inline list-unstyled pull-right cls_after_he">
-                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <img src="<?php echo base_url(); ?>images/user_icon.png" alt=""> <?php echo $this->session->firstname; ?> <span class=""><i class="fa fa-angle-down"></i></span></a>
+                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <div id='profile_img'><img width='50' height='50' src="<?php echo base_url();  echo ($this->session->profile_picture?$this->session->profile_picture:'images/user_icon.png');?>" alt=""> <?php echo $this->session->firstname; ?> </div><span class=""><i class="fa fa-angle-down"></i></span></a>
                       <ul class="dropdown-menu">
-                        <li><a href="<?php echo base_url(); ?>user/profile">My account</a></li>
+                        <li><a href="<?php echo base_url(); ?>user/profile">My Account</a></li>
                         <li><a href="<?php echo base_url(); ?>user/change_password">Change Password</a></li>
                         <li><a href="<?php echo base_url(); ?>user/bank_info">Bank Details</a></li>
                         <li><a href="<?php echo base_url(); ?>user/trade_verification">Trade Verification</a></li>

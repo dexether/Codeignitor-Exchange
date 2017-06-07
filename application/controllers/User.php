@@ -403,6 +403,7 @@ class User extends MY_Controller
             }
             $this->mdl_user->profile_update($data, $user->id);
             $params['profilepicture'] = ''; // sign of removed profile picture
+            $this->session->profile_picture = FALSE ;
         }
 
         echo $this->make_json_result('ok', 'Profile picture has been removed successfully', $params);
@@ -460,7 +461,7 @@ class User extends MY_Controller
 
     	if ($this->form_validation->run() == true) {
          $result = $this->mdl_user->enable_tfa();
-    		if($result == "Enable"){
+    		if($result === "Enable"){
     			$this->session->set_flashdata('success', "Your TFA Activated");
     		}else{
     			$this->session->set_flashdata('error', "Invalid TFA Code");
