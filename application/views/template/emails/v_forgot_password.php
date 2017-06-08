@@ -3,7 +3,7 @@
   <tbody>
    <tr>
     <td>
-      <h3>Dear <?php echo (isset($username))? $username : '' ?>,</h3>
+      <h3>Hello <?php echo (isset($username))? $username : '' ?>,</h3>
       <p>You have requested a password reset at <b><?php echo APP_TITLE ?></b> 
          for username: <?php echo (isset($username))? $username : '' ?>
        <br/>
