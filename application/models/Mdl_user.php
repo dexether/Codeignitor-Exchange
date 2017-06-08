@@ -581,10 +581,10 @@ class Mdl_user extends CI_Model
                 $this->common_mail($email, 'Password change', $email_content);
 
             } else {
-                echo "Error in password updation";
+                return FALSE;
             }
         } else {
-            echo "Incorrect Old Password ";
+            return FALSE;
         }
     }
 

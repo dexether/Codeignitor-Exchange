@@ -11,6 +11,9 @@ $(document).ready(function() {
 		newpassword1:{required:true,equalTo:"#newpassword"}
 	},
 
+
+	// DELETE IN PRODUCTION
+	/*
 	submitHandler: function (form)
 	{
 		var data = $('#password_form').serialize();
@@ -25,6 +28,6 @@ $(document).ready(function() {
 				//window.location = base_url+'user/logout';
 			}
 		});
-	}
+	}*/
 });
 });
