@@ -109,14 +109,33 @@ class Mdl_user extends CI_Model
         $res_loguser = $this->db->query("SELECT id, firstname, role, randcode, secret, status, password FROM `users` where id=?", array($this->session->pending_user_id));
         $row = $res_loguser->row();
         $this->session->pending_user_id = NULL;
+
+        $tfa = ($row->randcode==='enable'?TRUE:FALSE);
         $sessiondata = array(
             'user_id' => $row->id,
             'firstname' => $row->firstname,
-            'tfa' => $row->randcode,
+            'tfa' => $tfa,
             'secret' => $row->secret,
             'status' => $row->status,
             'role' => $row->role
         );
+
+        $verification_trade = $this->db->query("SELECT `verification_status` FROM `user_verification` WHERE `user_id` = {$sessiondata['user_id']}");
+        $row = $verification_trade->row();
+        if ($row) {
+            $sessiondata['trade_verification'] = ( $row->verification_status === 'verified'? 'verified': 'pending' );
+        } else {
+            $sessiondata['trade_verification'] = 'open';
+        }
+
+        $verification_bank = $this->db->query("SELECT `status` FROM `user_bank_details` WHERE `user_id` = {$sessiondata['user_id']}");
+        $row = $verification_trade->row();
+        if ($row) {
+            $sessiondata['bank_verification'] = ( $row->user_bank_details === 1? 'verified': 'pending' );
+        } else {
+            $sessiondata['bank_verification'] = 'open';
+        }
+
         $this->session->set_userdata([]);
         $this->session->set_userdata($sessiondata);
         return;
