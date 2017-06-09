@@ -6,6 +6,7 @@ foreach($css_files as $file): ?>
 	<script src="<?php echo $file; ?>"></script>
 <?php endforeach; ?>
 <?php echo $output; ?>
+<?php echo (!empty($message)? '<p class="alert alert-error">No valid IBAN or BIC to store.</p>': '')?>
 
 
 <?php

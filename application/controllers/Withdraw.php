@@ -47,7 +47,7 @@ class Withdraw extends MY_Controller
 
 	        if ((float)$amount <= (float)$currency_info['balance'] && $amount !== 0) {
 	            
-	            $this->session->pending_curr = [ 'type'=>$currency_info['name'] ,'amount'=>$amount ];
+	            $this->session->pending_curr = [ 'type'=>$currency_info['name'] , 'amount'=>$amount ];
 	            redirect('/tfa/display/currency_withdraw');
 	            return;
 	        }

@@ -110,7 +110,7 @@ class Admin extends MY_Controller
 		return $template;
         }
 
-	public function withdraw()
+	public function withdraw($message = '')
 	{
 		auth(['admin','superadmin']);
                 $upload_path = 'uploads';
@@ -130,6 +130,7 @@ class Admin extends MY_Controller
         }
 
 		$output = $crud->render();
+		$output->message = $message;
 		$this->data['content'] = $this->load->view('admin/v_grocery_crud_withdraw', (array) $output, true);
 		view($this->data, 'admin');
 	}
