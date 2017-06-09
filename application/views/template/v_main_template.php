@@ -116,6 +116,7 @@
 <script src="<?php echo base_url(); ?>js/jquery.validate.min.js"></script>
 <script src="<?php echo base_url(); ?>js/numericInput.min.js"></script>
 <script src="<?php echo base_url(); ?>js/base.js"></script>
+<script src="<?php echo base_url(); ?>js/room/socket.io/vendor/socket.io.min.js"></script>
 <script src="<?php echo base_url(); ?>js/roomservice.js"></script>
 <?php if(isset($head_js)) echo $head_js; ?>
 </body>

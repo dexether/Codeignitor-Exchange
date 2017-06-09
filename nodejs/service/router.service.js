@@ -1,11 +1,10 @@
-function Route(server) {
+function Route(server, worker) {
     //Init the server from the main module server.js
     var app = server;
 
     //DEVELOPMENT: Add a module and create the object to have the fake data
     var Fake = require('./fake');
     var fakeData = new Fake();
-
 
     //POST request from the pagination
     app.post('/get_next_records', function (req, res) {
@@ -71,7 +70,7 @@ function Route(server) {
 
     //POST request to get init data for the room
     app.post('/order-history', function (req, res) {
-        if(req.body.action === 'delete'){
+        if (req.body.action === 'delete') {
             // ... do something
             //if the action have successful finish
             res.send({
@@ -80,15 +79,18 @@ function Route(server) {
             });
         }
     });
-    
+
     //POST request to get init data for the room
     app.get('/get_init_data', function (req, res) {
+        process.send({'table': 'table-ask', 'worker': worker,
+            'data': {'count': 205, 'first': 'fakeData.fake(200, 1, 205)'}});
+
         //Object of the request body: 
         //req.body = {
         //  'room'      : 'EUR-NLG'', - this is the room where a user is,
         //}
-        
-        
+
+
         //on front-end side next object of the response is expected : 
         //        {
         //           'user': {                       //the info about the user and this session

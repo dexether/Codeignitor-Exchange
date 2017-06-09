@@ -3,7 +3,7 @@
 function ClientSockets(objectOfTables, user) {
 
     //Fetch the libs
-    var io = require('./vendor/socket.io.min');
+  //  var io = require('./vendor/socket.io.min');
 
     //Get the name of the room
     var room = user.room;
@@ -14,56 +14,62 @@ function ClientSockets(objectOfTables, user) {
             orderOpen = objectOfTables['openOrders'],
             orderHistory = objectOfTables['orderHistory'];
 
-    return function () {
+    return {
+        start: function () {
 
-        if (!window.WebSocket) {
-            alert('Your browser does not support WebSocket.');
-        } else {
-            // create connection
-            var socket = io.connect('http://node.guldentrader.com');
+            if (!window.WebSocket) {
+                alert('Your browser does not support WebSocket.');
+            } else {
+                // create connection
+             //   var socket = io.connect('http://node.guldentrader.com');
+                var socket = io.connect('http://localhost:8080', {transports: ['websocket']});
 
-            var ch = require('../sevices/chart');
+                var ch = require('../sevices/chart');
 
 
-            var chart = new ch;
-            chart.init(user);
-            chart.createChart();
+                var chart = new ch;
+                chart.init(user);
+                chart.createChart();
 
-            //Connection to the room
-            socket.emit('market', {'room': room, 'userId': user.userId, 'user_hash': user.hash});
+                //Connection to the room
+                socket.emit('market', {'room': room, 'userId': user.userId, 'user_hash': user.hash});
 
-            socket.on('market', function (msg) {
-                switch (msg['table']) {
-                    case 'table-bids':
-                    {
-                        bids.updateValue(msg['data']);
-                        break;
+                socket.on('market', function (msg) {
+                    console.log(msg);
+
+                    switch (msg['table']) {
+                        case 'table-bids':
+                        {
+                            bids.updateValue(msg['data']);
+                            break;
+                        }
+
+                        case 'table-ask':
+                        {
+                            ask.updateValue(msg['data']);
+                            break;
+                        }
+
+                        case 'chart':
+                        {
+                            //console.log(msg['data']);
+                            chart.stream(msg['data']);
+                            break;
+                        }
+
+                        default:
+                        {
+                            console.log(msg);
+                            break;
+                        }
                     }
+                });
 
-                    case 'table-ask':
-                    {
-                        ask.updateValue(msg['data']);
-                        break;
-                    }
-
-                    case 'chart':
-                    {
-                        //console.log(msg['data']);
-                        chart.stream(msg['data']);
-                        break;
-                    }
-
-                    default:
-                    {
-                        console.log(msg);
-                        break;
-                    }
-                }
-            });
-
+            }
+            ;
         }
-        ;
     };
+
 }
 ;
 
