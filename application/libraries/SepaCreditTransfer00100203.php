@@ -10,7 +10,7 @@
  */
 
 //namespace AbcAeffchen\Sephpa;
-use \SepaUtilities;
+//use SepaUtilities;
 
 /**
  * Manages credit transfers

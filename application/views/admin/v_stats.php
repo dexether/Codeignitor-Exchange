@@ -6,9 +6,9 @@
 			<h3>Search By Year</h3>
 			<form method="POST">
 				<select name="param">
-					<option value="2016">2016</option>
-					<option value="2017">2017</option>
-					<option value="2016">2018</option>
+					<?php foreach($year_list as $key=>$value):?>
+						<?php echo "<option value='$value'>$value</option>"; ?>
+					<?php endforeach;?>
 				</select>
 				<button name='func' value="get_by_year">Search</button>
 			</form>
@@ -17,10 +17,25 @@
 		<div id="month_selector">
 			<h3>Search By Month</h3>
 			<form method="POST">
-				<select name="param">
-					<option value="2017-05">2017-05</option>
-					<option value="2017-04">2017-06</option>
-					<option value="2017-06">2017-07</option>
+				<select name="param_y">
+					<?php foreach($year_list as $key=>$value):?>
+						<?php echo "<option value='$value'>$value</option>"; ?>
+					<?php endforeach;?>
+				</select>
+
+				<select name="param_m">
+					<option value="01">Jan</option>
+					<option value="02">Feb</option>
+					<option value="03">Mar</option>
+					<option value="04">Apr</option>
+					<option value="05">May</option>
+					<option value="06">Jun</option>
+					<option value="07">Jul</option>
+					<option value="08">Aug</option>
+					<option value="09">Sept</option>
+					<option value="10">Oct</option>
+					<option value="11">Nov</option>
+					<option value="12">Dec</option>
 				</select>
 				<button name='func' value="get_by_month">Search</button>
 			</form>
@@ -39,28 +54,7 @@
 	<br><br>
 	<hr>
 
-<?php if(isset($type)): ?>
-	<div id="stats">
-		<div id="days">
-			<h4>This Week</h4>
-			<p>Today  we have <?= $today; ?> new users.</p>
-			<p>Yesterday: <?= $yesterday; ?></p>
-			<p>This Week: <?= $this_week; ?></p>
-			<p>Last Week: <?= $last_week; ?></p>
-		</div>
 
-		<div id="month">
-			<h4>This month</h4>
-			<p>This month we have <?= $this_month; ?></p>
-			<p>Last month: <?= $last_month; ?></p>
-		</div>
-
-		<div id='year'>
-			<h4>This year</h4>
-			<p>This year we have <?= $year; ?> new users</p>
-		</div>
-	</div>
-<?php endif; ?>
 <script>
 	$( function() {
     	$( ".datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' }).val();

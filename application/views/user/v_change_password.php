@@ -39,8 +39,10 @@
               <div class="col-sm-6">
                <button type="submit" class="cls_dow_btn" id="password_update" name="password_update">  Update Password </button> 
              </div>
+             <br>
            </div>
          <?php echo form_close(); ?>
+          <?= (isset($alert)? $alert: ''); ?>
        </div>
      </div>
    </div>

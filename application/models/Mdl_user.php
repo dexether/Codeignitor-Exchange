@@ -62,12 +62,17 @@ class Mdl_user extends CI_Model
             if (password_verify($this->input->post('password', true), $row->password) === true) {
 
                 if ($row->randcode == "enable") {
+                    $show_picture = '/tools/show_profile_picture/';
+                    $profilepicture = $row->profilepicture;
+                    $profile_picture = (!empty(trim($profilepicture))?$show_picture . $row->profilepicture: FALSE);
+
                     //save some session data, so we know he is already logged in.
                     $sessiondata = array(
                         'pending_user_id' => $row->id,
                         'secret' => $row->secret,
-                        'salt' => $row->salt,
-                        'role' => 'empty'
+                        'role' => 'empty',
+                        'profile_picture' => $profile_picture
+
                     );
                     $this->session->set_userdata($sessiondata);
 
@@ -106,15 +111,34 @@ class Mdl_user extends CI_Model
         $res_loguser = $this->db->query("SELECT id, firstname, role, salt, randcode, secret, status, password FROM `users` where id=?", array($this->session->pending_user_id));
         $row = $res_loguser->row();
         $this->session->pending_user_id = NULL;
+
+        $tfa = ($row->randcode==='enable'?TRUE:FALSE);
         $sessiondata = array(
             'user_id' => $row->id,
             'firstname' => $row->firstname,
-            'tfa' => $row->randcode,
+            'tfa' => $tfa,
             'secret' => $row->secret,
             'status' => $row->status,
             'salt' => $row->salt,
             'role' => $row->role
         );
+
+        $verification_trade = $this->db->query("SELECT `verification_status` FROM `user_verification` WHERE `user_id` = {$sessiondata['user_id']}");
+        $row = $verification_trade->row();
+        if ($row) {
+            $sessiondata['trade_verification'] = ( $row->verification_status === 'verified'? 'verified': 'pending' );
+        } else {
+            $sessiondata['trade_verification'] = 'open';
+        }
+
+        $verification_bank = $this->db->query("SELECT `status` FROM `user_bank_details` WHERE `user_id` = {$sessiondata['user_id']}");
+        $row = $verification_trade->row();
+        if ($row) {
+            $sessiondata['bank_verification'] = ( $row->user_bank_details === 1? 'verified': 'pending' );
+        } else {
+            $sessiondata['bank_verification'] = 'open';
+        }
+
         $this->session->set_userdata([]);
         $this->session->set_userdata($sessiondata);
         return;
@@ -123,6 +147,15 @@ class Mdl_user extends CI_Model
     //TODO - make sure SALT is unique, its use to obscure user_id
     public function add_user()
     {
+        $query = $this->db->query('SELECT `users_num` FROM `monthly_registrations` WHERE `month-year` = ?', [date('Y-m')]);
+        if (!$query->row()) {
+            $this->db->query('INSERT INTO `monthly_registrations` (`month-year`, `users_num`) VALUES (?, ?);', [date('Y-m'), 1]);
+        } else {
+            $increment = (int)$query->row()->users_num;
+            $increment++;
+            $this->db->query('UPDATE `monthly_registrations` SET `users_num`=? WHERE `month-year`=?',[$increment, date('Y-m')]);
+        }
+
         $dateofreg = date('Y-m-d');
         $user_ip = $this->input->ip_address();
         $this->load->library('user_agent');
@@ -409,7 +442,7 @@ class Mdl_user extends CI_Model
             }
         } else {
             if ($code == 1) {
-                $this->db->where('user_id', $customer_user_id);
+                $this->db->where('id', $customer_user_id);
                 $data = array(
                     'secret' => $secret_code,
                     'onecode' => $onecode,
@@ -570,10 +603,10 @@ class Mdl_user extends CI_Model
                 $this->common_mail($email, 'Password change', $email_content);
 
             } else {
-                echo "Error in password updation";
+                return FALSE;
             }
         } else {
-            echo "Incorrect Old Password ";
+            return FALSE;
         }
     }
 

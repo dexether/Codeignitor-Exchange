@@ -6,6 +6,7 @@ class Create_Sepa extends MY_Controller
 	private $creditTransferFile;
 	private $creditTransferCollection;
 	private $message_id;
+	private $users;
 
 	public function __construct()
 	{
@@ -27,6 +28,25 @@ class Create_Sepa extends MY_Controller
 		$date = date('Y-m-d', time());
 		$time = date('H:i:s:u');
 		$this->message_id = $date . 'T' . $time;
+
+		$this->load->model('mdl_sepa');
+		$data = $this->mdl_sepa->prepare();
+		
+		foreach($data as $user) {
+
+			if(!SepaUtilities::checkIban($user['IBAN']) OR !SepaUtilities::checkBic($user['BIC'])) {
+				continue;
+			}
+
+			$this->users[] = [
+				'transaction' 	=> $user['transaction'],
+				'IBAN' 			=> $user['IBAN'],
+				'BIC'  			=> $user['BIC'],
+				'amount'		=> $user['amount'] - TAXSEPA,
+				'name' 			=> $user['firstname'] . ' ' . $user['lastname'],
+
+			];
+		}
 	}
 
 	public function index() 
@@ -37,14 +57,15 @@ class Create_Sepa extends MY_Controller
 		$this->load->model('mdl_sepa');
 		$data = $this->mdl_sepa->prepare();
 		
-		foreach($data as $user) {
+		if (empty($this->users)) {
+			redirect('admin/withdraw/valid_error');
+			return;
+		}	
 
-			/*if(!SepaUtilities::checkIban($user['IBAN']) OR !SepaUtilities::checkBic($user['BIC'])) {
-				continue;
-			}*/
+		foreach($this->users as $user) {
 
 			$amount = $user['amount'] - TAXSEPA;
-			$this->add_payment( $user['transaction'], $amount, $user['IBAN'], $user['BIC'], $user['firstname'] . ' ' . $user['lastname'] );
+			$this->add_payment( $user['transaction'], $amount, $user['IBAN'], $user['BIC'], $user['name']);
 		}
 
 		$filename =  APPPATH . 'SEPA/sepa'.date('Y-m-d.');

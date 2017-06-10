@@ -46,7 +46,7 @@ class Migration_Bank extends CI_Migration {
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];
         $fields['currency'] = ['type' => 'VARCHAR','constraint' => 4];
         $fields['type'] = ['type' => 'VARCHAR','constraint' => 10]; // deposit or witdrawal;
-        $fields['amount'] = ['type' => 'DECIMAL','constraint' => '12,8'];
+        $fields['amount'] = ['type' => 'DECIMAL','constraint' => '18,8'];
         $fields['sort'] = ['type' => 'VARCHAR','constraint' => 15]; // percentage or fixed
         $fields['date_added'] = ['type' => 'DATE'];
         $fields['status'] = ['type' => 'VARCHAR','constraint' => 10];
@@ -67,7 +67,7 @@ class Migration_Bank extends CI_Migration {
 
         $fields['amount'] = ['type' => 'DECIMAL','constraint' => '16,8'];
         $fields['total'] = ['type' => 'DECIMAL','constraint' => '16,8'];
-        $fields['fee'] = ['type' => 'DECIMAL','constraint' => '12,8']; // percentage or fixed
+        $fields['fee'] = ['type' => 'DECIMAL','constraint' => '16,8']; // percentage or fixed
 
         $fields['trade_datetime'] = ['type' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'];
         $fields['status'] = ['type' => 'VARCHAR','constraint' => 10];
@@ -89,7 +89,7 @@ class Migration_Bank extends CI_Migration {
         $fields['price'] = ['type' => 'DECIMAL','constraint' => '16,8'];
         $fields['amount'] = ['type' => 'DECIMAL','constraint' => '16,8'];
         $fields['total'] = ['type' => 'DECIMAL','constraint' => '16,8'];
-        $fields['fee'] = ['type' => 'DECIMAL','constraint' => '12,8']; // percentage or fixed
+        $fields['fee'] = ['type' => 'DECIMAL','constraint' => '16,8']; // percentage or fixed
 
         $fields['trade_datetime'] = ['type' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'];
         $fields['status'] = ['type' => 'VARCHAR','constraint' => 10];
@@ -166,7 +166,7 @@ class Migration_Bank extends CI_Migration {
 
         $fields['amount'] = ['type' => 'DECIMAL','constraint' => '16,8'];
         $fields['total'] = ['type' => 'DECIMAL','constraint' => '16,8'];
-        $fields['fee'] = ['type' => 'DECIMAL','constraint' => '12,8']; // percentage or fixed
+        $fields['fee'] = ['type' => 'DECIMAL','constraint' => '16,8']; // percentage or fixed
 
         $fields['order_date'] = ['type' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'];
         $fields['status'] = ['type' => 'VARCHAR','constraint' => 10];
@@ -190,7 +190,7 @@ class Migration_Bank extends CI_Migration {
         $fields['price'] = ['type' => 'DECIMAL','constraint' => '16,8'];
         $fields['amount'] = ['type' => 'DECIMAL','constraint' => '16,8'];
         $fields['total'] = ['type' => 'DECIMAL','constraint' => '16,8'];
-        $fields['fee'] = ['type' => 'DECIMAL','constraint' => '12,8']; // percentage or fixed
+        $fields['fee'] = ['type' => 'DECIMAL','constraint' => '16,8']; // percentage or fixed
         $fields['order_date'] = ['type' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'];
         $fields['status'] = ['type' => 'VARCHAR','constraint' => 10];
         $fields['stoporder_price'] = ['type' => 'DECIMAL','constraint' => '16,8'];

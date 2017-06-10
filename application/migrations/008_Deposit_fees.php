@@ -10,7 +10,7 @@ class Migration_Deposit_fees extends CI_Migration {
 
     public function up() {
 
-        // balance
+        
         $fields = [];
         $fields['id'] = ['type' => 'INT','constraint' => 11,'auto_increment' => true];
         $fields['user_id'] = ['type' => 'INT','constraint' => 11];

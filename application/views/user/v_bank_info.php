@@ -40,13 +40,13 @@ if($this->session->flashdata('success')){
              </div>
            </div>
            <div class="form-group">
-              <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Bank account number *</label>
+              <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Bank account number/IBAN *</label>
               <div class="col-sm-6">
                <input type="text" class="form-control numvalid" name="iban" id="iban" placeholder="Bank account number "  value="<?php echo isset($bank->inter_banking_code) ? $bank->inter_banking_code : '' ?>"> 
              </div>
            </div>
            <div class="form-group">
-              <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">bank routing number or BIC *</label>
+              <label for="inputEmail3" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">bank routing number/BIC *</label>
               <div class="col-sm-6">
                <input type="text" class="form-control numvalid" name="routing_number" id="routing_number" placeholder="Routing Number "  value="<?php echo isset($bank->routing_number) ? $bank->routing_number :'' ?>"> 
              </div>

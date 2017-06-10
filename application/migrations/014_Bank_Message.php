@@ -18,7 +18,7 @@ class Migration_Bank_Message extends CI_Migration {
         $fields = array(
                 'message' => array('type' => 'TEXT')
         );
-     //   $this->dbforge->add_column('user_bank_details', $fields);
+        $this->dbforge->add_column('user_bank_details', $fields);
     }
 }
 ?>

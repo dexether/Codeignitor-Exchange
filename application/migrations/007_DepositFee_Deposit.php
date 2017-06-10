@@ -22,9 +22,8 @@ class Migration_DepositFee_Deposit extends CI_Migration {
                 'type'          => 'FLOAT',
                 'constraint'    => '5,2',
                 'null'          => false,
-                'after'         => 'type'
             ],
         ];
-        //$this->dbforge->add_column('deposits', $fields);
+        $this->dbforge->add_column('deposits', $fields);
     }
 }

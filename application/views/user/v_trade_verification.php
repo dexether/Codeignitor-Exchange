@@ -46,7 +46,7 @@ if($this->session->flashdata('errors')){
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="passport" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Passport</label>
+							<label for="passport" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Passport or ID card<br> (For security purposes)</label>
 							<div class="col-sm-6">
 								<?php
 
@@ -62,7 +62,7 @@ if($this->session->flashdata('errors')){
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="selfie" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Selfie</label>
+							<label for="selfie" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Your Picture/Selfie<br> (We have to match your ID with your picture for security purposes)</label>
 							<div class="col-sm-6">
 								<?php if (isset($bank->selfie) && $bank->selfie): ?>
 									<img src="<?php echo $bank->selfie_url ?>" class='img-responsive'>
@@ -76,7 +76,7 @@ if($this->session->flashdata('errors')){
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="backcard" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Backcard</label>
+							<label for="backcard" class=" col-sm-4  col-sm-offset-2  col-md-3  col-md-offset-2 control-label">Bankcard <br>(For security purposes)</label>
 							<div class="col-sm-6">
 								<?php if (isset($bank->backcard) && $bank->backcard): ?>
 									<img src="<?php echo $bank->backcard_url ?>" class='img-responsive'>

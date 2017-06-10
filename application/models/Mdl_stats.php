@@ -47,6 +47,9 @@ class Mdl_Stats extends CI_Model
     		$month = $dt->format('Y-m');
     	}
 
+    	$param_year = (int)explode('-', $month)[0];
+    	$param_month = (int)explode('-', $month)[1];
+
     	$query = $this->db->query('SELECT `users_num` FROM `monthly_registrations` WHERE `month-year` = ?', [$month]);
     	$month = (!is_null($query->row())?$query->row()->users_num: '0');
 
@@ -55,7 +58,24 @@ class Mdl_Stats extends CI_Model
     	$query = $this->db->query('SELECT `users_num` FROM `monthly_registrations` WHERE `month-year` = ?', [$lmonth]);
     	$last_month = (!is_null($query->row())?$query->row()->users_num: '0');
 
+    	$days = $number = cal_days_in_month(CAL_GREGORIAN, $param_month, $param_year);
+    	$month_num = [];
+    	while ($days) {
+    		$day = ($days > 9? $days: '0' . $days);
+    		$param = $param_year . '-' . $param_month . '-' . $day;
+    		$query = 'SELECT COUNT(id) AS x FROM `users` WHERE `dateofreg` = ?';
+    		$query = $this->db->query($query, [$param]);
+
+    		if ($query->row()) {
+    			$month_num[$day] = $query->row()->x;
+    		} else {
+    			$month_num[$day] = 0;
+    		}
+    		$days--;
+    	}
+    	
     	return [
+    		'month' 	 => $month_num,
     		'this_month' => $month,
     		'last_month' => $last_month,
     	];
@@ -68,18 +88,22 @@ class Mdl_Stats extends CI_Model
     	}
 
     	$months = [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12' ];
-    	$result = 0;
-    	foreach ($months as $month) {
+    	$yearnum = 0;
+    	foreach ($months as $key=>$month) {
     		$param = $year . '-' . $month;
-    		$qry = 'SELECT `users_num` FROM `monthly_registrations` WHERE `month-year` = ?';
+    		$qry = 'SELECT * FROM `monthly_registrations` WHERE `month-year` = ?';
     		$query = $this->db->query($qry, [$param]);
     		
     		if ($query->row()) {
-    			$result += (int)$query->row()->users_num;
+    			$result[$month]['num'] = (int)$query->row()->users_num;
+    			$yearnum += (int)$query->row()->users_num;
     			continue;
-    		}
+    		} 
+
+    		$result[$month]['num'] = 0;
     	}
 
+    	$result['num'] = $yearnum;
     	return $result;
     }
 
@@ -90,9 +114,32 @@ class Mdl_Stats extends CI_Model
     		$to   = date('Y-m-d');
     	}
 
-    	$query = $this->db->query('SELECT COUNT(`id`) AS x FROM `users` WHERE `dateofreg` BETWEEN ? and ?', [$from, $to]);
+    	//$query = $this->db->query('SELECT COUNT(`id`) AS x FROM `users` WHERE `dateofreg` BETWEEN ? and ?', [$from, $to]);
     	
-    	return ($query->row()? $query->row()->x: 0);
+    	//return ($query->row()? $query->row()->x: 0);
+    	$a = strptime($from, '%Y-%m-%d');
+    	$from = mktime(0, 0, 0, $a['tm_mon']+1, $a['tm_mday'], $a['tm_year']+1900);
+
+    	$a = strptime($to, '%Y-%m-%d');
+    	$to = mktime(0, 0, 0, $a['tm_mon']+1, $a['tm_mday'], $a['tm_year']+1900) + 86400;
+
+    	$return = [];
+    	while ($from != $to) {
+    		$key = date('Y-m-d', $from);
+    		$qry = 'SELECT COUNT(`id`) AS x FROM `users` WHERE `dateofreg` = ?';
+    		
+    		$query = $this->db->query($qry, [$key]);
+    		$from += 86400;
+
+    		if(!$query->row()) {
+    			$return[$key] = 0;
+    			continue;
+    		}
+
+    		$return[$key] = $query->row()->x;
+    	};
+
+    	return $return;
     } 
 
 }

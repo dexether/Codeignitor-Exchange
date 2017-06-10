@@ -197,19 +197,34 @@ class User extends MY_Controller
         if (!$this->session->user_id > 0) {
             redirect('/');
         }
+        $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.])[A-Za-z\d$@$!%*?&#.]{8,}/';
+        $password = (isset($_POST['newpassword'])?$_POST['newpassword']:'');
+        $vars = [];
+
         $this->load->model('mdl_balance', 'balance');
         $this->l_asset->add('js/user/change_password.js', 'js');
-        $this->form_validation->set_rules('oldpassword', 'oldpassword', 'required|trim');
-        $this->form_validation->set_rules('newpassword', 'newpassword', 'required|trim');
+        $this->form_validation->set_rules('oldpassword', 'Old Password', 'required|trim');
+        $this->form_validation->set_rules('newpassword', 'New Password', 'trim|required|min_length[8]|max_length[30]');
 
-        if ($this->form_validation->run() == true) {
-            $this->mdl_user->change_password();
-        } else {
-
-            $this->data['content'] = $this->load->view('user/v_change_password', [], true);
-
+        if (!preg_match($password_regex, $password) && $this->form_validation->run() == true) {
+            $vars['alert'] = '<p class="alert alert-danger">Password not in valid format</p>';
+            $this->data['content'] = $this->load->view('user/v_change_password', $vars, true);
             view($this->data);
+            return;
+        } else {
+            if ($this->form_validation->run() == true) {
+                $return = $this->mdl_user->change_password();
+                if (!$return) {
+                    $vars['alert'] = '<p class="alert alert-danger">Wrong Old Password</p>';
+                } else {
+                    $vars['alert'] = '<p class="alert alert-success">Success</p>';
+                }
+            } else {
+                $vars['alert'] = validation_errors('<p class="alert alert-danger">', '</p>');
+            }
         }
+        $this->data['content'] = $this->load->view('user/v_change_password', $vars, true);
+        view($this->data);
     }
 
     function trade_verification()
@@ -403,6 +418,7 @@ class User extends MY_Controller
             }
             $this->mdl_user->profile_update($data, $user->id);
             $params['profilepicture'] = ''; // sign of removed profile picture
+            $this->session->profile_picture = FALSE ;
         }
 
         echo $this->make_json_result('ok', 'Profile picture has been removed successfully', $params);
@@ -460,7 +476,7 @@ class User extends MY_Controller
 
     	if ($this->form_validation->run() == true) {
          $result = $this->mdl_user->enable_tfa();
-    		if($result == "Enable"){
+    		if($result === "Enable"){
     			$this->session->set_flashdata('success', "Your TFA Activated");
     		}else{
     			$this->session->set_flashdata('error', "Invalid TFA Code");

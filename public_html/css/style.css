@@ -817,3 +817,12 @@ div.funds_buttons_wrapper {
 div.funds_buttons_wrapper div {
 	margin: 0 auto;
 }
+
+div#profile_img {
+	margin-top: 5px;
+}
+div#profile_img img{
+	border-radius: 100%;
+	overflow: hidden;
+	display: inline;
+}
