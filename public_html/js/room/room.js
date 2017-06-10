@@ -69,7 +69,7 @@ $.ajax({
                 'openOrders': openOrdersTable,
                 'orderHistory': orderHistoryTable
             }, user);
-            service();
+            service.start();
         })
         .fail(function (xhr, status, errorThrown) {
             console.error("Error: " + errorThrown);

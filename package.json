@@ -5,13 +5,16 @@
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "cluster": "^0.7.7",
     "express": "^4.15.3",
     "html-loader": "^0.4.5",
     "jade-loader": "^0.8.0",
     "mathjs": "^3.13.1",
+    "os": "^0.1.1",
     "pug-html-loader": "^1.1.4",
     "raw-loader": "^0.5.1",
-    "socket.io": "^1.7.3",
+    "socket.io": "^1.7.4",
+    "socket.io-redis": "^5.1.0",
     "webpack": "^2.5.1"
   },
   "devDependencies": {

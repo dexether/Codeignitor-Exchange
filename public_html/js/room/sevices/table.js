@@ -211,7 +211,7 @@ var Table = function (element, object, userInfo) {
 
 //update the values in the table which are shown 
     function updateTable() {
-        var orderHistory = (tableID === 'table-open');
+        var tableOpen = (tableID === 'table-open');
         var row = ''; //the new row <tr> of the table
         for (var i = 0; i < countOfRows; i++) { //for all rows of the table
             //Get the current row
@@ -236,7 +236,7 @@ var Table = function (element, object, userInfo) {
                     }
                 }
 
-                if (orderHistory) {
+                if (tableOpen) {
                     row += '<td class="delete" data-mooid="' + tableValue[i]['Id'] + '"><img src="/images/cross.png" style="width: 20px;"></td>';
                 }
                 row += '</tr>';
@@ -275,7 +275,7 @@ var Table = function (element, object, userInfo) {
     return {
 //create a new table, add the records
         createTable: function () {
-            var orderHistory = (tableID === 'order-history');
+            var tableOpen = (tableID === 'table-open');
             setNewPageCount();
             var row = '';         // the row of the table
             var rowTemplate = ''; // the body of the table
