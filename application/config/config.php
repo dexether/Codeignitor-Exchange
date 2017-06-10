@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = (ENVIRONMENT !== 'production')?'http://exchange-dev/':'https://exchange.guldentrader.com/';
+$config['base_url'] = (ENVIRONMENT !== 'production')?'https://dev-exchange.guldentrader.com/':'https://exchange.guldentrader.com/';
 
 /*
 |--------------------------------------------------------------------------

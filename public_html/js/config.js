@@ -1,4 +1,5 @@
 var config = {
+    'website':'http://exchange-dev',
     'count_row_bids': 5,
     'key_bids': ['sum', 'total', 'size(ngl)', 'bid(btc)'],
     'key_asks': ['sum', 'total', 'size(ngl)', 'bid(btc)'],

@@ -44,4 +44,9 @@ class Trades  extends MY_Controller{
         else
             redirect('/');
     }
+    
+    public function delete_mooid()
+    {
+        echo json_encode(['status'=>'success', 'csrf'=>$this->security->get_csrf_hash(),'value'=>'']);
+    }
 }

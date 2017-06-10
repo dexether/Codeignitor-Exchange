@@ -80,8 +80,9 @@ var Table = function (element, object, userInfo) {
     ;
 
     function getNumberInTableById(id) {
+        alert(id);
         for (var i = 0; i < tableValue.length; i++) {
-            if (tableValue[i]['Id'] === mooidForRemove) {
+            if (tableValue[i]['Id'] === id) {
                 return i;
             }
         }
@@ -114,16 +115,17 @@ var Table = function (element, object, userInfo) {
     function deleteRecord(user, mooidForRemove, length) {
         var numberForRemove = getNumberInTableById(mooidForRemove);
 
-        if (numberForRemove)
+        if (numberForRemove >= 0)
             $.ajax({
-                url: 'http://localhost:7777/order-history',
+                url: base_url+'/trades/delete_mooid',
                 data: {
                     'user': user.userId, //user's ID
                     'action': 'delete', //action
                     'mooid': mooidForRemove, //data-mooid of this record
                     'tableLenght': length, //how many records are in the table
                     'data-market': user.market,
-                    'data-suid': user.suid
+                    'data-suid': user.suid,
+                    'csrf_gt': $('input[name=csrf_gt]').val()
                 },
                 type: "post",
                 dataType: "json"
@@ -131,6 +133,7 @@ var Table = function (element, object, userInfo) {
                     .done(function (json) {
                         if (json['status'] === 'success') {
                             deleteRecordFromTable(numberForRemove, json['value']);
+                            $('input[name=csrf_gt]').val(json['csrf']);
                         }
                     })
                     .fail(function (xhr, status, errorThrown) {
@@ -208,7 +211,7 @@ var Table = function (element, object, userInfo) {
 
 //update the values in the table which are shown 
     function updateTable() {
-        var orderHistory = (tableID === 'order-history');
+        var orderHistory = (tableID === 'table-open');
         var row = ''; //the new row <tr> of the table
         for (var i = 0; i < countOfRows; i++) { //for all rows of the table
             //Get the current row
@@ -309,14 +312,12 @@ var Table = function (element, object, userInfo) {
             }
             ;
 
-            $(document).on('click', '.delete', function (e) {
+             $("#table-open tr").on('click', 'td[data-mooid]', function (e) {
                 e.stopPropagation();
-                var button = e.target;
-                var mooidForRemove = $(button).parents('td').attr('data-mooid');
+                //var button = e.target;
+                var mooidForRemove = $(this).attr('data-mooid');
                 // console.log(mooid);
                 deleteRecord(user, mooidForRemove, tableValue.length);
-
-
             });
         }
         ,

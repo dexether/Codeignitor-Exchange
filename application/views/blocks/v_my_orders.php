@@ -13,6 +13,7 @@
                 <th width="17%">            Units filled            </th>
                 <th width="17%">            Total Units            </th>
                 <th width="15%">      Total Cost </th>
+                <th width="20px">&nbsp;</th>
                 </tr>
                 </thead>
                     <?php
@@ -28,12 +29,14 @@
                                     number_format($row->units_filled, 8),     
                                     '</td><td>', number_format($row->amount,8),
                                     '</td><td>', number_format($row->total,8), 
+                                    '</td><td class="delete" data-mooid="' ,$row->id ,'">
+                                        <img src="/images/cross.png" style="width: 20px;">',    
                                     '</td></tr>';
                                 }
                                 echo '</table>';
                             }
                             else {
-                                echo '<tr><td colspan="6">No orders</td></tr>';
+                                echo '<tr><td colspan="7">No orders</td></tr>';
                             }
                             ?>
                 </table>
