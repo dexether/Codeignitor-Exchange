@@ -2,6 +2,7 @@
 
 Exchange website EUR-NLG
 
+https://exchange.guldentrader.com/
 
 ### How do I get set up? ###
 
